@@ -10,7 +10,7 @@ const WelcomePage: React.FC = () => {
     },
     {
       name: 'Pedro Ascui',
-      role: 'La creatividad del equipo',
+      role: 'La creatividad del mundo',
       avatar: '👨‍💻'
     },
     {
