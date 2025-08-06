@@ -4,7 +4,7 @@ import './WelcomePage.css';
 const WelcomePage: React.FC = () => {
   const teamMembers = [
     {
-      name: 'Alvaro Gatica',
+      name: 'Alvarito Gatica',
       role: 'La cabeza del equipo',
       avatar: '👨‍💻'
     },
