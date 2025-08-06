@@ -15,7 +15,7 @@ const WelcomePage: React.FC = () => {
     },
     {
       name: 'Felipe Caroca',
-      role: 'TL Frontend',
+      role: 'Bailarin del frontend',
       avatar: '👨‍💻'
     }
   ];
