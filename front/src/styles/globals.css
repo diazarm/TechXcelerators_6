@@ -1,0 +1,25 @@
+/* Estilos globales simples - solo lo esencial */
+
+/* Variables CSS básicas */
+:root {
+  --brand-primary: #3b82f6;
+  --brand-secondary: #8b5cf6;
+}
+
+/* Scrollbar personalizado simple */
+.scrollbar-thin::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background-color: #f3f4f6;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background-color: #9ca3af;
+  border-radius: 9999px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background-color: #6b7280;
+}
