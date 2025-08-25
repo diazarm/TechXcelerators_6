@@ -1,49 +1,52 @@
-import React from 'react';
-import { useResponsive } from '../../hooks/useResponsive';
-import { useLoadingContext } from '../../context';
+import React, { useState } from 'react';
+import { useResponsive, useLoadingContext } from '../../hooks';
 import LoadingSpinner from '../../components/LoadingSpinner';
 
 /**
- * Página de Contacto
+ * Página de contacto que demuestra el uso de useLoadingContext
  * 
- * Demuestra:
- * - Uso del hook useResponsive
- * - Formulario de contacto con estilos responsive
- * - Ejemplo de uso del sistema de loading global
- * - Diferentes tipos de spinners
- * 
- * @example
- * ```tsx
- * import Contact from './pages/Contact';
- * <Contact />
- * ```
+ * Muestra cómo manejar estados de carga global y mensajes personalizados.
  */
 const Contact: React.FC = () => {
   const { container, text, spacing, grid, shadow, border } = useResponsive();
-  const { showLoading, hideLoading, showLoadingWithMessage } = useLoadingContext();
+  const { showLoading, hideLoading } = useLoadingContext();
+  
+  // Estado para mostrar spinners locales
+  const [localSpinner, setLocalSpinner] = useState<{
+    type: 'default' | 'dots' | 'pulse' | 'bars' | 'ring';
+    message: string;
+    isVisible: boolean;
+  } | null>(null);
 
   // Simulador de envío de formulario
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    showLoadingWithMessage('Enviando mensaje...', { type: 'default', size: 'large' });
+    showLoading({
+      id: 'form-submit',
+      message: 'Enviando mensaje...',
+      variant: 'spinner'
+    });
     
     // Simular llamada a API
     setTimeout(() => {
-      hideLoading();
+      hideLoading('form-submit');
       alert('¡Mensaje enviado exitosamente!');
     }, 2000);
   };
 
   // Ejemplos de diferentes tipos de loading
   const showLoadingExample = (type: 'default' | 'dots' | 'pulse' | 'bars' | 'ring') => {
-    showLoading({
+    setLocalSpinner({
       type,
       message: `Ejemplo de spinner: ${type}`,
-      size: 'large'
+      isVisible: true
     });
     
-    setTimeout(hideLoading, 2000);
+    // Ocultar después de 3 segundos
+    setTimeout(() => {
+      setLocalSpinner(null);
+    }, 3000);
   };
 
   return (
@@ -165,11 +168,17 @@ const Contact: React.FC = () => {
               <h4 className="text-sm font-semibold text-gray-900 mb-3">
                 📱 Spinner Local (sin overlay)
               </h4>
-              <LoadingSpinner 
-                type="dots" 
-                size="medium" 
-                message="Esto es un spinner local" 
-              />
+              
+              {/* Spinner dinámico que cambia según el botón */}
+              {localSpinner && (
+                <div className="mt-4 p-3 bg-blue-50 rounded-lg border border-blue-200">
+                  <LoadingSpinner 
+                    type={localSpinner.type} 
+                    size="medium" 
+                    message={localSpinner.message} 
+                  />
+                </div>
+              )}
             </div>
           </div>
         </div>

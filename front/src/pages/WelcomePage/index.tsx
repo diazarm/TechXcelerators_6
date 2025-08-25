@@ -1,27 +1,12 @@
 import React from 'react';
 import { getDefaultTeamMembers, getDefaultFeatures } from './utils';
-import { useResponsive, useBreakpoints } from '../../hooks/useResponsive';
+import { useResponsive, useBreakpoints } from '../../hooks';
 
 /**
- * Página de bienvenida del equipo Frontend
+ * Página de bienvenida que demuestra el uso del hook useResponsive
  * 
- * Esta página demuestra TODAS las funcionalidades del hook useResponsive:
- * - Contenedores responsive (container, containerSmall, containerLarge)
- * - Espaciado responsive (spacing.py, spacing.px, spacing.my)
- * - Tipografía responsive (text.h1, text.h2, text.h3, text.h4, text.body)
- * - Grids responsive (grid.columns, grid.gap)
- * - Flexbox responsive (flex.row, flex.col, flex.center, flex.between)
- * - Posicionamiento responsive (position.center, position.top, position.bottom)
- * - Sombras responsive (shadow.small, shadow.medium, shadow.large)
- * - Bordes responsive (border.radius.small, border.radius.medium, border.radius.large)
- * - Animaciones responsive (animation.fadeIn, animation.slideIn)
- * - Breakpoints condicionales (isMobile, isTablet, isDesktop, isLarge)
- * 
- * @example
- * ```tsx
- * import WelcomePage from './pages/WelcomePage';
- * <WelcomePage />
- * ```
+ * Muestra ejemplos de: contenedores, espaciado, tipografía, grids, 
+ * flexbox, posicionamiento, sombras, bordes y animaciones responsive.
  */
 const WelcomePage: React.FC = () => {
   const teamMembers = getDefaultTeamMembers();
