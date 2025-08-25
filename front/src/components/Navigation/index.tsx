@@ -1,20 +1,11 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { useResponsive } from '../../hooks/useResponsive';
+import { useResponsive } from '../../hooks';
 
 /**
- * Componente de navegación principal
+ * Navegación principal con React Router y useResponsive
  * 
- * Demuestra:
- * - Uso de React Router para navegación
- * - Hook useResponsive para estilos responsive
- * - Navegación activa con useLocation
- * 
- * @example
- * ```tsx
- * import Navigation from './components/Navigation';
- * <Navigation />
- * ```
+ * Demuestra navegación activa y estilos responsive.
  */
 const Navigation: React.FC = () => {
   const location = useLocation();
