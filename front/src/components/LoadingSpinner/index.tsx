@@ -1,5 +1,5 @@
 import React from 'react';
-import { useResponsive } from '../../hooks/useResponsive';
+import { useResponsive } from '../../hooks';
 
 /**
  * Tipos de spinner disponibles
@@ -32,44 +32,9 @@ interface LoadingSpinnerProps {
 }
 
 /**
- * LoadingSpinner - Componente para mostrar estados de carga
+ * Spinner de carga reutilizable con estilos responsive
  * 
- * Este componente proporciona múltiples tipos de spinners para diferentes situaciones:
- * - Spinner por defecto: Círculo giratorio clásico
- * - Dots: Tres puntos que aparecen secuencialmente
- * - Pulse: Círculo que pulsa
- * - Bars: Barras que suben y bajan
- * - Ring: Anillo que gira
- * 
- * Características:
- * - Múltiples tipos y tamaños
- * - Integrado con useResponsive()
- * - Modo fullScreen para loading global
- * - Overlay opcional
- * - Mensajes personalizables
- * 
- * @example Spinner básico
- * ```tsx
- * <LoadingSpinner />
- * ```
- * 
- * @example Spinner con mensaje
- * ```tsx
- * <LoadingSpinner 
- *   type="dots" 
- *   size="large" 
- *   message="Cargando datos..." 
- * />
- * ```
- * 
- * @example Spinner de pantalla completa
- * ```tsx
- * <LoadingSpinner 
- *   fullScreen 
- *   overlay 
- *   message="Iniciando aplicación..." 
- * />
- * ```
+ * Usa el hook useResponsive para adaptarse a diferentes tamaños de pantalla.
  */
 const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
   type = 'default',

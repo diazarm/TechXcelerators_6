@@ -1,5 +1,6 @@
-import React, { Component, ErrorInfo, ReactNode } from 'react';
-import { useResponsive } from '../../hooks/useResponsive';
+import React, { Component } from 'react';
+import type { ErrorInfo, ReactNode } from 'react';
+import { useResponsive } from '../../hooks';
 
 /**
  * Props para el componente ErrorBoundary
@@ -63,7 +64,7 @@ const DefaultErrorFallback: React.FC<{ error?: Error; onReset?: () => void }> = 
           </div>
           
           {/* Información técnica (solo en desarrollo) */}
-          {process.env.NODE_ENV === 'development' && error && (
+          {import.meta.env.DEV && error && (
             <details className="mt-6 text-left">
               <summary className="cursor-pointer text-sm text-gray-500 hover:text-gray-700">
                 📋 Información técnica (solo desarrollo)
@@ -82,33 +83,13 @@ const DefaultErrorFallback: React.FC<{ error?: Error; onReset?: () => void }> = 
 };
 
 /**
- * ErrorBoundary - Componente para capturar errores de React
- * 
- * Este componente captura errores de JavaScript en cualquier parte del árbol de componentes hijo,
- * registra esos errores y muestra una interfaz de usuario de respaldo en lugar del árbol de componentes que falló.
+ * ErrorBoundary - Captura errores de React y muestra UI de fallback
  * 
  * Características:
  * - Captura errores en componentes hijo
  * - Muestra UI de fallback amigable
  * - Permite reintentar la operación
  * - Muestra información técnica en desarrollo
- * - Integrado con el hook useResponsive
- * 
- * @example
- * ```tsx
- * import ErrorBoundary from './components/ErrorBoundary';
- * 
- * <ErrorBoundary>
- *   <App />
- * </ErrorBoundary>
- * ```
- * 
- * @example Con fallback personalizado
- * ```tsx
- * <ErrorBoundary fallback={<CustomErrorPage />}>
- *   <SomeComponent />
- * </ErrorBoundary>
- * ```
  */
 class ErrorBoundary extends Component<Props, State> {
   constructor(props: Props) {

@@ -1,26 +1,30 @@
 /**
- * Exportaciones centralizadas de los contextos
+ * Exportaciones centralizadas de TODOS los contextos
  * 
- * Este archivo centraliza todas las exportaciones relacionadas con los contextos
+ * Este archivo centraliza TODAS las exportaciones relacionadas con contextos
  * para facilitar los imports en otros archivos.
  * 
  * @example
  * ```tsx
- * // Importar todo desde un solo lugar
- * import { AuthProvider, useAuthContext, LoadingProvider, useLoadingContext } from './context';
- * 
- * // O importar individualmente
- * import { AuthProvider } from './context/AuthContext';
- * import { useLoadingContext } from './context/useLoadingContext';
+ * // Importar contextos desde un solo lugar
+ * import { 
+ *   AuthProvider, 
+ *   AuthContext, 
+ *   LoadingProvider, 
+ *   LoadingContext,
+ *   AuthContextType,
+ *   LoadingContextType,
+ *   LoadingConfig
+ * } from './context';
  * ```
  */
 
 // Exportaciones del contexto de autenticación
-export { AuthProvider } from './AuthContext';
-export { useAuthContext } from './useAuthContext';
-export type { AuthContextType } from './auth-context';
+export { AuthProvider } from './auth/AuthProvider';
+export { AuthContext } from './auth/auth-context';
+export type { AuthContextType } from './auth/auth-context';
 
 // Exportaciones del contexto de loading
-export { LoadingProvider } from './LoadingProvider';
-export { useLoadingContext } from './useLoadingContext';
-export type { LoadingContextType, LoadingConfig } from './loading-context';
+export { LoadingProvider } from './loading/LoadingProvider';
+export { LoadingContext } from './loading/loading-context';
+export type { LoadingContextType, LoadingConfig } from './loading/loading-context';
