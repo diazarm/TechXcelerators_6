@@ -1,7 +1,9 @@
 /**
- * Tipos para el sistema de autenticación
+ * Tipos compartidos entre múltiples módulos
+ * NO específicos de un solo componente/servicio
  */
 
+// Tipos de usuario que se usan en auth, components, services
 export interface User {
   id: string;
   email: string;
@@ -13,6 +15,7 @@ export interface User {
 
 export type UserRole = 'admin' | 'user';
 
+// Tipos de autenticación compartidos
 export interface AuthState {
   user: User | null;
   isLoading: boolean;

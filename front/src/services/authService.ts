@@ -1,15 +1,6 @@
-import type { User, LoginCredentials } from '../../types';
+import type { User, LoginCredentials } from '../types';
 
-/**
- * Servicio de autenticación
- * 
- * Este servicio maneja todas las operaciones de autenticación:
- * - Login/logout
- * - Validación de tokens
- * - Gestión de sesión
- * 
- * Usa Axios con interceptores para JWT automático
- */
+/** Servicio de autenticación */
 
 // Usuarios simulados para testing
 const mockUsers: User[] = [
@@ -36,9 +27,7 @@ const simulateNetworkDelay = (ms: number = 1000): Promise<void> => {
   return new Promise(resolve => setTimeout(resolve, ms));
 };
 
-/**
- * Iniciar sesión del usuario
- */
+/** Iniciar sesión del usuario */
 export const login = async (credentials: LoginCredentials): Promise<{ user: User; token: string }> => {
   // TODO: Cuando el backend esté listo, usar:
   // const response = await api.post('/auth/login', credentials);
@@ -67,9 +56,7 @@ export const login = async (credentials: LoginCredentials): Promise<{ user: User
   return { user, token };
 };
 
-/**
- * Verificar si un token es válido
- */
+/** Verificar si un token es válido */
 export const validateToken = async (token: string): Promise<User> => {
   await simulateNetworkDelay(500);
   
@@ -89,9 +76,7 @@ export const validateToken = async (token: string): Promise<User> => {
   return user;
 };
 
-/**
- * Cerrar sesión del usuario
- */
+/** Cerrar sesión del usuario */
 export const logout = async (): Promise<void> => {
   await simulateNetworkDelay(300);
   // Simular limpieza en el backend

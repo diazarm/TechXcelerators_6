@@ -2,12 +2,7 @@ import React from 'react';
 import { getDefaultTeamMembers, getDefaultFeatures } from './utils';
 import { useResponsive, useBreakpoints } from '../../hooks';
 
-/**
- * Página de bienvenida que demuestra el uso del hook useResponsive
- * 
- * Muestra ejemplos de: contenedores, espaciado, tipografía, grids, 
- * flexbox, posicionamiento, sombras, bordes y animaciones responsive.
- */
+/** Página de bienvenida que demuestra el uso del hook useResponsive */
 const WelcomePage: React.FC = () => {
   const teamMembers = getDefaultTeamMembers();
   const features = getDefaultFeatures();

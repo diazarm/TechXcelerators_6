@@ -1,18 +1,6 @@
 import { useState, useEffect } from 'react';
 
-/**
- * Hook que proporciona clases de Tailwind CSS responsive
- * 
- * Retorna un objeto con clases organizadas por categorías:
- * - container: Contenedores responsive
- * - text: Tipografía responsive  
- * - spacing: Espaciado responsive
- * - grid: Grids responsive
- * - flex: Flexbox responsive
- * - shadow: Sombras responsive
- * - border: Bordes responsive
- * - animation: Animaciones responsive
- */
+/** Hook que proporciona clases de Tailwind CSS responsive */
 export const useResponsive = () => {
   return {
     // Contenedores principales
