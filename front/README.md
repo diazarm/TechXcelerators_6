@@ -23,34 +23,55 @@
 
 ```
 src/
-├── components/          # Muebles reutilizables
-│   ├── index.ts        ← Catálogo central
-│   ├── Button/         # Botón reutilizable
-│   ├── LoadingSpinner/ # Indicador de carga
-│   ├── ErrorBoundary/  # Manejo de errores
-│   └── Navigation/     # Navegación principal
-├── context/            # Cimientos de la casa
-│   ├── index.ts        ← Catálogo central
-│   ├── auth/           # Autenticación global
-│   └── loading/        # Estado de carga global
-├── hooks/              # Interruptores de la casa
-│   ├── index.ts        ← Catálogo central
-│   ├── useResponsive/  # Responsividad inteligente
-│   ├── useAuth/        # Autenticación
-│   └── useLoadingContext/ # Estado de carga
-├── pages/              # Habitaciones de la casa
-│   ├── Contact/        # Página de contacto
-│   └── WelcomePage/    # Página de bienvenida
-├── services/           # Servicios externos
-│   ├── index.ts        ← Catálogo central
-│   ├── api.ts          # Configuración HTTP
-│   └── authService.ts  # Autenticación
-├── types/              # Planos compartidos
-│   ├── index.ts        ← Solo tipos compartidos
-│   └── shared.ts       # User, AuthContextType, etc.
-└── constants/          # Reglas de construcción
-    ├── index.ts        ← Catálogo central
-    └── appConstants.ts # Constantes de la app
+├── components/          # Componentes reutilizables
+│   ├── index.ts        ← EXPORTACIÓN CENTRALIZADA
+│   ├── Button/
+│   │   ├── index.tsx   # Componente Button
+│   │   └── types.ts    # Tipos co-locados (ButtonProps)
+│   ├── LoadingSpinner/
+│   │   ├── index.tsx   # Componente LoadingSpinner
+│   │   └── types.ts    # Tipos co-locados (LoadingSpinnerProps)
+│   ├── ErrorBoundary/
+│   │   ├── index.tsx   # Componente ErrorBoundary
+│   │   └── types.ts    # Tipos co-locados (ErrorBoundaryProps)
+│   ├── Navigation/
+│   │   └── index.tsx   # Componente Navigation
+│   └── LoginForm/
+│       └── index.tsx   # Componente LoginForm
+├── context/            # Contextos de React
+│   ├── index.ts        ← EXPORTACIÓN CENTRALIZADA
+│   ├── auth/
+│   │   ├── auth-context.ts    # Contexto de autenticación
+│   │   └── AuthProvider.tsx   # Proveedor de auth
+│   └── loading/
+│       ├── loading-context.ts # Contexto de loading
+│       ├── LoadingProvider.tsx # Proveedor de loading
+│       └── types.ts           # Tipos co-locados (LoadingProviderProps)
+├── hooks/              # Hooks personalizados
+│   ├── index.ts        ← EXPORTACIÓN CENTRALIZADA
+│   ├── useResponsive.ts       # Hook de responsividad
+│   ├── useAuth.ts             # Hook useAuth
+│   └── useLoadingContext.ts   # Hook useLoadingContext
+├── pages/              # Páginas de la aplicación
+│   ├── Contact/
+│   │   └── index.tsx          # Página de contacto
+│   ├── WelcomePage/
+│   │   ├── index.tsx          # Página de bienvenida
+│   │   ├── types.ts           # Tipos específicos de la página
+│   │   └── utils/
+│   │       └── index.ts       # Utilidades de la página
+│   └── Login/
+│       └── index.tsx          # Página de login
+├── services/           # Servicios y APIs
+│   ├── index.ts        ← EXPORTACIÓN CENTRALIZADA
+│   ├── api.ts                 # Configuración de Axios
+│   └── authService.ts         # Servicio de autenticación
+├── types/              # Tipos compartidos
+│   ├── index.ts        ← EXPORTACIÓN CENTRALIZADA
+│   └── shared.ts              # Tipos entre módulos
+└── constants/          # Constantes de la aplicación
+    ├── index.ts        ← EXPORTACIÓN CENTRALIZADA
+    └── appConstants.ts        # Constantes de la app
 ```
 
 ## 🚀 **Comandos Esenciales**
@@ -66,24 +87,41 @@ git add . && git commit -m "feat: implementa funcionalidad"
 git push origin feature/nombre-funcionalidad
 ```
 
-### **🧪 Verificación**
+### **🧪 Verificación del Proyecto**
 ```bash
 # Verificar tipos
 npx tsc --noEmit --project tsconfig.app.json
 
-# Verificar calidad
+# Verificar calidad de código
 npm run lint
+
+# Verificar archivo específico
+npx eslint src/components/ComponentName.tsx
 ```
 
-### **🚀 Desarrollo**
+### **🚀 Desarrollo y Build**
 ```bash
 # Servidor de desarrollo
 npm run dev
 
 # Build de producción
 npm run build
+
+# Preview del build
+npm run preview
 ```
 
+### **🔍 Debugging Útil**
+```bash
+# Ver configuración de TypeScript
+npx tsc --showConfig
+
+# Limpiar caché de npm
+npm cache clean --force
+
+# Ver dependencias desactualizadas
+npm outdated
+```
 
 ## 🎨 **Tecnologías**
 
@@ -95,54 +133,18 @@ npm run build
 
 ## 📚 **Documentación Detallada**
 
-**Para información específica de cada módulo, consulta:**
-- `src/components/README.md` - Componentes y patrones
-- `src/hooks/README.md` - Hooks y uso
-- `src/context/README.md` - Contextos y estado global
-- `src/types/README.md` - Sistema de tipos
-- `src/services/README.md` - Servicios y APIs
-- `src/constants/README.md` - Constantes y configuración
+**¿Por qué consultar los READMEs específicos?**
+Cada módulo tiene su propia documentación especializada con ejemplos prácticos, patrones de uso y reglas específicas que te ayudarán a desarrollar de manera eficiente.
 
+**Qué encontrarás en cada uno:**
+- **`src/components/README.md`** - Cómo crear y usar componentes, patrones recomendados, ejemplos de uso
+- **`src/hooks/README.md`** - Ejemplos de uso de cada hook, casos prácticos, reglas importantes
+- **`src/context/README.md`** - Configuración de contextos, patrones de estado global, ejemplos
+- **`src/types/README.md`** - Cuándo usar tipos co-locados vs compartidos, ejemplos, patrones
+- **`src/services/README.md`** - Cómo crear servicios, patrones de API, ejemplos de uso
+- **`src/constants/README.md`** - Organización de constantes, patrones de nomenclatura, ejemplos
 
-
-
-
-
-
-## 🎨 **Tecnologías**
-
-- **React 18** - Biblioteca de UI
-- **TypeScript** - Tipado estático
-- **Vite** - Build tool rápido
-- **Tailwind CSS** - Framework de CSS utility-first
-- **React Router** - Navegación SPA
-- **Axios** - Cliente HTTP
-
-## 🚨 **Reglas del Proyecto**
-
-### **📦 Patrones de Import **
-1. **Siempre** usar hooks centralizados (`../../hooks`)
-2. **Siempre** usar contextos centralizados (`../../context`)
-3. **Siempre** usar servicios centralizados (`../../services`)
-4. **Siempre** usar tipos centralizados (`../../types`)
-
-### **🏷️ Sistema de Tipos **
-5. **Siempre** definir tipos co-locados en `./types.ts`
-6. **Siempre** usar `import type { Props } from './types'` para tipos locales
-7. **Siempre** usar `import type { Type } from '../../types'` para tipos compartidos
-8. **Nunca** definir interfaces en archivos de componentes
-
-### **🎨 Desarrollo **
-9. **Nunca** usar media queries - solo `useResponsive`
-10. **Siempre** considerar ErrorBoundary en componentes críticos
-11. **Siempre** usar TypeScript con tipos estrictos
-12. **Siempre** seguir el patrón de componentes funcionales
-
-### **📁 Estructura de Archivos **
-13. **Siempre** crear `index.ts` en carpetas principales
-14. **Siempre** crear `types.ts` en módulos con tipos
-15. **Siempre** usar nomenclatura `PascalCase` para componentes
-16. **Siempre** usar nomenclatura `camelCase` para funciones y variables
+**💡 Recomendación:** Comienza revisando el README del módulo que vas a usar. Te ahorrará tiempo y evitará errores comunes.
 
 ---
 
