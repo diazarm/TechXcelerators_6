@@ -1,11 +1,13 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { LoadingProvider, AuthProvider } from './context';
-import { ErrorBoundary, Navigation } from './components';
+import { ErrorBoundary } from './components';
+import { Header } from './components/Layout/navbar';
+import MainLayout from './components/Layout/MainLayout';
 import WelcomePage from './pages/WelcomePage';
 import Contact from './pages/Contact';
 import './App.css';
 
-
+//mainlayout renderizar
 function App() {
   return (
     <ErrorBoundary>
@@ -13,11 +15,13 @@ function App() {
         <LoadingProvider>
           <BrowserRouter>
             <div className="App">
-              <Navigation />
-              <Routes>
-                <Route path="/" element={<WelcomePage />} />
-                <Route path="/contact" element={<Contact />} />
-              </Routes>
+              <Header /> 
+              <MainLayout>
+                <Routes>
+                  <Route path="/" element={<WelcomePage />} />
+                  <Route path="/contact" element={<Contact />} />
+                </Routes>
+              </MainLayout>
             </div>
           </BrowserRouter>
         </LoadingProvider>
