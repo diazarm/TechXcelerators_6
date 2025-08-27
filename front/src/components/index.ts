@@ -19,6 +19,9 @@
 // Componentes de UI básicos
 export { Button } from './Button';
 
+// Componentes de formularios
+export { LoginForm } from './LoginForm';
+
 // Componentes de loading
 export { default as LoadingSpinner } from './LoadingSpinner';
 
