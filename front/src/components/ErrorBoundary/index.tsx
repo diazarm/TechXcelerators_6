@@ -1,27 +1,11 @@
 import React, { Component } from 'react';
-import type { ErrorInfo, ReactNode } from 'react';
+import type { ErrorInfo } from 'react';
+import type { ErrorBoundaryProps, ErrorBoundaryState } from './types';
 import { useResponsive } from '../../hooks';
 
-/**
- * Props para el componente ErrorBoundary
- */
-interface Props {
-  children?: ReactNode;
-  fallback?: ReactNode;
-}
+// Los tipos se importan desde ../../types
 
-/**
- * State del componente ErrorBoundary
- */
-interface State {
-  hasError: boolean;
-  error?: Error;
-  errorInfo?: ErrorInfo;
-}
-
-/**
- * Componente de fallback por defecto para mostrar cuando hay un error
- */
+/** Componente de fallback por defecto para mostrar cuando hay un error */
 const DefaultErrorFallback: React.FC<{ error?: Error; onReset?: () => void }> = ({ 
   error, 
   onReset 
@@ -82,36 +66,22 @@ const DefaultErrorFallback: React.FC<{ error?: Error; onReset?: () => void }> = 
   );
 };
 
-/**
- * ErrorBoundary - Captura errores de React y muestra UI de fallback
- * 
- * Características:
- * - Captura errores en componentes hijo
- * - Muestra UI de fallback amigable
- * - Permite reintentar la operación
- * - Muestra información técnica en desarrollo
- */
-class ErrorBoundary extends Component<Props, State> {
-  constructor(props: Props) {
+/** ErrorBoundary - Captura errores de React y muestra UI de fallback */
+class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
+  constructor(props: ErrorBoundaryProps) {
     super(props);
     this.state = { hasError: false };
   }
 
-  /**
-   * Método estático que se llama cuando hay un error
-   * Actualiza el state para mostrar la UI de fallback
-   */
-  static getDerivedStateFromError(error: Error): State {
+  /** Método estático que se llama cuando hay un error */
+  static getDerivedStateFromError(error: Error): ErrorBoundaryState {
     return {
       hasError: true,
       error
     };
   }
 
-  /**
-   * Se llama cuando hay un error en un componente descendiente
-   * Aquí puedes registrar el error en un servicio de logging
-   */
+  /** Se llama cuando hay un error en un componente descendiente */
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     console.error('ErrorBoundary capturó un error:', error, errorInfo);
     

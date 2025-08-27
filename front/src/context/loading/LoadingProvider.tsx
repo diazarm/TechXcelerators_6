@@ -1,25 +1,15 @@
-import React, { useState, useCallback, type ReactNode } from 'react';
+import React, { useState, useCallback } from 'react';
+import type { LoadingProviderProps } from './types';
 import { LoadingContext, type LoadingContextType, type LoadingConfig } from './loading-context';
 
-/**
- * Props del proveedor de loading
- */
-interface LoadingProviderProps {
-  children: ReactNode;
-}
-
-/**
- * Proveedor del contexto de loading
- */
+/** Proveedor del contexto de loading */
 export const LoadingProvider: React.FC<LoadingProviderProps> = ({ children }) => {
   const [loadingItems, setLoadingItems] = useState<LoadingConfig[]>([]);
 
   // Estado calculado
   const isLoading = loadingItems.length > 0;
 
-  /**
-   * Mostrar loading
-   */
+  /** Mostrar loading */
   const showLoading = useCallback((config?: LoadingConfig): void => {
     if (config) {
       setLoadingItems(prev => [...prev, config]);
@@ -28,9 +18,7 @@ export const LoadingProvider: React.FC<LoadingProviderProps> = ({ children }) =>
     }
   }, []);
 
-  /**
-   * Ocultar loading
-   */
+  /** Ocultar loading */
   const hideLoading = useCallback((id?: string): void => {
     if (id) {
       setLoadingItems(prev => prev.filter(item => item.id !== id));
@@ -39,9 +27,7 @@ export const LoadingProvider: React.FC<LoadingProviderProps> = ({ children }) =>
     }
   }, []);
 
-  /**
-   * Limpiar todo el loading
-   */
+  /** Limpiar todo el loading */
   const clearAll = useCallback((): void => {
     setLoadingItems([]);
   }, []);

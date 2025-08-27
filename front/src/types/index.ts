@@ -1,23 +1,24 @@
 /**
- * Exportaciones centralizadas de TODOS los tipos
+ * Exportaciones centralizadas de tipos compartidos
  * 
- * Este archivo centraliza todas las exportaciones relacionadas con tipos
- * para facilitar los imports en otros archivos.
+ * Este archivo centraliza SOLO tipos compartidos entre módulos.
+ * Los tipos co-locados se importan directamente desde sus módulos.
  * 
  * @example
  * ```tsx
- * // Importar tipos desde un solo lugar
+ * // Importar tipos compartidos desde un solo lugar
  * import type { 
  *   User, 
  *   AuthContextType, 
- *   LoginCredentials,
- *   LoadingContextType,
- *   LoadingConfig 
- * } from '../types';
+ *   LoginCredentials
+ * } from '../../types';
+ * 
+ * // Importar tipos co-locados directamente desde su módulo
+ * import type { ButtonProps } from '../components/Button/types';
  * ```
  */
 
-// Tipos de autenticación
+// Tipos compartidos entre módulos
 export type { 
   User, 
   UserRole, 
@@ -25,10 +26,4 @@ export type {
   LoginCredentials, 
   AuthContextType, 
   AuthProviderProps 
-} from './auth';
-
-// Tipos de loading
-export type { 
-  LoadingContextType, 
-  LoadingConfig 
-} from '../context/loading/loading-context';
+} from './shared';
