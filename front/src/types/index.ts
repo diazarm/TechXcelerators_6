@@ -1,8 +1,8 @@
 /**
- * Exportaciones centralizadas de tipos
+ * Exportaciones centralizadas de tipos compartidos
  * 
- * Este archivo centraliza tipos compartidos y re-exporta tipos de módulos
- * para facilitar los imports en otros archivos.
+ * Este archivo centraliza SOLO tipos compartidos entre módulos.
+ * Los tipos co-locados se importan directamente desde sus módulos.
  * 
  * @example
  * ```tsx
@@ -11,9 +11,9 @@
  *   User, 
  *   AuthContextType, 
  *   LoginCredentials
- * } from '../types';
+ * } from '../../types';
  * 
- * // Importar tipos específicos desde sus módulos
+ * // Importar tipos co-locados directamente desde su módulo
  * import type { ButtonProps } from '../components/Button/types';
  * ```
  */
@@ -27,23 +27,3 @@ export type {
   AuthContextType, 
   AuthProviderProps 
 } from './shared';
-
-// Re-exportar tipos de módulos para facilitar imports
-export type { 
-  ButtonProps 
-} from '../components/Button/types';
-
-export type { 
-  LoadingSpinnerProps,
-  SpinnerType,
-  SpinnerSize
-} from '../components/LoadingSpinner/types';
-
-export type { 
-  ErrorBoundaryProps,
-  ErrorBoundaryState
-} from '../components/ErrorBoundary/types';
-
-export type { 
-  LoadingProviderProps 
-} from '../context/loading/types';
