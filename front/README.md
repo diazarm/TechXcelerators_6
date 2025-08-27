@@ -123,7 +123,6 @@ npm cache clean --force
 npm outdated
 ```
 
-
 ## 🎨 **Tecnologías**
 
 - **React 18** - Biblioteca de UI
