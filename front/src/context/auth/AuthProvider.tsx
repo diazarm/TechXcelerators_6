@@ -3,10 +3,7 @@ import type { AuthContextType, User, LoginCredentials, AuthProviderProps } from 
 import { AuthContext } from './auth-context';
 import * as authService from '../../services/authService';
 
-/**
- * Proveedor del contexto de autenticación
- * Maneja el estado de autenticación, roles y persistencia de sesión
- */
+/** Proveedor del contexto de autenticación */
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   // Estados de autenticación
   const [user, setUser] = useState<User | null>(null);
@@ -16,9 +13,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   // Estado calculado
   const isAuthenticated = !!user;
 
-  /**
-   * Cerrar sesión del usuario
-   */
+  /** Cerrar sesión del usuario */
   const logout = useCallback((): void => {
     setUser(null);
     setError(null);
@@ -27,9 +22,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     authService.logout();
   }, []);
 
-  /**
-   * Verificar si hay una sesión válida guardada
-   */
+  /** Verificar si hay una sesión válida guardada */
   const checkAuth = useCallback(async (): Promise<void> => {
     try {
       const token = localStorage.getItem('authToken');
@@ -44,16 +37,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   }, [logout]);
 
-  /**
-   * Verificar autenticación al cargar la app
-   */
+  /** Verificar autenticación al cargar la app */
   useEffect(() => {
     checkAuth();
   }, [checkAuth]);
 
-  /**
-   * Iniciar sesión del usuario
-   */
+  /** Iniciar sesión del usuario */
   const login = async (credentials: LoginCredentials): Promise<void> => {
     try {
       setIsLoading(true);
@@ -85,9 +74,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   };
 
-  /**
-   * Limpiar mensajes de error
-   */
+  /** Limpiar mensajes de error */
   const clearError = (): void => {
     setError(null);
   };

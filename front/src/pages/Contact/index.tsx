@@ -1,12 +1,8 @@
 import React, { useState } from 'react';
 import { useResponsive, useLoadingContext } from '../../hooks';
-import LoadingSpinner from '../../components/LoadingSpinner';
+import { LoadingSpinner } from '../../components';
 
-/**
- * Página de contacto que demuestra el uso de useLoadingContext
- * 
- * Muestra cómo manejar estados de carga global y mensajes personalizados.
- */
+/** Página de contacto que demuestra el uso de useLoadingContext */
 const Contact: React.FC = () => {
   const { container, text, spacing, grid, shadow, border } = useResponsive();
   const { showLoading, hideLoading } = useLoadingContext();

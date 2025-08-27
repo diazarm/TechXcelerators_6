@@ -1,57 +1,7 @@
 import React from 'react';
+import type { ButtonProps } from './types';
 
-/**
- * Props del componente Button
- */
-interface ButtonProps {
-  /** Contenido del botón */
-  children: React.ReactNode;
-  /** Variante visual del botón */
-  variant?: 'primary' | 'secondary' | 'outline';
-  /** Tamaño del botón */
-  size?: 'sm' | 'md' | 'lg';
-  /** Función que se ejecuta al hacer click */
-  onClick?: () => void;
-  /** Si el botón está deshabilitado */
-  disabled?: boolean;
-  /** Tipo del botón HTML */
-  type?: 'button' | 'submit' | 'reset';
-  /** Clases CSS adicionales */
-  className?: string;
-}
-
-/**
- * Componente Button reutilizable
- * 
- * @example
- * ```tsx
- * // Botón primario por defecto
- * <Button onClick={handleClick}>Click me</Button>
- * 
- * // Botón secundario pequeño
- * <Button variant="secondary" size="sm" onClick={handleClick}>
- *   Cancelar
- * </Button>
- * 
- * // Botón outline grande deshabilitado
- * <Button 
- *   variant="outline" 
- *   size="lg" 
- *   disabled 
- *   onClick={handleClick}
- * >
- *   Enviar
- * </Button>
- * 
- * // Botón de submit con clases adicionales
- * <Button 
- *   type="submit" 
- *   className="w-full mt-4"
- * >
- *   Guardar
- * </Button>
- * ```
- */
+/** Componente Button reutilizable */
 export const Button: React.FC<ButtonProps> = ({
   children,
   variant = 'primary',
