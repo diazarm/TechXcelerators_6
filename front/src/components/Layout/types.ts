@@ -23,3 +23,4 @@ export interface HeaderProps {
     /** Clases CSS adicionales */
     className?: string;
 }
+

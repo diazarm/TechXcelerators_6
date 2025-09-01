@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { getDefaultTeamMembers, getDefaultFeatures } from './utils';
-import { useResponsive, useBreakpoints } from '../../hooks';
+import { useResponsive, useBreakpoints, useHeader } from '../../hooks';
 
 /** Página de bienvenida que demuestra el uso del hook useResponsive */
 const WelcomePage: React.FC = () => {
   const teamMembers = getDefaultTeamMembers();
   const features = getDefaultFeatures();
+  const { updateHeader } = useHeader();
   const { 
     container, 
     containerSmall, 
@@ -21,6 +22,24 @@ const WelcomePage: React.FC = () => {
   } = useResponsive();
   
   const { isMobile, isTablet, isDesktop, isLarge } = useBreakpoints();
+
+  // Configurar el header personalizado para esta página
+  useEffect(() => {
+    updateHeader({
+      title: 'TechXcelerators',
+      subtitle: 'Frontend Team',
+      showNavButton: true
+    });
+
+    // Limpiar el header cuando se desmonte el componente
+    return () => {
+      updateHeader({
+        title: 'scala',
+        subtitle: 'Learning',
+        showNavButton: true
+      });
+    };
+  }, [updateHeader]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">

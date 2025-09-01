@@ -63,7 +63,7 @@ const CustomLogo: React.FC<{ className?: string }> = ({ className = "" }) => (
  * />
  * ```
  */
-export const Header: React.FC<HeaderProps> = ({
+export const Navbar: React.FC<NabvarProps> = ({
   title = "scala",
   subtitle = "Learning",
   showNavButton = false,

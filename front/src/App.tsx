@@ -1,33 +1,36 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { LoadingProvider, AuthProvider } from './context';
+import { LoadingProvider, AuthProvider, HeaderProvider } from './context';
 import { ErrorBoundary } from './components';
 import MainLayout from './components/Layout/MainLayout';
 import WelcomePage from './pages/WelcomePage';
 import Contact from './pages/Contact';
 import LoginPage from './pages/Login';
 import './App.css';
-
+//entre browser router y mainlayout importar. 
 //mainlayout renderizar
 function App() {
   return (
     <ErrorBoundary>
       <AuthProvider>
         <LoadingProvider>
-          <BrowserRouter>
-              <MainLayout>
-              <div className="App">
-                <Routes>
-                  <Route path="/" element={<WelcomePage />} />
-                  <Route path="/contact" element={<Contact />} />
+          <HeaderProvider>
+            <BrowserRouter>
+                <MainLayout>
+                <div className="App">
+                  <Routes>
+                    <Route path="/" element={<WelcomePage />} />
+                    <Route path="/contact" element={<Contact />} />
 
-                <Route path="/" element={<WelcomePage />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/login" element={<LoginPage />} />
-              </Routes>
-              </div>
-              </MainLayout>
-              
-          </BrowserRouter>
+                    {/* Commented out duplicate routes */}
+                    {/* <Route path="/" element={<WelcomePage />} /> */}
+                    {/* <Route path="/contact" element={<Contact />} /> */}
+                    <Route path="/login" element={<LoginPage />} />
+                  </Routes>
+                </div>
+                </MainLayout>
+                
+            </BrowserRouter>
+          </HeaderProvider>
         </LoadingProvider>
       </AuthProvider>
     </ErrorBoundary>

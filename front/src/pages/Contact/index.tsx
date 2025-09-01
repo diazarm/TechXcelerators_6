@@ -1,11 +1,30 @@
-import React, { useState } from 'react';
-import { useResponsive, useLoadingContext } from '../../hooks';
+import React, { useState, useEffect } from 'react';
+import { useResponsive, useLoadingContext, useHeader } from '../../hooks';
 import { LoadingSpinner } from '../../components';
 
 /** Página de contacto que demuestra el uso de useLoadingContext */
 const Contact: React.FC = () => {
   const { container, text, spacing, grid, shadow, border } = useResponsive();
   const { showLoading, hideLoading } = useLoadingContext();
+  const { updateHeader } = useHeader();
+  
+  // Configurar el header personalizado para esta página
+  useEffect(() => {
+    updateHeader({
+      title: 'Contacto',
+      subtitle: 'Conecta con Nosotros',
+      showNavButton: true
+    });
+
+    // Limpiar el header cuando se desmonte el componente
+    return () => {
+      updateHeader({
+        title: 'scala',
+        subtitle: 'Learning',
+        showNavButton: true
+      });
+    };
+  }, [updateHeader]);
   
   // Estado para mostrar spinners locales
   const [localSpinner, setLocalSpinner] = useState<{
@@ -47,6 +66,8 @@ const Contact: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-pink-50">
+
+
       <div className={`${container} ${spacing.py.large}`}>
         <div className="text-center mb-16">
           <h1 className={`${text.h1} text-gray-900 mb-4`}>
