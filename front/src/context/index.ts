@@ -11,7 +11,9 @@
  *   AuthProvider, 
  *   AuthContext, 
  *   LoadingProvider, 
- *   LoadingContext
+ *   LoadingContext,
+ *   HeaderProvider,
+ *   useHeader
  * } from './context';
  * ```
  */
@@ -23,3 +25,7 @@ export { AuthContext } from './auth/auth-context';
 // Exportaciones del contexto de loading
 export { LoadingProvider } from './loading/LoadingProvider';
 export { LoadingContext } from './loading/loading-context';
+
+// Exportaciones del contexto del header
+export { HeaderProvider } from './header/HeaderProvider';
+export { useHeader } from './header/header-context';

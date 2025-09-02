@@ -10,7 +10,8 @@
  * import { 
  *   useAuth, 
  *   useResponsive,
- *   useBreakpoints 
+ *   useBreakpoints,
+ *   useHeader
  * } from '../hooks';
  * ```
  */
@@ -20,6 +21,9 @@ export { useAuth } from './useAuth';
 
 // Hooks de loading (usan contextos)
 export { useLoadingContext } from './useLoadingContext';
+
+// Hooks de header (usan contextos)
+export { useHeader } from '../context';
 
 // Hooks de responsividad (utilidad, no usan contextos)
 export { useResponsive, useBreakpoints } from './useResponsive';

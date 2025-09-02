@@ -1,11 +1,30 @@
-import React from 'react';
-import { useAuth, useResponsive } from '../../hooks';
+import React, { useEffect } from 'react';
+import { useAuth, useResponsive, useHeader } from '../../hooks';
 import { LoginForm, Button } from '../../components';
 
 /** Página de login */
 const LoginPage: React.FC = () => {
   const { isAuthenticated, logout, user } = useAuth();
   const { spacing, text } = useResponsive();
+  const { updateHeader } = useHeader();
+
+  // Configurar el header personalizado para esta página
+  useEffect(() => {
+    updateHeader({
+      title: 'Iniciar Sesión',
+      subtitle: 'Accede a tu cuenta',
+      showNavButton: true
+    });
+
+    // Limpiar el header cuando se desmonte el componente
+    return () => {
+      updateHeader({
+        title: 'scala',
+        subtitle: 'Learning',
+        showNavButton: true
+      });
+    };
+  }, [updateHeader]);
 
   // Mostrar mensaje si ya está autenticado
   if (isAuthenticated) {
