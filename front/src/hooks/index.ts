@@ -27,3 +27,15 @@ export { useHeader } from '../context';
 
 // Hooks de responsividad (utilidad, no usan contextos)
 export { useResponsive, useBreakpoints } from './useResponsive';
+
+// Hooks de validación y manejo de errores
+export { useFormValidation } from './useFormValidation';
+export { useErrorHandler } from './useErrorHandler';
+
+// Exportar tipos de hooks
+export type { 
+  UseErrorHandlerOptions, 
+  UseErrorHandlerReturn,
+  UseFormValidationOptions,
+  UseFormValidationReturn
+} from './types';

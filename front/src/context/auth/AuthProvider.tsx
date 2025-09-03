@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import type { AuthContextType, User, LoginCredentials, AuthProviderProps } from '../../types';
-import { AuthContext } from './auth-context';
-import * as authService from '../../services/authService';
+import { AuthContext } from './../index';
+import { login, validateToken, logout } from '../../services';
 
 /** Proveedor del contexto de autenticación */
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
@@ -14,12 +14,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const isAuthenticated = !!user;
 
   /** Cerrar sesión del usuario */
-  const logout = useCallback((): void => {
+  const logoutUser = useCallback((): void => {
     setUser(null);
     setError(null);
     localStorage.removeItem('authToken');
     localStorage.removeItem('user');
-    authService.logout();
+    logout();
   }, []);
 
   /** Verificar si hay una sesión válida guardada */
@@ -29,13 +29,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       if (!token) return;
 
       // TODO: Implementar validación de token con backend
-      const user = await authService.validateToken(token);
+      const user = await validateToken(token);
       setUser(user);
     } catch (err) {
       console.error('Error verificando autenticación:', err);
-      logout();
+      logoutUser();
     }
-  }, [logout]);
+  }, [logoutUser]);
 
   /** Verificar autenticación al cargar la app */
   useEffect(() => {
@@ -43,7 +43,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   }, [checkAuth]);
 
   /** Iniciar sesión del usuario */
-  const login = async (credentials: LoginCredentials): Promise<void> => {
+  const loginUser = async (credentials: LoginCredentials): Promise<void> => {
     try {
       setIsLoading(true);
       setError(null);
@@ -58,7 +58,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       }
 
       // TODO: Implementar llamada al backend
-      const { user, token } = await authService.login(credentials);
+      const { user, token } = await login(credentials);
 
       // Guardar en estado y localStorage
       setUser(user);
@@ -85,8 +85,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     isLoading,
     error,
     isAuthenticated,
-    login,
-    logout,
+    login: loginUser,
+    logout: logoutUser,
     checkAuth,
     clearError
   };

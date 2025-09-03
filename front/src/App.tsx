@@ -1,10 +1,8 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { LoadingProvider, AuthProvider, HeaderProvider } from './context';
-import { ErrorBoundary } from './components';
-import MainLayout from './components/Layout/MainLayout';
-import WelcomePage from './pages/WelcomePage';
-import Contact from './pages/Contact';
-import LoginPage from './pages/Login';
+import { ErrorBoundary , MainLayout } from './components';
+import { WelcomePage, Contact, LoginPage } from './pages';
+
 import './App.css';
 //entre browser router y mainlayout importar. 
 //mainlayout renderizar
@@ -20,11 +18,8 @@ function App() {
                   <Routes>
                     <Route path="/" element={<WelcomePage />} />
                     <Route path="/contact" element={<Contact />} />
-
-                    {/* Commented out duplicate routes */}
-                    {/* <Route path="/" element={<WelcomePage />} /> */}
-                    {/* <Route path="/contact" element={<Contact />} /> */}
                     <Route path="/login" element={<LoginPage />} />
+
                   </Routes>
                 </div>
                 </MainLayout>

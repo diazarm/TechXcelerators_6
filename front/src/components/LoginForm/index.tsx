@@ -1,48 +1,50 @@
-import React, { useState } from 'react';
-import { useAuth, useResponsive } from '../../hooks';
-import { Button } from '../../components';
+import React from 'react';
+import { useAuth, useResponsive, useFormValidation, useErrorHandler } from '../../hooks';
+import { Button, ErrorDisplay, ValidationErrors } from '../../components';
+import { ValidationRules } from '../../services';
 
-/** Componente de formulario de login */
+/** Componente de formulario de login con validación robusta */
 export const LoginForm: React.FC = () => {
   const { login, isLoading, error, clearError } = useAuth();
   const { containerSmall, text, shadow } = useResponsive();
+  const { handleError } = useErrorHandler();
   
-  const [formData, setFormData] = useState({
-    email: '',
-    password: ''
-  });
-  
-  const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
-
-  /** Validar campos del formulario */
-  const validateForm = (): boolean => {
-    const errors: Record<string, string> = {};
-    
-    if (!formData.email.trim()) {
-      errors.email = 'El email es requerido';
-    } else if (!formData.email.includes('@')) {
-      errors.email = 'Formato de email inválido';
+  const {
+    formData,
+    updateField,
+    validateForm,
+    getFieldErrors,
+    hasFieldErrors,
+    isFieldTouched,
+    touchField
+  } = useFormValidation(
+    { email: '', password: '' },
+    {
+      validation: {
+        fields: {
+          email: {
+            field: 'email',
+            required: true,
+            rules: [ValidationRules.email()],
+            requiredMessage: 'Necesitamos tu correo electrónico para iniciar sesión'
+          },
+          password: {
+            field: 'password',
+            required: true,
+            rules: [ValidationRules.minLength(6, 'Tu contraseña debe tener al menos 6 caracteres para mayor seguridad')],
+            requiredMessage: 'Ingresa tu contraseña para continuar'
+          }
+        }
+      },
+      validateOnChange: true,
+      validateOnBlur: true
     }
-    
-    if (!formData.password.trim()) {
-      errors.password = 'La contraseña es requerida';
-    } else if (formData.password.length < 6) {
-      errors.password = 'La contraseña debe tener al menos 6 caracteres';
-    }
-    
-    setValidationErrors(errors);
-    return Object.keys(errors).length === 0;
-  };
+  );
 
   /** Manejar cambios en los campos */
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-    
-    // Limpiar error de validación del campo
-    if (validationErrors[name]) {
-      setValidationErrors(prev => ({ ...prev, [name]: '' }));
-    }
+    updateField(name as keyof typeof formData, value);
     
     // Limpiar error del contexto si existe
     if (error) {
@@ -50,11 +52,19 @@ export const LoginForm: React.FC = () => {
     }
   };
 
+  /** Manejar blur de campos */
+  const handleInputBlur = (e: React.FocusEvent<HTMLInputElement>): void => {
+    const { name } = e.target;
+    touchField(name as keyof typeof formData);
+  };
+
   /** Manejar envío del formulario */
   const handleSubmit = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
     
-    if (!validateForm()) {
+    const validationResult = validateForm();
+    
+    if (!validationResult.isValid) {
       return;
     }
     
@@ -62,8 +72,7 @@ export const LoginForm: React.FC = () => {
       await login(formData);
       // Login exitoso - el contexto maneja el estado
     } catch (err) {
-      // El error ya se maneja en el contexto
-      console.error('Error en login:', err);
+      handleError(err, 'LoginForm');
     }
   };
 
@@ -91,15 +100,16 @@ export const LoginForm: React.FC = () => {
             name="email"
             value={formData.email}
             onChange={handleInputChange}
+            onBlur={handleInputBlur}
             className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
-              validationErrors.email ? 'border-red-300' : 'border-gray-300'
+              hasFieldErrors('email') && isFieldTouched('email') ? 'border-red-300' : 'border-gray-300'
             }`}
             placeholder="tu@email.com"
             disabled={isLoading}
           />
-          {validationErrors.email && (
-            <p className="mt-1 text-sm text-red-600">{validationErrors.email}</p>
-          )}
+          <ValidationErrors 
+            errors={getFieldErrors('email')} 
+          />
         </div>
 
         {/* Campo Contraseña */}
@@ -113,22 +123,29 @@ export const LoginForm: React.FC = () => {
             name="password"
             value={formData.password}
             onChange={handleInputChange}
+            onBlur={handleInputBlur}
             className={`w-full px-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
-              validationErrors.password ? 'border-red-300' : 'border-gray-300'
+              hasFieldErrors('password') && isFieldTouched('password') ? 'border-red-300' : 'border-gray-300'
             }`}
             placeholder="••••••••"
             disabled={isLoading}
           />
-          {validationErrors.password && (
-            <p className="mt-1 text-sm text-red-600">{validationErrors.password}</p>
-          )}
+          <ValidationErrors 
+            errors={getFieldErrors('password')} 
+          />
         </div>
 
         {/* Error del contexto */}
         {error && (
-          <div className="bg-red-50 border border-red-200 rounded-md p-3">
-            <p className="text-sm text-red-600">{error}</p>
-          </div>
+          <ErrorDisplay 
+            error={{ 
+              code: 'AUTH_ERROR', 
+              message: error, 
+              timestamp: new Date() 
+            }}
+            title="Error de autenticación"
+            onDismiss={clearError}
+          />
         )}
 
         {/* Botón de envío */}

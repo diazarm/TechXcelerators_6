@@ -22,5 +22,6 @@ export interface HeaderProps {
     onNavClick?: () => void;
     /** Clases CSS adicionales */
     className?: string;
+    
 }
 

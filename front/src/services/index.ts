@@ -21,8 +21,20 @@ export {
   login, 
   validateToken, 
   logout, 
-  getCurrentUser 
+  getCurrentUser,
+  refreshToken
 } from './authService';
 
 // Exportaciones de la instancia de API
-export { default as api } from './api';
+export { default as api, apiMethods } from './api';
+
+// Exportaciones de servicios de error y validación
+export { default as logger } from './loggerService';
+export { default as errorService } from './errorService';
+export { default as validationService } from './validationService';
+
+// Exportar ValidationRules desde types
+export { ValidationRules } from '../types/validation';
+
+// Exportar tipos de servicios
+export type { LoggerConfig } from './types';

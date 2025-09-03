@@ -1,16 +1,12 @@
 import { useContext } from "react";
 import HeaderContext from "./HeaderProvider";
-import type { HeaderProps } from "../../components/Layout/types";
-
-interface HeaderContextType {
-  header: HeaderProps;
-  setHeader: (header: HeaderProps) => void;
-  updateHeader: (updates: Partial<HeaderProps>) => void;
-}
+import type { HeaderContextType } from "./types";
 
 /**
- * Hook personalizado para usar el contexto del header
- * @returns El contexto del header con métodos para configurarlo
+ * useHeader Hook
+ * 
+ * Hook personalizado para gestionar el estado del header dinámico.
+ * Permite actualizar títulos y subtítulos desde cualquier componente.
  */
 export const useHeader = (): HeaderContextType => {
   const context = useContext(HeaderContext);

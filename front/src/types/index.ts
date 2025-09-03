@@ -27,3 +27,25 @@ export type {
   AuthContextType, 
   AuthProviderProps 
 } from './shared';
+
+// Tipos de error y validación
+export type { 
+  AppError,
+  ValidationError,
+  ApiError,
+  NetworkError,
+  BusinessError,
+  ErrorState,
+  RetryConfig,
+  LogLevelType,
+  LogEntry
+} from './error';
+
+export type {
+  ValidationRule,
+  ValidationResult,
+  ValidationContext,
+  FieldValidation,
+  FormValidation,
+  ValidationState
+} from './validation';
