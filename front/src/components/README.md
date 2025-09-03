@@ -95,28 +95,7 @@ const MiApp = () => {
 - 📱 **Errores de estado** - Estados inconsistentes
 - 🎯 **Fallbacks elegantes** - UI de error amigable
 
-### **Navigation - Navegación Principal**
-**¿Para qué sirve?** Barra de navegación principal de la aplicación. **Proporciona** acceso a todas las secciones importantes.
 
-**Cómo usarlo:**
-```tsx
-import { Navigation } from '../../components';
-
-const Layout = () => {
-  return (
-    <div>
-      <Navigation />
-      {/* Resto del contenido */}
-    </div>
-  );
-};
-```
-
-**Características:**
-- 🧭 **Navegación clara** - Enlaces a todas las páginas
-- 📱 **Responsive** - Se adapta a móviles
-- 🎨 **Consistente** - Mismo estilo en toda la app
-- 🔒 **Condicional** - Muestra enlaces según autenticación
 
 ## 🏗️ **Cómo Crear un Nuevo Componente**
 

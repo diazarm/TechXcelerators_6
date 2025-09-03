@@ -1,17 +1,8 @@
-import React, { createContext, useState, useCallback, ReactNode } from 'react';
+import React, { createContext, useState, useCallback } from 'react';
 import type { HeaderProps } from '../../components/Layout/types';
-
-interface HeaderContextType {
-  header: HeaderProps;
-  setHeader: (header: HeaderProps) => void;
-  updateHeader: (updates: Partial<HeaderProps>) => void;
-}
+import type { HeaderContextType, HeaderProviderProps } from './types';
 
 const HeaderContext = createContext<HeaderContextType | undefined>(undefined);
-
-interface HeaderProviderProps {
-  children: ReactNode;
-}
 
 /**
  * Proveedor del contexto del header que permite configurar el título y subtítulo

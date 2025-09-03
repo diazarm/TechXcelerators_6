@@ -27,5 +27,17 @@ export { default as LoadingSpinner } from './LoadingSpinner';
 
 // Componentes de sistema
 export { default as ErrorBoundary } from './ErrorBoundary';
-export { default as Navigation } from './Navigation';
+
+// Componentes de error y validación
+export { default as ErrorDisplay } from './ErrorDisplay';
+export { default as ValidationErrors } from './ValidationErrors';
+
+// Componentes de layout
+export { default as MainLayout } from './Layout/MainLayout';
+export { Header } from './Layout/header';
+export { Navbar } from './Layout/navbar';
+export { Footer } from './Layout/footer';
+
+// Componentes de hero section
+export { default as HeroSection } from './HeroSection';
 

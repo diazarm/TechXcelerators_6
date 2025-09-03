@@ -15,3 +15,4 @@
  */
 
 export * from './appConstants';
+export * from './pageConfig';

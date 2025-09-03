@@ -29,3 +29,6 @@ export { LoadingContext } from './loading/loading-context';
 // Exportaciones del contexto del header
 export { HeaderProvider } from './header/HeaderProvider';
 export { useHeader } from './header/header-context';
+
+// Exportar tipos de contextos
+export type { HeaderContextType, HeaderProviderProps } from './header/types';

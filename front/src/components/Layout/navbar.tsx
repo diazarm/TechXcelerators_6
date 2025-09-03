@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-
-import { Button } from "../Button";
-import { useResponsive } from "../../hooks/useResponsive";
+import { Button } from "../../components";
+import { useResponsive } from "../../hooks";
+import type { HeaderProps } from "./types";
 
 
 
@@ -40,30 +40,8 @@ const CustomLogo: React.FC<{ className?: string }> = ({ className = "" }) => (
   </svg>
 );
 
-/**
- * Componente Header con botones integrados
- * 
- * @example
- * ```tsx
- * // Header básico
- * <Header title="Mi Aplicación" />
- * 
- * // Header con botón de navegación
- * <Header 
- *   title="Dashboard" 
- *   subtitle="Bienvenido de vuelta"
- *   showNavButton 
- *   onNavClick={handleNavClick}
- * />
- * 
- * // Header con clases personalizadas
- * <Header 
- *   title="Perfil" 
- *   className="bg-gradient-to-r from-blue-500 to-purple-600"
- * />
- * ```
- */
-export const Navbar: React.FC<NabvarProps> = ({
+
+export const Navbar: React.FC<HeaderProps> = ({
   title = "scala",
   subtitle = "Learning",
   showNavButton = false,
@@ -145,6 +123,7 @@ export const Navbar: React.FC<NabvarProps> = ({
             <Link to="/alianza" className={`${responsive.text.body} text-white hover:text-[#F86E15] transition-colors font-bold`}>
               NUESTRA ALIANZA
             </Link>
+
           </nav>
         </div>
         
