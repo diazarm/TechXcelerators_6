@@ -26,7 +26,7 @@ export const ErrorDisplay: React.FC<ErrorDisplayProps> = ({
     return '❌';
   };
 
-  const getFriendlyMessage = (error: any) => {
+  const getFriendlyMessage = (error: { code: string; message: string }) => {
     if (error.code.startsWith('NETWORK_')) {
       return 'Parece que hay un problema de conexión. Verifica tu internet e intenta nuevamente.';
     }

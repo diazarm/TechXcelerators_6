@@ -18,4 +18,8 @@ export interface ButtonProps {
   type?: 'button' | 'submit' | 'reset';
   /** Clases CSS adicionales */
   className?: string;
+  /** Icono a la izquierda */
+  iconLeft?: ReactNode;
+  /** Icono a la derecha */
+  iconRight?: ReactNode;
 }
