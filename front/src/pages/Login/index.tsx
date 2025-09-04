@@ -1,73 +1,46 @@
-import React, { useEffect } from 'react';
-import { useAuth, useResponsive, useHeader } from '../../hooks';
-import { LoginForm, Button } from '../../components';
+import React from 'react';
+import { LoginForm } from '../../components';
 
 /** Página de login */
 const LoginPage: React.FC = () => {
-  const { isAuthenticated, logout, user } = useAuth();
-  const { spacing, text } = useResponsive();
-  const { updateHeader } = useHeader();
-
-  // Configurar el header personalizado para esta página
-  useEffect(() => {
-    updateHeader({
-      title: 'Iniciar Sesión',
-      subtitle: 'Accede a tu cuenta',
-      showNavButton: true
-    });
-
-    // Limpiar el header cuando se desmonte el componente
-    return () => {
-      updateHeader({
-        title: 'scala',
-        subtitle: 'Learning',
-        showNavButton: true
-      });
-    };
-  }, [updateHeader]);
-
-  // Mostrar mensaje si ya está autenticado
-  if (isAuthenticated) {
-    return (
-      <div className={`min-h-screen bg-gray-50 flex items-center justify-center ${spacing.py.medium}`}>
-        <div className="bg-green-50 border border-green-200 rounded-lg p-8 max-w-md text-center">
-          <h2 className={`${text.h2} text-green-800 mb-4`}>
-            ¡Ya estás autenticado!
-          </h2>
-          <div className={`${text.body} text-green-700 mb-6`}>
-            <p className="mb-2">
-              <strong>Usuario:</strong> {user?.name}
-            </p>
-            <p className="mb-2">
-              <strong>Email:</strong> {user?.email}
-            </p>
-            <p className="mb-2">
-              <strong>Rol:</strong> {user?.role === 'admin' ? 'Administrador' : 'Usuario'}
-            </p>
-            <p className="text-sm text-green-600 mt-4">
-              Ya tienes una sesión activa. Puedes cerrar sesión si quieres iniciar una nueva.
-            </p>
-          </div>
-          <Button
-            onClick={logout}
-            variant="secondary"
-            size="md"
-            className="bg-red-500 hover:bg-red-600 text-white border-red-500"
-          >
-            Cerrar Sesión (Test)
-          </Button>
-        </div>
-      </div>
-    );
-  }
 
   return (
-    <div className={`min-h-screen bg-gray-50 flex items-center justify-center ${spacing.py.medium}`}>
-      <div className="w-full max-w-md">
+    <div 
+      className="min-h-screen w-full relative bg-cover bg-center bg-no-repeat flex items-center justify-center"
+      style={{ backgroundImage: 'url(/img/BgLogin.png)' }}
+    >
+      {/* Contenedor del formulario centrado */}
+      <div className="flex flex-col items-center space-y-6">
+        {/* Logo */}
+        <div 
+          className="w-80 h-32"
+        >
+          <img 
+            src="/img/LogoScala2.png" 
+            alt="Scala Learning" 
+            className="w-full h-full object-contain"
+          />
+        </div>
 
+        {/* Título "Acceso Usuario" */}
+        <h2 
+          className="text-[#555D8C] font-regular text-4xl"
+          style={{
+            fontFamily: 'Istok Web'
+          }}
+        >
+          Acceso Usuario
+        </h2>
 
         {/* Formulario de login */}
-        <LoginForm />
+        <div 
+          className="w-96 h-[400px] opacity-80 rounded-2xl flex items-center justify-center"
+          style={{
+            backgroundColor: '#A4A9C2'
+          }}
+        >
+          <LoginForm />
+        </div>
       </div>
     </div>
   );
