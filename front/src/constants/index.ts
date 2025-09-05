@@ -16,3 +16,4 @@
 
 export * from './appConstants';
 export * from './pageConfig';
+export * from './colors';

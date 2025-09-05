@@ -1,4 +1,4 @@
-import type { SearchResult } from '../../types/shared';
+import type { SearchResult } from '../../types';
 
 /**
  * Props del componente SearchModal

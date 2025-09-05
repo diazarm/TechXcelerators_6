@@ -1,4 +1,6 @@
 
+import type { SearchResult } from '../types';
+
 export const mockSearchData: SearchResult[] = [
     {
       id: '1',

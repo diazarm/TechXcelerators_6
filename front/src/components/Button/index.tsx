@@ -1,4 +1,5 @@
 import React from 'react';
+import { COLORS } from '../../constants';
 import type { ButtonProps } from './types';
 
 /** Componente Button reutilizable */
@@ -14,20 +15,21 @@ export const Button: React.FC<ButtonProps> = ({
   iconRight,
 }) => {
   // Clases base que se aplican a todos los botones
-  const baseClasses = "font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2";
+  const baseClasses = "font-medium transition-all duration-200 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center";
   
   // Clases específicas para cada variante
   const variantClasses = {
-    primary: "bg-[#5D5A88] hover:bg-[#4A476F] text-white focus:ring-[#5D5A88] shadow-sm",
-    secondary: "bg-gray-500 hover:bg-gray-600 text-white focus:ring-gray-500 shadow-sm",
-    outline: "border border-[#D4D2E3] text-[#5D5A88] hover:bg-gray-50 focus:ring-[#5D5A88] bg-white"
+    primary: `!bg-[${COLORS.primary}] hover:shadow-lg !text-white focus:!ring-[${COLORS.primary}] !border-[${COLORS.primary}] shadow-sm`,
+    secondary: `!border-[${COLORS.primary}] !text-[${COLORS.primary}] hover:!border-[${COLORS.primaryHover}] hover:!text-[${COLORS.primaryHover}] focus:!ring-[${COLORS.primary}] !bg-white`,
+    outline: `!border-[${COLORS.primary}] !text-[${COLORS.primary}] hover:!bg-[${COLORS.primary}] hover:!text-white focus:!ring-[${COLORS.primary}] !bg-white`
   };
   
   // Clases específicas para cada tamaño
   const sizeClasses = {
-    sm: "px-6 py-[18px] text-sm rounded-[30px] w-[88px] h-[54px]",
-    md: "px-6 py-[18px] text-base rounded-[30px] w-[94px] h-[54px]",
-    lg: "px-8 py-4 text-lg rounded-[30px] w-[120px] h-[60px]"
+    xs: "px-3 py-1.5 text-xs rounded-[8px] w-[107px] h-[30px] gap-0",
+    sm: "px-6 py-[18px] text-sm rounded-[15px] w-[88px] h-[54px] gap-2",
+    md: "px-6 py-[18px] text-base rounded-[15px] w-[94px] h-[54px] gap-2",
+    lg: "px-8 py-4 text-lg rounded-[15px] w-[120px] h-[60px] gap-2"
   };
 
   // Clases para estado deshabilitado
@@ -50,7 +52,7 @@ export const Button: React.FC<ButtonProps> = ({
       disabled={disabled}
     >
       {iconLeft && <span className="flex-shrink-0">{iconLeft}</span>}
-      <span className="flex-1">{children}</span>
+      <span className={size === 'xs' ? 'flex-shrink-0' : 'flex-1'}>{children}</span>
       {iconRight && <span className="flex-shrink-0">{iconRight}</span>}
     </button>
   );
