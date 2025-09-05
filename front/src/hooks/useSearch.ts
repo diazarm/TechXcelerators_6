@@ -1,5 +1,5 @@
 import { useState, useMemo, useCallback } from 'react';
-import type { SearchResult } from '../types/shared';
+import type { SearchResult } from '../types';
 
 /**
  * Hook personalizado para manejar la funcionalidad de búsqueda

@@ -25,7 +25,8 @@ export type {
   AuthState, 
   LoginCredentials, 
   AuthContextType, 
-  AuthProviderProps 
+  AuthProviderProps,
+  SearchResult
 } from './shared';
 
 // Tipos de error y validación

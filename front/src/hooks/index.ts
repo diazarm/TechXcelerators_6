@@ -41,6 +41,9 @@ export { useNavbar } from './useSearchResult';
 // Hooks de notificaciones
 export { useNotification } from './useNotification';
 
+// Hooks de cards
+export { useCards } from './useCards';
+
 // Exportar tipos de hooks
 export type { 
   UseErrorHandlerOptions, 

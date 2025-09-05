@@ -18,6 +18,7 @@
 
 // Componentes de UI básicos
 export { Button } from './Button';
+export { default as Card } from './Card';
 
 // Componentes de formularios
 export { LoginForm } from './LoginForm';
@@ -46,4 +47,7 @@ export { default as HeroSection } from './HeroSection';
 
 // Componentes de búsqueda
 export { SearchModal } from './SearchModal';
+
+// Componentes de cards
+export { default as CardGrid } from './CardGrid';
 
