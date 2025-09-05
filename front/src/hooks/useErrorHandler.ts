@@ -7,6 +7,7 @@
 
 import { useState, useCallback, useEffect } from 'react';
 import { errorService, logger } from '../services';
+import { useNotification } from './useNotification';
 import type { AppError, ErrorState } from '../types/error';
 import type { UseErrorHandlerOptions, UseErrorHandlerReturn } from './types';
 
@@ -19,6 +20,8 @@ export function useErrorHandler(options: UseErrorHandlerOptions = {}): UseErrorH
     onError,
     onErrorResolved
   } = options;
+
+  const { addNotification } = useNotification();
 
   const [errorState, setErrorState] = useState<ErrorState>({
     errors: [],
@@ -95,13 +98,50 @@ export function useErrorHandler(options: UseErrorHandlerOptions = {}): UseErrorH
       return newState;
     });
 
+    // Mostrar notificación basada en el tipo de error
+    if (autoShow) {
+      let notificationType: 'error' | 'warning' | 'info' = 'error';
+      let title = 'Error del sistema';
+      let message = error.message;
+      let duration = 0; // Por defecto no auto-hide
+
+      if (error.code.startsWith('VALIDATION_')) {
+        notificationType = 'warning';
+        title = 'Datos incompletos';
+        message = 'Por favor, revisa los campos marcados y completa la información requerida.';
+        duration = 5000;
+      } else if (error.code.startsWith('NETWORK_')) {
+        notificationType = 'error';
+        title = 'Sin conexión';
+        message = 'No se pudo conectar con el servidor. Verifica tu conexión a internet.';
+        duration = 0;
+      } else if (error.code.startsWith('API_5')) {
+        notificationType = 'error';
+        title = 'Error del servidor';
+        message = 'El servidor está experimentando problemas. Intenta nuevamente en unos minutos.';
+        duration = 0;
+      } else if (error.code.startsWith('BUSINESS_AUTH')) {
+        notificationType = 'error';
+        title = 'Acceso denegado';
+        message = 'No tienes permisos para realizar esta acción.';
+        duration = 0;
+      }
+
+      addNotification({
+        type: notificationType,
+        title,
+        message,
+        duration
+      });
+    }
+
     // Auto-ocultar errores no críticos
     if (autoShow && !error.code.startsWith('API_5') && !error.code.startsWith('NETWORK_')) {
       setTimeout(() => {
         removeError(error.code);
       }, autoHideDelay);
     }
-  }, [autoShow, autoHideDelay, onError, removeError]);
+  }, [autoShow, autoHideDelay, onError, removeError, addNotification]);
 
   /**
    * Limpiar todos los errores

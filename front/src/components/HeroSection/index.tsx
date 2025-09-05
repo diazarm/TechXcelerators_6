@@ -13,7 +13,8 @@ import type { HeroSectionProps } from "./types";
 export const HeroSection: React.FC<HeroSectionProps> = ({ 
   title, 
   description,
-  showImage = true
+  showImage = true,
+  children
 }) => {
   const responsive = useResponsive();
 
@@ -38,9 +39,16 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             {title || "¡Hola! ¡Bienvenido a Scala Learning!"}
           </h1>
           
-          <p className={`${responsive.text.body} text-[#827896] leading-relaxed`}>
+          <p className={`${responsive.text.body} text-[#827896] leading-relaxed mb-8`}>
             {description || "Lorem ipsum dolor sit amet consectetur adipiscing eli mattis sit phasellus mollis sit aliquam sit nullam neque ultrices."}
           </p>
+          
+          {/* Botones debajo del texto Lorem ipsum */}
+          {children && (
+            <div className="flex flex-col sm:flex-row gap-4 justify-start">
+              {children}
+            </div>
+          )}
         </div>
       </div>
     </section>

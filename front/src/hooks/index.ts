@@ -32,6 +32,9 @@ export { useResponsive, useBreakpoints } from './useResponsive';
 export { useFormValidation } from './useFormValidation';
 export { useErrorHandler } from './useErrorHandler';
 
+// Hooks de notificaciones
+export { useNotification } from './useNotification';
+
 // Exportar tipos de hooks
 export type { 
   UseErrorHandlerOptions, 
