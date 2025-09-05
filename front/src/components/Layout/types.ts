@@ -16,6 +16,10 @@ export interface HeaderProps {
     title?: string;
     /** Subtítulo del header */
     subtitle?: string;
+    /** Mostrar botón de navegación móvil */
+    showNavButton?: boolean;
+    /** Callback para el click del botón de navegación */
+    onNavClick?: () => void;
     /** Clases CSS adicionales */
     className?: string;
 }

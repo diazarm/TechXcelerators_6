@@ -43,22 +43,32 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   }, [checkAuth]);
 
   /** Iniciar sesión del usuario */
-  const loginUser = async (credentials: LoginCredentials): Promise<void> => {
+  const loginUser = async (credentials: LoginCredentials, accessType: 'user' | 'admin' = 'admin'): Promise<void> => {
     try {
       setIsLoading(true);
       setError(null);
 
       // Validaciones básicas
-      if (!credentials.email || !credentials.password) {
-        throw new Error('Email y contraseña son requeridos');
+      if (!credentials.email) {
+        throw new Error('Email es requerido');
       }
 
       if (!credentials.email.includes('@')) {
         throw new Error('Formato de email inválido');
       }
 
+      // Para administradores, la contraseña es OBLIGATORIA
+      if (accessType === 'admin') {
+        if (!credentials.password) {
+          throw new Error('Contraseña es requerida para administradores');
+        }
+        if (credentials.password.length < 6) {
+          throw new Error('La contraseña debe tener al menos 6 caracteres');
+        }
+      }
+
       // TODO: Implementar llamada al backend
-      const { user, token } = await login(credentials);
+      const { user, token } = await login(credentials, accessType);
 
       // Guardar en estado y localStorage
       setUser(user);

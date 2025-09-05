@@ -25,11 +25,21 @@ export interface AuthState {
 
 export interface LoginCredentials {
   email: string;
+  password?: string;
+}
+
+// Tipos específicos para cada tipo de login
+export interface AdminLoginCredentials {
+  email: string;
   password: string;
 }
 
+export interface UserLoginCredentials {
+  email: string;
+}
+
 export interface AuthContextType extends AuthState {
-  login: (credentials: LoginCredentials) => Promise<void>;
+  login: (credentials: LoginCredentials, accessType?: 'user' | 'admin') => Promise<void>;
   logout: () => void;
   checkAuth: () => Promise<void>;
   clearError: () => void;

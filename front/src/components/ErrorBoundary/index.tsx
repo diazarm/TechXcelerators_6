@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import type { ErrorInfo } from 'react';
 import type { ErrorBoundaryProps, ErrorBoundaryState } from './types';
-import { useResponsive } from '../../hooks';
 
 // Los tipos se importan desde ../../types
 
@@ -10,51 +9,108 @@ const DefaultErrorFallback: React.FC<{ error?: Error; onReset?: () => void }> = 
   error, 
   onReset 
 }) => {
-  const { container, text, spacing, shadow, border } = useResponsive();
 
   return (
-    <div className="min-h-screen bg-red-50 flex items-center justify-center">
-      <div className={`${container} max-w-2xl`}>
-        <div className={`bg-white ${border.radius.large} p-8 ${shadow.large} text-center`}>
+    <div 
+      className="min-h-screen w-full relative bg-cover bg-center bg-no-repeat flex items-center justify-center"
+      style={{ backgroundImage: 'url(/img/BgLogin.png)' }}
+    >
+      {/* Overlay con opacidad */}
+      <div 
+        className="absolute inset-0"
+        style={{ backgroundColor: '#00000066' }}
+      />
+      
+      {/* Contenedor del error centrado */}
+      <div className="relative z-10 flex flex-col items-center px-4 sm:px-6 lg:px-8">
+        {/* Logo */}
+        <div className="w-[300px] h-[130px] sm:w-[400px] sm:h-[173px] lg:w-[500px] lg:h-[217px] mb-6 sm:mb-8">
+          <img 
+            src="/img/Logo3.png" 
+            alt="Scala Learning" 
+            className="w-full h-full object-contain"
+          />
+        </div>
+
+        {/* Contenedor del error */}
+        <div 
+          className="rounded-[20px] p-6 sm:p-8 text-center max-w-sm sm:max-w-md lg:max-w-lg shadow-2xl"
+          style={{
+            backgroundColor: 'rgba(164, 169, 194, 0.5)'
+          }}
+        >
           {/* Icono de error */}
-          <div className="text-6xl mb-6">💥</div>
+          <div className="text-3xl sm:text-4xl mb-3 sm:mb-4">⚠️</div>
           
           {/* Título */}
-          <h1 className={`${text.h2} text-gray-900 mb-4`}>
-            ¡Oops! Algo salió mal
+          <h1 
+            className="text-white mb-3 sm:mb-4 montserrat"
+            style={{
+              fontWeight: 600,
+              fontSize: '20px',
+              lineHeight: '100%',
+              letterSpacing: '0%'
+            }}
+          >
+            Error del Sistema
           </h1>
           
           {/* Descripción */}
-          <p className={`${text.body} text-gray-600 mb-6`}>
-            No te preocupes, nuestro equipo ha sido notificado del problema.
-            Puedes intentar recargar la página o contactarnos si el problema persiste.
+          <p 
+            className="text-white mb-4 sm:mb-6 istok-web"
+            style={{
+              fontWeight: 400,
+              fontSize: '14px',
+              lineHeight: '120%',
+              letterSpacing: '0%'
+            }}
+          >
+            Algo salió mal. Por favor intenta de nuevo o contacta al administrador.
           </p>
           
           {/* Botones de acción */}
-          <div className={`${spacing.py.small} space-y-4`}>
+          <div className="space-y-2 sm:space-y-3 py-2">
             <button
               onClick={onReset}
-              className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg font-medium hover:bg-blue-700 transition-colors"
+              className="w-full h-9 sm:h-10 rounded-[50px] text-white transition-colors istok-web"
+              style={{
+                fontWeight: 400,
+                fontSize: '14px',
+                backgroundColor: '#FF6E00',
+                boxShadow: '0px 4px 4px 0px #00000040'
+              }}
             >
-              🔄 Intentar de nuevo
+              Intentar de nuevo
             </button>
             
             <button
               onClick={() => window.location.href = '/'}
-              className="w-full bg-gray-100 text-gray-700 py-3 px-6 rounded-lg font-medium hover:bg-gray-200 transition-colors"
+              className="w-full h-9 sm:h-10 rounded-[50px] text-white transition-colors istok-web"
+              style={{
+                fontWeight: 400,
+                fontSize: '14px',
+                backgroundColor: '#5D5A88',
+                boxShadow: '0px 4px 4px 0px #00000040'
+              }}
             >
-              🏠 Ir al inicio
+              Ir al inicio
             </button>
           </div>
           
           {/* Información técnica (solo en desarrollo) */}
           {import.meta.env.DEV && error && (
-            <details className="mt-6 text-left">
-              <summary className="cursor-pointer text-sm text-gray-500 hover:text-gray-700">
-                📋 Información técnica (solo desarrollo)
+            <details className="mt-4 sm:mt-6 text-left">
+              <summary 
+                className="cursor-pointer text-xs sm:text-sm text-white hover:text-gray-200 istok-web"
+                style={{
+                  fontWeight: 400,
+                  fontSize: '10px'
+                }}
+              >
+                Información técnica (solo desarrollo)
               </summary>
-              <div className="mt-4 p-4 bg-gray-100 rounded-lg">
-                <pre className="text-xs text-red-600 overflow-auto">
+              <div className="mt-2 sm:mt-4 p-3 sm:p-4 rounded-lg" style={{ backgroundColor: 'rgba(0,0,0,0.3)' }}>
+                <pre className="text-xs text-red-300 overflow-auto">
                   {error.toString()}
                 </pre>
               </div>

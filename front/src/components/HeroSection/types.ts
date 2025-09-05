@@ -10,4 +10,6 @@ export interface HeroSectionProps {
   showImage?: boolean;
   /** Clases CSS adicionales */
   className?: string;
+  /** Contenido adicional (botones, etc.) que se renderiza debajo del texto */
+  children?: React.ReactNode;
 }

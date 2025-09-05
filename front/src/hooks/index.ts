@@ -38,6 +38,9 @@ export { useSearch } from './useSearch';
 // Hooks de navbar (utilidad, no usan contextos)
 export { useNavbar } from './useSearchResult';
 
+// Hooks de notificaciones
+export { useNotification } from './useNotification';
+
 // Exportar tipos de hooks
 export type { 
   UseErrorHandlerOptions, 

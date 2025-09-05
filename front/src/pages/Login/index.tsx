@@ -1,45 +1,63 @@
 import React from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { LoginForm } from '../../components';
+import { useResponsive } from '../../hooks';
 
 /** Página de login */
 const LoginPage: React.FC = () => {
+  const { spacing } = useResponsive();
+  const [searchParams] = useSearchParams();
+  const accessType = searchParams.get('type') || 'admin';
 
   return (
     <div 
       className="min-h-screen w-full relative bg-cover bg-center bg-no-repeat flex items-center justify-center"
-      style={{ backgroundImage: 'url(/img/BgLogin.png)' }}
+      style={{ 
+        backgroundImage: accessType === 'user' 
+          ? 'url(/img/BgLogin2.jpg)' 
+          : 'url(/img/BgLogin.png)' 
+      }}
     >
+      {/* Overlay con opacidad */}
+      <div 
+        className="absolute inset-0"
+        style={{ backgroundColor: '#00000066' }}
+      />
+      
       {/* Contenedor del formulario centrado */}
-      <div className="flex flex-col items-center space-y-6">
+      <div className={`relative z-10 flex flex-col items-center -mt-16 ${spacing.px.small}`}>
         {/* Logo */}
         <div 
-          className="w-80 h-32"
+          className="w-[300px] h-[130px] sm:w-[400px] sm:h-[173px] lg:w-[500px] lg:h-[217px]"
         >
           <img 
-            src="/img/LogoScala2.png" 
+            src="/img/Logo3.png" 
             alt="Scala Learning" 
             className="w-full h-full object-contain"
           />
         </div>
 
-        {/* Título "Acceso Usuario" */}
+        {/* Título dinámico según tipo de acceso */}
         <h2 
-          className="text-[#555D8C] font-regular text-4xl"
+          className="text-white mb-6 -mt-4 text-2xl sm:text-3xl lg:text-4xl montserrat"
           style={{
-            fontFamily: 'Istok Web'
+            fontWeight: 500,
+            lineHeight: '100%',
+            letterSpacing: '0%'
           }}
         >
-          Acceso Usuario
+          {accessType === 'user' ? 'Acceso Usuario' : 'Acceso Administración'}
         </h2>
 
         {/* Formulario de login */}
         <div 
-          className="w-96 h-[400px] opacity-80 rounded-2xl flex items-center justify-center"
+          className="rounded-[20px] relative w-full max-w-sm sm:max-w-md lg:w-[450px]"
           style={{
-            backgroundColor: '#A4A9C2'
+            height: '280px',
+            backgroundColor: 'rgba(164, 169, 194, 0.5)'
           }}
         >
-          <LoginForm />
+          <LoginForm accessType={accessType as 'user' | 'admin'} />
         </div>
       </div>
     </div>

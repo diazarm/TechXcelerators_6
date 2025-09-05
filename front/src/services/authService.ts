@@ -1,4 +1,5 @@
 import type { User, LoginCredentials } from '../types';
+import type { FieldValidation } from '../types/validation';
 import { errorService, logger, validationService, ValidationRules } from './index';
 
 /** Servicio de autenticación con manejo robusto de errores */
@@ -36,23 +37,29 @@ const simulateNetworkDelay = (ms: number = 1000, shouldFail: boolean = false): P
   });
 };
 
-// Validación de credenciales
-const validateLoginCredentials = (credentials: LoginCredentials): void => {
-  const validation = validationService.validateForm(credentials as unknown as Record<string, unknown>, {
-    fields: {
-      email: {
-        field: 'email',
-        required: true,
-        rules: [ValidationRules.email()],
-        requiredMessage: 'El email es requerido'
-      },
-      password: {
-        field: 'password',
-        required: true,
-        rules: [ValidationRules.minLength(6)],
-        requiredMessage: 'La contraseña es requerida'
-      }
+// Validación de credenciales según tipo de acceso
+const validateLoginCredentials = (credentials: LoginCredentials, accessType: 'user' | 'admin'): void => {
+  const fields: Record<string, FieldValidation> = {
+    email: {
+      field: 'email',
+      required: true,
+      rules: [ValidationRules.email()],
+      requiredMessage: 'El email es requerido'
     }
+  };
+
+  // Solo validar contraseña para administradores
+  if (accessType === 'admin') {
+    fields.password = {
+      field: 'password',
+      required: true,
+      rules: [ValidationRules.minLength(6)],
+      requiredMessage: 'La contraseña es requerida'
+    };
+  }
+
+  const validation = validationService.validateForm(credentials as unknown as Record<string, unknown>, {
+    fields
   });
 
   if (!validation.isValid) {
@@ -65,12 +72,12 @@ const validateLoginCredentials = (credentials: LoginCredentials): void => {
 };
 
 /** Iniciar sesión del usuario */
-export const login = async (credentials: LoginCredentials): Promise<{ user: User; token: string }> => {
+export const login = async (credentials: LoginCredentials, accessType: 'user' | 'admin' = 'admin'): Promise<{ user: User; token: string }> => {
   try {
     logger.info('Iniciando proceso de login', { email: credentials.email }, 'AuthService');
     
-    // Validar credenciales
-    validateLoginCredentials(credentials);
+    // Validar credenciales según tipo de acceso
+    validateLoginCredentials(credentials, accessType);
     
     // TODO: Cuando el backend esté listo, usar:
     // const response = await apiMethods.post('/auth/login', credentials);
@@ -89,8 +96,18 @@ export const login = async (credentials: LoginCredentials): Promise<{ user: User
         'Verifica tu email y contraseña'
       );
     }
+
+    // Verificar que el tipo de usuario coincida con el tipo de acceso
+    if (user.role !== accessType) {
+      throw errorService.createBusinessError(
+        'AUTH',
+        'Acceso denegado',
+        `Este usuario es de tipo ${user.role}, pero intentas acceder como ${accessType}`
+      );
+    }
     
-    if (credentials.password !== 'password123') {
+    // Verificar contraseña solo para admin
+    if (accessType === 'admin' && credentials.password !== 'password123') {
       throw errorService.createBusinessError(
         'AUTH',
         'Credenciales inválidas',
