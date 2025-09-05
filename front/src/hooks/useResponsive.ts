@@ -1,23 +1,6 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 
-/**
- * Hook personalizado para manejar responsividad con Tailwind CSS
- * 
- * Este hook centraliza las clases responsive más comunes para evitar
- * repetición de código en múltiples componentes.
- * 
- * @example
- * ```tsx
- * const { container, text, spacing, grid } = useResponsive();
- * 
- * return (
- *   <div className={`${container} ${spacing.py.large}`}>
- *     <h1 className={text.h1}>Título</h1>
- *     <div className={grid.columns.auto}>Contenido</div>
- *   </div>
- * );
- * ```
- */
+/** Hook que proporciona clases de Tailwind CSS responsive */
 export const useResponsive = () => {
   return {
     // Contenedores principales
@@ -115,36 +98,23 @@ export const useResponsive = () => {
 };
 
 /**
- * Hook específico para breakpoints de Tailwind
+ * Hook que detecta breakpoints de pantalla en tiempo real
  * 
- * Este hook detecta en tiempo real el tamaño de la pantalla
- * y retorna booleanos para cada breakpoint de Tailwind.
- * 
- * @example
- * ```tsx
- * const { isMobile, isTablet, isDesktop, isLarge } = useBreakpoints();
- * 
- * if (isMobile) {
- *   return <MobileLayout />;
- * }
- * 
- * return (
- *   <div className={isMobile ? 'p-4' : 'p-8'}>
- *     {isDesktop && <Sidebar />}
- *     <MainContent />
- *   </div>
- * );
- * ```
+ * Retorna booleanos para cada breakpoint:
+ * - isMobile: < 640px
+ * - isTablet: 640px - 1024px  
+ * - isDesktop: 1024px - 1280px
+ * - isLarge: > 1280px
  */
 export const useBreakpoints = () => {
-  const [breakpoints, setBreakpoints] = React.useState({
+  const [breakpoints, setBreakpoints] = useState({
     isMobile: false,     // < 640px (sm)
     isTablet: false,     // 640px - 1024px (sm - lg)
     isDesktop: false,    // 1024px - 1280px (lg - xl)
     isLarge: false       // > 1280px (xl)
   });
 
-  React.useEffect(() => {
+  useEffect(() => {
     const updateBreakpoints = () => {
       const width = window.innerWidth;
       

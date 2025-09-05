@@ -1,76 +1,8 @@
 import React from 'react';
-import { useResponsive } from '../../hooks/useResponsive';
+import type { LoadingSpinnerProps } from './types';
+import { useResponsive } from '../../hooks';
 
-/**
- * Tipos de spinner disponibles
- */
-export type SpinnerType = 'default' | 'dots' | 'pulse' | 'bars' | 'ring';
-
-/**
- * Tamaños disponibles para el spinner
- */
-export type SpinnerSize = 'small' | 'medium' | 'large' | 'xl';
-
-/**
- * Props para el componente LoadingSpinner
- */
-interface LoadingSpinnerProps {
-  /** Tipo de animación del spinner */
-  type?: SpinnerType;
-  /** Tamaño del spinner */
-  size?: SpinnerSize;
-  /** Color del spinner (clases de Tailwind) */
-  color?: string;
-  /** Mensaje a mostrar debajo del spinner */
-  message?: string;
-  /** Si debe ocupar toda la pantalla */
-  fullScreen?: boolean;
-  /** Si debe mostrar overlay de fondo */
-  overlay?: boolean;
-  /** Clases CSS adicionales */
-  className?: string;
-}
-
-/**
- * LoadingSpinner - Componente para mostrar estados de carga
- * 
- * Este componente proporciona múltiples tipos de spinners para diferentes situaciones:
- * - Spinner por defecto: Círculo giratorio clásico
- * - Dots: Tres puntos que aparecen secuencialmente
- * - Pulse: Círculo que pulsa
- * - Bars: Barras que suben y bajan
- * - Ring: Anillo que gira
- * 
- * Características:
- * - Múltiples tipos y tamaños
- * - Integrado con useResponsive()
- * - Modo fullScreen para loading global
- * - Overlay opcional
- * - Mensajes personalizables
- * 
- * @example Spinner básico
- * ```tsx
- * <LoadingSpinner />
- * ```
- * 
- * @example Spinner con mensaje
- * ```tsx
- * <LoadingSpinner 
- *   type="dots" 
- *   size="large" 
- *   message="Cargando datos..." 
- * />
- * ```
- * 
- * @example Spinner de pantalla completa
- * ```tsx
- * <LoadingSpinner 
- *   fullScreen 
- *   overlay 
- *   message="Iniciando aplicación..." 
- * />
- * ```
- */
+/** Spinner de carga reutilizable con estilos responsive */
 const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
   type = 'default',
   size = 'medium',
