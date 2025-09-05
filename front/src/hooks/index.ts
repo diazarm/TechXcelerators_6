@@ -32,6 +32,12 @@ export { useResponsive, useBreakpoints } from './useResponsive';
 export { useFormValidation } from './useFormValidation';
 export { useErrorHandler } from './useErrorHandler';
 
+// Hooks de búsqueda (utilidad, no usan contextos)
+export { useSearch } from './useSearch';
+
+// Hooks de navbar (utilidad, no usan contextos)
+export { useNavbar } from './useSearchResult';
+
 // Hooks de notificaciones
 export { useNotification } from './useNotification';
 
