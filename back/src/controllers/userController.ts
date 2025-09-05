@@ -1,43 +1,39 @@
 //Estructura básica del controlador de usuario en TypeScript
 import { Request, Response, NextFunction } from "express";
 import { userService } from "../services/userService";
-import { User } from "../models/User";
 
-export const getUsers = (req: Request, res: Response): void => {
-  const users = userService.getUsers();
-  res.json(users);
-};
-
-export const getUserById = (req: Request, res: Response): void => {
-  const id = parseInt(req.params.id, 10);
-  const user = userService.getUserById(id);
-  if (user) {
-    res.json(user);
-  } else {
-    res.status(404).json({ message: "Usuario no encontrado" });
+export const getUsers = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const users = await userService.getUsers();
+    res.json(users);
+  } catch (error) {
+    next(error);
   }
 };
 
-export const createUser = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<void> => {
+
+export const getUserById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const id = req.params.id;
+    const user = await userService.getUserById(id);
+    if (user) res.json(user);
+    else res.status(404).json({ message: "Usuario no encontrado" });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const createUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const userData = req.body;
     const user = await userService.createUser(userData);
     res.status(201).json({ user, message: "Usuario creado con éxito" });
   } catch (error) {
     next(error);
-    console.error(error);
   }
 };
 
-export const login = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): Promise<void> => {
+export const login = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const { email, password } = req.body;
     const [user, token] = await userService.loginService({ email, password });
@@ -47,43 +43,48 @@ export const login = async (
   }
 };
 
-export const updateUser = (
-  req: Request,
-  res: Response
-): void => {
-  const id = parseInt(req.params.id, 10);
-  const updatedData = req.body;
-  const updatedUser = userService.updateUser(id, updatedData);
-  if (updatedUser) {
-    res.json(updatedUser);
-  } else {
-    res.status(404).json({ message: "Usuario no encontrado" });
+export const updateUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const id = req.params.id;
+    const updatedData = req.body;
+    const updatedUser = await userService.updateUser(id, updatedData);
+    if (updatedUser) res.json(updatedUser);
+    else res.status(404).json({ message: "Usuario no encontrado" });
+  } catch (error) {
+    next(error);
   }
 };
 
-export const deleteUser = (
-  req: Request,
-  res: Response
-): void => {
-  const id = parseInt(req.params.id, 10);
-  const success = userService.deleteUser(id);
-  if (success) {
-    res.status(204).send();
-  } else {
-    res.status(404).json({ message: "Usuario no encontrado" });
+export const deleteUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const id = req.params.id;
+    const deletedUser = await userService.deleteUser(id);
+    if (deletedUser) res.status(204).send();
+    else res.status(404).json({ message: "Usuario no encontrado" });
+  } catch (error) {
+    next(error);
   }
 };
 
-export const changeRole = (
-  req: Request,
-  res: Response
-): void => {
-  const id = parseInt(req.params.id, 10);
-  const updatedUser = userService.updateRole(id);
-  if (updatedUser) {
-    res.json(updatedUser);
-  } else {
-    res.status(404).json({ message: "Usuario no encontrado" });
+export const restoreUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const id = req.params.id;
+    const restoredUser = await userService.restoreUser(id);
+    if (restoredUser) res.json(restoredUser);
+    else res.status(404).json({ message: "Usuario no encontrado" });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const changeRole = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const id = req.params.id;
+    const updatedUser = await userService.updateRole(id);
+    if (updatedUser) res.json(updatedUser);
+    else res.status(404).json({ message: "Usuario no encontrado" });
+  } catch (error) {
+    next(error);
   }
 };
 
