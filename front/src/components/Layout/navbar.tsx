@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Button } from "../../components";
+import { useAuth, useNotification } from "../../hooks";
 import type { HeaderProps } from "./types";
 
 
@@ -8,10 +9,21 @@ export const Navbar: React.FC<HeaderProps> = ({
   className = "",
 }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const navigate = useNavigate();
+  const { logout, isAuthenticated } = useAuth();
+  const { addNotification } = useNotification();
 
   const handleDropdownToggle = () => {
     setIsDropdownOpen(!isDropdownOpen);
+  };
+
+  const handleLogout = () => {
+    logout();
+    addNotification({
+      type: 'success',
+      title: 'Sesión cerrada',
+      message: 'Has cerrado sesión correctamente. ¡Hasta pronto!',
+      duration: 3000
+    });
   };
 
   return (
@@ -81,20 +93,15 @@ export const Navbar: React.FC<HeaderProps> = ({
 
           {/* Botones - a la derecha */}
           <div className="flex items-center gap-4">
-            <Button 
-              variant="outline" 
-              size="sm"
-              onClick={() => navigate('/login')}
-            >
-              Login
-            </Button>
-            <Button 
-              variant="primary" 
-              size="md"
-              onClick={() => {/* Navegar a búsqueda */}}
-            >
-              Buscar
-            </Button>
+            {isAuthenticated && (
+              <Button 
+                variant="primary" 
+                size="md"
+                onClick={handleLogout}
+              >
+                Salir
+              </Button>
+            )}
           </div>
         </div>
       </div>

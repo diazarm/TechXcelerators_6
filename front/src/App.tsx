@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { LoadingProvider, AuthProvider, HeaderProvider } from './context';
-import { ErrorBoundary, MainLayout } from './components';
+import { LoadingProvider, AuthProvider, HeaderProvider, NotificationProvider } from './context';
+import { ErrorBoundary, MainLayout, NotificationContainer } from './components';
 import { Home, LoginPage } from './pages';
 
 import './App.css';
@@ -11,18 +11,21 @@ function App() {
       <AuthProvider>
         <LoadingProvider>
           <HeaderProvider>
-            <BrowserRouter>
-              <Routes>
-                <Route path="/login" element={<LoginPage />} />
-                <Route path="/*" element={
-                  <MainLayout>
-                    <Routes>
-                      <Route path="/" element={<Home />} />
-                    </Routes>
-                  </MainLayout>
-                } />
-              </Routes>
-            </BrowserRouter>
+            <NotificationProvider>
+              <BrowserRouter>
+                <Routes>
+                  <Route path="/login" element={<LoginPage />} />
+                  <Route path="/*" element={
+                    <MainLayout>
+                      <Routes>
+                        <Route path="/" element={<Home />} />
+                      </Routes>
+                    </MainLayout>
+                  } />
+                </Routes>
+                <NotificationContainer />
+              </BrowserRouter>
+            </NotificationProvider>
           </HeaderProvider>
         </LoadingProvider>
       </AuthProvider>

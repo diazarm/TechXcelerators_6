@@ -30,5 +30,9 @@ export { LoadingContext } from './loading/loading-context';
 export { HeaderProvider } from './header/HeaderProvider';
 export { useHeader } from './header/header-context';
 
+// Exportaciones del contexto de notificaciones
+export { NotificationProvider } from './notification/NotificationProvider';
+export { NotificationContext } from './notification/notification-context';
+
 // Exportar tipos de contextos
 export type { HeaderContextType, HeaderProviderProps } from './header/types';

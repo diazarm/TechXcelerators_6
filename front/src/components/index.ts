@@ -29,8 +29,11 @@ export { default as LoadingSpinner } from './LoadingSpinner';
 export { default as ErrorBoundary } from './ErrorBoundary';
 
 // Componentes de error y validación
-export { default as ErrorDisplay } from './ErrorDisplay';
 export { default as ValidationErrors } from './ValidationErrors';
+
+// Componentes de notificaciones
+export { Notification } from './Notification';
+export { NotificationContainer } from './NotificationContainer';
 
 // Componentes de layout
 export { default as MainLayout } from './Layout/MainLayout';
