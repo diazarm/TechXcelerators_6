@@ -12,7 +12,6 @@ export const HeaderProvider: React.FC<HeaderProviderProps> = ({ children }) => {
   const [header, setHeaderState] = useState<HeaderProps>({
     title: 'scala',
     subtitle: 'Learning',
-    showNavButton: true,
     className: ''
   });
 

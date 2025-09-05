@@ -1,7 +1,13 @@
 import express from 'express'; 
 import router from './routes';
+import dotenv from 'dotenv';
+import connectDB from './config/database';
+
+dotenv.config();
 
 const app = express();
+connectDB();
+
 app.use(express.json());
 
 app.use('/api', router);

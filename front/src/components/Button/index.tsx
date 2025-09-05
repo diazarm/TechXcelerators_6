@@ -10,22 +10,24 @@ export const Button: React.FC<ButtonProps> = ({
   disabled = false,
   type = 'button',
   className = '',
+  iconLeft,
+  iconRight,
 }) => {
   // Clases base que se aplican a todos los botones
-  const baseClasses = "font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed";
+  const baseClasses = "font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2";
   
   // Clases específicas para cada variante
   const variantClasses = {
-    primary: "bg-blue-500 hover:bg-blue-600 text-white focus:ring-blue-500 shadow-sm",
+    primary: "bg-[#5D5A88] hover:bg-[#4A476F] text-white focus:ring-[#5D5A88] shadow-sm",
     secondary: "bg-gray-500 hover:bg-gray-600 text-white focus:ring-gray-500 shadow-sm",
-    outline: "border-2 border-blue-500 text-blue-500 hover:bg-blue-50 focus:ring-blue-500 bg-transparent"
+    outline: "border border-[#D4D2E3] text-[#5D5A88] hover:bg-gray-50 focus:ring-[#5D5A88] bg-white"
   };
   
   // Clases específicas para cada tamaño
   const sizeClasses = {
-    sm: "px-3 py-1.5 text-sm",
-    md: "px-4 py-2 text-base",
-    lg: "px-6 py-3 text-lg"
+    sm: "px-6 py-[18px] text-sm rounded-[30px] w-[88px] h-[54px]",
+    md: "px-6 py-[18px] text-base rounded-[30px] w-[94px] h-[54px]",
+    lg: "px-8 py-4 text-lg rounded-[30px] w-[120px] h-[60px]"
   };
 
   // Clases para estado deshabilitado
@@ -47,7 +49,9 @@ export const Button: React.FC<ButtonProps> = ({
       onClick={onClick}
       disabled={disabled}
     >
-      {children}
+      {iconLeft && <span className="flex-shrink-0">{iconLeft}</span>}
+      <span className="flex-1">{children}</span>
+      {iconRight && <span className="flex-shrink-0">{iconRight}</span>}
     </button>
   );
 };

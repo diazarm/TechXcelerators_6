@@ -1,8 +1,7 @@
 import React from "react";
 import { useResponsive } from "../../hooks";
 import type { MainLayoutProps } from "./types";
-import { Header, Navbar, Footer } from "../../components";
-import { useHeader } from "../../context";
+import { Navbar, Footer } from "../../components";
 
 
 const MainLayout: React.FC<MainLayoutProps> = ({
@@ -10,19 +9,12 @@ const MainLayout: React.FC<MainLayoutProps> = ({
   className = "",
 }) => {
   const responsive = useResponsive();
-  const { header } = useHeader();
 
 
   return (
     <div className={`min-h-screen bg-white ${className}`} style={{ fontFamily: 'Montserrat, sans-serif' }}>
       {/* Navbar */}
-      <Navbar title="scala" subtitle="Learning" />
-      
-        {/* Header dinámico */}
-        <Header 
-          title={header.title || "scala"} 
-          subtitle={header.subtitle || "Learning"} 
-        />
+      <Navbar className={className} />
 
       {/* Main Content */}
       {children && (

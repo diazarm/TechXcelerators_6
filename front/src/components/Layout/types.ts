@@ -14,14 +14,9 @@ export interface MainLayoutProps {
 export interface HeaderProps {
     /** Título principal del header */
     title?: string;
-    /** Subtítulo opcional */
+    /** Subtítulo del header */
     subtitle?: string;
-    /** Si mostrar el botón de navegación */
-    showNavButton?: boolean;
-    /** Función que se ejecuta al hacer click en el botón de navegación */
-    onNavClick?: () => void;
     /** Clases CSS adicionales */
     className?: string;
-    
 }
 
