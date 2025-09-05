@@ -41,3 +41,6 @@ export { Footer } from './Layout/footer';
 // Componentes de hero section
 export { default as HeroSection } from './HeroSection';
 
+// Componentes de búsqueda
+export { SearchModal } from './SearchModal';
+

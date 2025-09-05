@@ -38,3 +38,13 @@ export interface AuthContextType extends AuthState {
 export interface AuthProviderProps {
   children: React.ReactNode;
 }
+
+export interface SearchResult {
+  id: string;
+  title: string;
+  description: string;
+  category: string;
+  path: string;
+  type: string;
+  keywords: string[];
+}

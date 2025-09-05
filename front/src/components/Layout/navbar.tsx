@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-import { Button } from "../../components";
-import { useResponsive } from "../../hooks";
+import { Button, SearchModal } from "../../components";
+import { useResponsive, useSearch, useNavbar } from "../../hooks";
 import type { HeaderProps } from "./types";
-
+import { mockSearchData } from '../../Mock/MockSearchData';
+import type { SearchResult } from '../../types/shared';
 
 
 /**
@@ -49,11 +50,44 @@ export const Navbar: React.FC<HeaderProps> = ({
   className = "",
 }) => {
   const responsive = useResponsive();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  
+  // Hook de búsqueda con datos mock
+  const {
+    searchQuery,
+    results,
+    handleSearchChange,
+    clearSearch,
+    isSearchActive
+  } = useSearch(mockSearchData);
 
-  const handleMenuToggle = () => {
-    setIsMenuOpen(!isMenuOpen);
+  // Hook personalizado para manejar la lógica del navbar
+  const {
+    isMenuOpen,
+    selectedIndex,
+    showSearchModal,
+    searchContainerRef,
+    handleMenuToggle,
+    closeMenu,
+    handleKeyDown,
+    handleResultSelect,
+    openSearchModal,
+    closeSearchModal,
+    useClickOutsideEffect,
+  } = useNavbar();
+
+  // Wrapper para handleResultSelect que incluye clearSearch
+  const onResultSelect = (result: SearchResult) => {
+    handleResultSelect(result, clearSearch);
   };
+
+  // Wrapper para handleKeyDown que incluye los parámetros necesarios
+  const onKeyDown = (e: React.KeyboardEvent) => {
+    handleKeyDown(e, isSearchActive, results, onResultSelect, clearSearch);
+  };
+
+  // Usar el effect del hook para clicks fuera del componente
+  useClickOutsideEffect(isSearchActive, clearSearch);
+
 
   return (
     <header className={`bg-[#585D8A] shadow-lg ${className}`} style={{ fontFamily: 'Montserrat, sans-serif' }}>
@@ -91,18 +125,44 @@ export const Navbar: React.FC<HeaderProps> = ({
 
           {/* Campo de búsqueda */}
           <div className="hidden md:flex items-center">
-            <div className="relative">
+            <div ref={searchContainerRef} className="relative">
               <div className="bg-white rounded-full px-4 py-2 flex items-center space-x-2 min-w-[200px] shadow-sm">
                 <div className="w-3 h-3 bg-[#CDC9EF] rounded-full"></div>
                 <input 
                   type="text" 
+                  value={searchQuery}
+                  onChange={(e) => handleSearchChange(e.target.value)}
+                                  onFocus={openSearchModal}
+                onKeyDown={onKeyDown}
                   placeholder="Buscar..." 
                   className="flex-1 text-gray-700 font-medium outline-none border-none bg-transparent placeholder-gray-500"
                 />
-                <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
+                {isSearchActive && (
+                  <button
+                    onClick={clearSearch}
+                    className="w-4 h-4 text-gray-500 hover:text-gray-700 transition-colors"
+                  >
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                )}
+                {!isSearchActive && (
+                  <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                )}
               </div>
+              
+              {/* Modal de búsqueda reemplaza el dropdown */}
+              <SearchModal
+                isOpen={showSearchModal && isSearchActive}
+                onClose={closeSearchModal}
+                results={results}
+                searchQuery={searchQuery}
+                selectedIndex={selectedIndex}
+                onResultSelect={onResultSelect}
+              />
             </div>
           </div>
 
@@ -134,35 +194,35 @@ export const Navbar: React.FC<HeaderProps> = ({
               <Link 
                 to="/gobernanza" 
                 className={`${responsive.text.body} text-white hover:text-[#F86E15] transition-colors px-4 py-2 rounded-md hover:bg-[#4a4f7a] font-bold`}
-                onClick={() => setIsMenuOpen(false)}
+                onClick={closeMenu}
               >
                 GOBERNANZA
               </Link>
               <Link 
                 to="/planeacion" 
                 className={`${responsive.text.body} text-white hover:text-[#F86E15] transition-colors px-4 py-2 rounded-md hover:bg-[#4a4f7a] font-bold`}
-                onClick={() => setIsMenuOpen(false)}
+                onClick={closeMenu}
               >
                 PLANEACIÓN
               </Link>
               <Link 
                 to="/chat" 
                 className={`${responsive.text.body} text-white hover:text-[#F86E15] transition-colors px-4 py-2 rounded-md hover:bg-[#4a4f7a] font-bold`}
-                onClick={() => setIsMenuOpen(false)}
+                onClick={closeMenu}
               >
                 CHAT IA
               </Link>
               <Link 
                 to="/galeria" 
                 className={`${responsive.text.body} text-white hover:text-[#F86E15] transition-colors px-4 py-2 rounded-md hover:bg-[#4a4f7a] font-bold`}
-                onClick={() => setIsMenuOpen(false)}
+                onClick={closeMenu}
               >
                 GALERÍA
               </Link>
               <Link 
                 to="/alianza" 
                 className={`${responsive.text.body} text-white hover:text-[#F86E15] transition-colors px-4 py-2 rounded-md hover:bg-[#4a4f7a] font-bold`}
-                onClick={() => setIsMenuOpen(false)}
+                onClick={closeMenu}
               >
                 NUESTRA ALIANZA
               </Link>
@@ -170,6 +230,16 @@ export const Navbar: React.FC<HeaderProps> = ({
           </div>
         )}
       </div>
+      
+      {/* Modal de búsqueda flotante */}
+      <SearchModal
+        isOpen={showSearchModal && isSearchActive}
+        onClose={closeSearchModal}
+        results={results}
+        searchQuery={searchQuery}
+        selectedIndex={selectedIndex}
+        onResultSelect={onResultSelect}
+      />
     </header>
   );
 };
