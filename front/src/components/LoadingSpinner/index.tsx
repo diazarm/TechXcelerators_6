@@ -1,17 +1,20 @@
 import React from 'react';
 import type { LoadingSpinnerProps } from './types';
 import { useResponsive } from '../../hooks';
+import { COLOR_CLASSES } from '../../constants';
 
 /** Spinner de carga reutilizable con estilos responsive */
 const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
   type = 'default',
   size = 'medium',
-  color = 'text-blue-600',
+  color,
   message,
   fullScreen = false,
   overlay = false,
   className = ''
 }) => {
+  // Usar color por defecto de la aplicación si no se especifica
+  const spinnerColor = color || COLOR_CLASSES.primary;
   const { text, flex, animation } = useResponsive();
 
   // Configuración de tamaños
@@ -29,9 +32,12 @@ const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
     xl: text.h3
   };
 
+  // Colores de texto para mensajes
+  const messageColor = COLOR_CLASSES.textSecondary;
+
   // Renderizar diferentes tipos de spinners
   const renderSpinner = () => {
-    const baseClasses = `${sizeClasses[size]} ${color}`;
+    const baseClasses = `${sizeClasses[size]} ${spinnerColor}`;
 
     switch (type) {
       case 'default':
@@ -61,7 +67,7 @@ const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
             {[0, 1, 2].map((i) => (
               <div
                 key={i}
-                className={`w-2 h-2 ${color.replace('text-', 'bg-')} rounded-full animate-pulse`}
+                className={`w-2 h-2 ${spinnerColor.replace('text-', 'bg-')} rounded-full animate-pulse`}
                 style={{
                   animationDelay: `${i * 0.2}s`,
                   animationDuration: '1s'
@@ -73,7 +79,7 @@ const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
 
       case 'pulse':
         return (
-          <div className={`${baseClasses} ${color.replace('text-', 'bg-')} rounded-full animate-ping`} />
+          <div className={`${baseClasses} ${spinnerColor.replace('text-', 'bg-')} rounded-full animate-ping`} />
         );
 
       case 'bars':
@@ -82,7 +88,7 @@ const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
             {[0, 1, 2, 3].map((i) => (
               <div
                 key={i}
-                className={`w-1 h-6 ${color.replace('text-', 'bg-')} animate-pulse`}
+                className={`w-1 h-6 ${spinnerColor.replace('text-', 'bg-')} animate-pulse`}
                 style={{
                   animationDelay: `${i * 0.15}s`,
                   animationDuration: '1.2s'
@@ -113,7 +119,7 @@ const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
     <div className={`${flex.center} ${flex.col} space-y-4`}>
       {renderSpinner()}
       {message && (
-        <p className={`${messageSizes[size]} text-gray-600 text-center ${animation.fadeIn}`}>
+        <p className={`${messageSizes[size]} ${messageColor} text-center ${animation.fadeIn}`}>
           {message}
         </p>
       )}
@@ -125,7 +131,7 @@ const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
     return (
       <div className={`
         fixed inset-0 z-50 ${flex.center} ${flex.col}
-        ${overlay ? 'bg-white bg-opacity-90 backdrop-blur-sm' : 'bg-white'}
+        ${overlay ? 'bg-white bg-opacity-90 backdrop-blur-sm' : COLOR_CLASSES.background}
         ${className}
       `}>
         {spinnerContent}

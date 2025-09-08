@@ -1,6 +1,6 @@
 import React from 'react';
 import { CardGrid } from '../../components';
-import { useCards } from '../../hooks';
+import { useCards, usePageHeader } from '../../hooks';
 import { useResponsive } from '../../hooks';
 
 /**
@@ -12,17 +12,11 @@ import { useResponsive } from '../../hooks';
 const Dashboard: React.FC = () => {
   const responsive = useResponsive();
   const { cards, handleCardClick } = useCards('dashboard');
+  usePageHeader(); // Configuración automática del título
 
   return (
     <div className={`${responsive.container}`}>
-      {/* Header del Dashboard */}
-      <div className="text-center mb-8 pt-10">
-        <h1 className="text-2xl md:text-3xl lg:text-4xl text-[#5D5A88] font-semibold">
-          Conoce nuestros beneficios y funcionalidades
-        </h1>
-      </div>
-
-      {/* Grid de Tarjetas */}
+      {/* Grid de Tarjetas - El título ahora viene del Header dinámico */}
       {cards.length > 0 ? (
         <CardGrid 
           cards={cards} 

@@ -101,7 +101,8 @@ export const Notification: React.FC<NotificationProps> = ({
           <div className="ml-4 flex-shrink-0 flex">
             <button
               onClick={onClose}
-              className={`inline-flex text-[#5D5A88] hover:opacity-75 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#5D5A88] rounded-full p-1`}
+              className={`inline-flex text-[#5D5A88] hover:opacity-75 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#5D5A88] rounded-full p-1 flex items-center justify-center`}
+              style={{ backgroundColor: 'transparent' }}
             >
               <span className="sr-only">Cerrar</span>
               <svg className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">

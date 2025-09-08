@@ -36,42 +36,54 @@ export const dashboardPageCards: CardConfig[] = [
     id: 'nueva-alianza',
     title: 'Nueva alianza',
     description: 'Información básica del acuerdo de la alianza, información del ADN de la alianza y portafolio activo',
-    icon: React.createElement(Star, { size: 24 }),
+    icon: React.createElement('div', {
+      className: "w-[65.25px] h-[72.5px] flex items-center justify-center"
+    }, React.createElement(Star, { size: 70, color: "#555D8C" })),
     href: '/nueva-alianza'
   },
   {
     id: 'gobernanza',
     title: 'Gobernanza',
     description: 'Equipo de trabajo, actas, grabaciones y presentaciones de comités',
-    icon: React.createElement(Users, { size: 24 }),
+    icon: React.createElement('div', {
+      className: "w-[65.25px] h-[72.5px] flex items-center justify-center"
+    }, React.createElement(Users, { size: 70, color: "#555D8C" })),
     href: '/gobernanza'
   },
   {
     id: 'planeacion',
     title: 'Planeación',
     description: 'Metas proyectadas más desarrollo de productos',
-    icon: React.createElement(Edit, { size: 24 }),
+    icon: React.createElement('div', {
+      className: "w-[65.25px] h-[72.5px] flex items-center justify-center"
+    }, React.createElement(Edit, { size: 70, color: "#555D8C" })),
     href: '/planeacion'
   },
   {
     id: 'gestion',
     title: 'Gestión',
     description: 'Power Bi de resultados más calendario académico',
-    icon: React.createElement(Globe, { size: 24 }),
+    icon: React.createElement('div', {
+      className: "w-[65.25px] h-[72.5px] flex items-center justify-center"
+    }, React.createElement(Globe, { size: 70, color: "#555D8C" })),
     href: '/gestion'
   },
   {
     id: 'iniciativas',
     title: 'Iniciativas',
     description: 'Planes de acción con las alianzas internas',
-    icon: React.createElement(Zap, { size: 24 }),
+    icon: React.createElement('div', {
+      className: "w-[65.25px] h-[72.5px] flex items-center justify-center"
+    }, React.createElement(Zap, { size: 70, color: "#555D8C" })),
     href: '/iniciativas'
   },
   {
     id: 'galeria',
     title: 'Galeria de fotos e hitos de la alianza',
     description: '',
-    icon: React.createElement(Image, { size: 24 }),
+    icon: React.createElement('div', {
+      className: "w-[65.25px] h-[72.5px] flex items-center justify-center"
+    }, React.createElement(Image, { size: 70, color: "#555D8C" })),
     href: '/galeria'
   }
 ];

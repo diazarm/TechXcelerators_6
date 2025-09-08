@@ -19,6 +19,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setError(null);
     localStorage.removeItem('authToken');
     localStorage.removeItem('user');
+    // Guardar timestamp del logout para evitar notificaciones innecesarias
+    localStorage.setItem('lastLogout', Date.now().toString());
     logout();
   }, []);
 
@@ -74,6 +76,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       setUser(user);
       localStorage.setItem('authToken', token);
       localStorage.setItem('user', JSON.stringify(user));
+      // Limpiar timestamp de logout al hacer login
+      localStorage.removeItem('lastLogout');
 
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Error en el login';

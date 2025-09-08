@@ -46,17 +46,17 @@ const SearchBar: React.FC = () => {
 
   return (
     <>
-      {/* Campo de búsqueda con estilo de la imagen */}
+      {/* Campo de búsqueda con estilo fieldset */}
       <div className="flex flex-col items-center">
-        {/* Label "Buscar" */}
-        <label className="text-[#5D5A88] text-sm font-medium mb-0 self-start">
-          Buscar
-        </label>
-        
-        {/* Search Bar Container */}
+        {/* Search Bar Container con fieldset effect */}
         <div ref={searchContainerRef} className="relative">
+          {/* Label "Buscar" posicionado sobre el borde */}
+          <label className="absolute -top-2 left-4 bg-white px-2 text-[#5D5A88] text-sm font-medium z-10">
+            Buscar
+          </label>
+          
           <div 
-            className="bg-white rounded-lg flex items-center px-4 py-3 border border-[#8C88B8]"
+            className="bg-white rounded-[6px] flex items-center px-4 py-3 border-2 border-[#8C88B8]"
             style={{ width: '540px', height: '46px' }}
           >
             <input 
@@ -66,7 +66,12 @@ const SearchBar: React.FC = () => {
               onFocus={openSearchModal}
               onKeyDown={onKeyDown}
               placeholder="" 
-              className="flex-1 text-gray-700 font-medium outline-none border-none bg-transparent placeholder-gray-500"
+              className="flex-1 text-[#5D5A88] font-medium outline-none border-none bg-transparent placeholder-gray-500 text-base"
+              style={{ 
+                fontSize: '16px',
+                lineHeight: '1.5',
+                color: '#5D5A88'
+              }}
             />
             
             {/* Iconos del lado derecho */}
@@ -74,10 +79,11 @@ const SearchBar: React.FC = () => {
               {isSearchActive && (
                 <button
                   onClick={clearSearch}
-                  className="w-4 h-4 text-gray-500 hover:text-gray-700 transition-colors"
+                  className="w-6 h-6 text-gray-600 hover:text-gray-800 transition-colors p-1 rounded-full hover:bg-gray-100 flex items-center justify-center"
+                  style={{ backgroundColor: 'transparent' }}
                 >
-                  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
                   </svg>
                 </button>
               )}

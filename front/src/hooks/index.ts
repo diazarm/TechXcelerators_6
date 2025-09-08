@@ -23,7 +23,7 @@ export { useAuth } from './useAuth';
 export { useLoadingContext } from './useLoadingContext';
 
 // Hooks de header (usan contextos)
-export { useHeader } from '../context';
+export { useHeader } from './useHeader';
 
 // Hooks de responsividad (utilidad, no usan contextos)
 export { useResponsive, useBreakpoints } from './useResponsive';
@@ -34,6 +34,9 @@ export { useErrorHandler } from './useErrorHandler';
 
 // Hooks de búsqueda (utilidad, no usan contextos)
 export { useSearch } from './useSearch';
+
+// Hooks de configuración de páginas
+export { usePageHeader } from './usePageHeader';
 
 // Hooks de navbar (utilidad, no usan contextos)
 export { useNavbar } from './useSearchResult';

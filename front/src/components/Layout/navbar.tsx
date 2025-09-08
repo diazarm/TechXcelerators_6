@@ -29,7 +29,7 @@ export const Navbar: React.FC<HeaderProps> = ({
   };
 
   return (
-    <header className={`bg-white shadow-sm ${className}`} style={{ fontFamily: 'Montserrat, sans-serif' }}>
+    <header className={`bg-white border-b border-gray-200 ${className}`} style={{ fontFamily: 'Montserrat, sans-serif' }}>
       <div className={`w-full max-w-[1512px] mx-auto px-4 sm:px-6 py-3 sm:py-4 lg:py-6`}>
         <div className="flex items-center h-full">
           {/* Logo */}

@@ -5,13 +5,12 @@ import type { HeaderContextType, HeaderProviderProps } from './types';
 const HeaderContext = createContext<HeaderContextType | undefined>(undefined);
 
 /**
- * Proveedor del contexto del header que permite configurar el título y subtítulo
+ * Proveedor del contexto del header que permite configurar el título
  * dinámicamente desde cualquier página
  */
 export const HeaderProvider: React.FC<HeaderProviderProps> = ({ children }) => {
   const [header, setHeaderState] = useState<HeaderProps>({
-    title: 'scala',
-    subtitle: 'Learning',
+    title: '',
     className: ''
   });
 
