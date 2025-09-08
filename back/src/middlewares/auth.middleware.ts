@@ -8,17 +8,17 @@ export const authMiddleware = (
   req: Request,
   res: Response,
   next: NextFunction
-): void => {
+): Response | void => {
   try {
-    if (!secretKey) throw new Error("No se ha configurado secretKey para JWT");
+    if (!secretKey) return res.status(500).json({ error: "No se ha configurado secretKey para JWT" });
 
-    const { authorization } = req.headers;
+    const authorization = req.headers.authorization;
     const token =
       typeof authorization === "string" && authorization.startsWith("Bearer ")
         ? authorization.slice(7)
         : null;
 
-    if (!token) throw new Error("Token no proporcionado");
+    if (!token) return res.status(401).json({ error: "Token no proporcionado" });
 
     const decoded = jwt.verify(token, secretKey as string);
     (req as any).user = decoded;
@@ -26,8 +26,8 @@ export const authMiddleware = (
     next();
   } catch (error: any) {
     if (error.name === "TokenExpiredError") {
-      throw new Error("El token ha expirado. Por favor, renueva tu sesión.");
+      return res.status(401).json({ error: "El token ha expirado. Por favor, renueva tu sesión." });
     }
-    throw new Error("Token inválido o error inesperado");
+    return res.status(401).json({ error: "Token inválido o error inesperado" });
   }
 };

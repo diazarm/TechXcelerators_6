@@ -66,7 +66,7 @@ export class UserService {
       if (!secretKey || typeof secretKey !== "string") {
         throw new Error("No se ha configurado secretKey para JWT");
       }
-      const expiresIn: number = typeof jwtExpiration === "string" ? parseInt(jwtExpiration) : 3600;
+  const expiresIn: number = typeof jwtExpiration === "string" ? parseInt(jwtExpiration) : jwtExpiration;
       const payload = {
         uid: user.id.toString(),
         name: user.name ?? "",
