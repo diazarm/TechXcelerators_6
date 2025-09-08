@@ -1,6 +1,6 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
-import { useAuth } from '../../hooks';
+import { useAuth, useNotification } from '../../hooks';
 import { LoadingSpinner } from '../../components';
 
 interface AuthGuardProps {
@@ -11,7 +11,8 @@ interface AuthGuardProps {
  * AuthGuard - Protección simple de rutas
  * 
  * Componente que protege rutas que requieren autenticación.
- * Redirige automáticamente a login si el usuario no está autenticado.
+ * Redirige automáticamente al home (landing) si el usuario no está autenticado
+ * y muestra una notificación sugiriendo el inicio de sesión.
  * 
  * @example
  * ```tsx
@@ -22,6 +23,19 @@ interface AuthGuardProps {
  */
 export const AuthGuard: React.FC<AuthGuardProps> = ({ children }) => {
   const { isAuthenticated, isLoading } = useAuth();
+  const { addNotification } = useNotification();
+
+  // Mostrar notificación cuando no está autenticado
+  React.useEffect(() => {
+    if (!isLoading && !isAuthenticated) {
+      addNotification({
+        type: 'info',
+        title: 'Acceso requerido',
+        message: 'Para acceder al sitio, necesitas estar autenticado. Haz clic en el botón "Usuario o Admin" para iniciar sesión.',
+        duration: 6000
+      });
+    }
+  }, [isLoading, isAuthenticated, addNotification]);
 
   // Mostrar loading mientras se verifica la autenticación
   if (isLoading) {
@@ -35,9 +49,9 @@ export const AuthGuard: React.FC<AuthGuardProps> = ({ children }) => {
     );
   }
 
-  // Si no está autenticado, redirigir a login
+  // Si no está autenticado, redirigir a home
   if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/" replace />;
   }
 
   // Si está autenticado, renderizar el contenido
