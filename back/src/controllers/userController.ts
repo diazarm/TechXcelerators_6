@@ -1,50 +1,104 @@
 //Estructura básica del controlador de usuario en TypeScript
-import { Request, Response } from 'express';
-import { userService } from '../services/userService';
+import { Request, Response, NextFunction } from "express";
+import { userService } from "../services/userService";
 
-export const getUsers = (req: Request, res: Response) => {
-    const users = userService.getUsers();
+export const getUsers = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const users = await userService.getUsers();
     res.json(users);
+  } catch (error) {
+    next(error);
+  }
 };
 
-export const getUserById = (req: Request, res: Response) => {
-    const id = parseInt(req.params.id, 10);
-    const user = userService.getUserById(id);
-    if (user) {
-        res.json(user);
-    } else {
-        res.status(404).json({ message: 'Usuario no encontrado' });
-    }
+
+export const getUserById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const id = req.params.id;
+    const user = await userService.getUserById(id);
+    if (user) res.json(user);
+    else res.status(404).json({ message: "Usuario no encontrado" });
+  } catch (error) {
+    next(error);
+  }
 };
 
-export const createUser = (req: Request, res: Response) => {
-    const { name, email, password } = req.body;
-    if (!name || !email || !password) {
-        return res.status(400).json({ message: 'Faltan datos requeridos' });
-    }
-    // TODOS: A futuro hay que encriptar la contraseña antes de guardar el usuario (por ejemplo, usando bcrypt)
-    const newUser = userService.createUser(name, email, password);
-    res.status(201).json(newUser);
+export const createUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const userData = req.body;
+    const user = await userService.createUser(userData);
+    res.status(201).json({ user, message: "Usuario creado con éxito" });
+  } catch (error) {
+    next(error);
+  }
 };
 
-export const updateUser = (req: Request, res: Response) => {
-    const id = parseInt(req.params.id, 10);
+export const login = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const { email, password } = req.body;
+    const [user, token] = await userService.loginService({ email, password });
+    res.status(200).json({ user, token, message: "Login exitoso" });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updateUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const id = req.params.id;
     const updatedData = req.body;
-    const updatedUser = userService.updateUser(id, updatedData);
-    if (updatedUser) {
-        res.json(updatedUser);
-    } else {
-        res.status(404).json({ message: 'Usuario no encontrado' });
-    }
+    const updatedUser = await userService.updateUser(id, updatedData);
+    if (updatedUser) res.json(updatedUser);
+    else res.status(404).json({ message: "Usuario no encontrado" });
+  } catch (error) {
+    next(error);
+  }
 };
 
-export const deleteUser = (req: Request, res: Response) => {
-    const id = parseInt(req.params.id, 10);
-    const success = userService.deleteUser(id);
-    if (success) {
-        res.status(204).send();
-    } else {
-        res.status(404).json({ message: 'Usuario no encontrado' });
-    }
+export const deleteUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const id = req.params.id;
+    const deletedUser = await userService.deleteUser(id);
+    if (deletedUser) res.status(204).send();
+    else res.status(404).json({ message: "Usuario no encontrado" });
+  } catch (error) {
+    next(error);
+  }
 };
 
+export const restoreUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const id = req.params.id;
+    const restoredUser = await userService.restoreUser(id);
+    if (restoredUser) res.json(restoredUser);
+    else res.status(404).json({ message: "Usuario no encontrado" });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const changeRole = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const id = req.params.id;
+    const updatedUser = await userService.updateRole(id);
+    if (updatedUser) res.json(updatedUser);
+    else res.status(404).json({ message: "Usuario no encontrado" });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const verifyToken = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): void => {
+  try {
+    res.status(200).json({
+      message: "Token válido",
+      user: (req as any).user,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
