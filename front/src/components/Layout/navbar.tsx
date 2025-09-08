@@ -43,7 +43,7 @@ export const Navbar: React.FC<HeaderProps> = ({
             </Link>
           </div>
 
-          {/* Navegación - más cerca de los botones */}
+          {/* Navegación */}
           <nav className="flex-1 flex justify-end pr-4 sm:pr-8">
             <div className="flex items-center gap-2 sm:gap-4 lg:gap-6">
               <Link 

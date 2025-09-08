@@ -47,6 +47,7 @@ export { default as HeroSection } from './HeroSection';
 
 // Componentes de búsqueda
 export { SearchModal } from './SearchModal';
+export { default as SearchBar } from './SearchBar';
 
 // Componentes de cards
 export { default as CardGrid } from './CardGrid';

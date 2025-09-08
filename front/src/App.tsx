@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { LoadingProvider, AuthProvider, HeaderProvider, NotificationProvider } from './context';
 import { ErrorBoundary, MainLayout, NotificationContainer } from './components';
-import { Home, LoginPage } from './pages';
+import { Home, LoginPage, Dashboard } from './pages';
 
 import './App.css';
 
@@ -19,6 +19,7 @@ function App() {
                     <MainLayout>
                       <Routes>
                         <Route path="/" element={<Home />} />
+                        <Route path="/dashboard" element={<Dashboard />} />
                       </Routes>
                     </MainLayout>
                   } />
