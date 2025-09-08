@@ -24,18 +24,27 @@ interface AuthGuardProps {
 export const AuthGuard: React.FC<AuthGuardProps> = ({ children }) => {
   const { isAuthenticated, isLoading } = useAuth();
   const { addNotification } = useNotification();
+  const [hasShownNotification, setHasShownNotification] = React.useState(false);
 
-  // Mostrar notificación cuando no está autenticado
+  // Mostrar notificación cuando no está autenticado (solo una vez por sesión)
   React.useEffect(() => {
-    if (!isLoading && !isAuthenticated) {
-      addNotification({
-        type: 'info',
-        title: 'Acceso requerido',
-        message: 'Para acceder al sitio, necesitas estar autenticado. Haz clic en el botón "Usuario o Admin" para iniciar sesión.',
-        duration: 6000
-      });
+    if (!isLoading && !isAuthenticated && !hasShownNotification) {
+      // Verificar si viene de un logout reciente (menos de 2 segundos)
+      const lastLogout = localStorage.getItem('lastLogout');
+      const now = Date.now();
+      const isRecentLogout = lastLogout && (now - parseInt(lastLogout)) < 2000;
+      
+      if (!isRecentLogout) {
+        addNotification({
+          type: 'info',
+          title: 'Acceso requerido',
+          message: 'Para acceder al sitio, necesitas estar autenticado. Haz clic en el botón "Usuario o Admin" para iniciar sesión.',
+          duration: 6000
+        });
+        setHasShownNotification(true);
+      }
     }
-  }, [isLoading, isAuthenticated, addNotification]);
+  }, [isLoading, isAuthenticated, addNotification, hasShownNotification]);
 
   // Mostrar loading mientras se verifica la autenticación
   if (isLoading) {

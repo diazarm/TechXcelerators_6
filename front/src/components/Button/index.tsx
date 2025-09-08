@@ -1,5 +1,4 @@
 import React from 'react';
-import { COLORS } from '../../constants';
 import type { ButtonProps } from './types';
 
 /** Componente Button reutilizable */
