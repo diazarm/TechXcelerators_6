@@ -52,3 +52,6 @@ export { default as SearchBar } from './SearchBar';
 // Componentes de cards
 export { default as CardGrid } from './CardGrid';
 
+// Componentes de protección de rutas
+export { default as AuthGuard } from './AuthGuard';
+

@@ -2,7 +2,7 @@ import React from "react";
 import { useLocation } from "react-router-dom";
 import { useResponsive } from "../../hooks";
 import type { MainLayoutProps } from "./types";
-import { Navbar, Footer, SearchBar } from "../../components";
+import { Navbar, Footer, Header } from "../../components";
 
 
 const MainLayout: React.FC<MainLayoutProps> = ({
@@ -12,29 +12,23 @@ const MainLayout: React.FC<MainLayoutProps> = ({
   const responsive = useResponsive();
   const location = useLocation();
   
-  // Determinar si estamos en la página Home (landing page)
+  // Páginas que NO usan header dinámico
   const isHomePage = location.pathname === '/';
+  const isLoginPage = location.pathname === '/login';
+  const shouldShowHeader = !isHomePage && !isLoginPage;
 
 
   return (
     <div className={`min-h-screen bg-white flex flex-col ${className}`} style={{ fontFamily: 'Montserrat, sans-serif' }}>
-      {/* Navbar */}
+      {/* Navbar - siempre visible */}
       <Navbar className={className} />
 
-      {/* SearchBar - Solo mostrar si no estamos en Home */}
-      {!isHomePage && (
-        <div className="bg-white">
-          <div className={`${responsive.container}`}>
-            <div className="flex justify-center items-center">
-              <SearchBar />
-            </div>
-          </div>
-        </div>
-      )}
+      {/* Header con SearchBar - solo en páginas internas */}
+      {shouldShowHeader && <Header />}
 
       {/* Main Content */}
       {children && (
-        <main className={`${responsive.container} pb-16 flex-1`}>
+        <main className={`${responsive.container} pb-16 pt-8 flex-1`}>
           {children}
         </main>
       )}

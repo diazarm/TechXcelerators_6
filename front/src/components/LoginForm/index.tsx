@@ -99,7 +99,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ accessType }) => {
                       : 'Bienvenido a Scala Learning. Tu sesión ha sido iniciada correctamente.',
                     duration: 4000
                   });
-                  navigate('/');
+                  navigate('/dashboard');
                 } catch (err) {
                   // Mostrar error como notificación
                   const errorMessage = err instanceof Error ? err.message : 'Error desconocido';

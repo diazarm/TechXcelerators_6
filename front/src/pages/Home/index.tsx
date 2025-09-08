@@ -13,7 +13,7 @@ const Home: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white pt-16">
       {/* Hero Section con botones integrados */}
       <HeroSection 
         title="¡Bienvenido a Scala Learning!"

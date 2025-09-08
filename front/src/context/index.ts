@@ -28,7 +28,7 @@ export { LoadingContext } from './loading/loading-context';
 
 // Exportaciones del contexto del header
 export { HeaderProvider } from './header/HeaderProvider';
-export { useHeader } from './header/header-context';
+export { default as HeaderContext } from './header/HeaderProvider';
 
 // Exportaciones del contexto de notificaciones
 export { NotificationProvider } from './notification/NotificationProvider';
