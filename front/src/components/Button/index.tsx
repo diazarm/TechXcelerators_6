@@ -19,9 +19,9 @@ export const Button: React.FC<ButtonProps> = ({
   
   // Clases específicas para cada variante
   const variantClasses = {
-    primary: `!bg-[${COLORS.primary}] hover:shadow-lg !text-white focus:!ring-[${COLORS.primary}] !border-[${COLORS.primary}] shadow-sm`,
-    secondary: `!border-[${COLORS.primary}] !text-[${COLORS.primary}] hover:!border-[${COLORS.primaryHover}] hover:!text-[${COLORS.primaryHover}] focus:!ring-[${COLORS.primary}] !bg-white`,
-    outline: `!border-[${COLORS.primary}] !text-[${COLORS.primary}] hover:!bg-[${COLORS.primary}] hover:!text-white focus:!ring-[${COLORS.primary}] !bg-white`
+    primary: `!bg-[#FF6E00] hover:shadow-lg !text-white focus:!ring-[#FF6E00] !border-[#FF6E00] shadow-sm hover:!bg-[#E55A00]`,
+    secondary: `!border-[#FF6E00] !text-[#FF6E00] hover:!border-[#E55A00] hover:!text-[#E55A00] focus:!ring-[#FF6E00] !bg-white`,
+    outline: `!border-[#FF6E00] !text-[#FF6E00] hover:!bg-[#FF6E00] hover:!text-white focus:!ring-[#FF6E00] !bg-white`
   };
   
   // Clases específicas para cada tamaño
