@@ -91,11 +91,11 @@ export const dashboardPageCards: CardConfig[] = [
 // Cards para la página Recursos (3 cards)
 export const recursosPageCards: CardConfig[] = [
   {
-    id: 'documentos',
-    title: 'Documentos',
-    description: 'Acceso a documentos corporativos, políticas y procedimientos actualizados.',
+    id: 'portafolio',
+    title: 'Portafolios y precios',
+    description: 'Acceso a portafolios y precios de la alianza',
     icon: React.createElement(FileText, { size: 24 }),
-    href: '/documentos'
+    href: '/portafolio'
   },
   {
     id: 'equipo',
