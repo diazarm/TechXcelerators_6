@@ -41,6 +41,7 @@ export { default as MainLayout } from './Layout/MainLayout';
 export { Header } from './Layout/header';
 export { Navbar } from './Layout/navbar';
 export { Footer } from './Layout/footer';
+export { default as ResourceDropdown } from './ResourceDropdown';
 
 // Componentes de hero section
 export { default as HeroSection } from './HeroSection';
@@ -51,6 +52,9 @@ export { default as SearchBar } from './SearchBar';
 
 // Componentes de cards
 export { default as CardGrid } from './CardGrid';
+
+// Tipos de componentes
+export type { ResourceDropdownProps } from './ResourceDropdown/types';
 
 // Componentes de protección de rutas
 export { default as AuthGuard } from './AuthGuard';
