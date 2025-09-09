@@ -6,9 +6,13 @@ import { verifyAdmin } from '../middlewares/verifyAdmin.middleware';
 
 const userRouter = Router();
 
+// Rutas públicas
 userRouter.post('/login', login);
-userRouter.get("/verifytoken", authMiddleware, verifyAdmin, verifyToken);
 
+// Rutas para usuarios autenticados. Ahora cualquier usuario autenticado puede verificar su token, lo cual es esencial para el frontend para validar sesiones.
+userRouter.get("/verifytoken", authMiddleware, verifyToken);
+
+// Rutas solo para administradores
 userRouter.get('/', authMiddleware, verifyAdmin, getUsers);
 userRouter.get('/:id', authMiddleware, verifyAdmin, getUserById);
 userRouter.post('/', authMiddleware, verifyAdmin, createUser);
