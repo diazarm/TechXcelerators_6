@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { LoadingProvider, AuthProvider, HeaderProvider, NotificationProvider } from './context';
 import { ErrorBoundary, MainLayout, NotificationContainer, AuthGuard } from './components';
-import { Home, LoginPage, Dashboard } from './pages';
+import { Home, LoginPage, Dashboard, } from './pages';
 
 import './App.css';
 

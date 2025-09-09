@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import type { AuthContextType, User, LoginCredentials, AuthProviderProps } from '../../types';
 import { AuthContext } from './../index';
-import { login, validateToken, logout } from '../../services';
+import { login, logout } from '../../services';
 
 /** Proveedor del contexto de autenticación */
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   // Estados de autenticación
   const [user, setUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true); // Iniciar en true para verificar auth
   const [error, setError] = useState<string | null>(null);
 
   // Estado calculado
@@ -28,20 +28,36 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const checkAuth = useCallback(async (): Promise<void> => {
     try {
       const token = localStorage.getItem('authToken');
-      if (!token) return;
+      const savedUser = localStorage.getItem('user');
+      
+      if (!token || !savedUser) {
+        setIsLoading(false);
+        return;
+      }
+
+      // Restaurar usuario desde localStorage inmediatamente
+      const user = JSON.parse(savedUser);
+      setUser(user);
 
       // TODO: Implementar validación de token con backend
-      const user = await validateToken(token);
-      setUser(user);
+      // const user = await validateToken(token);
+      // setUser(user);
     } catch (err) {
       console.error('Error verificando autenticación:', err);
       logoutUser();
+    } finally {
+      setIsLoading(false);
     }
   }, [logoutUser]);
 
   /** Verificar autenticación al cargar la app */
   useEffect(() => {
-    checkAuth();
+    // Pequeño delay para asegurar que el estado se restaure correctamente
+    const timer = setTimeout(() => {
+      checkAuth();
+    }, 100);
+    
+    return () => clearTimeout(timer);
   }, [checkAuth]);
 
   /** Iniciar sesión del usuario */
