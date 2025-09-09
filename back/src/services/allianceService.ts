@@ -3,25 +3,24 @@ import Alliance, { IAlliance } from '../models/Alliance';
 
 export class AllianceService {
     async getAlliances(): Promise<IAlliance[]> {
-        return await Alliance.find({ is_active: true, deleteAt: null }).exec();
+        return await Alliance.find({ isActive: true, deleteAt: null }).exec();
     }
 
     async getAllianceById(id: string): Promise<IAlliance | null> {
         if (!mongoose.Types.ObjectId.isValid(id)) return null;
-        return await Alliance.findOne({ _id: id, is_active: true, deleteAt: null }).exec();
+        return await Alliance.findOne({ _id: id, isActive: true, deleteAt: null }).exec();
     }
 
     async createAlliance(data: Partial<IAlliance>): Promise<IAlliance> {
         const newAlliance = new Alliance(data);
-        console.log(newAlliance)
         return await newAlliance.save();
     }
 
     async updateAlliance(id: string, data: Partial<IAlliance>): Promise<IAlliance | null> {
         if (!mongoose.Types.ObjectId.isValid(id)) return null;
         return await Alliance.findOneAndUpdate(
-            { _id: id, is_active: true, deleteAt: null },
-            { ...data, updatedAt: new Date() },
+            { _id: id, isActive: true, deleteAt: null },
+            data,
             { new: true, runValidators: true }
         ).exec();
     }
@@ -29,8 +28,8 @@ export class AllianceService {
     async softDeleteAlliance(id: string): Promise<IAlliance | null> {
         if (!mongoose.Types.ObjectId.isValid(id)) return null;
         return await Alliance.findOneAndUpdate(
-            { _id: id, is_active: true },
-            { is_active: false, deleteAt: new Date() },
+            { _id: id, isActive: true, deleteAt: null },
+            { isActive: false, deleteAt: new Date() },
             { new: true }
         ).exec();
     }
@@ -40,8 +39,8 @@ export class AllianceService {
         const alliance = await Alliance.findById(id).exec();
         if (!alliance) return null;
 
-        if (!alliance.is_active && alliance.deleteAt) {
-            alliance.is_active = true;
+        if (!alliance.isActive && alliance.deleteAt) {
+            alliance.isActive = true;
             alliance.deleteAt = null;
             await alliance.save();
         }
