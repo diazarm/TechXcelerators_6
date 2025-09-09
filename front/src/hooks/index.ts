@@ -44,6 +44,8 @@ export { useNotification } from './useNotification';
 // Hooks de cards
 export { useCards } from './useCards';
 
+export { useResources } from './useResources';
+
 // Exportar tipos de hooks
 export type { 
   UseErrorHandlerOptions, 

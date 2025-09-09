@@ -50,3 +50,5 @@ export type {
   FormValidation,
   ValidationState
 } from './validation';
+
+export type { IResource } from "./resource";

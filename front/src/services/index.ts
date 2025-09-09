@@ -36,5 +36,7 @@ export { default as validationService } from './validationService';
 // Exportar ValidationRules desde types
 export { ValidationRules } from '../types/validation';
 
+export { ResourceService } from './resourceService';
+
 // Exportar tipos de servicios
 export type { LoggerConfig } from './types';
