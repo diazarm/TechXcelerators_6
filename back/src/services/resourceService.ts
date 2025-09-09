@@ -47,6 +47,4 @@ export class ResourceService {
 
         return resource; // Si ya estaba activo, lo devolvemos igual
     }
-
-
 };

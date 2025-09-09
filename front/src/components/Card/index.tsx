@@ -37,10 +37,7 @@ const Card: React.FC<CardProps> = ({
     >
       {/* Icon - Solo mostrar si existe */}
       {icon && (
-        <div className={`
-          ${isMobile ? 'w-10 h-10' : 'w-12 h-12'} 
-          bg-[#A4A9C2] rounded-lg flex items-center justify-center mb-4
-        `}>
+        <div className="mb-4 relative top-[7.25px] left-[10.88px]">
           {icon}
         </div>
       )}

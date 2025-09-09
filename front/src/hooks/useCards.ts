@@ -1,18 +1,9 @@
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getCardConfig } from '../constants/cardConfigs';
+import type { CardConfig } from '../constants/cardConfigs';
 
-// Por ahora este hook está deshabilitado hasta que se implemente
-
-export interface CardConfig {
-  id: string;
-  title: string;
-  description: string;
-  icon?: React.ReactNode;
-  href?: string;
-  onClick?: () => void;
-}
-
-type PageType = 'dashboard';
+type PageType = 'dashboard' | 'recursos';
 
 interface UseCardsReturn {
   cards: CardConfig[];
@@ -21,16 +12,14 @@ interface UseCardsReturn {
 
 /**
  * Hook para manejar la configuración y comportamiento de las cards
- * @param pageType - Tipo de página ('home' | 'resources' | 'dashboard')
+ * @param pageType - Tipo de página ('dashboard' | 'recursos')
  * @returns Configuración de cards y función de click
  */
 export const useCards = (pageType: PageType): UseCardsReturn => {
   const navigate = useNavigate();
 
-  // TODO: Reemplazar con import real cuando se implemente cardConfigs.ts
   const cards = useMemo(() => {
-    // Por ahora retorna array vacío hasta que se implemente
-    return [];
+    return getCardConfig(pageType);
   }, [pageType]);
 
   const handleCardClick = (card: CardConfig) => {

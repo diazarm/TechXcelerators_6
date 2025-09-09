@@ -1,23 +1,26 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
 import {
   LoadingProvider,
   AuthProvider,
   HeaderProvider,
   NotificationProvider,
 } from "./context";
-
-import { ErrorBoundary, MainLayout, NotificationContainer } from "./components";
-
+import {
+  ErrorBoundary,
+  MainLayout,
+  NotificationContainer,
+  AuthGuard,
+} from "./components";
 import {
   Home,
   LoginPage,
+  Dashboard,
   Instalacion,
   Manual,
   Seguridad,
-  Changelog,
-  FAQ,
   Roadmap,
+  FAQ,
+  Changelog,
 } from "./pages";
 
 import "./App.css";
@@ -39,25 +42,21 @@ function App() {
                         <Routes>
                           <Route path="/" element={<Home />} />
                           <Route
-                            path="/resources/instalacion"
+                            path="/instalacion"
                             element={<Instalacion />}
                           />
+                          <Route path="/manual" element={<Manual />} />
+                          <Route path="/seguridad" element={<Seguridad />} />
+                          <Route path="/roadmap" element={<Roadmap />} />
+                          <Route path="/faq" element={<FAQ />} />
+                          <Route path="/changelog" element={<Changelog />} />
                           <Route
-                            path="/resources/manual"
-                            element={<Manual />}
-                          />
-                          <Route
-                            path="/resources/seguridad"
-                            element={<Seguridad />}
-                          />
-                          <Route
-                            path="/resources/changelog"
-                            element={<Changelog />}
-                          />
-                          <Route path="/resources/faq" element={<FAQ />} />
-                          <Route
-                            path="/resources/roadmap"
-                            element={<Roadmap />}
+                            path="/dashboard"
+                            element={
+                              <AuthGuard>
+                                <Dashboard />
+                              </AuthGuard>
+                            }
                           />
                         </Routes>
                       </MainLayout>

@@ -48,10 +48,14 @@ export { default as HeroSection } from './HeroSection';
 
 // Componentes de búsqueda
 export { SearchModal } from './SearchModal';
+export { default as SearchBar } from './SearchBar';
 
 // Componentes de cards
 export { default as CardGrid } from './CardGrid';
 
 // Tipos de componentes
 export type { ResourceDropdownProps } from './ResourceDropdown/types';
+
+// Componentes de protección de rutas
+export { default as AuthGuard } from './AuthGuard';
 
