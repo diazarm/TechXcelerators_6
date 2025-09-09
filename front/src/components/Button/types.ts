@@ -9,7 +9,7 @@ export interface ButtonProps {
   /** Variante visual del botón */
   variant?: 'primary' | 'secondary' | 'outline';
   /** Tamaño del botón */
-  size?: 'sm' | 'md' | 'lg';
+  size?: 'xs' | 'sm' | 'md' | 'lg';
   /** Función que se ejecuta al hacer click */
   onClick?: () => void;
   /** Si el botón está deshabilitado */
@@ -18,4 +18,8 @@ export interface ButtonProps {
   type?: 'button' | 'submit' | 'reset';
   /** Clases CSS adicionales */
   className?: string;
+  /** Icono a la izquierda */
+  iconLeft?: ReactNode;
+  /** Icono a la derecha */
+  iconRight?: ReactNode;
 }

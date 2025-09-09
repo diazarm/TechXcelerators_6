@@ -1,54 +1,64 @@
 import React from 'react';
-import { useAuth, useResponsive } from '../../hooks';
-import { LoginForm, Button } from '../../components';
+import { useSearchParams } from 'react-router-dom';
+import { LoginForm } from '../../components';
+import { useResponsive } from '../../hooks';
 
 /** Página de login */
 const LoginPage: React.FC = () => {
-  const { isAuthenticated, logout, user } = useAuth();
-  const { spacing, text } = useResponsive();
-
-  // Mostrar mensaje si ya está autenticado
-  if (isAuthenticated) {
-    return (
-      <div className={`min-h-screen bg-gray-50 flex items-center justify-center ${spacing.py.medium}`}>
-        <div className="bg-green-50 border border-green-200 rounded-lg p-8 max-w-md text-center">
-          <h2 className={`${text.h2} text-green-800 mb-4`}>
-            ¡Ya estás autenticado!
-          </h2>
-          <div className={`${text.body} text-green-700 mb-6`}>
-            <p className="mb-2">
-              <strong>Usuario:</strong> {user?.name}
-            </p>
-            <p className="mb-2">
-              <strong>Email:</strong> {user?.email}
-            </p>
-            <p className="mb-2">
-              <strong>Rol:</strong> {user?.role === 'admin' ? 'Administrador' : 'Usuario'}
-            </p>
-            <p className="text-sm text-green-600 mt-4">
-              Ya tienes una sesión activa. Puedes cerrar sesión si quieres iniciar una nueva.
-            </p>
-          </div>
-          <Button
-            onClick={logout}
-            variant="secondary"
-            size="md"
-            className="bg-red-500 hover:bg-red-600 text-white border-red-500"
-          >
-            Cerrar Sesión (Test)
-          </Button>
-        </div>
-      </div>
-    );
-  }
+  const { spacing } = useResponsive();
+  const [searchParams] = useSearchParams();
+  const accessType = searchParams.get('type') || 'admin';
 
   return (
-    <div className={`min-h-screen bg-gray-50 flex items-center justify-center ${spacing.py.medium}`}>
-      <div className="w-full max-w-md">
+    <div 
+      className="min-h-screen w-full relative bg-cover bg-center bg-no-repeat flex items-center justify-center"
+      style={{ 
+        backgroundImage: accessType === 'user' 
+          ? 'url(/img/BgLogin2.jpg)' 
+          : 'url(/img/BgLogin.png)' 
+      }}
+    >
+      {/* Overlay con opacidad */}
+      <div 
+        className="absolute inset-0"
+        style={{ backgroundColor: '#00000066' }}
+      />
+      
+      {/* Contenedor del formulario centrado */}
+      <div className={`relative z-10 flex flex-col items-center -mt-16 ${spacing.px.small}`}>
+        {/* Logo */}
+        <div 
+          className="w-[300px] h-[130px] sm:w-[400px] sm:h-[173px] lg:w-[500px] lg:h-[217px]"
+        >
+          <img 
+            src="/img/Logo3.png" 
+            alt="Scala Learning" 
+            className="w-full h-full object-contain"
+          />
+        </div>
 
+        {/* Título dinámico según tipo de acceso */}
+        <h2 
+          className="text-white mb-6 -mt-4 text-2xl sm:text-3xl lg:text-4xl montserrat"
+          style={{
+            fontWeight: 500,
+            lineHeight: '100%',
+            letterSpacing: '0%'
+          }}
+        >
+          {accessType === 'user' ? 'Acceso Usuario' : 'Acceso Administración'}
+        </h2>
 
         {/* Formulario de login */}
-        <LoginForm />
+        <div 
+          className="rounded-[20px] relative w-full max-w-sm sm:max-w-md lg:w-[450px]"
+          style={{
+            height: '280px',
+            backgroundColor: 'rgba(164, 169, 194, 0.5)'
+          }}
+        >
+          <LoginForm accessType={accessType as 'user' | 'admin'} />
+        </div>
       </div>
     </div>
   );

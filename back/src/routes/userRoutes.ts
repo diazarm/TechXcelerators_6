@@ -1,13 +1,20 @@
 //Estructura de un controlador de usuario en TypeScript
 import { Router } from 'express';
-import { getUsers, getUserById, createUser, updateUser, deleteUser } from '../controllers/userController';
+import { getUsers, getUserById, createUser, updateUser, deleteUser, restoreUser, changeRole, login, verifyToken } from '../controllers/userController';
+import { authMiddleware } from '../middlewares/auth.middleware';
+import { verifyAdmin } from '../middlewares/verifyAdmin.middleware';
 
 const userRouter = Router();
 
-userRouter.get('/', getUsers);
-userRouter.get('/:id', getUserById);
-userRouter.post('/', createUser);
-userRouter.put('/:id', updateUser);
-userRouter.delete('/:id', deleteUser);
+userRouter.post('/login', login);
+userRouter.get("/verifytoken", authMiddleware, verifyAdmin, verifyToken);
+
+userRouter.get('/', authMiddleware, verifyAdmin, getUsers);
+userRouter.get('/:id', authMiddleware, verifyAdmin, getUserById);
+userRouter.post('/', createUser, authMiddleware, verifyAdmin,);
+userRouter.put('/:id', authMiddleware, verifyAdmin, updateUser);
+userRouter.delete('/:id', authMiddleware, verifyAdmin, deleteUser);
+userRouter.patch('/restore/:id', authMiddleware, verifyAdmin, restoreUser);
+userRouter.patch('/role/:id', authMiddleware, verifyAdmin, changeRole);
 
 export default userRouter;

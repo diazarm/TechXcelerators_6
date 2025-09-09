@@ -18,6 +18,7 @@
 
 // Componentes de UI básicos
 export { Button } from './Button';
+export { default as Card } from './Card';
 
 // Componentes de formularios
 export { LoginForm } from './LoginForm';
@@ -27,4 +28,30 @@ export { default as LoadingSpinner } from './LoadingSpinner';
 
 // Componentes de sistema
 export { default as ErrorBoundary } from './ErrorBoundary';
-export { default as Navigation } from './Navigation';
+
+// Componentes de error y validación
+export { default as ValidationErrors } from './ValidationErrors';
+
+// Componentes de notificaciones
+export { Notification } from './Notification';
+export { NotificationContainer } from './NotificationContainer';
+
+// Componentes de layout
+export { default as MainLayout } from './Layout/MainLayout';
+export { Header } from './Layout/header';
+export { Navbar } from './Layout/navbar';
+export { Footer } from './Layout/footer';
+
+// Componentes de hero section
+export { default as HeroSection } from './HeroSection';
+
+// Componentes de búsqueda
+export { SearchModal } from './SearchModal';
+export { default as SearchBar } from './SearchBar';
+
+// Componentes de cards
+export { default as CardGrid } from './CardGrid';
+
+// Componentes de protección de rutas
+export { default as AuthGuard } from './AuthGuard';
+

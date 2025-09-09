@@ -10,22 +10,25 @@ export const Button: React.FC<ButtonProps> = ({
   disabled = false,
   type = 'button',
   className = '',
+  iconLeft,
+  iconRight,
 }) => {
   // Clases base que se aplican a todos los botones
-  const baseClasses = "font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed";
+  const baseClasses = "font-medium transition-all duration-200 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center";
   
   // Clases específicas para cada variante
   const variantClasses = {
-    primary: "bg-blue-500 hover:bg-blue-600 text-white focus:ring-blue-500 shadow-sm",
-    secondary: "bg-gray-500 hover:bg-gray-600 text-white focus:ring-gray-500 shadow-sm",
-    outline: "border-2 border-blue-500 text-blue-500 hover:bg-blue-50 focus:ring-blue-500 bg-transparent"
+    primary: `!bg-[#FF6E00] hover:shadow-lg !text-white focus:!ring-[#FF6E00] !border-[#FF6E00] shadow-sm hover:!bg-[#E55A00]`,
+    secondary: `!border-[#FF6E00] !text-[#FF6E00] hover:!border-[#E55A00] hover:!text-[#E55A00] focus:!ring-[#FF6E00] !bg-white`,
+    outline: `!border-[#FF6E00] !text-[#FF6E00] hover:!bg-[#FF6E00] hover:!text-white focus:!ring-[#FF6E00] !bg-white`
   };
   
   // Clases específicas para cada tamaño
   const sizeClasses = {
-    sm: "px-3 py-1.5 text-sm",
-    md: "px-4 py-2 text-base",
-    lg: "px-6 py-3 text-lg"
+    xs: "px-3 py-1.5 text-xs rounded-[8px] w-[107px] h-[30px] gap-0",
+    sm: "px-6 py-[18px] text-sm rounded-[15px] w-[88px] h-[54px] gap-2",
+    md: "px-6 py-[18px] text-base rounded-[15px] w-[94px] h-[54px] gap-2",
+    lg: "px-8 py-4 text-lg rounded-[15px] w-[120px] h-[60px] gap-2"
   };
 
   // Clases para estado deshabilitado
@@ -47,7 +50,9 @@ export const Button: React.FC<ButtonProps> = ({
       onClick={onClick}
       disabled={disabled}
     >
-      {children}
+      {iconLeft && <span className="flex-shrink-0">{iconLeft}</span>}
+      <span className={size === 'xs' ? 'flex-shrink-0' : 'flex-1'}>{children}</span>
+      {iconRight && <span className="flex-shrink-0">{iconRight}</span>}
     </button>
   );
 };
