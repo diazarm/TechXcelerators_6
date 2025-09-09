@@ -1,6 +1,7 @@
 //Estructura básica del controlador de usuario en TypeScript
 import { Request, Response, NextFunction } from "express";
-import { userService } from "../services/userService";
+import { UserService } from "../services/userService";
+const userService = new UserService();
 
 export const getUsers = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
@@ -28,8 +29,12 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
     const userData = req.body;
     const user = await userService.createUser(userData);
     res.status(201).json({ user, message: "Usuario creado con éxito" });
-  } catch (error) {
-    next(error);
+  } catch (error: any) {
+    if (error && error.status && error.error) {
+      res.status(error.status).json({ error: error.error });
+    } else {
+      res.status(500).json({ error: "Error inesperado al crear usuario" });
+    }
   }
 };
 

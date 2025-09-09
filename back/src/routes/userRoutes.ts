@@ -11,7 +11,7 @@ userRouter.get("/verifytoken", authMiddleware, verifyAdmin, verifyToken);
 
 userRouter.get('/', authMiddleware, verifyAdmin, getUsers);
 userRouter.get('/:id', authMiddleware, verifyAdmin, getUserById);
-userRouter.post('/', createUser, authMiddleware, verifyAdmin,);
+userRouter.post('/', authMiddleware, verifyAdmin, createUser);
 userRouter.put('/:id', authMiddleware, verifyAdmin, updateUser);
 userRouter.delete('/:id', authMiddleware, verifyAdmin, deleteUser);
 userRouter.patch('/restore/:id', authMiddleware, verifyAdmin, restoreUser);

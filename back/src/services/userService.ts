@@ -32,6 +32,10 @@ export class UserService {
     isActive?: boolean;
   }): Promise<IUser> {
     try {
+      const existingUser = await User.findOne({ email }).exec();
+      if (existingUser) {
+        return Promise.reject({ status: 400, error: "El email ya existe" });
+      }
       const hashedPassword = await hashPassword(password);
       const user = new User({
         name,
@@ -43,7 +47,7 @@ export class UserService {
       return user.save();
     } catch (error) {
       console.error(error);
-      throw new Error("Error al intentar registrar el usuario");
+      return Promise.reject({ status: 500, error: "Error al intentar registrar el usuario" });
     }
   }
 
@@ -57,16 +61,25 @@ export class UserService {
     try {
       const user = await User.findOne({ email }).exec();
       if (!user) {
-        throw new Error("Credenciales incorrectas");
+        return Promise.reject({ status: 404, error: "Usuario no encontrado" });
       }
       const passwordMatch = await comparePassword(password, user.password);
       if (!passwordMatch) {
-        throw new Error("Credenciales incorrectas");
+        return Promise.reject({
+          status: 401,
+          error: "Credenciales incorrectas",
+        });
       }
       if (!secretKey || typeof secretKey !== "string") {
-        throw new Error("No se ha configurado secretKey para JWT");
+        return Promise.reject({
+          status: 500,
+          error: "No se ha configurado secretKey para JWT",
+        });
       }
-      const expiresIn: number = typeof jwtExpiration === "string" ? parseInt(jwtExpiration) : 3600;
+      const expiresIn: number =
+        typeof jwtExpiration === "string"
+          ? parseInt(jwtExpiration)
+          : jwtExpiration;
       const payload = {
         uid: user.id.toString(),
         name: user.name ?? "",
@@ -78,40 +91,96 @@ export class UserService {
       const token = jwt.sign(payload, secret, options);
       return [user, token];
     } catch (error) {
-      throw new Error("Error al intentar iniciar sesión");
+      return Promise.reject({
+        status: 500,
+        error: "Error al intentar iniciar sesión",
+      });
     }
   }
 
-  async updateUser(id: string, updatedData: Partial<IUser>): Promise<IUser | null> {
-    if (!mongoose.Types.ObjectId.isValid(id)) return null;
-    return User.findByIdAndUpdate(id, { ...updatedData, updatedAt: new Date() }, { new: true }).exec();
-  }
-
-  async deleteUser(id: string): Promise<IUser | null> {
-    if (!mongoose.Types.ObjectId.isValid(id)) return null;
-    return User.findByIdAndUpdate(id, { isActive: false, deletedAt: new Date() }, { new: true }).exec();
-  }
-
-  async restoreUser(id: string): Promise<IUser | null> {
-    if (!mongoose.Types.ObjectId.isValid(id)) return null;
-    const user = await User.findById(id).setOptions({ includeDeleted: true });
-    if (!user) return null;
-    if (!user.isActive || user.deletedAt) {
-      user.isActive = true;
-      user.deletedAt = undefined;
-      return user.save();
+  async updateUser(id: string, updatedData: Partial<IUser>): Promise<IUser> {
+    try {
+      if (!mongoose.Types.ObjectId.isValid(id)) {
+        return Promise.reject({ status: 400, error: "ID inválido" });
+      }
+      const updatedUser = await User.findByIdAndUpdate(
+        id,
+        { ...updatedData, updatedAt: new Date() },
+        { new: true }
+      ).exec();
+      if (!updatedUser) {
+        return Promise.reject({ status: 404, error: "Usuario no encontrado" });
+      }
+      return updatedUser;
+    } catch (error) {
+      return Promise.reject({
+        status: 500,
+        error: "Error al actualizar usuario",
+      });
     }
-    return user;
   }
 
-  async updateRole(id: string): Promise<IUser | null> {
-    if (!mongoose.Types.ObjectId.isValid(id)) return null;
-    const user = await User.findById(id).exec();
-    if (user) {
+  async deleteUser(id: string): Promise<IUser> {
+    try {
+      if (!mongoose.Types.ObjectId.isValid(id)) {
+        return Promise.reject({ status: 400, error: "ID inválido" });
+      }
+      const deletedUser = await User.findByIdAndUpdate(
+        id,
+        { isActive: false, deletedAt: new Date() },
+        { new: true }
+      ).exec();
+      if (!deletedUser) {
+        return Promise.reject({ status: 404, error: "Usuario no encontrado" });
+      }
+      return deletedUser;
+    } catch (error) {
+      return Promise.reject({
+        status: 500,
+        error: "Error al eliminar usuario",
+      });
+    }
+  }
+
+  async restoreUser(id: string): Promise<IUser> {
+    try {
+      if (!mongoose.Types.ObjectId.isValid(id)) {
+        return Promise.reject({ status: 400, error: "ID inválido" });
+      }
+      const user = await User.findById(id).setOptions({ includeDeleted: true });
+      if (!user) {
+        return Promise.reject({ status: 404, error: "Usuario no encontrado" });
+      }
+      if (!user.isActive || user.deletedAt) {
+        user.isActive = true;
+        user.deletedAt = undefined;
+        await user.save();
+      }
+      return user;
+    } catch (error) {
+      return Promise.reject({
+        status: 500,
+        error: "Error al restaurar usuario",
+      });
+    }
+  }
+
+  async updateRole(id: string): Promise<IUser> {
+    try {
+      if (!mongoose.Types.ObjectId.isValid(id)) {
+        return Promise.reject({ status: 400, error: "ID inválido" });
+      }
+      const user = await User.findById(id).exec();
+      if (!user) {
+        return Promise.reject({ status: 404, error: "Usuario no encontrado" });
+      }
       user.isAdmin = !user.isAdmin;
-      return user.save();
+      await user.save();
+      return user;
+    } catch (error) {
+      return Promise.reject({ status: 500, error: "Error al actualizar rol" });
     }
-    return null;
   }
 }
+
 export const userService = new UserService();
