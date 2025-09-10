@@ -21,6 +21,7 @@ import {
   Roadmap,
   FAQ,
   Changelog,
+  Alianza,
 } from "./pages";
 
 import "./App.css";
@@ -34,35 +35,38 @@ function App() {
             <NotificationProvider>
               <BrowserRouter>
                 <Routes>
+                  {/* Login fuera del layout */}
                   <Route path="/login" element={<LoginPage />} />
-                  <Route
-                    path="/*"
-                    element={
-                      <MainLayout>
-                        <Routes>
-                          <Route path="/" element={<Home />} />
-                          <Route
-                            path="/instalacion"
-                            element={<Instalacion />}
-                          />
-                          <Route path="/manual" element={<Manual />} />
-                          <Route path="/seguridad" element={<Seguridad />} />
-                          <Route path="/roadmap" element={<Roadmap />} />
-                          <Route path="/faq" element={<FAQ />} />
-                          <Route path="/changelog" element={<Changelog />} />
-                          <Route
-                            path="/dashboard"
-                            element={
-                              <AuthGuard>
-                                <Dashboard />
-                              </AuthGuard>
-                            }
-                          />
-                        </Routes>
-                      </MainLayout>
-                    }
-                  />
+
+                  {/* Layout principal */}
+                  <Route path="/" element={<MainLayout />}>
+                    <Route index element={<Home />} />
+
+                     {/* Nueva ruta para la página Alianza */}
+                    <Route path="alianza" element={<Alianza />} />
+
+                    {/* Rutas de resources */}
+                    <Route path="resources">
+                      <Route path="instalacion" element={<Instalacion />} />
+                      <Route path="manual" element={<Manual />} />
+                      <Route path="seguridad" element={<Seguridad />} />
+                      <Route path="roadmap" element={<Roadmap />} />
+                      <Route path="faq" element={<FAQ />} />
+                      <Route path="changelog" element={<Changelog />} />
+                    </Route>
+
+                    {/* Dashboard protegido */}
+                    <Route
+                      path="dashboard"
+                      element={
+                        <AuthGuard>
+                          <Dashboard />
+                        </AuthGuard>
+                      }
+                    />
+                  </Route>
                 </Routes>
+
                 <NotificationContainer />
               </BrowserRouter>
             </NotificationProvider>

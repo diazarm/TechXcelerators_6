@@ -8,17 +8,33 @@ import type { CardGridProps } from './types';
  * @param cards - Array de configuración de cards
  * @param onCardClick - Función para manejar clicks en las cards
  * @param className - Clases CSS adicionales
+ * @param columns - Número de columnas (2, 3, 4) - Nueva prop
  */
 const CardGrid: React.FC<CardGridProps> = ({
   cards,
   onCardClick,
-  className = ""
+  className = "",
+  columns = 3 // Valor por defecto
 }) => {
   const responsive = useResponsive();
 
+  // Determinar la clase de columnas basada en el parámetro
+  const getGridColumnsClass = () => {
+    switch (columns) {
+      case 2:
+        return 'grid-cols-1 md:grid-cols-2';
+      case 4:
+        return 'grid-cols-1 md:grid-cols-2 lg:grid-cols-4';
+      case 3:
+      default:
+        return responsive.grid.columns.three;
+    }
+  };
+
   return (
     <div className={`
-      ${responsive.grid.columns.three}
+      grid
+      ${getGridColumnsClass()}
       ${responsive.grid.gap.medium}
       ${className}
     `}>

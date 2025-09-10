@@ -7,7 +7,7 @@ import {
   Zap, 
   Image,
   FileText,
-  Settings
+  Settings,
 } from 'react-feather';
 
 /**
@@ -113,6 +113,64 @@ export const recursosPageCards: CardConfig[] = [
   }
 ];
 
+// Cards para la página Alianza (6 cards como en la imagen)
+export const alianzaPageCards: CardConfig[] = [
+  {
+    id: 'portafolio-precios',
+    title: 'Portafolio y precios',
+    description: '',
+    icon: React.createElement('div', {
+      className: "w-[65.25px] h-[72.5px] flex items-center justify-center"
+    }, React.createElement('div', { className: "w-[70px] h-[70px]" })),
+    href: '/portafolio-precios'
+  },
+  {
+    id: 'fichas-tecnicas',
+    title: 'Fichas técnicas y grabaciones de capacitación del producto',
+    description: '',
+    icon: React.createElement('div', {
+      className: "w-[65.25px] h-[72.5px] flex items-center justify-center"
+    }, React.createElement('div', { className: "w-[70px] h-[70px]" })),
+    href: '/fichas-tecnicas'
+  },
+  {
+    id: 'usp',
+    title: 'USP',
+    description: '',
+    icon: React.createElement('div', {
+      className: "w-[65.25px] h-[72.5px] flex items-center justify-center"
+    }, React.createElement('div', { className: "w-[70px] h-[70px]" })),
+    href: '/usp'
+  },
+  {
+    id: 'organigrama',
+    title: 'Organigrama',
+    description: '',
+    icon: React.createElement('div', {
+      className: "w-[65.25px] h-[72.5px] flex items-center justify-center"
+    }, React.createElement('div', { className: "w-[70px] h-[70px]" })),
+    href: '/organigrama'
+  },
+  {
+    id: 'directorio-contactos',
+    title: 'Directorio de contactos de la alianza',
+    description: '',
+    icon: React.createElement('div', {
+      className: "w-[65.25px] h-[72.5px] flex items-center justify-center"
+    }, React.createElement('div', { className: "w-[70px] h-[70px]" })),
+    href: '/directorio-contactos'
+  },
+  {
+    id: 'resumen-contrato',
+    title: 'Resumen de contrato',
+    description: '',
+    icon: React.createElement('div', {
+      className: "w-[65.25px] h-[72.5px] flex items-center justify-center"
+    }, React.createElement('div', { className: "w-[70px] h-[70px]" })),
+    href: '/resumen-contrato'
+  }
+];
+
 // ========================================
 // CONFIGURACIÓN GENERAL
 // ========================================
@@ -122,8 +180,14 @@ export const recursosPageCards: CardConfig[] = [
  */
 export const cardConfigs = {
   dashboard: dashboardPageCards,
-  recursos: recursosPageCards
+  recursos: recursosPageCards,
+  alianza: alianzaPageCards
 } as const;
+
+/**
+ * Tipos de páginas disponibles
+ */
+export type PageType = keyof typeof cardConfigs;
 
 /**
  * Obtener configuración de tarjetas por tipo de página
@@ -131,6 +195,6 @@ export const cardConfigs = {
  * @param pageType - Tipo de página
  * @returns Array de configuración de tarjetas
  */
-export const getCardConfig = (pageType: keyof typeof cardConfigs): CardConfig[] => {
+export const getCardConfig = (pageType: PageType): CardConfig[] => {
   return cardConfigs[pageType] || [];
 };
