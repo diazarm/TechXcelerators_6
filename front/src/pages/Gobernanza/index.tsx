@@ -4,9 +4,9 @@ import { useCards, usePageHeader } from '../../hooks';
 import { useResponsive } from '../../hooks';
 
 
-const Alianza: React.FC = () => {
+const Gobernanza: React.FC = () => {
   const responsive = useResponsive();
-  const { cards, handleCardClick } = useCards('alianza');
+  const { cards, handleCardClick } = useCards('gobernanza');
   usePageHeader(); // Configuración automática del título
 
   return (
@@ -37,4 +37,4 @@ const Alianza: React.FC = () => {
   );
 };
 
-export default Alianza;
+export default Gobernanza;

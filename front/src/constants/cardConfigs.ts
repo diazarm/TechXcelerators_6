@@ -171,6 +171,54 @@ export const alianzaPageCards: CardConfig[] = [
   }
 ];
 
+export const gobernanzaPageCards: CardConfig[] = [
+  {
+    id: 'acta-colaboracion',
+    title: 'Acta de comité de colaboración',
+    description: 'Documentos del comité de colaboración',
+    icon: React.createElement('div', {
+      className: "w-[65.25px] h-[72.5px] flex items-center justify-center"
+    }, React.createElement('div', { className: "w-[70px] h-[70px]" })),
+    href: '/gobernanza/acta-colaboracion'
+  },
+  {
+    id: 'acta-direccion',
+    title: 'Acta de comité de dirección',
+    description: 'Documentos del comité de dirección',
+    icon: React.createElement('div', {
+      className: "w-[65.25px] h-[72.5px] flex items-center justify-center"
+    }, React.createElement('div', { className: "w-[70px] h-[70px]" })),
+    href: '/gobernanza/acta-direccion'
+  },
+  {
+    id: 'acta-estrategia',
+    title: 'Acta de comité de estrategia y crecimiento',
+    description: 'Documentos del comité de estrategia y crecimiento',
+    icon: React.createElement('div', {
+      className: "w-[65.25px] h-[72.5px] flex items-center justify-center"
+    }, React.createElement('div', { className: "w-[70px] h-[70px]" })),
+    href: '/gobernanza/acta-estrategia'
+  },
+  {
+    id: 'grabaciones',
+    title: 'Grabación de los comités',
+    description: 'Grabaciones de las sesiones de comités',
+    icon: React.createElement('div', {
+      className: "w-[65.25px] h-[72.5px] flex items-center justify-center"
+    }, React.createElement('div', { className: "w-[70px] h-[70px]" })),
+    href: '/gobernanza/grabaciones'
+  },
+  {
+    id: 'presentaciones',
+    title: 'Presentaciones de comités',
+    description: 'Presentaciones utilizadas en los comités',
+    icon: React.createElement('div', {
+      className: "w-[65.25px] h-[72.5px] flex items-center justify-center"
+    }, React.createElement('div', { className: "w-[70px] h-[70px]" })),
+    href: '/gobernanza/presentaciones'
+  }
+];
+
 // ========================================
 // CONFIGURACIÓN GENERAL
 // ========================================
@@ -181,7 +229,8 @@ export const alianzaPageCards: CardConfig[] = [
 export const cardConfigs = {
   dashboard: dashboardPageCards,
   recursos: recursosPageCards,
-  alianza: alianzaPageCards
+  alianza: alianzaPageCards,
+  gobernanza: gobernanzaPageCards
 } as const;
 
 /**

@@ -15,6 +15,7 @@ import {
   Home,
   LoginPage,
   Dashboard,
+  Gobernanza,
   Instalacion,
   Manual,
   Seguridad,
@@ -42,9 +43,6 @@ function App() {
                   <Route path="/" element={<MainLayout />}>
                     <Route index element={<Home />} />
 
-                     {/* Nueva ruta para la página Alianza */}
-                    <Route path="alianza" element={<Alianza />} />
-
                     {/* Rutas de resources */}
                     <Route path="resources">
                       <Route path="instalacion" element={<Instalacion />} />
@@ -65,6 +63,47 @@ function App() {
                       }
                     />
                   </Route>
+                  <Route
+                    path="/*"
+                    element={
+                      <MainLayout>
+                        <Routes>
+                          <Route path="/" element={<Home />} />
+                          <Route
+                            path="/instalacion"
+                            element={<Instalacion />}
+                          />
+                          <Route path="/manual" element={<Manual />} />
+                          <Route path="/seguridad" element={<Seguridad />} />
+                          <Route path="/roadmap" element={<Roadmap />} />
+                          <Route path="/faq" element={<FAQ />} />
+                          <Route path="/changelog" element={<Changelog />} />
+                          <Route
+                            path="/dashboard"
+                            element={
+                              <AuthGuard>
+                                <Dashboard />
+                              </AuthGuard>
+                            }
+                          />
+                          <Route
+                            path="/gobernanza"
+                            element={
+                              <AuthGuard>
+                                <Gobernanza />
+                              </AuthGuard>
+                            }
+                          />
+                          {/* Nueva ruta para la página Alianza */}
+                          <Route path="/alianza" element={
+                              <AuthGuard>
+                                <Alianza />
+                              </AuthGuard>
+                            } />
+                        </Routes>
+                      </MainLayout>
+                    }
+                  />
                 </Routes>
 
                 <NotificationContainer />
