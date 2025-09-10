@@ -17,7 +17,7 @@ const Home: React.FC = () => {
       {/* Hero Section con botones integrados */}
       <HeroSection 
         title="¡Bienvenido a Scala Learning!"
-        description="Lorem ipsum dolor sit amet consectetur adipiscing eli mattis sit phasellus mollis sit aliquam sit nullam neque ultrices."
+        description="Somos una comunidad internacional de profesionales, instructores, y estudiantes, distribuidos en los cinco continentes, con oficinas en 15 países comprometidos a comprender las necesidades de cada mercado desde una perspectiva local y global."
       >
         {/* Botones de acceso - Solo mostrar si NO está autenticado */}
         {!isAuthenticated && (

@@ -21,4 +21,5 @@ export { default as LoginPage } from './Login';
 
 export * from './Resources';
 export { default as Dashboard } from './Dashboard';
+export { default as Gobernanza } from './Gobernanza/index';
 
