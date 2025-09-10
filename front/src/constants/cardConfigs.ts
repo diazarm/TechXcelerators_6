@@ -113,6 +113,55 @@ export const recursosPageCards: CardConfig[] = [
   }
 ];
 
+
+export const gobernanzaPageCards: CardConfig[] = [
+  {
+    id: 'acta-colaboracion',
+    title: 'Acta de comité de colaboración',
+    description: '',
+    icon: React.createElement('div', {
+      className: "w-[65.25px] h-[72.5px] flex items-center justify-center"
+    }, React.createElement('div', { className: "w-[70px] h-[70px]" })),
+    href: '/gobernanza/acta-colaboracion'
+  },
+  {
+    id: 'acta-direccion',
+    title: 'Acta de comité de dirección',
+    description: '',
+    icon: React.createElement('div', {
+      className: "w-[65.25px] h-[72.5px] flex items-center justify-center"
+    }, React.createElement('div', { className: "w-[70px] h-[70px]" })),
+    href: '/gobernanza/acta-direccion'
+  },
+  {
+    id: 'acta-estrategia',
+    title: 'Acta de comité de estrategia y crecimiento',
+    description: '',
+    icon: React.createElement('div', {
+      className: "w-[65.25px] h-[72.5px] flex items-center justify-center"
+    }, React.createElement('div', { className: "w-[70px] h-[70px]" })),
+    href: '/gobernanza/acta-estrategia'
+  },
+  {
+    id: 'grabaciones',
+    title: 'Grabación de los comité',
+    description: '',
+    icon: React.createElement('div', {
+      className: "w-[65.25px] h-[72.5px] flex items-center justify-center"
+    }, React.createElement('div', { className: "w-[70px] h-[70px]" })),
+    href: '/gobernanza/grabaciones'
+  },
+  {
+    id: 'presentaciones',
+    title: 'Presentaciones de comités',
+    description: '',
+    icon: React.createElement('div', {
+      className: "w-[65.25px] h-[72.5px] flex items-center justify-center"
+    }, React.createElement('div', { className: "w-[70px] h-[70px]" })),
+    href: '/gobernanza/presentaciones'
+  }
+];
+
 // ========================================
 // CONFIGURACIÓN GENERAL
 // ========================================
@@ -122,7 +171,8 @@ export const recursosPageCards: CardConfig[] = [
  */
 export const cardConfigs = {
   dashboard: dashboardPageCards,
-  recursos: recursosPageCards
+  recursos: recursosPageCards,
+  gobernanza: gobernanzaPageCards
 } as const;
 
 /**

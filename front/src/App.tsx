@@ -15,6 +15,7 @@ import {
   Home,
   LoginPage,
   Dashboard,
+  Gobernanza,
   Instalacion,
   Manual,
   Seguridad,
@@ -55,6 +56,14 @@ function App() {
                             element={
                               <AuthGuard>
                                 <Dashboard />
+                              </AuthGuard>
+                            }
+                          />
+                          <Route
+                            path="/gobernanza"
+                            element={
+                              <AuthGuard>
+                                <Gobernanza />
                               </AuthGuard>
                             }
                           />
