@@ -51,12 +51,6 @@ export const Navbar: React.FC<HeaderProps> = ({ className = "" }) => {
           <nav className="flex-1 flex justify-end pr-4 sm:pr-8">
             <div className="flex items-center gap-2 sm:gap-4 lg:gap-6">
               <Link
-                to="/"
-                className={`${COLOR_CLASSES.textPrimary} hover:text-[#4A476F] transition-colors font-medium ${responsive.text.small}`}
-              >
-                Inicio
-              </Link>
-              <Link
                 to="/acerca"
                 className={`${COLOR_CLASSES.textPrimary} hover:text-[#4A476F] transition-colors font-medium ${responsive.text.small}`}
               >
@@ -71,6 +65,13 @@ export const Navbar: React.FC<HeaderProps> = ({ className = "" }) => {
                 resources={resources}
                 loading={loading}
               />
+
+              <Link
+                to="/contacto"
+                className={`${COLOR_CLASSES.textPrimary} hover:text-[#4A476F] transition-colors font-medium ${responsive.text.small}`}
+              >
+                Contacto
+              </Link>
             </div>
           </nav>
 
