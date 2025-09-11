@@ -6,6 +6,8 @@ export interface MainLayoutProps {
     children?: React.ReactNode;
     /** Clases CSS adicionales */
     className?: string;
+    /** Variante del footer (dark o light) */
+    footerVariant?: "dark" | "light";
 }
 
 /**
