@@ -4,7 +4,10 @@ import { useResponsive } from "../../hooks";
 import type { MainLayoutProps } from "./types";
 import { Navbar, Footer, Header } from "../../components";
 
-const MainLayout: React.FC<MainLayoutProps> = ({ className = "" }) => {
+const MainLayout: React.FC<MainLayoutProps> = ({
+  className = "",
+  footerVariant = "light",
+}) => {
   const responsive = useResponsive();
   const location = useLocation();
 
@@ -29,7 +32,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ className = "" }) => {
       </main>
 
       {/* Footer */}
-      <Footer />
+      <Footer variant={footerVariant} />
     </div>
   );
 };
