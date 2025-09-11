@@ -1,9 +1,12 @@
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getCardConfig } from '../constants/cardConfigs';
+
 import type { CardConfig } from '../constants/cardConfigs';
 
-type PageType = 'dashboard' | 'recursos' | 'gobernanza';
+
+type PageType = 'dashboard' | 'gobernanza' | 'alianza';
+
 
 interface UseCardsReturn {
   cards: CardConfig[];
