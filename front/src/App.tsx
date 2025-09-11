@@ -39,7 +39,7 @@ function App() {
                   {/* Login fuera del layout */}
                   <Route path="/login" element={<LoginPage />} />
 
-                  {/* Layout principal */}
+                  {/* Layout principal - TODAS las rutas deben estar aquí */}
                   <Route path="/" element={<MainLayout />}>
                     <Route index element={<Home />} />
 
@@ -62,48 +62,25 @@ function App() {
                         </AuthGuard>
                       }
                     />
+
+                    {/* Rutas de Gobernanza y Alianza - AÑADIDAS AQUÍ */}
+                    <Route
+                      path="gobernanza"
+                      element={
+                        <AuthGuard>
+                          <Gobernanza />
+                        </AuthGuard>
+                      }
+                    />
+                    <Route
+                      path="alianza"
+                      element={
+                        <AuthGuard>
+                          <Alianza />
+                        </AuthGuard>
+                      }
+                    />
                   </Route>
-                  <Route
-                    path="/*"
-                    element={
-                      <MainLayout>
-                        <Routes>
-                          <Route path="/" element={<Home />} />
-                          <Route
-                            path="/instalacion"
-                            element={<Instalacion />}
-                          />
-                          <Route path="/manual" element={<Manual />} />
-                          <Route path="/seguridad" element={<Seguridad />} />
-                          <Route path="/roadmap" element={<Roadmap />} />
-                          <Route path="/faq" element={<FAQ />} />
-                          <Route path="/changelog" element={<Changelog />} />
-                          <Route
-                            path="/dashboard"
-                            element={
-                              <AuthGuard>
-                                <Dashboard />
-                              </AuthGuard>
-                            }
-                          />
-                          <Route
-                            path="/gobernanza"
-                            element={
-                              <AuthGuard>
-                                <Gobernanza />
-                              </AuthGuard>
-                            }
-                          />
-                          {/* Nueva ruta para la página Alianza */}
-                          <Route path="/alianza" element={
-                              <AuthGuard>
-                                <Alianza />
-                              </AuthGuard>
-                            } />
-                        </Routes>
-                      </MainLayout>
-                    }
-                  />
                 </Routes>
 
                 <NotificationContainer />

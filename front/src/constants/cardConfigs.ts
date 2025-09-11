@@ -39,7 +39,7 @@ export const dashboardPageCards: CardConfig[] = [
     icon: React.createElement('div', {
       className: "w-[65.25px] h-[72.5px] flex items-center justify-center"
     }, React.createElement(Star, { size: 70, color: "#555D8C" })),
-    href: '/nueva-alianza'
+    href: '/alianza'
   },
   {
     id: 'gobernanza',
@@ -175,7 +175,7 @@ export const gobernanzaPageCards: CardConfig[] = [
   {
     id: 'acta-colaboracion',
     title: 'Acta de comité de colaboración',
-    description: 'Documentos del comité de colaboración',
+    description: '',
     icon: React.createElement('div', {
       className: "w-[65.25px] h-[72.5px] flex items-center justify-center"
     }, React.createElement('div', { className: "w-[70px] h-[70px]" })),
@@ -184,7 +184,7 @@ export const gobernanzaPageCards: CardConfig[] = [
   {
     id: 'acta-direccion',
     title: 'Acta de comité de dirección',
-    description: 'Documentos del comité de dirección',
+    description: '',
     icon: React.createElement('div', {
       className: "w-[65.25px] h-[72.5px] flex items-center justify-center"
     }, React.createElement('div', { className: "w-[70px] h-[70px]" })),
@@ -193,7 +193,7 @@ export const gobernanzaPageCards: CardConfig[] = [
   {
     id: 'acta-estrategia',
     title: 'Acta de comité de estrategia y crecimiento',
-    description: 'Documentos del comité de estrategia y crecimiento',
+    description: '',
     icon: React.createElement('div', {
       className: "w-[65.25px] h-[72.5px] flex items-center justify-center"
     }, React.createElement('div', { className: "w-[70px] h-[70px]" })),
@@ -202,7 +202,7 @@ export const gobernanzaPageCards: CardConfig[] = [
   {
     id: 'grabaciones',
     title: 'Grabación de los comités',
-    description: 'Grabaciones de las sesiones de comités',
+    description: '',
     icon: React.createElement('div', {
       className: "w-[65.25px] h-[72.5px] flex items-center justify-center"
     }, React.createElement('div', { className: "w-[70px] h-[70px]" })),
@@ -211,7 +211,7 @@ export const gobernanzaPageCards: CardConfig[] = [
   {
     id: 'presentaciones',
     title: 'Presentaciones de comités',
-    description: 'Presentaciones utilizadas en los comités',
+    description: '',
     icon: React.createElement('div', {
       className: "w-[65.25px] h-[72.5px] flex items-center justify-center"
     }, React.createElement('div', { className: "w-[70px] h-[70px]" })),
