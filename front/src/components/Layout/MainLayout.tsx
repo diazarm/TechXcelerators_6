@@ -8,6 +8,7 @@ import { Navbar, Footer, Header } from "../../components";
 const MainLayout: React.FC<MainLayoutProps> = ({
   children,
   className = "",
+  footerVariant = "light",
 }) => {
   const responsive = useResponsive();
   const location = useLocation();
@@ -34,7 +35,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({
       )}
       
       {/* Footer */}
-      <Footer />
+      <Footer variant={footerVariant} />
     </div>
   );
 };
