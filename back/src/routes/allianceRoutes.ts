@@ -8,20 +8,18 @@ import {
     restoreAlliance
 } from '../controllers/allianceController';
 import { authMiddleware } from '../middlewares/auth.middleware';
-import { verifyAdmin } from '../middlewares/verifyAdmin.middleware';
+import { isDirectorOrAdmin } from '../middlewares/isDirector.middleware';
 
 const allianceRouter = Router();
 
-// Rutas públicas. Listar y ver alianzas (acceso público)
-allianceRouter.get('/', getAlliances);
-allianceRouter.get('/:id', getAllianceById);
-
-// Rutas que requieren autenticación (miembros, staff, etc.)
-allianceRouter.post('/', authMiddleware, createAlliance);
-
-// Rutas que requieren autenticación y permisos de administrador
+// Usuarios autenticados puedes ver y editar las alianzas
+allianceRouter.get('/', authMiddleware, getAlliances);
+allianceRouter.get('/:id', authMiddleware, getAllianceById);
 allianceRouter.put('/:id', authMiddleware, updateAlliance);
-allianceRouter.delete('/:id', authMiddleware, verifyAdmin, deleteAlliance);
-allianceRouter.patch('/restore/:id', authMiddleware, verifyAdmin, restoreAlliance);
+
+// Los Directores y administradores pueden crear nuevas alianzas, eliminar (soft delete) y restaurar alianzas
+allianceRouter.post('/', authMiddleware, isDirectorOrAdmin, createAlliance);
+allianceRouter.delete('/:id', authMiddleware, isDirectorOrAdmin, deleteAlliance);
+allianceRouter.patch('/restore/:id', authMiddleware, isDirectorOrAdmin, restoreAlliance);
 
 export default allianceRouter;
