@@ -1,6 +1,6 @@
 //Estructura de un controlador de usuario en TypeScript
 import { Router } from 'express';
-import { getUsers, getUserById, createUser, updateUser, deleteUser, restoreUser, changeRole, login, verifyToken } from '../controllers/userController';
+import { getUsers, getUserById, createUser, updateUser, deleteUser, restoreUser, changeRole, login, verifyToken, getDeletedUsers } from '../controllers/userController';
 import { authMiddleware } from '../middlewares/auth.middleware';
 import { verifyAdmin } from '../middlewares/verifyAdmin.middleware';
 
@@ -14,6 +14,7 @@ userRouter.get("/verifytoken", authMiddleware, verifyToken);
 
 // Rutas solo para administradores
 userRouter.get('/', authMiddleware, verifyAdmin, getUsers);
+userRouter.get('/deleted', authMiddleware, verifyAdmin, getDeletedUsers);
 userRouter.get('/:id', authMiddleware, verifyAdmin, getUserById);
 userRouter.post('/', authMiddleware, verifyAdmin, createUser);
 userRouter.put('/:id', authMiddleware, verifyAdmin, updateUser);

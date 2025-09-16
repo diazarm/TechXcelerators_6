@@ -3,7 +3,11 @@ import { Request, Response, NextFunction } from "express";
 import { UserService } from "../services/userService";
 const userService = new UserService();
 
-export const getUsers = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const getUsers = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
   try {
     const users = await userService.getUsers();
     res.json(users);
@@ -12,8 +16,26 @@ export const getUsers = async (req: Request, res: Response, next: NextFunction):
   }
 };
 
+export const getDeletedUsers = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    const page = parseInt(req.query.page as string) || 1;
+    const limit = parseInt(req.query.limit as string) || 10;
+    const users = await userService.getDeletedUsers(page, limit);
+    res.json(users);
+  } catch (error) {
+    next(error);
+  }
+};
 
-export const getUserById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const getUserById = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
   try {
     const id = req.params.id;
     const user = await userService.getUserById(id);
@@ -24,7 +46,11 @@ export const getUserById = async (req: Request, res: Response, next: NextFunctio
   }
 };
 
-export const createUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const createUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
   try {
     const userData = req.body;
     const user = await userService.createUser(userData);
@@ -38,7 +64,11 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
   }
 };
 
-export const login = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const login = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
   try {
     const { email, password } = req.body;
     const [user, token] = await userService.loginService({ email, password });
@@ -48,7 +78,31 @@ export const login = async (req: Request, res: Response, next: NextFunction): Pr
   }
 };
 
-export const updateUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const resetAdminPassword = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    const { email, newPassword } = req.body;
+    const user = await userService.resetAdminPassword(email, newPassword);
+    res.json({ message: "Contraseña actualizada con éxito", user });
+  } catch (error: any) {
+    if (error && error.status && error.error) {
+      res.status(error.status).json({ error: error.error });
+    } else {
+      res
+        .status(500)
+        .json({ error: "Error inesperado al actualizar contraseña" });
+    }
+  }
+};
+
+export const updateUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
   try {
     const id = req.params.id;
     const updatedData = req.body;
@@ -60,18 +114,25 @@ export const updateUser = async (req: Request, res: Response, next: NextFunction
   }
 };
 
-export const deleteUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const deleteUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
   try {
     const id = req.params.id;
-    const deletedUser = await userService.deleteUser(id);
-    if (deletedUser) res.status(204).send();
-    else res.status(404).json({ message: "Usuario no encontrado" });
+    await userService.deleteUser(id);
+    res.json({ message: "Usuario inactivado con éxito" });
   } catch (error) {
     next(error);
   }
 };
 
-export const restoreUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const restoreUser = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
   try {
     const id = req.params.id;
     const restoredUser = await userService.restoreUser(id);
@@ -82,12 +143,23 @@ export const restoreUser = async (req: Request, res: Response, next: NextFunctio
   }
 };
 
-export const changeRole = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const changeRole = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
   try {
     const id = req.params.id;
     const updatedUser = await userService.updateRole(id);
-    if (updatedUser) res.json(updatedUser);
-    else res.status(404).json({ message: "Usuario no encontrado" });
+    if (updatedUser) {
+      res.json({
+        message: `Rol actualizado a ${updatedUser.role}`,
+        role: updatedUser.role,
+        user: updatedUser,
+      });
+    } else {
+      res.status(404).json({ message: "Usuario no encontrado" });
+    }
   } catch (error) {
     next(error);
   }

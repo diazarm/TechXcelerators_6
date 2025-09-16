@@ -9,45 +9,53 @@ import { envs } from "../config/envs.config";
 const { secretKey, jwtExpiration } = envs.auth;
 
 export class UserService {
-  async getUsers(): Promise<IUser[]> {
-    return User.find().exec();
-  }
-
-  async getUserById(id: string): Promise<IUser | null> {
-    if (!mongoose.Types.ObjectId.isValid(id)) return null;
-    return User.findById(id).exec();
-  }
-
   async createUser({
     name,
     email,
     password,
     isAdmin = false,
     isActive = true,
+    role = "user",
   }: {
     name: string;
     email: string;
     password: string;
     isAdmin?: boolean;
     isActive?: boolean;
+    role?: "user" | "director";
   }): Promise<IUser> {
     try {
       const existingUser = await User.findOne({ email }).exec();
       if (existingUser) {
         return Promise.reject({ status: 400, error: "El email ya existe" });
       }
-      const hashedPassword = await hashPassword(password);
-      const user = new User({
+      let userData: Partial<IUser> = {
         name,
         email,
-        password: hashedPassword,
         isAdmin,
         isActive,
-      });
+        role: role ?? "user",
+      };
+      // Solo el admin requiere password
+      if (isAdmin) {
+        if (!password) {
+          return Promise.reject({
+            status: 400,
+            error: "El admin requiere contraseña",
+          });
+        }
+        userData.password = await hashPassword(password);
+      } else {
+        userData.password = undefined;
+      }
+      const user = new User(userData);
       return user.save();
     } catch (error) {
       console.error(error);
-      return Promise.reject({ status: 500, error: "Error al intentar registrar el usuario" });
+      return Promise.reject({
+        status: 500,
+        error: "Error al intentar registrar el usuario",
+      });
     }
   }
 
@@ -63,39 +71,75 @@ export class UserService {
       if (!user) {
         return Promise.reject({ status: 404, error: "Usuario no encontrado" });
       }
-      const passwordMatch = await comparePassword(password, user.password);
-      if (!passwordMatch) {
-        return Promise.reject({
-          status: 401,
-          error: "Credenciales incorrectas",
-        });
+      if (user.isAdmin) {
+        // Admin requiere constraseña
+        if (!user.password) {
+          return Promise.reject({ status: 400, error: "El admin no tiene contraseña configurada" });
+        }
+        if (!password) {
+          return Promise.reject({ status: 400, error: "Debes ingresar la contraseña" });
+        }
+        const passwordMatch = await comparePassword(password, user.password);
+        if (!passwordMatch) {
+          return Promise.reject({ status: 401, error: "Credenciales incorrectas" });
+        }
       }
+      // Director y user solo requieren email
       if (!secretKey || typeof secretKey !== "string") {
-        return Promise.reject({
-          status: 500,
-          error: "No se ha configurado secretKey para JWT",
-        });
+        return Promise.reject({ status: 500, error: "No se ha configurado secretKey para JWT" });
       }
-      const expiresIn: number =
-        typeof jwtExpiration === "string"
-          ? parseInt(jwtExpiration)
-          : jwtExpiration;
+      const expiresIn: number = typeof jwtExpiration === "string" ? parseInt(jwtExpiration) : jwtExpiration;
       const payload = {
         uid: user.id.toString(),
         name: user.name ?? "",
         email: user.email ?? "",
         isAdmin: Boolean(user.isAdmin),
+        role: user.role ?? "user",
       };
       const options: SignOptions = { expiresIn };
       const secret: Secret = secretKey as string;
       const token = jwt.sign(payload, secret, options);
       return [user, token];
     } catch (error) {
+      return Promise.reject({ status: 500, error: "Error al intentar iniciar sesión" });
+    }
+  }
+
+  async resetAdminPassword(email: string, newPassword: string): Promise<IUser> {
+    try {
+      const user = await User.findOne({ email }).exec();
+      if (!user || !user.isAdmin) {
+        return Promise.reject({
+          status: 404,
+          error: "Solo el admin puede cambiar su contraseña",
+        });
+      }
+      user.password = await hashPassword(newPassword);
+      await user.save();
+      return user;
+    } catch (error) {
       return Promise.reject({
         status: 500,
-        error: "Error al intentar iniciar sesión",
+        error: "Error al actualizar contraseña",
       });
     }
+  }
+  async getUsers(page: number = 1, limit: number = 10): Promise<IUser[]> {
+    const skip = (page - 1) * limit;
+    return User.find({ isActive: true }).skip(skip).limit(limit).exec();
+  }
+
+  async getDeletedUsers(
+    page: number = 1,
+    limit: number = 10
+  ): Promise<IUser[]> {
+    const skip = (page - 1) * limit;
+    return User.find({ isActive: false }).skip(skip).limit(limit).exec();
+  }
+
+  async getUserById(id: string): Promise<IUser | null> {
+    if (!mongoose.Types.ObjectId.isValid(id)) return null;
+    return User.findById(id).exec();
   }
 
   async updateUser(id: string, updatedData: Partial<IUser>): Promise<IUser> {
@@ -120,20 +164,31 @@ export class UserService {
     }
   }
 
-  async deleteUser(id: string): Promise<IUser> {
+  async deleteUser(id: string): Promise<IUser | null> {
     try {
       if (!mongoose.Types.ObjectId.isValid(id)) {
         return Promise.reject({ status: 400, error: "ID inválido" });
       }
-      const deletedUser = await User.findByIdAndUpdate(
-        id,
+      const deletedUser = await User.findOneAndUpdate(
+        { _id: id, isAdmin: false },
         { isActive: false, deletedAt: new Date() },
         { new: true }
       ).exec();
       if (!deletedUser) {
-        return Promise.reject({ status: 404, error: "Usuario no encontrado" });
+        const exists = await User.exists({ _id: id });
+        if (!exists) {
+          return Promise.reject({
+            status: 404,
+            error: "Usuario no encontrado",
+          });
+        } else {
+          return Promise.reject({
+            status: 403,
+            error: "No se puede eliminar ni inactivar al admin",
+          });
+        }
       }
-      return deletedUser;
+      return Promise.resolve(null);
     } catch (error) {
       return Promise.reject({
         status: 500,
@@ -174,7 +229,8 @@ export class UserService {
       if (!user) {
         return Promise.reject({ status: 404, error: "Usuario no encontrado" });
       }
-      user.isAdmin = !user.isAdmin;
+      // Cambia entre user y director
+      user.role = user.role === "user" ? "director" : "user";
       await user.save();
       return user;
     } catch (error) {
