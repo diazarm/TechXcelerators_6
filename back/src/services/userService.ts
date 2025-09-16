@@ -114,6 +114,14 @@ export class UserService {
           error: "Solo el admin puede cambiar su contraseña",
         });
       }
+      // Validación de contraseña
+      if (!newPassword || newPassword.length < 8) {
+        return Promise.reject({ status: 400, error: "La contraseña debe tener al menos 8 caracteres" });
+      }
+      if (!/[A-Z]/.test(newPassword) || !/[a-z]/.test(newPassword) || !/[0-9]/.test(newPassword)) {
+        return Promise.reject({ status: 400, error: "La contraseña debe incluir mayúsculas, minúsculas y números" });
+      }
+      
       user.password = await hashPassword(newPassword);
       await user.save();
       return user;
