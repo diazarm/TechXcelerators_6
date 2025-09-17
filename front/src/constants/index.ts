@@ -18,3 +18,4 @@ export * from './appConstants';
 export * from './colors';
 export * from './cardConfigs';
 export * from './pageHeaders';
+export * from './notificationMessages';

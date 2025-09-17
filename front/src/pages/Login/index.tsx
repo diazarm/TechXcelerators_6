@@ -13,7 +13,7 @@ const LoginPage: React.FC = () => {
     <div 
       className="min-h-screen w-full relative bg-cover bg-center bg-no-repeat flex items-center justify-center"
       style={{ 
-        backgroundImage: accessType === 'user' 
+        backgroundImage: accessType === 'staff' 
           ? 'url(/img/BgLogin2.jpg)' 
           : 'url(/img/BgLogin.png)' 
       }}
@@ -46,7 +46,7 @@ const LoginPage: React.FC = () => {
             letterSpacing: '0%'
           }}
         >
-          {accessType === 'user' ? 'Acceso Usuario' : 'Acceso Administración'}
+          {accessType === 'staff' ? 'Acceso Staff' : 'Acceso Administración'}
         </h2>
 
         {/* Formulario de login */}
@@ -57,7 +57,7 @@ const LoginPage: React.FC = () => {
             backgroundColor: 'rgba(164, 169, 194, 0.5)'
           }}
         >
-          <LoginForm accessType={accessType as 'user' | 'admin'} />
+          <LoginForm accessType={accessType as 'staff' | 'admin'} />
         </div>
       </div>
     </div>

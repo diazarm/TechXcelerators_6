@@ -61,7 +61,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   }, [checkAuth]);
 
   /** Iniciar sesión del usuario */
-  const loginUser = async (credentials: LoginCredentials, accessType: 'user' | 'admin' = 'admin'): Promise<void> => {
+  const loginUser = async (credentials: LoginCredentials): Promise<void> => {
     try {
       setIsLoading(true);
       setError(null);
@@ -75,18 +75,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         throw new Error('Formato de email inválido');
       }
 
-      // Para administradores, la contraseña es OBLIGATORIA
-      if (accessType === 'admin') {
-        if (!credentials.password) {
-          throw new Error('Contraseña es requerida para administradores');
-        }
-        if (credentials.password.length < 6) {
-          throw new Error('La contraseña debe tener al menos 6 caracteres');
-        }
+      // El backend maneja la lógica de validación de contraseña
+      // Si se proporciona password, se valida; si no, se asume staff
+      if (credentials.password && credentials.password.length < 6) {
+        throw new Error('La contraseña debe tener al menos 6 caracteres');
       }
 
-      // TODO: Implementar llamada al backend
-      const { user, token } = await login(credentials, accessType);
+      // Llamada al servicio de autenticación
+      const { user, token } = await login(credentials);
 
       // Guardar en estado y localStorage
       setUser(user);
@@ -94,6 +90,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       localStorage.setItem('user', JSON.stringify(user));
       // Limpiar timestamp de logout al hacer login
       localStorage.removeItem('lastLogout');
+      
+      // Retornar el resultado para que el LoginForm pueda usarlo
+      return { user, token };
 
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Error en el login';

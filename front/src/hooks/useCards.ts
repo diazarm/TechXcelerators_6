@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getCardConfig } from '../constants/cardConfigs';
+import { getCardConfig } from '../constants';
 
-import type { CardConfig } from '../constants/cardConfigs';
+import type { CardConfig } from '../constants';
 
 
 type PageType = 'dashboard' | 'gobernanza' | 'alianza';

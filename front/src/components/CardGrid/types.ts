@@ -1,4 +1,4 @@
-import type { CardConfig } from '../../constants/cardConfigs';
+import type { CardConfig } from '../../constants';
 
 export interface CardGridProps {
   cards: CardConfig[];

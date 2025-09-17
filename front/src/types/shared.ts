@@ -6,14 +6,18 @@
 // Tipos de usuario que se usan en auth, components, services
 export interface User {
   id: string;
-  email: string;
   name: string;
+  email: string;
+  password?: string; // Solo admin tiene password
+  isActive: boolean;
   role: UserRole;
+  isAdmin: boolean;
   createdAt: string;
-  lastLogin?: string;
+  updatedAt: string;
+  deletedAt?: string;
 }
 
-export type UserRole = 'admin' | 'user';
+export type UserRole = 'user' | 'director';
 
 // Tipos de autenticación compartidos
 export interface AuthState {
@@ -28,18 +32,8 @@ export interface LoginCredentials {
   password?: string;
 }
 
-// Tipos específicos para cada tipo de login
-export interface AdminLoginCredentials {
-  email: string;
-  password: string;
-}
-
-export interface UserLoginCredentials {
-  email: string;
-}
-
 export interface AuthContextType extends AuthState {
-  login: (credentials: LoginCredentials, accessType?: 'user' | 'admin') => Promise<void>;
+  login: (credentials: LoginCredentials) => Promise<{ user: User; token: string }>;
   logout: () => void;
   checkAuth: () => Promise<void>;
   clearError: () => void;

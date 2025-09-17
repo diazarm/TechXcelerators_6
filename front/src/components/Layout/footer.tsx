@@ -25,7 +25,7 @@ export const Footer: React.FC<FooterProps> = ({ variant = "dark" }) => {
   // Configuración de colores según la variante
   const isDark = variant === "dark";
   const logo = isDark ? "/img/Logo3.png" : "/img/LogoScala2.png";
-  const logoSize = isDark ? "h-24" : "h-20";
+  const logoSize = isDark ? "h-24" : "h-16"; // Ajuste para compensar diferencias de proporción
   
   const footerClasses = isDark 
     ? "bg-black text-white" 
@@ -67,7 +67,7 @@ export const Footer: React.FC<FooterProps> = ({ variant = "dark" }) => {
               <img 
                 src={logo} 
                 alt="Scala Learning" 
-                className={`${logoSize} w-auto`}
+                className={`${logoSize} w-auto ${isDark ? '' : 'object-contain ml-6'}`}
               />
             </Link>
             
