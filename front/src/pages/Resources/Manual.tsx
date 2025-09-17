@@ -1,5 +1,5 @@
 import React from "react";
-import { COLOR_CLASSES } from "../../constants/colors";
+import { COLOR_CLASSES } from "../../constants";
 
 const Manual: React.FC = () => {
   return (

@@ -3,11 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth, useFormValidation, useErrorHandler, useNotification } from '../../hooks';
 import { ValidationErrors } from '../../components';
 import { ValidationRules } from '../../services';
+import { getUserTypeDisplay } from '../../utils';
+import { getWelcomeMessage, getErrorMessage, NOTIFICATION_MESSAGES } from '../../constants';
 import type { LoginCredentials } from '../../types';
 
 interface LoginFormProps {
-  accessType: 'user' | 'admin';
+  accessType: 'staff' | 'admin';
 }
+
 
 /** Componente de formulario de login con validación optimizada */
 export const LoginForm: React.FC<LoginFormProps> = ({ accessType }) => {
@@ -89,14 +92,16 @@ export const LoginForm: React.FC<LoginFormProps> = ({ accessType }) => {
                         // Para usuario, no se incluye password
                       };
                   
-                  await login(credentials, accessType);
-                  // Login exitoso - mostrar notificación y redirigir
+                  const { user, token } = await login(credentials);
+                  
+                  // Obtener tipo de usuario para mensaje personalizado
+                  const userType = getUserTypeDisplay(user);
+                  
+                  // Login exitoso - mostrar notificación personalizada y redirigir
                   addNotification({
                     type: 'success',
-                    title: '¡Acceso exitoso!',
-                    message: accessType === 'admin' 
-                      ? 'Bienvenido, administrador. Has accedido al panel de administración.'
-                      : 'Bienvenido a Scala Learning. Tu sesión ha sido iniciada correctamente.',
+                    title: NOTIFICATION_MESSAGES.TITLES.SUCCESS,
+                    message: getWelcomeMessage(userType),
                     duration: 4000
                   });
                   navigate('/dashboard');
@@ -104,28 +109,8 @@ export const LoginForm: React.FC<LoginFormProps> = ({ accessType }) => {
                   // Mostrar error como notificación
                   const errorMessage = err instanceof Error ? err.message : 'Error desconocido';
                   
-                  // Mensajes más específicos según el tipo de error
-                  let title = 'Error de acceso';
-                  let message = errorMessage;
-                  
-                  if (errorMessage.includes('Email es requerido')) {
-                    title = 'Campo requerido';
-                    message = 'Por favor, ingresa tu correo electrónico para continuar.';
-                  } else if (errorMessage.includes('Contraseña es requerida')) {
-                    title = 'Campo requerido';
-                    message = 'Por favor, ingresa tu contraseña para continuar.';
-                  } else if (errorMessage.includes('Formato de email inválido')) {
-                    title = 'Email inválido';
-                    message = 'Por favor, verifica que el formato de tu email sea correcto.';
-                  } else if (errorMessage.includes('Credenciales inválidas')) {
-                    title = 'Acceso denegado';
-                    message = accessType === 'admin' 
-                      ? 'Las credenciales de administrador no son válidas. Verifica tu email y contraseña.'
-                      : 'El email ingresado no está registrado en el sistema.';
-                  } else if (errorMessage.includes('Acceso denegado')) {
-                    title = 'Tipo de acceso incorrecto';
-                    message = 'Este usuario no tiene permisos para acceder como ' + (accessType === 'admin' ? 'administrador' : 'usuario') + '.';
-                  }
+                  // Obtener mensaje de error personalizado
+                  const { title, message } = getErrorMessage(errorMessage, accessType);
                   
                   addNotification({
                     type: 'error',

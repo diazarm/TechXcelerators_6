@@ -8,7 +8,7 @@ const Home: React.FC = () => {
   const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
 
-  const handleAccessClick = (type: 'user' | 'admin') => {
+  const handleAccessClick = (type: 'staff' | 'admin') => {
     navigate(`/login?type=${type}`);
   };
 
@@ -22,14 +22,14 @@ const Home: React.FC = () => {
         {/* Botones de acceso - Solo mostrar si NO está autenticado */}
         {!isAuthenticated && (
           <>
-            {/* User Access Button */}
+            {/* Staff Access Button */}
             <Button
               variant="primary"
               size="md"
-              onClick={() => handleAccessClick('user')}
+              onClick={() => handleAccessClick('staff')}
               className="w-full sm:w-48"
             >
-              Usuario
+              Staff
             </Button>
 
             {/* Admin Access Button */}

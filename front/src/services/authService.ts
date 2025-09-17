@@ -4,23 +4,38 @@ import { errorService, logger, validationService, ValidationRules } from './inde
 
 /** Servicio de autenticación con manejo robusto de errores */
 
-// Usuarios simulados para testing
+// Usuarios simulados para testing - Estructura del backend
 const mockUsers: User[] = [
   {
     id: '1',
-    email: 'admin@example.com',
     name: 'Administrador',
-    role: 'admin',
+    email: 'admin@example.com',
+    password: 'admin123', // Solo admin tiene password
+    isActive: true,
+    role: 'user', // En backend, admin tiene role 'user' pero isAdmin: true
+    isAdmin: true,
     createdAt: '2024-01-01T00:00:00.000Z',
-    lastLogin: '2024-01-15T10:30:00.000Z'
+    updatedAt: '2024-01-01T00:00:00.000Z'
   },
   {
     id: '2',
-    email: 'user@example.com',
-    name: 'Usuario Normal',
-    role: 'user',
+    name: 'Director',
+    email: 'director@example.com',
+    isActive: true,
+    role: 'director',
+    isAdmin: false,
     createdAt: '2024-01-02T00:00:00.000Z',
-    lastLogin: '2024-01-14T15:45:00.000Z'
+    updatedAt: '2024-01-02T00:00:00.000Z'
+  },
+  {
+    id: '3',
+    name: 'Usuario',
+    email: 'user@example.com',
+    isActive: true,
+    role: 'user',
+    isAdmin: false,
+    createdAt: '2024-01-03T00:00:00.000Z',
+    updatedAt: '2024-01-03T00:00:00.000Z'
   }
 ];
 
@@ -37,8 +52,8 @@ const simulateNetworkDelay = (ms: number = 1000, shouldFail: boolean = false): P
   });
 };
 
-// Validación de credenciales según tipo de acceso
-const validateLoginCredentials = (credentials: LoginCredentials, accessType: 'user' | 'admin'): void => {
+// Validación de credenciales - Backend maneja la lógica de tipo de usuario
+const validateLoginCredentials = (credentials: LoginCredentials): void => {
   const fields: Record<string, FieldValidation> = {
     email: {
       field: 'email',
@@ -48,8 +63,8 @@ const validateLoginCredentials = (credentials: LoginCredentials, accessType: 'us
     }
   };
 
-  // Solo validar contraseña para administradores
-  if (accessType === 'admin') {
+  // Solo validar contraseña si se proporciona (admin)
+  if (credentials.password) {
     fields.password = {
       field: 'password',
       required: true,
@@ -72,65 +87,105 @@ const validateLoginCredentials = (credentials: LoginCredentials, accessType: 'us
 };
 
 /** Iniciar sesión del usuario */
-export const login = async (credentials: LoginCredentials, accessType: 'user' | 'admin' = 'admin'): Promise<{ user: User; token: string }> => {
+export const login = async (credentials: LoginCredentials): Promise<{ user: User; token: string }> => {
   try {
     logger.info('Iniciando proceso de login', { email: credentials.email }, 'AuthService');
     
-    // Validar credenciales según tipo de acceso
-    validateLoginCredentials(credentials, accessType);
+    // Validar credenciales básicas
+    logger.debug('Validando credenciales', { email: credentials.email, hasPassword: !!credentials.password }, 'AuthService');
+    
+    // Validación básica temporal
+    if (!credentials.email) {
+      throw new Error('Email es requerido');
+    }
+    if (!credentials.email.includes('@')) {
+      throw new Error('Formato de email inválido');
+    }
+    
+    logger.debug('Credenciales validadas correctamente', {}, 'AuthService');
     
     // TODO: Cuando el backend esté listo, usar:
     // const response = await apiMethods.post('/auth/login', credentials);
     // return response.data;
     
     // Por ahora mantenemos la simulación con manejo de errores
-    await simulateNetworkDelay(1000, Math.random() < 0.1); // 10% de probabilidad de fallo
+    await simulateNetworkDelay(1000, Math.random() < 0.01); // 1% de probabilidad de fallo para testing
     
     // Simular validación del backend
     const user = mockUsers.find(u => u.email === credentials.email);
     
+    logger.debug('Usuario encontrado', { 
+      email: credentials.email, 
+      userFound: !!user, 
+      userId: user?.id,
+      userRole: user?.role,
+      isAdmin: user?.isAdmin 
+    }, 'AuthService');
+    
     if (!user) {
       throw errorService.createBusinessError(
         'AUTH',
-        'Credenciales inválidas',
-        'Verifica tu email y contraseña'
+        'Usuario no encontrado',
+        'El email ingresado no está registrado en el sistema'
       );
     }
 
-    // Verificar que el tipo de usuario coincida con el tipo de acceso
-    if (user.role !== accessType) {
+    // Verificar que el usuario esté activo
+    if (!user.isActive) {
       throw errorService.createBusinessError(
         'AUTH',
-        'Acceso denegado',
-        `Este usuario es de tipo ${user.role}, pero intentas acceder como ${accessType}`
+        'Usuario inactivo',
+        'Tu cuenta ha sido desactivada. Contacta al administrador'
       );
     }
-    
-    // Verificar contraseña solo para admin
-    if (accessType === 'admin' && credentials.password !== 'password123') {
-      throw errorService.createBusinessError(
-        'AUTH',
-        'Credenciales inválidas',
-        'Verifica tu email y contraseña'
-      );
+
+    // Lógica del backend: Si es admin, validar contraseña
+    if (user.isAdmin) {
+      if (!credentials.password) {
+        throw errorService.createBusinessError(
+          'AUTH',
+          'Contraseña requerida',
+          'Debes ingresar la contraseña para acceder como administrador'
+        );
+      }
+      if (credentials.password !== user.password) {
+        throw errorService.createBusinessError(
+          'AUTH',
+          'Credenciales incorrectas',
+          'La contraseña ingresada no es correcta'
+        );
+      }
     }
     
-    // Simular token JWT
+    // Simular token JWT con estructura del backend
     const token = `mock-jwt-${user.id}-${Date.now()}`;
     
     // Actualizar último login
-    user.lastLogin = new Date().toISOString();
+    const updatedUser = {
+      ...user,
+      updatedAt: new Date().toISOString()
+    };
     
-    logger.info('Login exitoso', { userId: user.id, email: user.email }, 'AuthService');
+    logger.info('Login exitoso', { userId: user.id, email: user.email, isAdmin: user.isAdmin, role: user.role }, 'AuthService');
     
-    return { user, token };
+    const result = { user: updatedUser, token };
+    logger.debug('Retornando resultado del login', { 
+      hasUser: !!result.user, 
+      hasToken: !!result.token,
+      userId: result.user?.id,
+      userRole: result.user?.role 
+    }, 'AuthService');
+    
+    return result;
   } catch (error) {
     logger.error('Error en login', { 
       email: credentials.email, 
-      error: error instanceof Error ? error.message : 'Unknown error' 
+      error: error instanceof Error ? error.message : 'Unknown error',
+      errorType: error instanceof Error ? error.constructor.name : typeof error
     }, 'AuthService');
     
-    throw errorService.handleError(error, 'AuthService');
+    // Re-lanzar el error para que sea manejado por el LoginForm
+    throw error;
   }
 };
 
@@ -157,8 +212,13 @@ export const validateToken = async (token: string): Promise<User> => {
     if (!user) {
       throw errorService.createBusinessError('AUTH', 'Usuario no encontrado');
     }
+
+    // Verificar que el usuario esté activo
+    if (!user.isActive) {
+      throw errorService.createBusinessError('AUTH', 'Usuario inactivo');
+    }
     
-    logger.debug('Token validado exitosamente', { userId: user.id }, 'AuthService');
+    logger.debug('Token validado exitosamente', { userId: user.id, isAdmin: user.isAdmin, role: user.role }, 'AuthService');
     
     return user;
   } catch (error) {
