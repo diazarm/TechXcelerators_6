@@ -10,7 +10,11 @@ export const getUsers = async (
 ): Promise<void> => {
   try {
     const users = await userService.getUsers();
-    res.json(users);
+    res.status(200).json({
+      success: true,
+      message: "Usuarios obtenidos con éxito",
+      data: users,
+    });
   } catch (error) {
     next(error);
   }
@@ -39,7 +43,11 @@ export const getUserById = async (
   try {
     const id = req.params.id;
     const user = await userService.getUserById(id);
-    if (user) res.json(user);
+    if (user) res.status(200).json({
+      success: true,
+      message: "Usuario obtenido con éxito",
+      data: user,
+    });
     else res.status(404).json({ message: "Usuario no encontrado" });
   } catch (error) {
     next(error);
@@ -54,12 +62,12 @@ export const createUser = async (
   try {
     const userData = req.body;
     const user = await userService.createUser(userData);
-    res.status(201).json({ user, message: "Usuario creado con éxito" });
+    res.status(201).json({ success: true, message: "Usuario creado con éxito", data: user });
   } catch (error: any) {
     if (error && error.status && error.error) {
-      res.status(error.status).json({ error: error.error });
+      res.status(error.status).json({ success: false, error: error.error });
     } else {
-      res.status(500).json({ error: "Error inesperado al crear usuario" });
+      res.status(500).json({ success: false, error: "Error inesperado al crear usuario" });
     }
   }
 };
@@ -72,7 +80,7 @@ export const login = async (
   try {
     const { email, password } = req.body;
     const [user, token] = await userService.loginService({ email, password });
-    res.status(200).json({ user, token, message: "Login exitoso" });
+    res.status(200).json({ success: true, message: "Login exitoso", data: { user, token } });
   } catch (error) {
     next(error);
   }
@@ -89,11 +97,11 @@ export const resetAdminPassword = async (
     res.json({ message: "Contraseña actualizada con éxito", user });
   } catch (error: any) {
     if (error && error.status && error.error) {
-      res.status(error.status).json({ error: error.error });
+      res.status(error.status).json({ success: false, error: error.error });
     } else {
       res
         .status(500)
-        .json({ error: "Error inesperado al actualizar contraseña" });
+        .json({ success: false, error: "Error inesperado al actualizar contraseña" });
     }
   }
 };
@@ -107,8 +115,8 @@ export const updateUser = async (
     const id = req.params.id;
     const updatedData = req.body;
     const updatedUser = await userService.updateUser(id, updatedData);
-    if (updatedUser) res.json(updatedUser);
-    else res.status(404).json({ message: "Usuario no encontrado" });
+    if (updatedUser) res.json({ success: true, message: "Usuario actualizado con éxito", data: updatedUser });
+    else res.status(404).json({ success: false, message: "Usuario no encontrado" });
   } catch (error) {
     next(error);
   }
@@ -122,7 +130,7 @@ export const deleteUser = async (
   try {
     const id = req.params.id;
     await userService.deleteUser(id);
-    res.json({ message: "Usuario inactivado con éxito" });
+    res.json({ success: true, message: "Usuario inactivado con éxito" });
   } catch (error) {
     next(error);
   }
@@ -136,8 +144,8 @@ export const restoreUser = async (
   try {
     const id = req.params.id;
     const restoredUser = await userService.restoreUser(id);
-    if (restoredUser) res.json(restoredUser);
-    else res.status(404).json({ message: "Usuario no encontrado" });
+    if (restoredUser) res.json({ success: true, message: "Usuario restaurado con éxito", data: restoredUser });
+    else res.status(404).json({ success: false, message: "Usuario no encontrado" });
   } catch (error) {
     next(error);
   }
@@ -153,12 +161,13 @@ export const changeRole = async (
     const updatedUser = await userService.updateRole(id);
     if (updatedUser) {
       res.json({
+        success: true,
         message: `Rol actualizado a ${updatedUser.role}`,
         role: updatedUser.role,
         user: updatedUser,
       });
     } else {
-      res.status(404).json({ message: "Usuario no encontrado" });
+      res.status(404).json({ success: false, message: "Usuario no encontrado" });
     }
   } catch (error) {
     next(error);

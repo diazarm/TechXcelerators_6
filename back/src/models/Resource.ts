@@ -4,7 +4,10 @@ export interface IResource extends Document {
   sectionId: Schema.Types.ObjectId;
   name: string;
   description?: string;
-  link: string;
+  links: {
+    label?: string; //Ejemplo: "EAFIT", "Directorio de contactos", etc.
+    url: string;
+  }[];
   isActive: boolean;
   createdAt: Date;
   updatedAt: Date;
@@ -16,7 +19,12 @@ const resourceSchema = new Schema<IResource>(
     sectionId: {type: Schema.Types.ObjectId, ref: 'Section', required: true},
     name: {type: String, required: true},
     description: {type: String},
-    link: {type: String, required: true},
+    links: [
+      {
+        label: {type: String},
+        url: {type: String, required: true},
+      },
+    ],
     isActive: {type: Boolean, default: true},
     deletedAt: {type: Date, default: null},
   },
