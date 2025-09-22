@@ -1,9 +1,9 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { SectionService } from "../services/sectionService";
 
 const sectionService = new SectionService();
 
-export const getSections = async (req: Request, res: Response) => {
+export const getSections = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const sections = await sectionService.getAllSections();
     res.json({
@@ -12,16 +12,13 @@ export const getSections = async (req: Request, res: Response) => {
       data: sections,
     });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      error: "Error interno del servidor al obtener las secciones",
-    });
+    next(error);
   }
 };
 
-export const getSectionById = async (req: Request, res: Response) => {  
-    try {
-        const section = await sectionService.getSectionById(req.params.id);
+export const getSectionById = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const section = await sectionService.getSectionById(req.params.id);
         if (!section) {
             return res.status(404).json({
                 success: false,
@@ -34,14 +31,11 @@ export const getSectionById = async (req: Request, res: Response) => {
             data: section
         });
     } catch (error) {
-        res.status(500).json({  
-            success: false,
-            error: "Error interno del servidor al obtener la sección"
-        });
-    }   
+        next(error);
+    }
 };
 
-export const createSection = async (req: Request, res: Response) => {
+export const createSection = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const section = await sectionService.createSection(req.body);
         res.status(201).json({
@@ -50,13 +44,10 @@ export const createSection = async (req: Request, res: Response) => {
             data: section
         });
     } catch (error) {
-        res.status(500).json({
-            success: false,
-            error: "Error interno del servidor al crear la sección"
-        });
+        next(error);
     }
 };
-export const updateSection = async (req: Request, res: Response) => {
+export const updateSection = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const section = await sectionService.updateSection(req.params.id, req.body);
         if (!section) {
@@ -71,13 +62,10 @@ export const updateSection = async (req: Request, res: Response) => {
             data: section
         });
     } catch (error) {
-        res.status(500).json({
-            success: false,
-            error: "Error interno del servidor al actualizar la sección"
-        });
+        next(error);
     }
 };
-export const softDeleteSection = async (req: Request, res: Response) => {
+export const softDeleteSection = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const section = await sectionService.softDeleteSection(req.params.id);
         if (!section) {
@@ -92,13 +80,10 @@ export const softDeleteSection = async (req: Request, res: Response) => {
             data: section
         });
     } catch (error) {
-        res.status(500).json({
-            success: false,
-            error: "Error interno del servidor al eliminar la sección"
-        });
+        next(error);
     }
 };
-export const restoreSection = async (req: Request, res: Response) => {
+export const restoreSection = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const section = await sectionService.restoreSection(req.params.id);
         if (!section) {
@@ -113,9 +98,6 @@ export const restoreSection = async (req: Request, res: Response) => {
             data: section
         });
     } catch (error) {
-        res.status(500).json({
-            success: false,
-            error: "Error interno del servidor al restaurar la sección"
-        });
+        next(error);
     }
 };

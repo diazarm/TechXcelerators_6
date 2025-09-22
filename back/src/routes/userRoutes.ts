@@ -12,7 +12,7 @@ userRouter.post('/login', login);
 // Rutas protegidas por autenticación
 userRouter.get('/verifytoken', authMiddleware, verifyToken);
 
-// Rutas solo para administradores
+//El administrador puede gestionar usuarios
 userRouter.get('/', authMiddleware, verifyAdmin, getUsers);
 userRouter.get('/deleted', authMiddleware, verifyAdmin, getDeletedUsers);
 userRouter.post('/', authMiddleware, verifyAdmin, createUser);

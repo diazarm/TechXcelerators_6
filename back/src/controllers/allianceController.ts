@@ -1,24 +1,20 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { allianceService } from '../services/allianceService';
 
-export const getAlliances = async (req: Request, res: Response) => {
+export const getAlliances = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const alliances = await allianceService.getAlliances();
-        res.json({
+        res.status(200).json({
             success: true,
             message: 'Alianzas obtenidas exitosamente',
             data: alliances
         });
     } catch (error) {
-        console.error('Error al obtener alianzas:', error);
-        res.status(500).json({ 
-            success: false,
-            error: 'Error interno del servidor al obtener las alianzas' 
-        });
+        next(error);
     }
 };
 
-export const getAllianceById = async (req: Request, res: Response) => {
+export const getAllianceById = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const alliance = await allianceService.getAllianceById(req.params.id);
         if (!alliance) {
@@ -27,21 +23,17 @@ export const getAllianceById = async (req: Request, res: Response) => {
                 error: 'Alianza no encontrada' 
             });
         }
-        res.json({
+        res.status(200).json({
             success: true,
             message: 'Alianza obtenida exitosamente',
             data: alliance
         });
     } catch (error) {
-        console.error('Error al obtener alianza por ID:', error);
-        res.status(500).json({ 
-            success: false,
-            error: 'Error interno del servidor al obtener la alianza' 
-        });
+        next(error);
     }
 };
 
-export const createAlliance = async (req: Request, res: Response) => {
+export const createAlliance = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const newAlliance = await allianceService.createAlliance(req.body);
         res.status(201).json({
@@ -50,15 +42,12 @@ export const createAlliance = async (req: Request, res: Response) => {
             data: newAlliance
         });
     } catch (error) {
-        console.error('Error al crear la alianza:', error);
-        res.status(500).json({ 
-            success: false,
-            error: 'Error interno del servidor al crear la alianza' 
-        });
+        next(error);
     }
 };
 
-export const updateAlliance = async (req: Request, res: Response) => {
+
+export const updateAlliance = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const updated = await allianceService.updateAlliance(req.params.id, req.body);
         if (!updated) {
@@ -67,21 +56,17 @@ export const updateAlliance = async (req: Request, res: Response) => {
                 error: 'Alianza no encontrada o inactiva' 
             });
         }
-        res.json({
+        res.status(200).json({
             success: true,
             message: 'Alianza actualizada exitosamente',
             data: updated
         });
     } catch (error) {
-        console.error('Error al actualizar la alianza:', error);
-        res.status(500).json({ 
-            success: false,
-            error: 'Error interno del servidor al actualizar la alianza' 
-        });
+        next(error);
     }
 };
 
-export const deleteAlliance = async (req: Request, res: Response) => {
+export const deleteAlliance = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const deleted = await allianceService.softDeleteAlliance(req.params.id);
         if (!deleted) {
@@ -96,15 +81,11 @@ export const deleteAlliance = async (req: Request, res: Response) => {
             data: deleted 
         });
     } catch (error) {
-        console.error('Error al eliminar la alianza:', error);
-        res.status(500).json({ 
-            success: false,
-            error: 'Error interno del servidor al eliminar la alianza' 
-        });
+        next(error);
     }
 };
 
-export const restoreAlliance = async (req: Request, res: Response) => {
+export const restoreAlliance = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const restored = await allianceService.restoreAlliance(req.params.id);  
         if (!restored) {
@@ -113,16 +94,12 @@ export const restoreAlliance = async (req: Request, res: Response) => {
                 error: 'Alianza no encontrada o no estaba eliminada' 
             });
         }
-        res.json({
+        res.status(200).json({
             success: true,
             message: 'Alianza restaurada exitosamente',
             data: restored
         });
     } catch (error) {
-        console.error('Error al restaurar la alianza:', error);
-        res.status(500).json({ 
-            success: false,
-            error: 'Error interno del servidor al restaurar la alianza' 
-        });
+        next(error);
     }
 };

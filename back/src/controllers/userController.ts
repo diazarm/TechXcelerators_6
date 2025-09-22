@@ -29,7 +29,11 @@ export const getDeletedUsers = async (
     const page = parseInt(req.query.page as string) || 1;
     const limit = parseInt(req.query.limit as string) || 10;
     const users = await userService.getDeletedUsers(page, limit);
-    res.json(users);
+    res.status(200).json({
+      success: true,
+      message: "Usuarios eliminados obtenidos con éxito",
+      data: users,
+    });
   } catch (error) {
     next(error);
   }
@@ -115,7 +119,7 @@ export const updateUser = async (
     const id = req.params.id;
     const updatedData = req.body;
     const updatedUser = await userService.updateUser(id, updatedData);
-    if (updatedUser) res.json({ success: true, message: "Usuario actualizado con éxito", data: updatedUser });
+    if (updatedUser) res.status(200).json({ success: true, message: "Usuario actualizado con éxito", data: updatedUser });
     else res.status(404).json({ success: false, message: "Usuario no encontrado" });
   } catch (error) {
     next(error);
@@ -130,7 +134,7 @@ export const deleteUser = async (
   try {
     const id = req.params.id;
     await userService.deleteUser(id);
-    res.json({ success: true, message: "Usuario inactivado con éxito" });
+    res.status(200).json({ success: true, message: "Usuario inactivado con éxito" });
   } catch (error) {
     next(error);
   }
@@ -144,7 +148,7 @@ export const restoreUser = async (
   try {
     const id = req.params.id;
     const restoredUser = await userService.restoreUser(id);
-    if (restoredUser) res.json({ success: true, message: "Usuario restaurado con éxito", data: restoredUser });
+    if (restoredUser) res.status(200).json({ success: true, message: "Usuario restaurado con éxito", data: restoredUser });
     else res.status(404).json({ success: false, message: "Usuario no encontrado" });
   } catch (error) {
     next(error);
@@ -160,7 +164,7 @@ export const changeRole = async (
     const id = req.params.id;
     const updatedUser = await userService.updateRole(id);
     if (updatedUser) {
-      res.json({
+      res.status(200).json({
         success: true,
         message: `Rol actualizado a ${updatedUser.role}`,
         role: updatedUser.role,
