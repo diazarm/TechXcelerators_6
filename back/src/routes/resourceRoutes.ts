@@ -5,13 +5,13 @@ import { isDirectorOrAdmin } from "../middlewares/isDirectorOrAdmin.middleware";
 
 const resourceRouter = Router();
 
-//Todos los usuarios autenticados pueden ver los recursos o filtrar por seccion o editar los recursos
+//Todos los usuarios autenticados pueden ver,filtrar por seccion o editar los recursos
 resourceRouter.get("/", authMiddleware, getResources);
 resourceRouter.get("/:id", authMiddleware, getResourceById);
 resourceRouter.get("/section/:sectionId", authMiddleware, getResourcesBySection);
 resourceRouter.put("/:id", authMiddleware, updateResource);
 
-//Los directores y administradores pueden crear, eliminar (soft delete) y restaurar recursos
+//Los directores y el administrador pueden crear, eliminar (soft delete) y restaurar recursos
 resourceRouter.post("/", authMiddleware, isDirectorOrAdmin, createResource);
 resourceRouter.delete("/:id", authMiddleware, isDirectorOrAdmin, deleteResource);
 resourceRouter.patch("/restore/:id", authMiddleware, isDirectorOrAdmin, restoreResource);
