@@ -8,7 +8,7 @@ import {
     restoreAlliance
 } from '../controllers/allianceController';
 import { authMiddleware } from '../middlewares/auth.middleware';
-import { isDirectorOrAdmin } from '../middlewares/isDirector.middleware';
+import { isDirectorOrAdmin } from '../middlewares/isDirectorOrAdmin.middleware';
 
 const allianceRouter = Router();
 

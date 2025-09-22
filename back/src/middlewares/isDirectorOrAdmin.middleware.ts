@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction } from "express";
-
 export function isDirectorOrAdmin(
   req: Request,
   res: Response,
