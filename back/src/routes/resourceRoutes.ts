@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { getResources, createResource, getResourceById, getResourcesBySection, updateResource, deleteResource, restoreResource } from "../controllers/resourceController";
 import { authMiddleware } from "../middlewares/auth.middleware";
-import { isDirectorOrAdmin } from "../middlewares/isDirector.middleware";
+import { isDirectorOrAdmin } from "../middlewares/isDirectorOrAdmin.middleware";
 
 const resourceRouter = Router();
 
