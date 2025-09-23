@@ -3,11 +3,16 @@ import router from './routes';
 import dotenv from 'dotenv';
 import connectDB from './config/database';
 import { errorHandler } from './utils/errorHandler';
+import cors from 'cors';
 
 dotenv.config();
 
 const app = express();
 connectDB();
+
+app.use(cors({
+  origin: 'http://localhost:5173' // Declaramos el puerto que usa el frontend
+}));
 
 app.use(express.json());
 

@@ -1,0 +1,1080 @@
+{
+	"info": {
+		"_postman_id": "c4b9c939-4b2f-4644-82a2-3a1067dd6a8b",
+		"name": "ScalaLearning",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "39618805"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login_user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const jsonData = pm.response.json();\r",
+									"\r",
+									"if (jsonData.data && jsonData.data.token) {\r",
+									"    pm.environment.set(\"token\", jsonData.data.token);\r",
+									"    console.log(\"Token guardado:\", jsonData.data.token);\r",
+									"} else {\r",
+									"    console.error(\"No se encontró token en la respuesta\");\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"admin@scala.com\",\r\n    \"password\": \"Admin1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users/login",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET_verifytoken",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/users/verifytoken",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"verifytoken"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users_CRUD",
+			"item": [
+				{
+					"name": "GET_users",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/users",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST_users",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Andrea Polo\",\r\n  \"email\": \"andrea@scala.com\",\r\n  \"role\": \"user\", \r\n  \"isAdmin\": false\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT_users/id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \r\n    \"isAdmin\": true \r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/68bf15531d5ec28099fe51e2",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"68bf15531d5ec28099fe51e2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET_users/id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/users/68bf2e192616da1852063c43",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"68bf2e192616da1852063c43"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE_users/id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users/68c9dcc3ae0737f31b96d407",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"68c9dcc3ae0737f31b96d407"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PATCH_/users/role/id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \r\n    \"isAdmin\": true \r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/role/68bf15531d5ec28099fe51e2",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"role",
+								"68bf15531d5ec28099fe51e2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PATCH_users/restore/id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/users/restore/68bf3a31a9ed39bcfb40a95f",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"restore",
+								"68bf3a31a9ed39bcfb40a95f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PATCH_users/passwordReset",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"admin@scala.com\",\r\n    \"newPassword\": \"Admin1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users/passwordReset",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"passwordReset"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET_users/deleted",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"admin@scala.com\",\r\n    \"password\": \"Admin1234\"\r\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users/deleted",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"deleted"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Resources_CRUD",
+			"item": [
+				{
+					"name": "GET_resources",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/resources",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"resources"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET/resources/id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUrl}}/resources/68c22af480f85343fb2bf920",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"resources",
+								"68c22af480f85343fb2bf920"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST_resources",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"sectionId\": \"68cadd9354f9344f27defc83\",\r\n    \"name\": \"UCSS\",\r\n    \"description\": \" \",\r\n    \"links\": [\r\n        { \"label\": \" \", \"url\": \" \" }\r\n\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/resources",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"resources"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PATCH_restore/id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/resources/restore/68b72fe4ff0cf9cd6dbc2ecf",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"resources",
+								"restore",
+								"68b72fe4ff0cf9cd6dbc2ecf"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET_resources/section/id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"sectionId\": \"66d5c2a9f3f1c1a9b25c12e5\",\r\n    \"name\": \"Productos y Precios\",\r\n    \"description\": \"Probando recursos con auth\",\r\n    \"link\": \"https://drive.google.com/file/xxxxxx/view?usp=sharin\"\r\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/resources/section/68c9f2d8d6dbf0c558131e16",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"resources",
+								"section",
+								"68c9f2d8d6dbf0c558131e16"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT_resources/id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"sectionId\": \"68c9f2d8d6dbf0c558131e16\",\r\n    \"links\": [\r\n        { \"label\": \" \", \"url\": \"https://docs.google.com/spreadsheets/d/1yNV6InDnRNSPjraCT2JDK0jkEZXyISHe6sZK8cmyug4/edit?gid=0#gid=0\" }\r\n\r\n  ],\r\n  \"isActive\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/resources/68cae8c154f9344f27defc8f",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"resources",
+								"68cae8c154f9344f27defc8f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE_resources/id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/resources/68b72fe4ff0cf9cd6dbc2ecf",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"resources",
+								"68b72fe4ff0cf9cd6dbc2ecf"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Alliances_CRUD",
+			"item": [
+				{
+					"name": "GET_alliances",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/alliances",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"alliances"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET_alliances/id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/alliances/68c22bdb80f85343fb2bf923",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"alliances",
+								"68c22bdb80f85343fb2bf923"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST_alliances",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Universidad del Desarrollo\",\r\n  \"siglas\": \"UDD\",\r\n  \"url\": \"https://www.udd.cl/\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/alliances",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"alliances"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT_alliances/id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"url\": \"https://udd.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/alliances/68bf8efcd5e22cf935a01bcd",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"alliances",
+								"68bf8efcd5e22cf935a01bcd"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PATCH_alliances/restore/id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/alliances/restore/68d1bf4d952445557f59bd8f",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"alliances",
+								"restore",
+								"68d1bf4d952445557f59bd8f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE_alliances/id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/alliances/68d1bf4d952445557f59bd8f",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"alliances",
+								"68d1bf4d952445557f59bd8f"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "SectionCRUD",
+			"item": [
+				{
+					"name": "GET_sections",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseUrl}}/sections",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"sections"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST_sections",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"Chat IA\",\r\n  \"description\": \"Realiza scraping a la página\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/sections",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"sections"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET_sections/id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/sections/68cade8354f9344f27defc87",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"sections",
+								"68cade8354f9344f27defc87"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT_sections",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"description\": \"Realiza scraping a la página.\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/sections/68cade8354f9344f27defc87",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"sections",
+								"68cade8354f9344f27defc87"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE_sections/id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/sections/68cade8354f9344f27defc87",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"sections",
+								"68cade8354f9344f27defc87"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PATCH_sections/restore/id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/sections/restore/68cade8354f9344f27defc87",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"sections",
+								"restore",
+								"68cade8354f9344f27defc87"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "noauth"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": ""
+		},
+		{
+			"key": "token",
+			"value": "",
+			"type": "default"
+		}
+	]
+}
