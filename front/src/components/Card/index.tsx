@@ -1,7 +1,7 @@
 import React from 'react';
 import { ArrowRight } from 'react-feather';
 import { Button } from '../Button';
-import { useResponsive, useBreakpoints } from '../../hooks';
+import { useResponsive, useBreakpoints, useComponentDimensions } from '../../hooks';
 import { COLOR_CLASSES } from '../../constants';
 import type { CardProps } from './types';
 
@@ -17,51 +17,90 @@ const Card: React.FC<CardProps> = ({
   title,
   description,
   icon,
+  image,
   onButtonClick,
   className = ""
 }) => {
   const responsive = useResponsive();
   const { isMobile } = useBreakpoints();
+  const dimensions = useComponentDimensions();
 
   return (
     <div 
       className={`
-        bg-white rounded-lg shadow-sm hover:shadow-md transition-all duration-300
-        border border-gray-100 hover:border-gray-200
+        ${image ? 'relative overflow-hidden' : 'bg-white border border-gray-100 hover:border-gray-200'}
+        rounded-lg shadow-sm hover:shadow-md transition-all duration-300
         ${responsive.border.radius.medium}
         ${responsive.shadow.small}
         ${isMobile ? 'p-4' : 'p-6'}
         flex flex-col
         ${className}
       `}
+      style={{
+        ...(image ? {
+          backgroundImage: `url(${image})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat'
+        } : {}),
+        width: dimensions.card.medium,
+        height: dimensions.card.medium
+      }}
     >
-      {/* Icon - Solo mostrar si existe */}
-      {icon && (
-        <div className="mb-4 relative top-[7.25px] left-[10.88px]">
+      {/* Overlay con opacidad si hay imagen */}
+      {image && (
+        <div 
+          className="absolute inset-0 bg-black bg-opacity-50"
+        />
+      )}
+
+      {/* Icon - Solo mostrar si existe y no hay imagen */}
+      {icon && !image && (
+        <div 
+          className="mb-4 relative"
+          style={{
+            top: dimensions.spacing.xs,
+            left: dimensions.spacing.sm
+          }}
+        >
           {icon}
         </div>
       )}
       
+      {/* Spacer para cards con imagen - Empuja el contenido hacia abajo */}
+      {image && !icon && (
+        <div 
+          className="flex-grow"
+          style={{ minHeight: dimensions.spacing.xl }}
+        />
+      )}
+      
       {/* Title */}
-      <h3 className={`
-        ${responsive.text.h4}
-        ${COLOR_CLASSES.textPrimary} mb-3
-        ${isMobile ? 'mb-2' : 'mb-3'}
-      `}>
+      <h3 
+        className={`
+          ${image ? 'text-white font-bold' : COLOR_CLASSES.textPrimary} 
+          font-semibold relative z-10
+          ${isMobile ? 'mb-2' : 'mb-3'}
+        `}
+        style={{ fontSize: dimensions.fontSize.xl }}
+      >
         {title}
       </h3>
       
       {/* Description */}
-      <p className={`
-        ${responsive.text.small}
-        ${COLOR_CLASSES.textSecondary} flex-grow
-        ${isMobile ? 'mb-4' : 'mb-6'}
-      `}>
+      <p 
+        className={`
+          ${image ? 'text-white font-semibold' : COLOR_CLASSES.textSecondary} 
+          flex-grow relative z-10
+          ${isMobile ? 'mb-4' : 'mb-6'}
+        `}
+        style={{ fontSize: dimensions.fontSize.md }}
+      >
         {description}
       </p>
       
       {/* Button - Posicionado en esquina inferior derecha */}
-      <div className="flex justify-end mt-auto">
+      <div className="flex justify-end mt-auto relative z-10">
         <Button
           variant="primary"
           size="xs"

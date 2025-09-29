@@ -22,6 +22,8 @@ export { default as Card } from './Card';
 
 // Componentes de formularios
 export { LoginForm } from './LoginForm';
+export { default as RegisterForm } from './RegisterForm';
+export { default as ConfirmationPage } from './ConfirmationPage';
 
 // Componentes de loading
 export { default as LoadingSpinner } from './LoadingSpinner';

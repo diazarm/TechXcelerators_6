@@ -18,6 +18,8 @@
 // Exportaciones de páginas
 export { default as Home } from './Home';
 export { default as LoginPage } from './Login';
+export { default as RegisterPage } from './Register';
+export { default as ConfirmationPage } from './Confirmation';
 
 export * from './Resources';
 export { default as Dashboard } from './Dashboard';

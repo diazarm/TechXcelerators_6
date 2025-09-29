@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useResponsive } from "../../hooks";
+import { useResponsive, useComponentDimensions } from "../../hooks";
 import { Facebook, Instagram, Linkedin, Youtube } from "react-feather";
 
 /**
@@ -21,11 +21,16 @@ export interface FooterProps {
  */
 export const Footer: React.FC<FooterProps> = ({ variant = "dark" }) => {
   const responsive = useResponsive();
+  const dimensions = useComponentDimensions();
 
   // Configuración de colores según la variante
   const isDark = variant === "dark";
   const logo = isDark ? "/img/Logo3.png" : "/img/LogoScala2.png";
-  const logoSize = isDark ? "h-24" : "h-16"; // Ajuste para compensar diferencias de proporción
+  // Ajuste específico para que el logo del footer se vea del mismo tamaño visual que el navbar
+  // Los logos tienen diferentes proporciones, por eso necesitamos multiplicadores específicos
+  const navbarLogoHeight = dimensions.spacing.xl; // 32px escalado
+  const footerLogoMultiplier = isDark ? 2.5 : 2.8; // Multiplicador aumentado significativamente
+  const logoHeight = `${parseFloat(navbarLogoHeight) * footerLogoMultiplier}px`;
   
   const footerClasses = isDark 
     ? "bg-black text-white" 
@@ -57,59 +62,186 @@ export const Footer: React.FC<FooterProps> = ({ variant = "dark" }) => {
 
   return (
     <footer className={footerClasses}>
-      <div className={`${responsive.container} py-16`}>
+      <div 
+        className={`${responsive.container}`}
+        style={{ paddingTop: dimensions.spacing.xl, paddingBottom: dimensions.spacing.xl }}
+      >
         {/* Contenido principal */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
           
           {/* Logo y Redes Sociales */}
-          <div className="space-y-8">
-            <Link to="/" className="flex items-center space-x-2 hover:opacity-80 transition-opacity">
-              <img 
-                src={logo} 
-                alt="Scala Learning" 
-                className={`${logoSize} w-auto ${isDark ? '' : 'object-contain ml-6'}`}
-              />
-            </Link>
-            
-            {/* Redes Sociales */}
-            <div className="flex space-x-4">
+          <div className="space-y-8 md:space-y-8">
+            {/* Logo */}
+            <div className="flex items-center justify-between md:justify-start">
+              <Link to="/" className="flex items-center space-x-2 hover:opacity-80 transition-opacity">
+                <img 
+                  src={logo} 
+                  alt="Scala Learning" 
+                  className={`w-auto ${isDark ? '' : 'object-contain ml-6'}`}
+                  style={{ height: logoHeight }}
+                />
+              </Link>
+              
+              {/* Redes Sociales - Solo en móvil al lado del logo */}
+              <div className="flex space-x-2 md:hidden">
               <a 
                 href="#" 
-                className={`w-9 h-9 ${iconClasses} rounded-lg flex items-center justify-center transition-colors`}
+                className={`${iconClasses} rounded-lg flex items-center justify-center transition-colors`}
+                style={{
+                  width: dimensions.spacing.lg,
+                  height: dimensions.spacing.lg
+                }}
                 aria-label="Facebook"
               >
-                <Facebook className={`w-5 h-5 ${iconColorClasses}`} />
+                <Facebook 
+                  className={`${iconColorClasses}`} 
+                  style={{
+                    width: dimensions.spacing.md,
+                    height: dimensions.spacing.md
+                  }}
+                />
               </a>
               
               <a 
                 href="#" 
-                className={`w-9 h-9 ${iconClasses} rounded-lg flex items-center justify-center transition-colors`}
+                className={`${iconClasses} rounded-lg flex items-center justify-center transition-colors`}
+                style={{
+                  width: dimensions.spacing.lg,
+                  height: dimensions.spacing.lg
+                }}
                 aria-label="Instagram"
               >
-                <Instagram className={`w-5 h-5 ${iconColorClasses}`} />
+                <Instagram 
+                  className={`${iconColorClasses}`} 
+                  style={{
+                    width: dimensions.spacing.md,
+                    height: dimensions.spacing.md
+                  }}
+                />
               </a>
               
               <a 
                 href="#" 
-                className={`w-9 h-9 ${iconClasses} rounded-lg flex items-center justify-center transition-colors`}
+                className={`${iconClasses} rounded-lg flex items-center justify-center transition-colors`}
+                style={{
+                  width: dimensions.spacing.lg,
+                  height: dimensions.spacing.lg
+                }}
                 aria-label="LinkedIn"
               >
-                <Linkedin className={`w-5 h-5 ${iconColorClasses}`} />
+                <Linkedin 
+                  className={`${iconColorClasses}`} 
+                  style={{
+                    width: dimensions.spacing.md,
+                    height: dimensions.spacing.md
+                  }}
+                />
               </a>
               
               <a 
                 href="#" 
-                className={`w-9 h-9 ${iconClasses} rounded-lg flex items-center justify-center transition-colors`}
+                className={`${iconClasses} rounded-lg flex items-center justify-center transition-colors`}
+                style={{
+                  width: dimensions.spacing.lg,
+                  height: dimensions.spacing.lg
+                }}
                 aria-label="YouTube"
               >
-                <Youtube className={`w-5 h-5 ${iconColorClasses}`} />
+                <Youtube 
+                  className={`${iconColorClasses}`} 
+                  style={{
+                    width: dimensions.spacing.md,
+                    height: dimensions.spacing.md
+                  }}
+                />
+              </a>
+              </div>
+            </div>
+            
+            {/* Redes Sociales - Solo en desktop debajo del logo */}
+            <div className="hidden md:flex space-x-4">
+              <a 
+                href="#" 
+                className={`${iconClasses} rounded-lg flex items-center justify-center transition-colors`}
+                style={{
+                  width: dimensions.spacing.lg,
+                  height: dimensions.spacing.lg
+                }}
+                aria-label="Facebook"
+              >
+                <Facebook 
+                  className={`${iconColorClasses}`} 
+                  style={{
+                    width: dimensions.spacing.md,
+                    height: dimensions.spacing.md
+                  }}
+                />
+              </a>
+              
+              <a 
+                href="#" 
+                className={`${iconClasses} rounded-lg flex items-center justify-center transition-colors`}
+                style={{
+                  width: dimensions.spacing.lg,
+                  height: dimensions.spacing.lg
+                }}
+                aria-label="Instagram"
+              >
+                <Instagram 
+                  className={`${iconColorClasses}`} 
+                  style={{
+                    width: dimensions.spacing.md,
+                    height: dimensions.spacing.md
+                  }}
+                />
+              </a>
+              
+              <a 
+                href="#" 
+                className={`${iconClasses} rounded-lg flex items-center justify-center transition-colors`}
+                style={{
+                  width: dimensions.spacing.lg,
+                  height: dimensions.spacing.lg
+                }}
+                aria-label="LinkedIn"
+              >
+                <Linkedin 
+                  className={`${iconColorClasses}`} 
+                  style={{
+                    width: dimensions.spacing.md,
+                    height: dimensions.spacing.md
+                  }}
+                />
+              </a>
+              
+              <a 
+                href="#" 
+                className={`${iconClasses} rounded-lg flex items-center justify-center transition-colors`}
+                style={{
+                  width: dimensions.spacing.lg,
+                  height: dimensions.spacing.lg
+                }}
+                aria-label="YouTube"
+              >
+                <Youtube 
+                  className={`${iconColorClasses}`} 
+                  style={{
+                    width: dimensions.spacing.md,
+                    height: dimensions.spacing.md
+                  }}
+                />
               </a>
             </div>
           </div>
 
           {/* Enlaces de Navegación */}
           <div className="space-y-6">
-            <h3 className={`${headerClasses} font-medium text-lg`}>Acerca de</h3>
+            <h3 
+              className={`${headerClasses} font-medium`}
+              style={{ fontSize: dimensions.fontSize.lg }}
+            >
+              Acerca de
+            </h3>
             <div className="space-y-3">
               <Link to="#" className={`block ${linkClasses} transition-colors`}>Lorem ipsum</Link>
               <Link to="#" className={`block ${linkClasses} transition-colors`}>Lorem ipsum</Link>
@@ -118,7 +250,12 @@ export const Footer: React.FC<FooterProps> = ({ variant = "dark" }) => {
           </div>
 
           <div className="space-y-6">
-            <h3 className={`${headerClasses} font-medium text-lg`}>Recursos</h3>
+            <h3 
+              className={`${headerClasses} font-medium`}
+              style={{ fontSize: dimensions.fontSize.lg }}
+            >
+              Recursos
+            </h3>
             <div className="space-y-3">
               <Link to="#" className={`block ${linkClasses} transition-colors`}>Lorem ipsum</Link>
               <Link to="#" className={`block ${linkClasses} transition-colors`}>Lorem ipsum</Link>
@@ -127,7 +264,12 @@ export const Footer: React.FC<FooterProps> = ({ variant = "dark" }) => {
           </div>
 
           <div className="space-y-6">
-            <h3 className={`${headerClasses} font-medium text-lg`}>Contacto</h3>
+            <h3 
+              className={`${headerClasses} font-medium`}
+              style={{ fontSize: dimensions.fontSize.lg }}
+            >
+              Contacto
+            </h3>
             <div className="space-y-3">
               <Link to="#" className={`block ${linkClasses} transition-colors`}>Lorem ipsum</Link>
               <Link to="#" className={`block ${linkClasses} transition-colors`}>Lorem ipsum</Link>
@@ -139,8 +281,14 @@ export const Footer: React.FC<FooterProps> = ({ variant = "dark" }) => {
 
       {/* Separador y Copyright */}
       <div className={`border-t ${borderClasses}`}>
-        <div className={`${responsive.container} py-8`}>
-          <p className={`text-center ${copyrightClasses} text-base`}>
+        <div 
+          className={`${responsive.container}`}
+          style={{ paddingTop: dimensions.spacing.md, paddingBottom: dimensions.spacing.md }}
+        >
+          <p 
+            className={`text-center ${copyrightClasses}`}
+            style={{ fontSize: dimensions.fontSize.md }}
+          >
             Copyright © 2005 Scala Learning | Terms and Conditions | Privacy Policy
           </p>
         </div>

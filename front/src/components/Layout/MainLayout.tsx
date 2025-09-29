@@ -1,14 +1,15 @@
 import React from "react";
 import { useLocation, Outlet } from "react-router-dom";
-import { useResponsive } from "../../hooks";
+import { useResponsive, useComponentDimensions } from "../../hooks";
 import type { MainLayoutProps } from "./types";
 import { Navbar, Footer, Header } from "../../components";
 
 const MainLayout: React.FC<MainLayoutProps> = ({
   className = "",
-  footerVariant = "light",
+  footerVariant = "dark",
 }) => {
   const responsive = useResponsive();
+  const dimensions = useComponentDimensions();
   const location = useLocation();
 
   const isHomePage = location.pathname === "/";
@@ -27,7 +28,13 @@ const MainLayout: React.FC<MainLayoutProps> = ({
       {shouldShowHeader && <Header />}
 
       {/* Main content */}
-      <main className={`${responsive.container} pb-16 pt-8 flex-1`}>
+      <main 
+        className={`${responsive.container} flex-1`}
+        style={{
+          paddingBottom: dimensions.spacing.xl,
+          paddingTop: dimensions.spacing.md
+        }}
+      >
         <Outlet /> {/* 👈 Aquí se montan las páginas según la ruta */}
       </main>
 

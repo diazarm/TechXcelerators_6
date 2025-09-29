@@ -14,6 +14,8 @@ import {
 import {
   Home,
   LoginPage,
+  RegisterPage,
+  ConfirmationPage,
   Dashboard,
   Gobernanza,
   Instalacion,
@@ -38,6 +40,12 @@ function App() {
                 <Routes>
                   {/* Login fuera del layout */}
                   <Route path="/login" element={<LoginPage />} />
+                  
+                  {/* Register fuera del layout */}
+                  <Route path="/register" element={<RegisterPage />} />
+                  
+                  {/* Confirmation fuera del layout */}
+                  <Route path="/confirmation" element={<ConfirmationPage />} />
 
                   {/* Layout principal - TODAS las rutas deben estar aquí */}
                   <Route path="/" element={<MainLayout />}>
