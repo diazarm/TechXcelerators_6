@@ -36,6 +36,10 @@ export { default as validationService } from './validationService';
 // Exportar ValidationRules desde types
 export { ValidationRules } from '../types/validation';
 
+// Exportaciones del servicio de alianzas
+export { AllianceService, allianceService } from './allianceService';
+
+// Exportaciones del servicio de recursos
 export { ResourceService } from './resourceService';
 
 // Exportar tipos de servicios
