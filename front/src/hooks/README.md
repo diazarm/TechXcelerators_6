@@ -1,161 +1,266 @@
-# 🪝 Hooks
+# Sistema de Responsividad - Frontend
 
-**Guía práctica de hooks disponibles en el proyecto.**
+## 📱 Visión General
 
-## 🎯 **¿Qué Son los Hooks?**
+Este proyecto implementa un **sistema de responsividad dinámico** basado en hooks personalizados que se adapta automáticamente a diferentes tamaños de pantalla y proporciona escalado dinámico de componentes.
 
-Los hooks son funciones especiales de React que te permiten usar estado y otras características de React en componentes funcionales. **Nunca** los llames dentro de loops, condiciones o funciones anidadas.
+## 🎯 Hooks Principales
 
-**¿Por qué se llaman "hooks"?** Es como "enganchar" funcionalidades especiales a tu componente. Imagina que tu componente es una pared y los hooks son ganchos donde puedes colgar diferentes herramientas (estado, efectos, contextos).
+### `useResponsive()`
+Hook principal que proporciona clases de Tailwind CSS responsive y escalado dinámico.
 
-**En la vida real:** Es como tener un cinturón de herramientas donde cada herramienta tiene una función específica. No puedes usar un martillo para atornillar, cada hook tiene su propósito.
-
-## 🚀 **¿Para Qué Se Usan?**
-
-Los hooks te permiten:
-- **Manejar estado** - Guardar y actualizar datos en tu componente
-- **Ejecutar efectos** - Realizar acciones cuando algo cambia
-- **Compartir lógica** - Reutilizar funcionalidad entre componentes
-- **Conectar con contextos** - Acceder a datos globales de la app
-
-## ⭐ **¿Por Qué Son Importantes?**
-
-- **🚫 Sin hooks** - Tendrías que usar componentes de clase (más complejos)
-- **🔄 Reutilización** - La misma lógica funciona en múltiples componentes
-- **📱 Estado moderno** - Manejo de estado más simple y predecible
-- **🧪 Testing fácil** - Hooks son funciones puras, fáciles de probar
-- **🎯 Separación de responsabilidades** - Cada hook tiene una función específica
-
-## 📱 **Hook useResponsive**
-
-### **¿Para Qué Sirve?**
-Te da clases de Tailwind CSS que se adaptan automáticamente a diferentes tamaños de pantalla. **Reemplaza completamente** el uso de media queries.
-
-### **Cómo Usarlo**
 ```tsx
-import { useResponsive } from '../../hooks';
+const { spacing, fontSize, container, scale } = useResponsive();
+
+// Uso
+<div className={`${spacing.px.small} ${fontSize.xl}`}>
+  <div style={{ width: scale(200) }}>Contenido escalado</div>
+</div>
+```
+
+**Características:**
+- Factor de escalado automático (0.8x - 1.2x)
+- Base de diseño: 1440px
+- Escalado limitado para evitar extremos
+
+### `useBreakpoints()`
+Detecta automáticamente el tamaño de pantalla actual.
+
+```tsx
+const { isMobile, isTablet, isDesktop, isLarge } = useBreakpoints();
+
+// Uso
+{isMobile && <ComponenteMobile />}
+{isDesktop && <ComponenteDesktop />}
+```
+
+**Breakpoints:**
+- `isMobile`: < 640px
+- `isTablet`: 640px - 1024px
+- `isDesktop`: 1024px - 1280px
+- `isLarge`: > 1280px
+
+### `useComponentDimensions()`
+Proporciona dimensiones escaladas para componentes específicos.
+
+```tsx
+const dimensions = useComponentDimensions();
+
+// Uso
+<div style={{
+  width: dimensions.card.medium,
+  height: dimensions.card.medium,
+  padding: dimensions.spacing.md
+}}>
+  Tarjeta responsiva
+</div>
+```
+
+### `useScaledDimensions(options)`
+Genera dimensiones escaladas personalizadas.
+
+```tsx
+const scaledDimensions = useScaledDimensions({
+  buttonHeight: 44,
+  cardWidth: 300
+});
+
+// Uso
+<button style={{ height: scaledDimensions.buttonHeight }}>
+  Botón escalado
+</button>
+```
+
+## 🖼️ Sistema de Imágenes Responsivas
+
+### `useResponsiveImage(options)`
+Hook especializado para manejar imágenes y fondos de manera responsiva.
+
+```tsx
+const { backgroundStyles, backgroundClasses } = useResponsiveImage({
+  type: 'background-login',
+  aspectRatio: '16/9',
+  responsive: true
+});
+
+// Uso
+<div 
+  className={backgroundClasses}
+  style={{ backgroundImage: 'url(/img/bg.jpg)', ...backgroundStyles }}
+>
+  Contenido
+</div>
+```
+
+**Tipos de imagen disponibles:**
+- `background`: Fondo general
+- `background-login`: Fondo específico para login
+- `background-login-full`: Fondo completo para login
+- `background-login-admin`: Fondo específico para admin
+- `card`: Imagen de tarjeta
+- `content`: Imagen de contenido
+- `hero`: Imagen hero
+
+## 📐 Clases y Estilos Responsivos
+
+### Clases de Espaciado
+```tsx
+const { spacing } = useResponsive();
+
+// Padding/Margin horizontal
+spacing.px.small    // Padding horizontal pequeño
+spacing.px.medium   // Padding horizontal mediano
+spacing.px.large    // Padding horizontal grande
+
+// Espaciado general
+spacing.sm, spacing.md, spacing.lg, spacing.xl, spacing['2xl'], etc.
+```
+
+### Clases de Tamaño de Fuente
+```tsx
+const { fontSize } = useResponsive();
+
+fontSize.xs, fontSize.sm, fontSize.md, fontSize.lg, fontSize.xl, fontSize['2xl'], etc.
+```
+
+### Contenedor Responsivo
+```tsx
+const { container } = useResponsive();
+
+<div className={container}>
+  Contenido centrado y responsivo
+</div>
+```
+
+## 🔧 Patrones de Uso
+
+### 1. Componente Básico Responsivo
+```tsx
+import { useResponsive, useBreakpoints, useComponentDimensions } from '../hooks';
 
 const MiComponente = () => {
-  const { container, text, spacing, grid } = useResponsive();
-  
+  const responsive = useResponsive();
+  const { isMobile } = useBreakpoints();
+  const dimensions = useComponentDimensions();
+
   return (
-    <div className={`${container} ${spacing.py.large}`}>
-      <h1 className={text.h1}>Mi Título</h1>
-      <div className={`${grid.columns.two} ${grid.gap.large}`}>
-        {/* Contenido */}
-      </div>
+    <div 
+      className={`${responsive.container} ${responsive.spacing.px.medium}`}
+      style={{ 
+        fontSize: dimensions.fontSize.lg,
+        padding: dimensions.spacing.md 
+      }}
+    >
+      {isMobile ? <VistaMovil /> : <VistaDesktop />}
     </div>
   );
 };
 ```
 
-### **Qué Te Da**
-- **container** - Contenedores que se adaptan a la pantalla
-- **text** - Tamaños de texto responsivos
-- **spacing** - Espaciado que cambia según el dispositivo
-- **grid** - Sistemas de grid adaptativos
-- **shadow** - Sombras responsivas
-- **border** - Bordes y radios adaptativos
-
-### **Ventajas del Hook**
-- ✅ **No media queries** - Todo se maneja automáticamente
-- ✅ **Consistencia** - Mismos breakpoints en toda la app
-- ✅ **Mantenibilidad** - Cambios centralizados
-- ✅ **Performance** - No re-renders innecesarios
-
-## 🔐 **Hook useAuth**
-
-### **¿Para Qué Sirve?**
-Te da acceso al usuario logueado y funciones de autenticación. **Siempre** verifica que estés dentro de `AuthProvider`.
-
-### **Cómo Usarlo**
+### 2. Imagen de Fondo Responsiva
 ```tsx
-import { useAuth } from '../../hooks';
+import { useResponsiveImage } from '../hooks';
 
-const MiComponente = () => {
-  const { user, isAuthenticated, login, logout } = useAuth();
-  
-  if (!isAuthenticated) {
-    return <p>Por favor, inicia sesión</p>;
-  }
-  
+const PaginaConFondo = () => {
+  const { backgroundStyles, backgroundClasses } = useResponsiveImage({
+    type: 'background-login',
+    aspectRatio: '16/9'
+  });
+
   return (
-    <div>
-      <p>Hola, {user?.name}</p>
-      <button onClick={logout}>Cerrar sesión</button>
+    <div 
+      className={`min-h-screen ${backgroundClasses}`}
+      style={{ 
+        backgroundImage: 'url(/img/bg.jpg)', 
+        ...backgroundStyles 
+      }}
+    >
+      <Contenido />
     </div>
   );
 };
 ```
 
-### **Qué Te Da**
-- **user** - Datos del usuario logueado (o `null` si no hay sesión)
-- **isAuthenticated** - `true` si hay usuario logueado, `false` si no
-- **login(credentials)** - Función para iniciar sesión
-- **logout()** - Función para cerrar sesión
-- **clearError()** - Limpiar mensajes de error
-
-### **Casos de Uso Comunes**
-- 🔒 **Protección de rutas** - Verificar autenticación
-- 👤 **Mostrar datos del usuario** - Nombre, email, rol
-- 🚪 **Navegación condicional** - Menús según rol
-- 📝 **Formularios** - Pre-llenar datos del usuario
-
-## 🔄 **Hook useLoadingContext**
-
-### **¿Para Qué Sirve?**
-Te permite mostrar/ocultar indicadores de carga en toda la aplicación. **Ideal** para operaciones asíncronas.
-
-### **Cómo Usarlo**
+### 3. Botón Escalado
 ```tsx
-import { useLoadingContext } from '../../hooks';
+import { useScaledDimensions } from '../hooks';
 
-const MiComponente = () => {
-  const { showLoading, hideLoading, isLoading } = useLoadingContext();
-  
-  const handleSubmit = async () => {
-    showLoading('Procesando...');
-    
-    try {
-      // Hacer algo que tome tiempo
-      await algunaOperacion();
-    } finally {
-      hideLoading();
-    }
-  };
-  
+const BotonResponsivo = () => {
+  const scaledDimensions = useScaledDimensions({
+    buttonHeight: 44,
+    buttonWidth: 200
+  });
+
   return (
-    <div>
-      <button onClick={handleSubmit} disabled={isLoading}>
-        {isLoading ? 'Procesando...' : 'Enviar'}
-      </button>
-    </div>
+    <button 
+      className="bg-blue-500 text-white rounded-lg"
+      style={{
+        height: scaledDimensions.buttonHeight,
+        width: scaledDimensions.buttonWidth
+      }}
+    >
+      Botón Escalado
+    </button>
   );
 };
 ```
 
-### **Qué Te Da**
-- **showLoading(message)** - Mostrar loading con mensaje
-- **hideLoading()** - Ocultar loading
-- **isLoading** - `true` si hay loading activo
+## ⚠️ Consideraciones Importantes
 
-### **Casos de Uso Comunes**
-- 📤 **Envío de formularios** - Mostrar "Enviando..."
-- 🔄 **Sincronización de datos** - Mostrar "Sincronizando..."
-- 📥 **Carga de archivos** - Mostrar progreso
-- 🌐 **Llamadas a API** - Indicar que se está procesando
+### 1. **Siempre usar hooks de responsividad**
+❌ **Evitar:**
+```tsx
+<div className="w-64 h-32 p-4 text-lg">  // Tamaños fijos
+```
 
-## 🚨 **Reglas Importantes**
+✅ **Usar:**
+```tsx
+<div style={{ 
+  width: dimensions.card.medium, 
+  height: dimensions.card.medium,
+  padding: dimensions.spacing.md,
+  fontSize: dimensions.fontSize.lg 
+}}>
+```
 
-1. **Siempre** importar hooks desde `../../hooks`
-2. **Nunca** importar directamente desde archivos individuales
-3. **Siempre** usar `useResponsive` en lugar de media queries
-4. **Verificar** que estés dentro del provider correcto (AuthProvider, LoadingProvider)
-5. **Siempre** importar tipos compartidos desde `../../types` (centralizado)
-6. **Nunca** llamar hooks en loops o condiciones
+### 2. **Combinar hooks apropiadamente**
+```tsx
+// ✅ Correcto: Combinar múltiples hooks
+const responsive = useResponsive();
+const { isMobile } = useBreakpoints();
+const dimensions = useComponentDimensions();
 
-## 🔗 **Referencias**
+// ✅ Correcto: Usar breakpoints para lógica condicional
+{isMobile ? <MenuHamburguesa /> : <MenuDesktop />}
+```
 
-- **README principal**: Ver `../README.md`
-- **Sistema de tipos**: Ver `../types/README.md`
-- **Componentes**: Ver `../components/README.md`
+### 3. **Evitar media queries CSS**
+❌ **No usar:**
+```css
+@media (max-width: 768px) { ... }
+```
+
+✅ **Usar hooks:**
+```tsx
+const { isMobile } = useBreakpoints();
+```
+
+## 🚀 Beneficios del Sistema
+
+1. **Consistencia**: Todos los componentes escalan de manera uniforme
+2. **Mantenibilidad**: Cambios centralizados en los hooks
+3. **Flexibilidad**: Fácil ajuste de breakpoints y escalado
+4. **Performance**: Cálculos optimizados y memoización
+5. **Desarrollador**: API simple e intuitiva
+
+## 📚 Ejemplos Prácticos
+
+Ver implementaciones reales en:
+- `src/components/Layout/navbar.tsx` - Navbar responsivo
+- `src/components/Card/index.tsx` - Tarjetas escaladas
+- `src/pages/Login/index.tsx` - Fondo responsivo
+- `src/components/Notification/index.tsx` - Notificaciones adaptativas
+
+---
+
+**💡 Tip:** Siempre importa los hooks desde el archivo barrel: `import { useResponsive, useBreakpoints } from '../hooks';`

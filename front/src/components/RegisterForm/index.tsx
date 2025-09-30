@@ -1,5 +1,5 @@
 import React from 'react';
-import { useFormValidation, useRegister, useErrorHandler } from '../../hooks';
+import { useFormValidation, useRegister, useErrorHandler, useResponsive, useComponentDimensions } from '../../hooks';
 import { ValidationErrors } from '../ValidationErrors';
 import { ValidationRules } from '../../services';
 import type { RegisterFormProps } from './types';
@@ -27,6 +27,8 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
 }) => {
   const { registerUser, isLoading: registerLoading, clearError } = useRegister();
   const { handleError } = useErrorHandler();
+  const responsive = useResponsive();
+  const dimensions = useComponentDimensions();
   
   const isLoading = externalLoading || registerLoading;
 
@@ -132,23 +134,27 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
   };
 
   return (
-    <div className="w-full h-full flex flex-col items-center justify-center px-6">
+    <div 
+      className="w-full h-full flex flex-col items-center justify-center"
+      style={{ padding: dimensions.spacing.md }}
+    >
       <form 
         onSubmit={handleSubmit}
-        className="w-full flex flex-col items-center justify-center space-y-4"
+        className="w-full flex flex-col items-center justify-center"
       >
         {/* Campos del formulario */}
-        <div className="w-full space-y-4">
+        <div className="w-full">
           {/* Campo Nombre */}
-          <div className="w-full">
+          <div className="w-full" style={{ marginBottom: dimensions.spacing.md }}>
             <label 
               htmlFor="name" 
-              className="block text-white mb-1 istok-web"
+              className="block text-white istok-web"
               style={{
                 fontWeight: 400,
-                fontSize: '16px',
+                fontSize: dimensions.fontSize.md,
                 lineHeight: '100%',
-                letterSpacing: '0%'
+                letterSpacing: '0%',
+                marginBottom: dimensions.spacing.xs
               }}
             >
               Nombre
@@ -160,14 +166,18 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
               value={formData.name}
               onChange={handleInputChange}
               onBlur={handleInputBlur}
-              className={`w-full px-3 py-2 rounded-[30px] border-0 text-gray-800 placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-[#FF6E00] bg-[#D9D9D9] istok-web ${
+              className={`w-full rounded-[30px] border-0 text-gray-800 placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-[#FF6E00] bg-[#D9D9D9] istok-web ${
                 hasFieldErrors('name') && isFieldTouched('name') ? 'ring-2 ring-red-400' : 'ring-2 ring-transparent'
               }`}
               style={{
                 fontWeight: 400,
-                fontSize: '16px',
+                fontSize: dimensions.fontSize.md,
                 lineHeight: '100%',
-                letterSpacing: '0%'
+                letterSpacing: '0%',
+                paddingLeft: dimensions.spacing.sm,
+                paddingRight: dimensions.spacing.sm,
+                paddingTop: dimensions.spacing.sm,
+                paddingBottom: dimensions.spacing.sm
               }}
               placeholder="Ingresa el nombre completo"
               disabled={isLoading}
@@ -176,15 +186,16 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
           </div>
 
           {/* Campo Email */}
-          <div className="w-full">
+          <div className="w-full" style={{ marginBottom: dimensions.spacing.md }}>
             <label 
               htmlFor="email" 
-              className="block text-white mb-1 istok-web"
+              className="block text-white istok-web"
               style={{
                 fontWeight: 400,
-                fontSize: '16px',
+                fontSize: dimensions.fontSize.md,
                 lineHeight: '100%',
-                letterSpacing: '0%'
+                letterSpacing: '0%',
+                marginBottom: dimensions.spacing.xs
               }}
             >
               Correo
@@ -196,14 +207,18 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
               value={formData.email}
               onChange={handleInputChange}
               onBlur={handleInputBlur}
-              className={`w-full px-3 py-2 rounded-[30px] border-0 text-gray-800 placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-[#FF6E00] bg-[#D9D9D9] istok-web ${
+              className={`w-full rounded-[30px] border-0 text-gray-800 placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-[#FF6E00] bg-[#D9D9D9] istok-web ${
                 hasFieldErrors('email') && isFieldTouched('email') ? 'ring-2 ring-red-400' : 'ring-2 ring-transparent'
               }`}
               style={{
                 fontWeight: 400,
-                fontSize: '16px',
+                fontSize: dimensions.fontSize.md,
                 lineHeight: '100%',
-                letterSpacing: '0%'
+                letterSpacing: '0%',
+                paddingLeft: dimensions.spacing.sm,
+                paddingRight: dimensions.spacing.sm,
+                paddingTop: dimensions.spacing.sm,
+                paddingBottom: dimensions.spacing.sm
               }}
               placeholder="Ingresa el correo electrónico"
               disabled={isLoading}
@@ -212,15 +227,16 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
           </div>
 
           {/* Campo Rol */}
-          <div className="w-full">
+          <div className="w-full" style={{ marginBottom: dimensions.spacing.md }}>
             <label 
               htmlFor="role" 
-              className="block text-white mb-1 istok-web"
+              className="block text-white istok-web"
               style={{
                 fontWeight: 400,
-                fontSize: '16px',
+                fontSize: dimensions.fontSize.md,
                 lineHeight: '100%',
-                letterSpacing: '0%'
+                letterSpacing: '0%',
+                marginBottom: dimensions.spacing.xs
               }}
             >
               Rol
@@ -231,16 +247,20 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
               value={formData.role}
               onChange={handleInputChange}
               onBlur={handleInputBlur}
-              className={`w-full px-3 py-2 pr-12 rounded-[30px] border-0 text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#FF6E00] bg-[#D9D9D9] istok-web appearance-none cursor-pointer ${
+              className={`w-full rounded-[30px] border-0 text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#FF6E00] bg-[#D9D9D9] istok-web appearance-none cursor-pointer ${
                 hasFieldErrors('role') && isFieldTouched('role') ? 'ring-2 ring-red-400' : 'ring-2 ring-transparent'
               }`}
               style={{
                 fontWeight: 400,
-                fontSize: '16px',
+                fontSize: dimensions.fontSize.md,
                 lineHeight: '100%',
                 letterSpacing: '0%',
+                paddingLeft: dimensions.spacing.sm,
+                paddingRight: dimensions.spacing['2xl'],
+                paddingTop: dimensions.spacing.sm,
+                paddingBottom: dimensions.spacing.sm,
                 backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e")`,
-                backgroundPosition: 'right 12px center',
+                backgroundPosition: `right ${dimensions.spacing.sm}px center`,
                 backgroundRepeat: 'no-repeat',
                 backgroundSize: '16px 12px'
               }}
@@ -254,14 +274,14 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
         </div>
 
         {/* Botón de envío */}
-        <div className="w-full pt-2">
+        <div className="w-full" style={{ marginTop: dimensions.spacing.lg }}>
           <button
             type="submit"
             disabled={isLoading}
             className="w-full h-9 rounded-[50px] text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed istok-web"
             style={{
               fontWeight: 400,
-              fontSize: '16px',
+              fontSize: dimensions.fontSize.md,
               lineHeight: '100%',
               letterSpacing: '0%',
               backgroundColor: '#FF6E00',

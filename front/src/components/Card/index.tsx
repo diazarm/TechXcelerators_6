@@ -1,7 +1,7 @@
 import React from 'react';
 import { ArrowRight } from 'react-feather';
 import { Button } from '../Button';
-import { useResponsive, useBreakpoints, useComponentDimensions } from '../../hooks';
+import { useResponsive, useBreakpoints, useComponentDimensions, useResponsiveImage } from '../../hooks';
 import { COLOR_CLASSES } from '../../constants';
 import type { CardProps } from './types';
 
@@ -24,6 +24,13 @@ const Card: React.FC<CardProps> = ({
   const responsive = useResponsive();
   const { isMobile } = useBreakpoints();
   const dimensions = useComponentDimensions();
+  
+  // Hook de responsividad para imágenes
+  const { backgroundStyles } = useResponsiveImage({
+    type: 'card',
+    aspectRatio: '4/3',
+    responsive: true
+  });
 
   return (
     <div 
@@ -39,9 +46,7 @@ const Card: React.FC<CardProps> = ({
       style={{
         ...(image ? {
           backgroundImage: `url(${image})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat'
+          ...backgroundStyles
         } : {}),
         width: dimensions.card.medium,
         height: dimensions.card.medium

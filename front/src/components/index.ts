@@ -55,6 +55,9 @@ export { default as SearchBar } from './SearchBar';
 // Componentes de cards
 export { default as CardGrid } from './CardGrid';
 
+// Componentes de imágenes responsivas
+export { ResponsiveImage, ResponsiveBackground } from './ResponsiveImage';
+
 // Tipos de componentes
 export type { ResourceDropdownProps } from './ResourceDropdown/types';
 

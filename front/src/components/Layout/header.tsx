@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Plus } from "react-feather";
+import { Plus, UserPlus } from "react-feather";
 import { useResponsive, useHeader, useAuth, useComponentDimensions, useBreakpoints } from "../../hooks";
 import { SearchBar, Button } from "../../components";
 import { getUserPermissions } from "../../utils";
@@ -25,26 +25,29 @@ export const Header: React.FC<HeaderProps> = ({ title }) => {
         <div className={`${responsive.container}`}>
           {isMobile ? (
             /* Layout móvil */
-            <div className="flex flex-col space-y-4">
-              {/* SearchBar en móvil */}
-              <div className="w-full">
+            <div className="flex items-center">
+              {/* Espacio izquierdo para balancear */}
+              <div className="flex-1"></div>
+              
+              {/* SearchBar centrada */}
+              <div className="flex justify-center">
                 <SearchBar />
               </div>
               
-              {/* Botón de crear usuario en móvil */}
-              {canCreateUsers && (
-                <div className="flex justify-center">
+              {/* Espacio derecho con botón o espacio vacío */}
+              <div className="flex-1 flex justify-end">
+                {/* Botón de crear usuario en móvil - pequeño y junto a la SearchBar */}
+                {canCreateUsers && (
                   <Link to="/register">
                     <Button
                       variant="primary"
-                      size="md"
-                      iconLeft={<Plus size={18} />}
+                      size="xs"
+                      iconLeft={<UserPlus size={16} color="white" />}
                     >
-                      Crear usuario
                     </Button>
                   </Link>
-                </div>
-              )}
+                )}
+              </div>
             </div>
           ) : (
             /* Layout desktop */

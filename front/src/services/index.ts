@@ -21,8 +21,7 @@ export {
   login, 
   validateToken, 
   logout, 
-  getCurrentUser,
-  refreshToken
+  getCurrentUser
 } from './authService';
 
 // Exportaciones de la instancia de API

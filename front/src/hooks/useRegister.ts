@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useNotification, useErrorHandler } from './index';
-import { logger } from '../services';
+import { logger, api } from '../services';
 
 export interface RegisterFormData {
   name: string;
@@ -81,31 +81,26 @@ export const useRegister = () => {
         role: registerData.role 
       }, 'useRegister');
 
-      // TODO: Implementar llamada al backend cuando esté listo
-      // const response = await apiMethods.post('/users', registerData);
-      // const newUser = response.data;
+      // Llamada real al backend para crear usuario
+      logger.debug('Enviando datos de registro al backend', { 
+        name: registerData.name,
+        email: registerData.email,
+        role: registerData.role 
+      }, 'useRegister');
 
-      // Simulación temporal del registro con diferentes escenarios
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      const response = await api.post('/users/', registerData);
 
-      // Simular validaciones del backend
-      if (userData.email === 'error@test.com') {
-        throw new Error('Este email ya está registrado en el sistema');
+      if (!response.data.success) {
+        throw new Error(response.data.error || 'Error al crear usuario');
       }
 
-      if (userData.email === 'admin@example.com') {
-        throw new Error('No se puede crear un usuario con email de administrador');
-      }
-
-      if (userData.name.length < 2) {
-        throw new Error('El nombre debe tener al menos 2 caracteres');
-      }
-
-      // Simular éxito del registro
-      logger.debug('Usuario registrado exitosamente (mock)', { 
-        name: userData.name,
-        email: userData.email,
-        role: userData.role 
+      const newUser = response.data.data;
+      
+      logger.debug('Usuario registrado exitosamente', { 
+        name: newUser.name,
+        email: newUser.email,
+        role: newUser.role,
+        id: newUser.id
       }, 'useRegister');
 
       logger.info('Usuario registrado exitosamente', { 

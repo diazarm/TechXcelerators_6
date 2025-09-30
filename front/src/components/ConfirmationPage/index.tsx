@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { CheckCircle } from 'react-feather';
+import { useComponentDimensions } from '../../hooks';
 import type { ConfirmationPageProps } from './types';
 
 /**
@@ -29,6 +30,8 @@ export const ConfirmationPage: React.FC<ConfirmationPageProps> = ({
 }) => {
   const navigate = useNavigate();
   const location = useLocation();
+  const dimensions = useComponentDimensions();
+  
 
   // Obtener datos del estado de navegación si no se proporcionan como props
   const state = location.state as { userName?: string; userEmail?: string; userRole?: string } | null;
@@ -60,16 +63,16 @@ export const ConfirmationPage: React.FC<ConfirmationPageProps> = ({
       <div className="relative z-10 flex flex-col items-center justify-center px-8">
         {/* Contenedor del contenido con opacidad */}
         <div 
-          className="flex flex-col items-center justify-center px-8 py-8 rounded-[25px]"
+          className="flex flex-col items-center justify-between rounded-[25px] w-[280px] sm:w-[450px] lg:w-[600px] min-h-[350px] sm:min-h-[420px] lg:min-h-[500px]"
           style={{
             backgroundColor: 'rgba(30, 30, 30, 0.5)', // #1E1E1E con 50% opacidad
-            width: '500px',
-            height: '400px'
+            padding: dimensions.spacing.xl,
+            gap: dimensions.spacing.lg
           }}
         >
           {/* Logo */}
           <div 
-            className="w-[200px] h-[87px] sm:w-[250px] sm:h-[108px] lg:w-[300px] lg:h-[130px] mb-4"
+            className="w-[200px] sm:w-[350px] lg:w-[500px] h-[80px] sm:h-[140px] lg:h-[200px]"
           >
             <img 
               src="/img/Logo3.png" 
@@ -79,10 +82,16 @@ export const ConfirmationPage: React.FC<ConfirmationPageProps> = ({
           </div>
 
           {/* Icono de éxito */}
-          <div className="mb-4 flex justify-center">
-            <div className="w-16 h-16 sm:w-18 sm:h-18 lg:w-20 lg:h-20 rounded-full flex items-center justify-center">
+          <div className="flex justify-center">
+            <div 
+              className="rounded-full flex items-center justify-center"
+              style={{
+                width: dimensions.spacing['2xl'],
+                height: dimensions.spacing['2xl']
+              }}
+            >
               <CheckCircle 
-                size={48} 
+                size={dimensions.spacing.xl}
                 className="text-white" 
                 style={{ 
                   strokeWidth: 2 
@@ -93,11 +102,14 @@ export const ConfirmationPage: React.FC<ConfirmationPageProps> = ({
 
           {/* Mensaje de confirmación */}
           <h2 
-            className="text-white text-center mb-4 text-base sm:text-lg lg:text-xl montserrat px-4"
+            className="text-white text-center montserrat"
             style={{
               fontWeight: 500,
+              fontSize: dimensions.fontSize.xl,
               lineHeight: '120%',
-              letterSpacing: '0%'
+              letterSpacing: '0%',
+              paddingLeft: dimensions.spacing.lg,
+              paddingRight: dimensions.spacing.lg
             }}
           >
             {message}
@@ -105,17 +117,40 @@ export const ConfirmationPage: React.FC<ConfirmationPageProps> = ({
 
           {/* Información adicional del usuario si está disponible */}
           {finalUserName && (
-            <div className="text-white text-center mb-4 px-4">
-              <p className="text-sm sm:text-base istok-web mb-1">
+            <div 
+              className="text-white text-center"
+              style={{
+                paddingLeft: dimensions.spacing.md,
+                paddingRight: dimensions.spacing.md
+              }}
+            >
+              <p 
+                className="istok-web"
+                style={{
+                  fontSize: dimensions.fontSize.md,
+                  marginBottom: dimensions.spacing.sm
+                }}
+              >
                 <strong>Usuario:</strong> {finalUserName}
               </p>
               {finalUserEmail && (
-                <p className="text-sm sm:text-base istok-web mb-1">
+                <p 
+                  className="istok-web"
+                  style={{
+                    fontSize: dimensions.fontSize.md,
+                    marginBottom: dimensions.spacing.sm
+                  }}
+                >
                   <strong>Email:</strong> {finalUserEmail}
                 </p>
               )}
               {finalUserRole && (
-                <p className="text-sm sm:text-base istok-web">
+                <p 
+                  className="istok-web"
+                  style={{
+                    fontSize: dimensions.fontSize.md
+                  }}
+                >
                   <strong>Rol:</strong> {finalUserRole === 'director' ? 'Director' : 'Usuario'}
                 </p>
               )}
@@ -125,14 +160,19 @@ export const ConfirmationPage: React.FC<ConfirmationPageProps> = ({
           {/* Botón de redirección */}
           <button
             onClick={handleRedirect}
-            className="w-full px-5 py-2 rounded-[6px] text-white transition-all duration-200 hover:opacity-90 istok-web"
+            className="w-full text-white transition-all duration-200 hover:opacity-90 istok-web"
             style={{
               fontWeight: 400,
-              fontSize: '15px',
+              fontSize: dimensions.fontSize.lg,
               lineHeight: '100%',
               letterSpacing: '0%',
               backgroundColor: '#FF6E00',
-              boxShadow: '0px 4px 4px 0px #00000040'
+              boxShadow: '0px 4px 4px 0px #00000040',
+              paddingLeft: dimensions.spacing.lg,
+              paddingRight: dimensions.spacing.lg,
+              paddingTop: dimensions.spacing.md,
+              paddingBottom: dimensions.spacing.md,
+              borderRadius: '6px'
             }}
           >
             {buttonText}

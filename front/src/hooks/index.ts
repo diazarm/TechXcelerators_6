@@ -31,6 +31,7 @@ export { useHeader } from './useHeader';
 // Hooks de responsividad (utilidad, no usan contextos)
 export { useResponsive, useBreakpoints } from './useResponsive';
 export { useScaledDimensions, useComponentDimensions } from './useScaledDimensions';
+export { useResponsiveImage } from './useResponsiveImage';
 
 // Hooks de validación y manejo de errores
 export { useFormValidation } from './useFormValidation';

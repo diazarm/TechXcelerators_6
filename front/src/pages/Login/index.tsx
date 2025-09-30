@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { LoginForm } from '../../components';
+import { LoginForm, ResponsiveBackground } from '../../components';
 import { useResponsive, useAuth, useComponentDimensions } from '../../hooks';
 
 /** Página de login */
@@ -20,13 +20,12 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <div 
-      className="min-h-screen w-full relative bg-cover bg-center bg-no-repeat flex items-center justify-center"
-      style={{ 
-        backgroundImage: accessType === 'staff' 
-          ? 'url(/img/BgLogin2.jpg)' 
-          : 'url(/img/BgLogin.png)' 
-      }}
+    <ResponsiveBackground
+      src={accessType === 'staff' ? '/img/BgLogin2.jpg' : '/img/BgLogin.png'}
+      type="background-login"
+      aspectRatio="16/9"
+      forceMobileConfig={true}
+      className="min-h-screen w-full relative flex items-center justify-center"
     >
       {/* Overlay con opacidad */}
       <div 
@@ -51,12 +50,14 @@ const LoginPage: React.FC = () => {
 
         {/* Título dinámico según tipo de acceso */}
         <h2 
-          className="text-white mb-6 -mt-4 montserrat"
+          className="text-white montserrat"
           style={{
             fontWeight: 500,
             fontSize: dimensions.fontSize['2xl'],
             lineHeight: '100%',
-            letterSpacing: '0%'
+            letterSpacing: '0%',
+            marginTop: dimensions.spacing.lg,
+            marginBottom: dimensions.spacing.xl
           }}
         >
           {accessType === 'staff' ? 'Acceso Staff' : 'Acceso Administración'}
@@ -74,7 +75,7 @@ const LoginPage: React.FC = () => {
           <LoginForm accessType={accessType as 'staff' | 'admin'} />
         </div>
       </div>
-    </div>
+    </ResponsiveBackground>
   );
 };
 

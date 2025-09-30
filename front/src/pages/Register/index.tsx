@@ -35,7 +35,7 @@ const RegisterPage: React.FC = () => {
       <div className={`flex flex-col items-center ${spacing.px.small}`}>
         {/* Logo */}
         <div 
-          className="w-[200px] h-[87px] sm:w-[250px] sm:h-[108px] lg:w-[300px] lg:h-[130px]"
+          className="w-[300px] h-[130px] sm:w-[400px] sm:h-[173px] lg:w-[500px] lg:h-[217px]"
         >
           <Link to={getLogoDestination()}>
             <img 

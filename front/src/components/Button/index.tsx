@@ -35,8 +35,7 @@ export const Button: React.FC<ButtonProps> = ({
       fontSize: dimensions.fontSize.xs,
       borderRadius: '4px',
       height: dimensions.button.height.xs,
-      gap: '0px',
-      minWidth: dimensions.button.minWidth.xs
+      gap: '0px'
     },
     sm: {
       paddingLeft: dimensions.spacing.md,
@@ -46,8 +45,7 @@ export const Button: React.FC<ButtonProps> = ({
       fontSize: dimensions.fontSize.sm,
       borderRadius: '6px',
       height: dimensions.button.height.sm,
-      gap: dimensions.spacing.xs,
-      minWidth: dimensions.button.minWidth.sm
+      gap: dimensions.spacing.xs
     },
     md: {
       paddingLeft: dimensions.spacing.md,
@@ -57,8 +55,7 @@ export const Button: React.FC<ButtonProps> = ({
       fontSize: dimensions.fontSize.md,
       borderRadius: '6px',
       height: dimensions.button.height.md,
-      gap: dimensions.spacing.xs,
-      minWidth: dimensions.button.minWidth.md
+      gap: dimensions.spacing.xs
     },
     lg: {
       paddingLeft: dimensions.spacing.lg,
@@ -68,8 +65,7 @@ export const Button: React.FC<ButtonProps> = ({
       fontSize: dimensions.fontSize.lg,
       borderRadius: '6px',
       height: dimensions.button.height.lg,
-      gap: dimensions.spacing.xs,
-      minWidth: dimensions.button.minWidth.lg
+      gap: dimensions.spacing.xs
     }
   };
 

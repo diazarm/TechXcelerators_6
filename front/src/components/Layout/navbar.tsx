@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Menu, X } from "react-feather";
 import { Button, ResourceDropdown } from "../../components"; // 👈 limpio desde barrel file
-import { useAuth, useNotification, useResponsive, useResources, useComponentDimensions, useBreakpoints } from "../../hooks";
+import { useAuth, useNotification, useResponsive, useResources, useComponentDimensions, useBreakpoints, useScaledDimensions } from "../../hooks";
 import { COLOR_CLASSES } from "../../constants";
 import type { HeaderProps } from "./types";
 
@@ -16,6 +16,11 @@ export const Navbar: React.FC<HeaderProps> = ({ className = "" }) => {
   const dimensions = useComponentDimensions();
   const { isMobile } = useBreakpoints();
   const { resources, loading } = useResources();
+  
+  // Dimensiones escaladas para el botón de logout
+  const scaledDimensions = useScaledDimensions({
+    buttonHeight: 44
+  });
   const mobileMenuRef = useRef<HTMLDivElement>(null);
 
   // Determinar la ruta del logo según el estado de autenticación y rol
@@ -82,8 +87,8 @@ export const Navbar: React.FC<HeaderProps> = ({ className = "" }) => {
       <div 
         className="w-full max-w-[1512px] mx-auto"
         style={{
-          paddingLeft: dimensions.spacing.sm,
-          paddingRight: dimensions.spacing.sm,
+          paddingLeft: dimensions.spacing['2xl'],
+          paddingRight: dimensions.spacing['2xl'],
           paddingTop: dimensions.spacing.md,
           paddingBottom: dimensions.spacing.md
         }}
@@ -212,7 +217,7 @@ export const Navbar: React.FC<HeaderProps> = ({ className = "" }) => {
         {isMobile && isMobileMenuOpen && (
           <div
             ref={mobileMenuRef}
-            className="fixed top-0 right-0 h-full w-80 bg-white shadow-xl z-50 transform transition-transform duration-300 ease-in-out"
+            className="fixed top-0 right-0 h-full w-72 bg-white shadow-xl z-50 transform transition-transform duration-300 ease-in-out"
             style={{
               paddingTop: dimensions.spacing.xl,
               paddingBottom: dimensions.spacing.md,
@@ -265,6 +270,59 @@ export const Navbar: React.FC<HeaderProps> = ({ className = "" }) => {
                 Acerca de
               </Link>
 
+              <Link
+                to="/alianza"
+                className="block text-gray-700 hover:text-[#4A476F] transition-colors font-medium py-2"
+                style={{ fontSize: dimensions.fontSize.md }}
+                onClick={closeMobileMenu}
+              >
+                Nuestra Alianza
+              </Link>
+
+              <Link
+                to="/gobernanza"
+                className="block text-gray-700 hover:text-[#4A476F] transition-colors font-medium py-2"
+                style={{ fontSize: dimensions.fontSize.md }}
+                onClick={closeMobileMenu}
+              >
+                Gobernanza
+              </Link>
+
+              <Link
+                to="#"
+                className="block text-gray-700 hover:text-[#4A476F] transition-colors font-medium py-2"
+                style={{ fontSize: dimensions.fontSize.md }}
+                onClick={closeMobileMenu}
+              >
+                Planeación
+              </Link>
+
+              <Link
+                to="#"
+                className="block font-medium py-2 transition-colors"
+                style={{ fontSize: dimensions.fontSize.md, color: '#FF6E00' }}
+                onClick={closeMobileMenu}
+              >
+                Gestión
+              </Link>
+
+              <Link
+                to="#"
+                className="block text-gray-700 hover:text-[#4A476F] transition-colors font-medium py-2"
+                style={{ fontSize: dimensions.fontSize.md }}
+                onClick={closeMobileMenu}
+              >
+                Iniciativas
+              </Link>
+
+              <Link
+                to="#"
+                className="block text-gray-700 hover:text-[#4A476F] transition-colors font-medium py-2"
+                style={{ fontSize: dimensions.fontSize.md }}
+                onClick={closeMobileMenu}
+              >
+                Galería
+              </Link>
 
               <Link
                 to="/contacto"
@@ -284,23 +342,17 @@ export const Navbar: React.FC<HeaderProps> = ({ className = "" }) => {
                     marginTop: dimensions.spacing.md
                   }}
                 >
-                  <div className="flex justify-end">
-                    <Button
-                      variant="secondary"
-                      size="xs"
-                      onClick={() => {
-                        handleLogout();
-                        closeMobileMenu();
-                      }}
-                      style={{
-                        width: 'auto',
-                        paddingLeft: dimensions.spacing.md,
-                        paddingRight: dimensions.spacing.md
-                      }}
-                    >
-                      Salir
-                    </Button>
-                  </div>
+                  <Button
+                    variant="primary"
+                    size="sm"
+                    onClick={() => {
+                      handleLogout();
+                      closeMobileMenu();
+                    }}
+                    className="w-full"
+                  >
+                    Salir
+                  </Button>
                 </div>
               )}
             </div>

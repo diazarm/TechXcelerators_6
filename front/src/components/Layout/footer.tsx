@@ -243,9 +243,11 @@ export const Footer: React.FC<FooterProps> = ({ variant = "dark" }) => {
               Acerca de
             </h3>
             <div className="space-y-3">
-              <Link to="#" className={`block ${linkClasses} transition-colors`}>Lorem ipsum</Link>
-              <Link to="#" className={`block ${linkClasses} transition-colors`}>Lorem ipsum</Link>
-              <Link to="#" className={`block ${linkClasses} transition-colors`}>Lorem ipsum</Link>
+              <Link to="/alianza" className={`block ${linkClasses} transition-colors`}>Nuestra Alianza</Link>
+              <Link to="/gobernanza" className={`block ${linkClasses} transition-colors`}>Gobernanza</Link>
+              <Link to="#" className={`block ${linkClasses} transition-colors`}>Planeación</Link>
+              <Link to="#" className={`block ${linkClasses} transition-colors`} style={{ color: '#FF6E00' }}>Gestión</Link>
+              <Link to="#" className={`block ${linkClasses} transition-colors`}>Iniciativa</Link>
             </div>
           </div>
 
@@ -257,9 +259,8 @@ export const Footer: React.FC<FooterProps> = ({ variant = "dark" }) => {
               Recursos
             </h3>
             <div className="space-y-3">
-              <Link to="#" className={`block ${linkClasses} transition-colors`}>Lorem ipsum</Link>
-              <Link to="#" className={`block ${linkClasses} transition-colors`}>Lorem ipsum</Link>
-              <Link to="#" className={`block ${linkClasses} transition-colors`}>Lorem ipsum</Link>
+              <Link to="#" className={`block ${linkClasses} transition-colors`} style={{ color: '#FF6E00' }}>Chat IA</Link>
+              <Link to="#" className={`block ${linkClasses} transition-colors`}>Galería de Imágenes e Hitos de la Alianza</Link>
             </div>
           </div>
 
@@ -271,9 +272,11 @@ export const Footer: React.FC<FooterProps> = ({ variant = "dark" }) => {
               Contacto
             </h3>
             <div className="space-y-3">
-              <Link to="#" className={`block ${linkClasses} transition-colors`}>Lorem ipsum</Link>
-              <Link to="#" className={`block ${linkClasses} transition-colors`}>Lorem ipsum</Link>
-              <Link to="#" className={`block ${linkClasses} transition-colors`}>Lorem ipsum</Link>
+              <div className={`block ${linkClasses}`}>
+                Mariano Sánchez Fontecilla 310<br />
+                Oficina 02-137, Las Condes.
+              </div>
+              <div className={`block ${linkClasses}`}>+56 22 594-0659</div>
             </div>
           </div>
         </div>
