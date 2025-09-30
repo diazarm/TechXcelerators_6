@@ -105,12 +105,15 @@ function handleApiError(error: unknown): AppError {
   if (isAxiosError(error)) {
     if (error.response) {
       // Error con respuesta del servidor
+      const errorData = error.response.data as { error?: string; message?: string };
+      const errorMessage = errorData?.error || errorData?.message || error.message;
+      
       return errorService.createApiError(
         error.config?.url || 'unknown',
         error.config?.method?.toUpperCase() || 'unknown',
         error.response.status,
         error.response.data,
-        (error.response.data as { message?: string })?.message || error.message
+        errorMessage
       );
     } else if (error.request) {
       // Error de red (sin respuesta)
@@ -179,4 +182,5 @@ export const apiMethods = {
     apiRequest<T>({ ...config, method: 'DELETE', url })
 };
 
+export { api };
 export default api;

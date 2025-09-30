@@ -79,7 +79,6 @@ export const useNavbar = () => {
     result: SearchResult,
     clearSearch: () => void
   ) => {
-    console.log('Resultado seleccionado:', result);
     // Aquí puedes navegar o hacer algo con el resultado
     clearSearch();
     setSelectedIndex(-1);

@@ -1,16 +1,37 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { Menu, X } from "react-feather";
 import { Button, ResourceDropdown } from "../../components"; // 👈 limpio desde barrel file
-import { useAuth, useNotification, useResponsive, useResources } from "../../hooks";
+import { useAuth, useNotification, useResponsive, useResources, useComponentDimensions, useBreakpoints, useScaledDimensions } from "../../hooks";
 import { COLOR_CLASSES } from "../../constants";
 import type { HeaderProps } from "./types";
 
 export const Navbar: React.FC<HeaderProps> = ({ className = "" }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const { logout, isAuthenticated } = useAuth();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { logout, isAuthenticated, user } = useAuth();
   const { addNotification } = useNotification();
   const responsive = useResponsive();
+  const { scale } = useResponsive();
+  const dimensions = useComponentDimensions();
+  const { isMobile } = useBreakpoints();
   const { resources, loading } = useResources();
+  
+  // Dimensiones escaladas para el botón de logout
+  const scaledDimensions = useScaledDimensions({
+    buttonHeight: 44
+  });
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
+
+  // Determinar la ruta del logo según el estado de autenticación y rol
+  const getLogoDestination = () => {
+    if (isAuthenticated && user) {
+      // Si está autenticado, redirigir al dashboard
+      return '/dashboard';
+    }
+    // Si no está autenticado, redirigir al home
+    return '/';
+  };
 
   const handleDropdownToggle = () => {
     setIsDropdownOpen(!isDropdownOpen);
@@ -26,37 +47,124 @@ export const Navbar: React.FC<HeaderProps> = ({ className = "" }) => {
     });
   };
 
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  const closeMobileMenu = () => {
+    setIsMobileMenuOpen(false);
+  };
+
+  // Cerrar menú móvil al hacer click fuera
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (mobileMenuRef.current && !mobileMenuRef.current.contains(event.target as Node)) {
+        closeMobileMenu();
+      }
+    };
+
+    if (isMobileMenuOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isMobileMenuOpen]);
+
+  // Cerrar menú móvil al cambiar de tamaño de pantalla
+  useEffect(() => {
+    if (!isMobile) {
+      closeMobileMenu();
+    }
+  }, [isMobile]);
+
   return (
     <header
-      className={`bg-white shadow-sm ${className}`}
+      className={`bg-white shadow-sm relative ${className}`}
       style={{ fontFamily: "Montserrat, sans-serif" }}
     >
-      <div className="w-full max-w-[1512px] mx-auto px-4 sm:px-6 py-3 sm:py-4 lg:py-6">
-        <div className="flex items-center h-full">
+      <div 
+        className="w-full max-w-[1512px] mx-auto"
+        style={{
+          paddingLeft: dimensions.spacing['2xl'],
+          paddingRight: dimensions.spacing['2xl'],
+          paddingTop: dimensions.spacing.md,
+          paddingBottom: dimensions.spacing.md
+        }}
+      >
+        <div className="flex items-center justify-between">
           {/* Logo */}
-          <div className="flex items-center ml-4 sm:ml-8 lg:ml-[50px]">
+          <div className="flex items-center">
             <Link
-              to="/"
-              className="flex items-center space-x-2 sm:space-x-3 hover:opacity-80 transition-opacity"
+              to={getLogoDestination()}
+              className="flex items-center hover:opacity-80 transition-opacity"
+              style={{ gap: dimensions.spacing.xs }}
             >
               <img
                 src="/img/LogoScala.png"
                 alt="Scala Learning"
-                className="h-12 sm:h-14 lg:h-16 w-auto"
+                className="w-auto"
+                style={{ height: dimensions.spacing['2xl'] }}
               />
             </Link>
           </div>
 
-          {/* Navegación */}
-          <nav className="flex-1 flex justify-end pr-4 sm:pr-8">
-            <div className="flex items-center gap-2 sm:gap-4 lg:gap-6">
-              <Link
-                to="/acerca"
-                className={`${COLOR_CLASSES.textPrimary} hover:text-[#4A476F] transition-colors font-medium ${responsive.text.small}`}
+          {/* Navegación Desktop */}
+          {!isMobile && (
+            <nav className="flex-1 flex justify-end">
+              <div 
+                className="flex items-center"
+                style={{ 
+                  gap: dimensions.spacing.sm,
+                  marginRight: dimensions.spacing.lg
+                }}
               >
-                Acerca de
-              </Link>
+                <Link
+                  to="/acerca"
+                  className={`${COLOR_CLASSES.textPrimary} hover:text-[#4A476F] transition-colors font-medium`}
+                  style={{ fontSize: dimensions.fontSize.sm }}
+                >
+                  Acerca de
+                </Link>
 
+                {/* Dropdown de Recursos */}
+                <ResourceDropdown
+                  isOpen={isDropdownOpen}
+                  onToggle={handleDropdownToggle}
+                  responsive={responsive}
+                  resources={resources}
+                  loading={loading}
+                />
+
+                <Link
+                  to="/contacto"
+                  className={`${COLOR_CLASSES.textPrimary} hover:text-[#4A476F] transition-colors font-medium`}
+                  style={{ fontSize: dimensions.fontSize.sm }}
+                >
+                  Contacto
+                </Link>
+              </div>
+            </nav>
+          )}
+
+          {/* Botón Salir Desktop */}
+          {!isMobile && isAuthenticated && (
+            <div className="flex items-center">
+              <Button
+                variant="secondary"
+                size="xs"
+                onClick={handleLogout}
+                className="text-xs sm:text-sm"
+              >
+                Salir
+              </Button>
+            </div>
+          )}
+
+          {/* Elementos móviles - Recursos + Hamburger pegados */}
+          {isMobile && (
+            <div className="flex items-center" style={{ gap: dimensions.spacing.xs }}>
               {/* Dropdown de Recursos */}
               <ResourceDropdown
                 isOpen={isDropdownOpen}
@@ -66,29 +174,190 @@ export const Navbar: React.FC<HeaderProps> = ({ className = "" }) => {
                 loading={loading}
               />
 
+              {/* Botón Hamburger Mobile */}
+              <button
+                onClick={toggleMobileMenu}
+                className="rounded-md hover:bg-gray-100 transition-colors"
+                style={{
+                  padding: dimensions.spacing.xs,
+                  fontSize: dimensions.fontSize.sm,
+                  color: '#5D5A88',
+                  backgroundColor: 'transparent',
+                  border: 'none'
+                }}
+                aria-label="Abrir menú"
+              >
+                {isMobileMenuOpen ? (
+                  <X 
+                    size={scale(20)} 
+                    stroke="currentColor"
+                    style={{ color: '#5D5A88' }}
+                  />
+                ) : (
+                  <Menu 
+                    size={scale(20)} 
+                    stroke="currentColor"
+                    style={{ color: '#5D5A88' }}
+                  />
+                )}
+              </button>
+            </div>
+          )}
+        </div>
+
+        {/* Overlay para menú móvil */}
+        {isMobile && isMobileMenuOpen && (
+          <div
+            className="fixed inset-0 bg-black bg-opacity-50 z-40"
+            onClick={closeMobileMenu}
+          />
+        )}
+
+        {/* Menú Móvil Lateral */}
+        {isMobile && isMobileMenuOpen && (
+          <div
+            ref={mobileMenuRef}
+            className="fixed top-0 right-0 h-full w-72 bg-white shadow-xl z-50 transform transition-transform duration-300 ease-in-out"
+            style={{
+              paddingTop: dimensions.spacing.xl,
+              paddingBottom: dimensions.spacing.md,
+              paddingLeft: dimensions.spacing.md,
+              paddingRight: dimensions.spacing.md
+            }}
+          >
+            {/* Header del menú */}
+            <div 
+              className="flex items-center justify-between"
+              style={{ marginBottom: dimensions.spacing.xl }}
+            >
+              <h2 
+                className="font-semibold text-gray-900"
+                style={{ fontSize: dimensions.fontSize.lg }}
+              >
+                Menú
+              </h2>
+              <button
+                onClick={closeMobileMenu}
+                className="rounded-md hover:bg-gray-100 transition-colors"
+                style={{ 
+                  padding: dimensions.spacing.xs,
+                  color: '#5D5A88',
+                  backgroundColor: 'transparent',
+                  border: 'none'
+                }}
+                aria-label="Cerrar menú"
+              >
+                <X 
+                  size={scale(20)} 
+                  stroke="currentColor"
+                  style={{ color: '#5D5A88' }}
+                />
+              </button>
+            </div>
+
+            {/* Contenido del menú */}
+            <div 
+              className="space-y-6"
+              style={{ gap: dimensions.spacing.md }}
+            >
+              {/* Enlaces de navegación */}
+              <Link
+                to="/acerca"
+                className="block text-gray-700 hover:text-[#4A476F] transition-colors font-medium py-2"
+                style={{ fontSize: dimensions.fontSize.md }}
+                onClick={closeMobileMenu}
+              >
+                Acerca de
+              </Link>
+
+              <Link
+                to="/alianza"
+                className="block text-gray-700 hover:text-[#4A476F] transition-colors font-medium py-2"
+                style={{ fontSize: dimensions.fontSize.md }}
+                onClick={closeMobileMenu}
+              >
+                Nuestra Alianza
+              </Link>
+
+              <Link
+                to="/gobernanza"
+                className="block text-gray-700 hover:text-[#4A476F] transition-colors font-medium py-2"
+                style={{ fontSize: dimensions.fontSize.md }}
+                onClick={closeMobileMenu}
+              >
+                Gobernanza
+              </Link>
+
+              <Link
+                to="#"
+                className="block text-gray-700 hover:text-[#4A476F] transition-colors font-medium py-2"
+                style={{ fontSize: dimensions.fontSize.md }}
+                onClick={closeMobileMenu}
+              >
+                Planeación
+              </Link>
+
+              <Link
+                to="#"
+                className="block font-medium py-2 transition-colors"
+                style={{ fontSize: dimensions.fontSize.md, color: '#FF6E00' }}
+                onClick={closeMobileMenu}
+              >
+                Gestión
+              </Link>
+
+              <Link
+                to="#"
+                className="block text-gray-700 hover:text-[#4A476F] transition-colors font-medium py-2"
+                style={{ fontSize: dimensions.fontSize.md }}
+                onClick={closeMobileMenu}
+              >
+                Iniciativas
+              </Link>
+
+              <Link
+                to="#"
+                className="block text-gray-700 hover:text-[#4A476F] transition-colors font-medium py-2"
+                style={{ fontSize: dimensions.fontSize.md }}
+                onClick={closeMobileMenu}
+              >
+                Galería
+              </Link>
+
               <Link
                 to="/contacto"
-                className={`${COLOR_CLASSES.textPrimary} hover:text-[#4A476F] transition-colors font-medium ${responsive.text.small}`}
+                className="block text-gray-700 hover:text-[#4A476F] transition-colors font-medium py-2"
+                style={{ fontSize: dimensions.fontSize.md }}
+                onClick={closeMobileMenu}
               >
                 Contacto
               </Link>
-            </div>
-          </nav>
 
-          {/* Botones de la derecha */}
-          <div className="flex items-center gap-2 sm:gap-4">
-            {isAuthenticated && (
-              <Button
-                variant="secondary"
-                size="xs"
-                onClick={handleLogout}
-                className="text-xs sm:text-sm"
-              >
-                Salir
-              </Button>
-            )}
+              {/* Botón Salir en móvil */}
+              {isAuthenticated && (
+                <div 
+                  className="border-t border-gray-200 pt-6 mt-6"
+                  style={{ 
+                    paddingTop: dimensions.spacing.md,
+                    marginTop: dimensions.spacing.md
+                  }}
+                >
+                  <Button
+                    variant="primary"
+                    size="sm"
+                    onClick={() => {
+                      handleLogout();
+                      closeMobileMenu();
+                    }}
+                    className="w-full"
+                  >
+                    Salir
+                  </Button>
+                </div>
+              )}
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </header>
   );

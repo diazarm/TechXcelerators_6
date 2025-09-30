@@ -1,8 +1,52 @@
 import { useState, useEffect } from 'react';
 
-/** Hook que proporciona clases de Tailwind CSS responsive */
+/** Hook que proporciona clases de Tailwind CSS responsive con escalado dinámico */
 export const useResponsive = () => {
+  const [scaleFactor, setScaleFactor] = useState(1);
+  const [viewport, setViewport] = useState({ width: 0, height: 0 });
+
+  useEffect(() => {
+    const updateScaleFactor = () => {
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+      
+      setViewport({ width, height });
+      
+      // Factor de escalado basado en el ancho de pantalla
+      // Base: 1440px (tamaño de diseño típico de Figma)
+      const baseWidth = 1440;
+      const calculatedScale = width / baseWidth;
+      
+      // Limitar el factor de escalado entre 0.8 y 1.2 para evitar extremos
+      const limitedScale = Math.max(0.8, Math.min(1.2, calculatedScale));
+      
+      setScaleFactor(limitedScale);
+    };
+
+    updateScaleFactor();
+    window.addEventListener('resize', updateScaleFactor);
+    
+    return () => window.removeEventListener('resize', updateScaleFactor);
+  }, []);
+
+  // Función para escalar valores numéricos
+  const scale = (value: number): number => Math.round(value * scaleFactor);
+
+  // Función para generar estilos escalados
+  const scaledStyles = (baseStyles: Record<string, number>) => {
+    const scaled: Record<string, string> = {};
+    Object.entries(baseStyles).forEach(([key, value]) => {
+      scaled[key] = `${scale(value)}px`;
+    });
+    return scaled;
+  };
   return {
+    // Información del escalado dinámico
+    scaleFactor,
+    viewport,
+    scale,
+    scaledStyles,
+    
     // Contenedores principales
     container: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",
     containerSmall: "max-w-4xl mx-auto px-4 sm:px-6 lg:px-8",

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useComponentDimensions } from '../../hooks';
 import type { ButtonProps } from './types';
 
 /** Componente Button reutilizable */
@@ -13,6 +14,7 @@ export const Button: React.FC<ButtonProps> = ({
   iconLeft,
   iconRight,
 }) => {
+  const dimensions = useComponentDimensions();
   // Clases base que se aplican a todos los botones
   const baseClasses = "font-medium transition-all duration-200 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center";
   
@@ -23,12 +25,56 @@ export const Button: React.FC<ButtonProps> = ({
     outline: `!border-[#FF6E00] !text-[#FF6E00] hover:!bg-[#FF6E00] hover:!text-white focus:!ring-[#FF6E00] !bg-white`
   };
   
-  // Clases específicas para cada tamaño
+  // Estilos responsivos para cada tamaño
+  const sizeStyles = {
+    xs: {
+      paddingLeft: dimensions.spacing.md,
+      paddingRight: dimensions.spacing.md,
+      paddingTop: dimensions.spacing.xs,
+      paddingBottom: dimensions.spacing.xs,
+      fontSize: dimensions.fontSize.xs,
+      borderRadius: '4px',
+      height: dimensions.button.height.xs,
+      gap: '0px'
+    },
+    sm: {
+      paddingLeft: dimensions.spacing.md,
+      paddingRight: dimensions.spacing.md,
+      paddingTop: dimensions.spacing.sm,
+      paddingBottom: dimensions.spacing.sm,
+      fontSize: dimensions.fontSize.sm,
+      borderRadius: '6px',
+      height: dimensions.button.height.sm,
+      gap: dimensions.spacing.xs
+    },
+    md: {
+      paddingLeft: dimensions.spacing.md,
+      paddingRight: dimensions.spacing.md,
+      paddingTop: dimensions.spacing.sm,
+      paddingBottom: dimensions.spacing.sm,
+      fontSize: dimensions.fontSize.md,
+      borderRadius: '6px',
+      height: dimensions.button.height.md,
+      gap: dimensions.spacing.xs
+    },
+    lg: {
+      paddingLeft: dimensions.spacing.lg,
+      paddingRight: dimensions.spacing.lg,
+      paddingTop: dimensions.spacing.sm,
+      paddingBottom: dimensions.spacing.sm,
+      fontSize: dimensions.fontSize.lg,
+      borderRadius: '6px',
+      height: dimensions.button.height.lg,
+      gap: dimensions.spacing.xs
+    }
+  };
+
+  // Clases base sin dimensiones fijas
   const sizeClasses = {
-    xs: "px-3 py-1.5 text-xs rounded-[8px] w-[107px] h-[30px] gap-0",
-    sm: "px-6 py-[18px] text-sm rounded-[15px] w-[88px] h-[54px] gap-2",
-    md: "px-6 py-[18px] text-base rounded-[15px] w-[94px] h-[54px] gap-2",
-    lg: "px-8 py-4 text-lg rounded-[15px] w-[120px] h-[60px] gap-2"
+    xs: "rounded-[4px]",
+    sm: "rounded-[6px]",
+    md: "rounded-[6px]",
+    lg: "rounded-[6px]"
   };
 
   // Clases para estado deshabilitado
@@ -47,6 +93,12 @@ export const Button: React.FC<ButtonProps> = ({
     <button
       type={type}
       className={buttonClasses}
+      style={{
+        ...sizeStyles[size],
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+      }}
       onClick={onClick}
       disabled={disabled}
     >

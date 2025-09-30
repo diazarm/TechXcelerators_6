@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import { useResponsive } from '../../hooks';
+import { useResponsive, useComponentDimensions } from '../../hooks';
 import type { ValidationErrorsProps } from './types';
 
 export const ValidationErrors: React.FC<ValidationErrorsProps> = ({
@@ -11,6 +11,7 @@ export const ValidationErrors: React.FC<ValidationErrorsProps> = ({
   className = ''
 }) => {
   const responsive = useResponsive();
+  const dimensions = useComponentDimensions();
 
   if (!errors || errors.length === 0) return null;
 
@@ -19,7 +20,8 @@ export const ValidationErrors: React.FC<ValidationErrorsProps> = ({
       {errors.map((error: string, index: number) => (
         <div
           key={index}
-          className={`flex items-center gap-1 text-red-600 ${responsive.text.xsmall}`}
+          className="flex items-center gap-1 text-red-600"
+          style={{ fontSize: dimensions.fontSize.xs }}
         >
           <span className="text-red-500">⚠️</span>
           <span>{error}</span>
