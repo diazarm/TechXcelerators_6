@@ -1,7 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth, useFormValidation, useNotification, useResponsive, useComponentDimensions } from '../../hooks';
-import { ValidationErrors } from '../../components';
+import { useAuth, useFormValidation, useNotification } from '../../hooks';
+import { useScreenSize } from '../../context';
+import { ValidationErrors, Button } from '../../components';
 import { ValidationRules } from '../../services';
 import { getUserTypeDisplay } from '../../utils';
 import { getWelcomeMessage, getErrorMessage, NOTIFICATION_MESSAGES } from '../../constants';
@@ -17,8 +18,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ accessType }) => {
   const { login, isLoading, error, clearError } = useAuth();
   const { addNotification } = useNotification();
   const navigate = useNavigate();
-  const responsive = useResponsive();
-  const dimensions = useComponentDimensions();
+  const { dimensions, scale } = useScreenSize();
   
   const {
     formData,
@@ -247,22 +247,17 @@ export const LoginForm: React.FC<LoginFormProps> = ({ accessType }) => {
 
 
         {/* Botón de envío */}
-        <div className="w-full flex justify-center" style={{ marginTop: dimensions.spacing.lg }}>
-          <button
+        <div className="w-full" style={{ marginTop: dimensions.spacing.lg }}>
+          <Button
             type="submit"
+            variant="primary"
+            size="lg"
             disabled={isLoading}
-            className="w-40 h-10 rounded-[50px] text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed istok-web"
-            style={{
-              fontWeight: 400,
-              fontSize: dimensions.fontSize.lg,
-              lineHeight: '100%',
-              letterSpacing: '0%',
-              backgroundColor: '#FF6E00',
-              boxShadow: '0px 4px 4px 0px #00000040'
-            }}
+            onClick={() => {}}
+            className="w-full"
           >
             {isLoading ? 'Ingresando...' : 'Ingresar'}
-          </button>
+          </Button>
         </div>
       </form>
     </div>

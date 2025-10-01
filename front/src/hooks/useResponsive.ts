@@ -17,8 +17,8 @@ export const useResponsive = () => {
       const baseWidth = 1440;
       const calculatedScale = width / baseWidth;
       
-      // Limitar el factor de escalado entre 0.8 y 1.2 para evitar extremos
-      const limitedScale = Math.max(0.8, Math.min(1.2, calculatedScale));
+      // Limitar el factor de escalado entre 0.8 y 2.5 para pantallas grandes
+      const limitedScale = Math.max(0.8, Math.min(2.5, calculatedScale));
       
       setScaleFactor(limitedScale);
     };
@@ -51,6 +51,10 @@ export const useResponsive = () => {
     container: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8",
     containerSmall: "max-w-4xl mx-auto px-4 sm:px-6 lg:px-8",
     containerLarge: "max-w-full mx-auto px-4 sm:px-6 lg:px-8",
+    
+    // Contenedores para pantallas grandes (NUEVOS)
+    containerXLarge: "max-w-[min(2400px,98vw)] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-16",
+    containerXXLarge: "max-w-[min(3600px,98vw)] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 2xl:px-20 3xl:px-24",
     
     // Espaciado
     spacing: {
@@ -91,12 +95,21 @@ export const useResponsive = () => {
         three: "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3",
         four: "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4",
         sidebar: "grid grid-cols-1 lg:grid-cols-4 gap-8",
-        main: "grid grid-cols-1 lg:grid-cols-3 gap-8"
+        main: "grid grid-cols-1 lg:grid-cols-3 gap-8",
+        
+        // Grids para pantallas grandes (NUEVOS)
+        threeXLarge: "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 3xl:grid-cols-5",
+        fourXLarge: "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-5 3xl:grid-cols-6 4xl:grid-cols-7",
+        autoXLarge: "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 3xl:grid-cols-6 4xl:grid-cols-7 5xl:grid-cols-8"
       },
       gap: {
         small: "gap-4 sm:gap-6 lg:gap-8",
         medium: "gap-6 sm:gap-8 lg:gap-12",
-        large: "gap-8 sm:gap-12 lg:gap-16"
+        large: "gap-8 sm:gap-12 lg:gap-16",
+        
+        // Gaps para pantallas grandes (NUEVOS)
+        xlarge: "gap-8 sm:gap-12 lg:gap-16 xl:gap-18 2xl:gap-20 3xl:gap-24",
+        xxlarge: "gap-12 sm:gap-16 lg:gap-20 xl:gap-22 2xl:gap-24 3xl:gap-28 4xl:gap-32"
       }
     },
     
@@ -145,17 +158,23 @@ export const useResponsive = () => {
  * Hook que detecta breakpoints de pantalla en tiempo real
  * 
  * Retorna booleanos para cada breakpoint:
- * - isMobile: < 640px
- * - isTablet: 640px - 1024px  
- * - isDesktop: 1024px - 1280px
- * - isLarge: > 1280px
+ * - isMobile: < 640px (sm)
+ * - isTablet: 640px - 1024px (sm - lg)
+ * - isDesktop: 1024px - 1280px (lg - xl)
+ * - isLarge: 1280px - 1536px (xl - 2xl)
+ * - isXLarge: 1536px - 1920px (2xl - 3xl)
+ * - isXXLarge: 1920px - 2560px (3xl - 4xl)
+ * - isUltraLarge: > 2560px (4xl+)
  */
 export const useBreakpoints = () => {
   const [breakpoints, setBreakpoints] = useState({
     isMobile: false,     // < 640px (sm)
     isTablet: false,     // 640px - 1024px (sm - lg)
     isDesktop: false,    // 1024px - 1280px (lg - xl)
-    isLarge: false       // > 1280px (xl)
+    isLarge: false,      // 1280px - 1536px (xl - 2xl)
+    isXLarge: false,     // 1536px - 1920px (2xl - 3xl)
+    isXXLarge: false,    // 1920px - 2560px (3xl - 4xl)
+    isUltraLarge: false  // > 2560px (4xl+)
   });
 
   useEffect(() => {
@@ -166,7 +185,10 @@ export const useBreakpoints = () => {
         isMobile: width < 640,
         isTablet: width >= 640 && width < 1024,
         isDesktop: width >= 1024 && width < 1280,
-        isLarge: width >= 1280
+        isLarge: width >= 1280 && width < 1536,
+        isXLarge: width >= 1440 && width < 2560,
+        isXXLarge: width >= 2560 && width < 3840,
+        isUltraLarge: width >= 3840
       });
     };
 

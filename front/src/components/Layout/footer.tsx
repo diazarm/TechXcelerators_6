@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useResponsive, useComponentDimensions } from "../../hooks";
+import { useScreenSize } from "../../context";
 import { Facebook, Instagram, Linkedin, Youtube } from "react-feather";
 
 /**
@@ -20,8 +20,7 @@ export interface FooterProps {
  * Footer con logo, redes sociales, enlaces de navegación y copyright
  */
 export const Footer: React.FC<FooterProps> = ({ variant = "dark" }) => {
-  const responsive = useResponsive();
-  const dimensions = useComponentDimensions();
+  const { getContainerForScreen, dimensions } = useScreenSize();
 
   // Configuración de colores según la variante
   const isDark = variant === "dark";
@@ -63,7 +62,7 @@ export const Footer: React.FC<FooterProps> = ({ variant = "dark" }) => {
   return (
     <footer className={footerClasses}>
       <div 
-        className={`${responsive.container}`}
+        className={`${getContainerForScreen()}`}
         style={{ paddingTop: dimensions.spacing.xl, paddingBottom: dimensions.spacing.xl }}
       >
         {/* Contenido principal */}
@@ -285,7 +284,7 @@ export const Footer: React.FC<FooterProps> = ({ variant = "dark" }) => {
       {/* Separador y Copyright */}
       <div className={`border-t ${borderClasses}`}>
         <div 
-          className={`${responsive.container}`}
+          className={`${getContainerForScreen()}`}
           style={{ paddingTop: dimensions.spacing.md, paddingBottom: dimensions.spacing.md }}
         >
           <p 

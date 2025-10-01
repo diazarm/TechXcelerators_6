@@ -1,6 +1,6 @@
 import React from 'react';
 import type { LoadingSpinnerProps } from './types';
-import { useResponsive, useComponentDimensions } from '../../hooks';
+import { useScreenSize } from '../../context';
 import { COLOR_CLASSES } from '../../constants';
 
 /** Spinner de carga reutilizable con estilos responsive */
@@ -15,8 +15,7 @@ const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
 }) => {
   // Usar color por defecto de la aplicación si no se especifica
   const spinnerColor = color || COLOR_CLASSES.primary;
-  const { text, flex, animation } = useResponsive();
-  const dimensions = useComponentDimensions();
+  const { dimensions, flex, animation } = useScreenSize();
 
   // Configuración de tamaños escalados
   const sizeClasses = {

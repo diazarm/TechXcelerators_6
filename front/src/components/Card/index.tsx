@@ -1,7 +1,8 @@
 import React from 'react';
 import { ArrowRight } from 'react-feather';
 import { Button } from '../Button';
-import { useResponsive, useBreakpoints, useComponentDimensions, useResponsiveImage } from '../../hooks';
+import { useResponsiveImage } from '../../hooks';
+import { useScreenSize } from '../../context';
 import { COLOR_CLASSES } from '../../constants';
 import type { CardProps } from './types';
 
@@ -21,9 +22,7 @@ const Card: React.FC<CardProps> = ({
   onButtonClick,
   className = ""
 }) => {
-  const responsive = useResponsive();
-  const { isMobile } = useBreakpoints();
-  const dimensions = useComponentDimensions();
+  const { isMobile, isDesktop, isXLarge, isXXLarge, dimensions, scale } = useScreenSize();
   
   // Hook de responsividad para imágenes
   const { backgroundStyles } = useResponsiveImage({
@@ -36,9 +35,9 @@ const Card: React.FC<CardProps> = ({
     <div 
       className={`
         ${image ? 'relative overflow-hidden' : 'bg-white border border-gray-100 hover:border-gray-200'}
-        rounded-lg shadow-sm hover:shadow-md transition-all duration-300
-        ${responsive.border.radius.medium}
-        ${responsive.shadow.small}
+        rounded-2xl shadow-sm hover:shadow-md transition-all duration-300
+        rounded-2xl
+        shadow-sm
         ${isMobile ? 'p-4' : 'p-6'}
         flex flex-col
         ${className}
@@ -87,7 +86,7 @@ const Card: React.FC<CardProps> = ({
           font-semibold relative z-10
           ${isMobile ? 'mb-2' : 'mb-3'}
         `}
-        style={{ fontSize: dimensions.fontSize.xl }}
+        style={{ fontSize: dimensions.fontSize.lg }}
       >
         {title}
       </h3>
@@ -99,7 +98,7 @@ const Card: React.FC<CardProps> = ({
           flex-grow relative z-10
           ${isMobile ? 'mb-4' : 'mb-6'}
         `}
-        style={{ fontSize: dimensions.fontSize.md }}
+        style={{ fontSize: dimensions.fontSize.sm }}
       >
         {description}
       </p>
@@ -111,6 +110,7 @@ const Card: React.FC<CardProps> = ({
           size="xs"
           onClick={onButtonClick}
           iconRight={<ArrowRight className="w-4 h-4" />}
+          style={{ minWidth: `${scale(110)}px` }}
         >
           Ir
         </Button>

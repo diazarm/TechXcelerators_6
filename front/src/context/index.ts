@@ -34,5 +34,9 @@ export { default as HeaderContext } from './header/HeaderProvider';
 export { NotificationProvider } from './notification/NotificationProvider';
 export { NotificationContext } from './notification/notification-context';
 
+// Exportaciones del contexto de tamaño de pantalla
+export { ScreenSizeProvider, useScreenSize } from './screenSize';
+export type { ScreenSizeContextType, ScreenSizeProviderProps } from './screenSize';
+
 // Exportar tipos de contextos
 export type { HeaderContextType, HeaderProviderProps } from './header/types';

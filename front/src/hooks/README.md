@@ -1,266 +1,369 @@
-# Sistema de Responsividad - Frontend
+# Sistema de Responsividad Unificado - Frontend
 
 ## 📱 Visión General
 
-Este proyecto implementa un **sistema de responsividad dinámico** basado en hooks personalizados que se adapta automáticamente a diferentes tamaños de pantalla y proporciona escalado dinámico de componentes.
+Este proyecto implementa un **sistema de responsividad unificado** basado en Context API que proporciona escalado dinámico y automático para **TODAS las pantallas** (móvil, tablet, desktop, pantallas grandes, 4K).
 
-## 🎯 Hooks Principales
+## 🎯 Sistema de Contexto Unificado
 
-### `useResponsive()`
-Hook principal que proporciona clases de Tailwind CSS responsive y escalado dinámico.
+### `ScreenSizeProvider` + `useScreenSize()`
 
-```tsx
-const { spacing, fontSize, container, scale } = useResponsive();
-
-// Uso
-<div className={`${spacing.px.small} ${fontSize.xl}`}>
-  <div style={{ width: scale(200) }}>Contenido escalado</div>
-</div>
-```
-
-**Características:**
-- Factor de escalado automático (0.8x - 1.2x)
-- Base de diseño: 1440px
-- Escalado limitado para evitar extremos
-
-### `useBreakpoints()`
-Detecta automáticamente el tamaño de pantalla actual.
+**El sistema centralizado** que unifica toda la responsividad en un solo contexto.
 
 ```tsx
-const { isMobile, isTablet, isDesktop, isLarge } = useBreakpoints();
+// App.tsx - Provider principal
+import { ScreenSizeProvider } from './context';
 
-// Uso
-{isMobile && <ComponenteMobile />}
-{isDesktop && <ComponenteDesktop />}
-```
+function App() {
+  return (
+    <ScreenSizeProvider>
+      {/* Toda la aplicación */}
+    </ScreenSizeProvider>
+  );
+}
 
-**Breakpoints:**
-- `isMobile`: < 640px
-- `isTablet`: 640px - 1024px
-- `isDesktop`: 1024px - 1280px
-- `isLarge`: > 1280px
-
-### `useComponentDimensions()`
-Proporciona dimensiones escaladas para componentes específicos.
-
-```tsx
-const dimensions = useComponentDimensions();
-
-// Uso
-<div style={{
-  width: dimensions.card.medium,
-  height: dimensions.card.medium,
-  padding: dimensions.spacing.md
-}}>
-  Tarjeta responsiva
-</div>
-```
-
-### `useScaledDimensions(options)`
-Genera dimensiones escaladas personalizadas.
-
-```tsx
-const scaledDimensions = useScaledDimensions({
-  buttonHeight: 44,
-  cardWidth: 300
-});
-
-// Uso
-<button style={{ height: scaledDimensions.buttonHeight }}>
-  Botón escalado
-</button>
-```
-
-## 🖼️ Sistema de Imágenes Responsivas
-
-### `useResponsiveImage(options)`
-Hook especializado para manejar imágenes y fondos de manera responsiva.
-
-```tsx
-const { backgroundStyles, backgroundClasses } = useResponsiveImage({
-  type: 'background-login',
-  aspectRatio: '16/9',
-  responsive: true
-});
-
-// Uso
-<div 
-  className={backgroundClasses}
-  style={{ backgroundImage: 'url(/img/bg.jpg)', ...backgroundStyles }}
->
-  Contenido
-</div>
-```
-
-**Tipos de imagen disponibles:**
-- `background`: Fondo general
-- `background-login`: Fondo específico para login
-- `background-login-full`: Fondo completo para login
-- `background-login-admin`: Fondo específico para admin
-- `card`: Imagen de tarjeta
-- `content`: Imagen de contenido
-- `hero`: Imagen hero
-
-## 📐 Clases y Estilos Responsivos
-
-### Clases de Espaciado
-```tsx
-const { spacing } = useResponsive();
-
-// Padding/Margin horizontal
-spacing.px.small    // Padding horizontal pequeño
-spacing.px.medium   // Padding horizontal mediano
-spacing.px.large    // Padding horizontal grande
-
-// Espaciado general
-spacing.sm, spacing.md, spacing.lg, spacing.xl, spacing['2xl'], etc.
-```
-
-### Clases de Tamaño de Fuente
-```tsx
-const { fontSize } = useResponsive();
-
-fontSize.xs, fontSize.sm, fontSize.md, fontSize.lg, fontSize.xl, fontSize['2xl'], etc.
-```
-
-### Contenedor Responsivo
-```tsx
-const { container } = useResponsive();
-
-<div className={container}>
-  Contenido centrado y responsivo
-</div>
-```
-
-## 🔧 Patrones de Uso
-
-### 1. Componente Básico Responsivo
-```tsx
-import { useResponsive, useBreakpoints, useComponentDimensions } from '../hooks';
+// Cualquier componente
+import { useScreenSize } from '../../context';
 
 const MiComponente = () => {
-  const responsive = useResponsive();
-  const { isMobile } = useBreakpoints();
-  const dimensions = useComponentDimensions();
+  const { 
+    dimensions, 
+    scale, 
+    isMobile, 
+    isDesktop, 
+    isXLarge, 
+    isXXLarge, 
+    isUltraLarge,
+    getContainerForScreen,
+    getGridForScreen,
+    getGapForScreen 
+  } = useScreenSize();
 
   return (
-    <div 
-      className={`${responsive.container} ${responsive.spacing.px.medium}`}
-      style={{ 
-        fontSize: dimensions.fontSize.lg,
-        padding: dimensions.spacing.md 
-      }}
-    >
-      {isMobile ? <VistaMovil /> : <VistaDesktop />}
+    <div className={getContainerForScreen()}>
+      <div 
+        style={{ 
+          width: scale(320), 
+          height: scale(200),
+          fontSize: dimensions.fontSize.lg,
+          padding: dimensions.spacing.md 
+        }}
+      >
+        Contenido escalado automáticamente
+      </div>
     </div>
   );
 };
 ```
 
-### 2. Imagen de Fondo Responsiva
-```tsx
-import { useResponsiveImage } from '../hooks';
+## 🔧 API del Contexto Unificado
 
-const PaginaConFondo = () => {
-  const { backgroundStyles, backgroundClasses } = useResponsiveImage({
-    type: 'background-login',
-    aspectRatio: '16/9'
-  });
+### Breakpoints Automáticos
+```tsx
+const { 
+  isMobile,      // < 640px
+  isTablet,      // 640px - 1024px
+  isDesktop,     // 1024px - 1280px
+  isLarge,       // 1280px - 1440px
+  isXLarge,      // 1440px - 2560px
+  isXXLarge,     // 2560px - 3840px
+  isUltraLarge   // 3840px+
+} = useScreenSize();
+```
+
+### Escalado Dinámico
+```tsx
+const { scale, scaleFactor } = useScreenSize();
+
+// Escalado automático basado en pantalla
+const width = scale(320);     // Escala según el viewport
+const height = scale(200);    // Factor: 0.8x - 2.5x
+const fontSize = scale(16);   // Base: 1440px
+```
+
+### Dimensiones Escaladas
+```tsx
+const { dimensions } = useScreenSize();
+
+// Cards
+dimensions.card.small    // scale(240)px
+dimensions.card.medium   // scale(320)px  
+dimensions.card.large    // scale(400)px
+
+// Botones
+dimensions.button.height.xs  // scale(30)px
+dimensions.button.height.sm  // scale(35)px
+dimensions.button.height.md  // scale(40)px
+dimensions.button.height.lg  // scale(45)px
+
+// Espaciado
+dimensions.spacing.xs    // scale(4)px
+dimensions.spacing.sm    // scale(8)px
+dimensions.spacing.md    // scale(16)px
+dimensions.spacing.lg    // scale(24)px
+dimensions.spacing.xl    // scale(32)px
+dimensions.spacing['2xl'] // scale(48)px
+
+// Tipografía
+dimensions.fontSize.xs   // scale(14)px
+dimensions.fontSize.sm   // scale(16)px
+dimensions.fontSize.md   // scale(18)px
+dimensions.fontSize.lg   // scale(20)px
+dimensions.fontSize.xl   // scale(22)px
+dimensions.fontSize['2xl'] // scale(26)px
+dimensions.fontSize['3xl'] // scale(32)px
+```
+
+### Contenedores Automáticos
+```tsx
+const { getContainerForScreen } = useScreenSize();
+
+// Selecciona automáticamente el contenedor según la pantalla
+const containerClass = getContainerForScreen();
+
+// Resultado según pantalla:
+// Móvil/Tablet: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+// XLarge: "max-w-[min(2400px,98vw)] mx-auto px-4..."
+// XXLarge: "max-w-[min(3600px,98vw)] mx-auto px-4..."
+```
+
+### Grids Automáticos
+```tsx
+const { getGridForScreen } = useScreenSize();
+
+// Grids que se adaptan automáticamente
+const gridClass = getGridForScreen('three');
+// Resultado: "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" + variantes para pantallas grandes
+```
+
+### Gaps Automáticos
+```tsx
+const { getGapForScreen } = useScreenSize();
+
+// Gaps que escalan según la pantalla
+const gapClass = getGapForScreen('medium');
+// Resultado: "gap-4 sm:gap-6 lg:gap-8" + variantes para pantallas grandes
+```
+
+## 🚀 Patrones de Uso Actualizados
+
+### 1. Componente Básico con Contexto Unificado
+```tsx
+import { useScreenSize } from '../../context';
+
+const MiComponente = () => {
+  const { 
+    dimensions, 
+    scale, 
+    isMobile, 
+    getContainerForScreen 
+  } = useScreenSize();
 
   return (
-    <div 
-      className={`min-h-screen ${backgroundClasses}`}
-      style={{ 
-        backgroundImage: 'url(/img/bg.jpg)', 
-        ...backgroundStyles 
-      }}
-    >
-      <Contenido />
+    <div className={getContainerForScreen()}>
+      <div 
+        style={{ 
+          width: scale(320),
+          height: scale(200),
+          fontSize: dimensions.fontSize.lg,
+          padding: dimensions.spacing.md 
+        }}
+      >
+        {isMobile ? <VistaMovil /> : <VistaDesktop />}
+      </div>
     </div>
   );
 };
 ```
 
-### 3. Botón Escalado
+### 2. Card Responsiva
 ```tsx
-import { useScaledDimensions } from '../hooks';
+import { useScreenSize } from '../../context';
 
-const BotonResponsivo = () => {
-  const scaledDimensions = useScaledDimensions({
-    buttonHeight: 44,
-    buttonWidth: 200
-  });
+const Card = () => {
+  const { dimensions, scale } = useScreenSize();
 
   return (
-    <button 
-      className="bg-blue-500 text-white rounded-lg"
+    <div 
+      className="bg-white rounded-2xl shadow-sm"
       style={{
-        height: scaledDimensions.buttonHeight,
-        width: scaledDimensions.buttonWidth
+        width: dimensions.card.medium,
+        height: dimensions.card.medium,
+        padding: dimensions.spacing.lg
       }}
+    >
+      <h3 style={{ fontSize: dimensions.fontSize.lg }}>
+        Título
+      </h3>
+      <p style={{ fontSize: dimensions.fontSize.md }}>
+        Descripción
+      </p>
+      <button 
+        style={{ 
+          minWidth: scale(110),
+          height: dimensions.button.height.sm,
+          fontSize: scale(12)
+        }}
+      >
+        Ir
+      </button>
+    </div>
+  );
+};
+```
+
+### 3. Grid Responsivo
+```tsx
+import { useScreenSize } from '../../context';
+
+const CardGrid = () => {
+  const { getGridForScreen, getGapForScreen } = useScreenSize();
+
+  return (
+    <div className={`grid ${getGridForScreen('three')} ${getGapForScreen('medium')}`}>
+      {/* Cards que escalan automáticamente */}
+    </div>
+  );
+};
+```
+
+### 4. Botón con Escalado
+```tsx
+import { useScreenSize } from '../../context';
+import { Button } from '../Button';
+
+const MiBoton = () => {
+  const { scale } = useScreenSize();
+
+  return (
+    <Button
+      variant="primary"
+      size="lg"
+      style={{ minWidth: scale(150) }}
     >
       Botón Escalado
-    </button>
+    </Button>
   );
 };
 ```
 
-## ⚠️ Consideraciones Importantes
+## 📐 Configuración del Sistema
 
-### 1. **Siempre usar hooks de responsividad**
-❌ **Evitar:**
+### Factor de Escalado
+- **Base**: 1440px (tamaño de diseño)
+- **Rango**: 0.8x - 2.5x
+- **Cálculo**: `scaleFactor = width / 1440px`
+- **Limitado**: Para evitar extremos
+
+### Breakpoints Optimizados
 ```tsx
-<div className="w-64 h-32 p-4 text-lg">  // Tamaños fijos
+// Configuración actual
+isMobile: width < 640
+isTablet: 640px - 1024px
+isDesktop: 1024px - 1280px
+isLarge: 1280px - 1440px
+isXLarge: 1440px - 2560px     // Pantallas grandes
+isXXLarge: 2560px - 3840px    // 4K
+isUltraLarge: 3840px+         // Ultra 4K
 ```
 
-✅ **Usar:**
+### Contenedores por Pantalla
 ```tsx
-<div style={{ 
-  width: dimensions.card.medium, 
-  height: dimensions.card.medium,
-  padding: dimensions.spacing.md,
-  fontSize: dimensions.fontSize.lg 
-}}>
+// Selección automática según breakpoint
+container: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
+containerXLarge: "max-w-[min(2400px,98vw)] mx-auto px-4..."
+containerXXLarge: "max-w-[min(3600px,98vw)] mx-auto px-4..."
 ```
 
-### 2. **Combinar hooks apropiadamente**
+## ⚠️ Reglas Importantes
+
+### 1. **SIEMPRE usar `useScreenSize()`**
+❌ **NO usar hooks individuales:**
 ```tsx
-// ✅ Correcto: Combinar múltiples hooks
+// ❌ OBSOLETO
 const responsive = useResponsive();
 const { isMobile } = useBreakpoints();
 const dimensions = useComponentDimensions();
-
-// ✅ Correcto: Usar breakpoints para lógica condicional
-{isMobile ? <MenuHamburguesa /> : <MenuDesktop />}
 ```
 
-### 3. **Evitar media queries CSS**
-❌ **No usar:**
+✅ **Usar contexto unificado:**
+```tsx
+// ✅ CORRECTO
+const { dimensions, isMobile, scale } = useScreenSize();
+```
+
+### 2. **SIEMPRE usar `scale()` para dimensiones**
+❌ **Evitar valores fijos:**
+```tsx
+<div style={{ width: '320px', height: '200px' }}>  // ❌ Fijo
+```
+
+✅ **Usar escalado dinámico:**
+```tsx
+<div style={{ width: scale(320), height: scale(200) }}>  // ✅ Escalado
+```
+
+### 3. **SIEMPRE usar `getContainerForScreen()`**
+❌ **No usar contenedores fijos:**
+```tsx
+<div className="max-w-7xl mx-auto">  // ❌ Fijo
+```
+
+✅ **Usar contenedores automáticos:**
+```tsx
+<div className={getContainerForScreen()}>  // ✅ Automático
+```
+
+### 4. **NO usar media queries CSS**
+❌ **Evitar CSS:**
 ```css
 @media (max-width: 768px) { ... }
 ```
 
-✅ **Usar hooks:**
+✅ **Usar breakpoints del contexto:**
 ```tsx
-const { isMobile } = useBreakpoints();
+const { isMobile } = useScreenSize();
+{isMobile && <ComponenteMobile />}
 ```
 
-## 🚀 Beneficios del Sistema
+## 🎯 Beneficios del Sistema Unificado
 
-1. **Consistencia**: Todos los componentes escalan de manera uniforme
-2. **Mantenibilidad**: Cambios centralizados en los hooks
-3. **Flexibilidad**: Fácil ajuste de breakpoints y escalado
-4. **Performance**: Cálculos optimizados y memoización
-5. **Desarrollador**: API simple e intuitiva
+1. **Una sola fuente de verdad**: Todo en `useScreenSize()`
+2. **Escalado uniforme**: Funciona en TODAS las pantallas
+3. **Automático**: No necesitas calcular breakpoints
+4. **Consistente**: Todos los componentes escalan igual
+5. **Mantenible**: Cambios centralizados en el contexto
+6. **Performance**: Cálculos optimizados y memoización
 
-## 📚 Ejemplos Prácticos
+## 📱 Soporte de Pantallas
 
-Ver implementaciones reales en:
+✅ **Móvil** (375px): Escalado perfecto
+✅ **Tablet** (768px): Escalado perfecto  
+✅ **Desktop** (1440px): Escalado perfecto
+✅ **Pantallas grandes** (2560px): Escalado perfecto
+✅ **4K** (3840px): Escalado perfecto
+✅ **Ultra 4K** (7680px): Escalado perfecto
+
+## 📚 Ejemplos Reales
+
+Ver implementaciones en:
+- `src/components/Card/index.tsx` - Cards escaladas
+- `src/components/Button/index.tsx` - Botones escalados
 - `src/components/Layout/navbar.tsx` - Navbar responsivo
-- `src/components/Card/index.tsx` - Tarjetas escaladas
-- `src/pages/Login/index.tsx` - Fondo responsivo
-- `src/components/Notification/index.tsx` - Notificaciones adaptativas
+- `src/components/HeroSection/index.tsx` - Hero escalado
+- `src/pages/Login/index.tsx` - Formularios escalados
+- `src/components/Layout/MainLayout.tsx` - Layout principal
+
+## 🔄 Migración Completada
+
+**TODO el sistema** ha sido migrado al nuevo contexto unificado:
+- ✅ Todos los componentes usan `useScreenSize()`
+- ✅ Todos los elementos escalan uniformemente
+- ✅ Todas las pantallas funcionan correctamente
+- ✅ Sistema completamente unificado
 
 ---
 
-**💡 Tip:** Siempre importa los hooks desde el archivo barrel: `import { useResponsive, useBreakpoints } from '../hooks';`
+**💡 Importante:** Siempre importa desde el contexto: `import { useScreenSize } from '../../context';`
+
+**🚀 El sistema está listo y funcionando en TODAS las dimensiones de pantalla.**

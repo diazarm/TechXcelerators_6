@@ -1,6 +1,6 @@
 import React from 'react';
 import Card from '../Card';
-import { useResponsive } from '../../hooks';
+import { useScreenSize } from '../../context';
 import type { CardGridProps } from './types';
 
 /**
@@ -16,7 +16,7 @@ const CardGrid: React.FC<CardGridProps> = ({
   className = "",
   columns = 3 // Valor por defecto
 }) => {
-  const responsive = useResponsive();
+  const { getGridForScreen, getGapForScreen } = useScreenSize();
 
   // Determinar la clase de columnas basada en el parámetro
   const getGridColumnsClass = () => {
@@ -24,10 +24,10 @@ const CardGrid: React.FC<CardGridProps> = ({
       case 2:
         return 'grid-cols-1 md:grid-cols-2';
       case 4:
-        return 'grid-cols-1 md:grid-cols-2 lg:grid-cols-4';
+        return 'grid-cols-1 md:grid-cols-2 lg:grid-cols-4'; // Mantener 4 columnas fijas
       case 3:
       default:
-        return responsive.grid.columns.three;
+        return 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'; // Mantener 3 columnas fijas
     }
   };
 
@@ -35,7 +35,7 @@ const CardGrid: React.FC<CardGridProps> = ({
     <div className={`
       grid
       ${getGridColumnsClass()}
-      ${responsive.grid.gap.medium}
+      ${getGapForScreen('medium')}
       ${className}
     `}>
       {cards.map((card) => (

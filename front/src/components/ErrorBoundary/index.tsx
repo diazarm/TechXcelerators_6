@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import type { ErrorInfo } from 'react';
 import type { ErrorBoundaryProps, ErrorBoundaryState } from './types';
+import { useScreenSize } from '../../context';
 
 // Los tipos se importan desde ../../types
 
@@ -9,6 +10,7 @@ const DefaultErrorFallback: React.FC<{ error?: Error; onReset?: () => void }> = 
   error, 
   onReset 
 }) => {
+  const { dimensions, scale } = useScreenSize();
 
   return (
     <div 
@@ -24,7 +26,13 @@ const DefaultErrorFallback: React.FC<{ error?: Error; onReset?: () => void }> = 
       {/* Contenedor del error centrado */}
       <div className="relative z-10 flex flex-col items-center px-4 sm:px-6 lg:px-8">
         {/* Logo */}
-        <div className="w-[300px] h-[130px] sm:w-[400px] sm:h-[173px] lg:w-[500px] lg:h-[217px] mb-6 sm:mb-8">
+        <div 
+          style={{
+            width: `${scale(400)}px`,
+            height: `${scale(173)}px`,
+            marginBottom: dimensions.spacing.lg
+          }}
+        >
           <img 
             src="/img/Logo3.png" 
             alt="Scala Learning" 
@@ -34,22 +42,34 @@ const DefaultErrorFallback: React.FC<{ error?: Error; onReset?: () => void }> = 
 
         {/* Contenedor del error */}
         <div 
-          className="rounded-[20px] p-6 sm:p-8 text-center max-w-sm sm:max-w-md lg:max-w-lg shadow-2xl"
+          className="text-center shadow-2xl"
           style={{
-            backgroundColor: 'rgba(164, 169, 194, 0.5)'
+            backgroundColor: 'rgba(164, 169, 194, 0.5)',
+            borderRadius: `${scale(20)}px`,
+            padding: dimensions.spacing.lg,
+            maxWidth: `${scale(400)}px`,
+            minWidth: `${scale(280)}px`
           }}
         >
           {/* Icono de error */}
-          <div className="text-3xl sm:text-4xl mb-3 sm:mb-4">⚠️</div>
+          <div 
+            style={{
+              fontSize: `${scale(48)}px`,
+              marginBottom: dimensions.spacing.md
+            }}
+          >
+            ⚠️
+          </div>
           
           {/* Título */}
           <h1 
-            className="text-white mb-3 sm:mb-4 montserrat"
+            className="text-white montserrat"
             style={{
               fontWeight: 600,
-              fontSize: '20px',
+              fontSize: `${scale(20)}px`,
               lineHeight: '100%',
-              letterSpacing: '0%'
+              letterSpacing: '0%',
+              marginBottom: dimensions.spacing.md
             }}
           >
             Error del Sistema
@@ -57,27 +77,38 @@ const DefaultErrorFallback: React.FC<{ error?: Error; onReset?: () => void }> = 
           
           {/* Descripción */}
           <p 
-            className="text-white mb-4 sm:mb-6 istok-web"
+            className="text-white istok-web"
             style={{
               fontWeight: 400,
-              fontSize: '14px',
+              fontSize: `${scale(14)}px`,
               lineHeight: '120%',
-              letterSpacing: '0%'
+              letterSpacing: '0%',
+              marginBottom: dimensions.spacing.md
             }}
           >
             Algo salió mal. Por favor intenta de nuevo o contacta al administrador.
           </p>
           
           {/* Botones de acción */}
-          <div className="space-y-2 sm:space-y-3 py-2">
+          <div 
+            style={{
+              gap: dimensions.spacing.sm,
+              paddingTop: dimensions.spacing.sm,
+              paddingBottom: dimensions.spacing.sm,
+              display: 'flex',
+              flexDirection: 'column'
+            }}
+          >
             <button
               onClick={onReset}
-              className="w-full h-9 sm:h-10 rounded-[50px] text-white transition-colors istok-web"
+              className="w-full text-white transition-colors istok-web"
               style={{
                 fontWeight: 400,
-                fontSize: '14px',
+                fontSize: `${scale(14)}px`,
                 backgroundColor: '#FF6E00',
-                boxShadow: '0px 4px 4px 0px #00000040'
+                boxShadow: '0px 4px 4px 0px #00000040',
+                height: `${scale(40)}px`,
+                borderRadius: `${scale(50)}px`
               }}
             >
               Intentar de nuevo
@@ -85,12 +116,14 @@ const DefaultErrorFallback: React.FC<{ error?: Error; onReset?: () => void }> = 
             
             <button
               onClick={() => window.location.href = '/'}
-              className="w-full h-9 sm:h-10 rounded-[50px] text-white transition-colors istok-web"
+              className="w-full text-white transition-colors istok-web"
               style={{
                 fontWeight: 400,
-                fontSize: '14px',
+                fontSize: `${scale(14)}px`,
                 backgroundColor: '#5D5A88',
-                boxShadow: '0px 4px 4px 0px #00000040'
+                boxShadow: '0px 4px 4px 0px #00000040',
+                height: `${scale(40)}px`,
+                borderRadius: `${scale(50)}px`
               }}
             >
               Ir al inicio

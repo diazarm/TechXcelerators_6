@@ -1,6 +1,6 @@
 import React from "react";
 import { useLocation, Outlet } from "react-router-dom";
-import { useResponsive, useComponentDimensions } from "../../hooks";
+import { useScreenSize } from "../../context";
 import type { MainLayoutProps } from "./types";
 import { Navbar, Footer, Header } from "../../components";
 
@@ -8,8 +8,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({
   className = "",
   footerVariant = "dark",
 }) => {
-  const responsive = useResponsive();
-  const dimensions = useComponentDimensions();
+  const { getContainerForScreen, dimensions } = useScreenSize();
   const location = useLocation();
 
   const isHomePage = location.pathname === "/";
@@ -29,7 +28,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({
 
       {/* Main content */}
       <main 
-        className={`${responsive.container} flex-1`}
+        className={`${getContainerForScreen()} flex-1`}
         style={{
           paddingBottom: dimensions.spacing.xl,
           paddingTop: dimensions.spacing.md

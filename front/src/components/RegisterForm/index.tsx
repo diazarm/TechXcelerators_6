@@ -1,6 +1,7 @@
 import React from 'react';
-import { useFormValidation, useRegister, useErrorHandler, useResponsive, useComponentDimensions } from '../../hooks';
-import { ValidationErrors } from '../ValidationErrors';
+import { useFormValidation, useRegister, useErrorHandler } from '../../hooks';
+import { useScreenSize } from '../../context';
+import { ValidationErrors, Button } from '../index';
 import { ValidationRules } from '../../services';
 import type { RegisterFormProps } from './types';
 
@@ -27,8 +28,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
 }) => {
   const { registerUser, isLoading: registerLoading, clearError } = useRegister();
   const { handleError } = useErrorHandler();
-  const responsive = useResponsive();
-  const dimensions = useComponentDimensions();
+  const { dimensions, scale } = useScreenSize();
   
   const isLoading = externalLoading || registerLoading;
 
@@ -166,7 +166,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
               value={formData.name}
               onChange={handleInputChange}
               onBlur={handleInputBlur}
-              className={`w-full rounded-[30px] border-0 text-gray-800 placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-[#FF6E00] bg-[#D9D9D9] istok-web ${
+              className={`w-full border-0 text-gray-800 placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-[#FF6E00] bg-[#D9D9D9] istok-web ${
                 hasFieldErrors('name') && isFieldTouched('name') ? 'ring-2 ring-red-400' : 'ring-2 ring-transparent'
               }`}
               style={{
@@ -177,7 +177,8 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
                 paddingLeft: dimensions.spacing.sm,
                 paddingRight: dimensions.spacing.sm,
                 paddingTop: dimensions.spacing.sm,
-                paddingBottom: dimensions.spacing.sm
+                paddingBottom: dimensions.spacing.sm,
+                borderRadius: `${scale(30)}px`
               }}
               placeholder="Ingresa el nombre completo"
               disabled={isLoading}
@@ -207,7 +208,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
               value={formData.email}
               onChange={handleInputChange}
               onBlur={handleInputBlur}
-              className={`w-full rounded-[30px] border-0 text-gray-800 placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-[#FF6E00] bg-[#D9D9D9] istok-web ${
+              className={`w-full border-0 text-gray-800 placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-[#FF6E00] bg-[#D9D9D9] istok-web ${
                 hasFieldErrors('email') && isFieldTouched('email') ? 'ring-2 ring-red-400' : 'ring-2 ring-transparent'
               }`}
               style={{
@@ -218,7 +219,8 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
                 paddingLeft: dimensions.spacing.sm,
                 paddingRight: dimensions.spacing.sm,
                 paddingTop: dimensions.spacing.sm,
-                paddingBottom: dimensions.spacing.sm
+                paddingBottom: dimensions.spacing.sm,
+                borderRadius: `${scale(30)}px`
               }}
               placeholder="Ingresa el correo electrónico"
               disabled={isLoading}
@@ -247,7 +249,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
               value={formData.role}
               onChange={handleInputChange}
               onBlur={handleInputBlur}
-              className={`w-full rounded-[30px] border-0 text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#FF6E00] bg-[#D9D9D9] istok-web appearance-none cursor-pointer ${
+              className={`w-full border-0 text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#FF6E00] bg-[#D9D9D9] istok-web appearance-none cursor-pointer ${
                 hasFieldErrors('role') && isFieldTouched('role') ? 'ring-2 ring-red-400' : 'ring-2 ring-transparent'
               }`}
               style={{
@@ -259,6 +261,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
                 paddingRight: dimensions.spacing['2xl'],
                 paddingTop: dimensions.spacing.sm,
                 paddingBottom: dimensions.spacing.sm,
+                borderRadius: `${scale(30)}px`,
                 backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e")`,
                 backgroundPosition: `right ${dimensions.spacing.sm}px center`,
                 backgroundRepeat: 'no-repeat',
@@ -275,21 +278,16 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
 
         {/* Botón de envío */}
         <div className="w-full" style={{ marginTop: dimensions.spacing.lg }}>
-          <button
+          <Button
             type="submit"
+            variant="primary"
+            size="lg"
             disabled={isLoading}
-            className="w-full h-9 rounded-[50px] text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed istok-web"
-            style={{
-              fontWeight: 400,
-              fontSize: dimensions.fontSize.md,
-              lineHeight: '100%',
-              letterSpacing: '0%',
-              backgroundColor: '#FF6E00',
-              boxShadow: '0px 4px 4px 0px #00000040'
-            }}
+            onClick={() => {}}
+            className="w-full"
           >
             {isLoading ? 'Creando...' : 'Crear'}
-          </button>
+          </Button>
         </div>
       </form>
     </div>

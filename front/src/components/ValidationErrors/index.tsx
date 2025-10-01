@@ -3,15 +3,14 @@
  */
 
 import React from 'react';
-import { useResponsive, useComponentDimensions } from '../../hooks';
+import { useScreenSize } from '../../context';
 import type { ValidationErrorsProps } from './types';
 
 export const ValidationErrors: React.FC<ValidationErrorsProps> = ({
   errors,
   className = ''
 }) => {
-  const responsive = useResponsive();
-  const dimensions = useComponentDimensions();
+  const { dimensions } = useScreenSize();
 
   if (!errors || errors.length === 0) return null;
 
