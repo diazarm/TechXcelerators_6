@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import type { AuthContextType, User, LoginCredentials, AuthProviderProps } from '../../types';
 import { AuthContext } from './../index';
-import { login, logout } from '../../services';
+import { login, logout, validateToken } from '../../services';
 
 /** Proveedor del contexto de autenticación */
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
@@ -35,13 +35,20 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         return;
       }
 
-      // Restaurar usuario desde localStorage inmediatamente
+      // Restaurar usuario desde localStorage inmediatamente para UX
       const user = JSON.parse(savedUser);
       setUser(user);
 
-      // TODO: Implementar validación de token con backend
-      // const user = await validateToken(token);
-      // setUser(user);
+      // Validar token con backend real
+      try {
+        const validatedUser = await validateToken(token);
+        setUser(validatedUser);
+        // Actualizar localStorage con datos validados del backend
+        localStorage.setItem('user', JSON.stringify(validatedUser));
+      } catch (validationError) {
+        console.error('Token inválido, cerrando sesión:', validationError);
+        logoutUser();
+      }
     } catch (err) {
       console.error('Error verificando autenticación:', err);
       logoutUser();

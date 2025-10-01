@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth, useFormValidation, useErrorHandler, useNotification } from '../../hooks';
+import { useAuth, useFormValidation, useNotification, useResponsive, useComponentDimensions } from '../../hooks';
 import { ValidationErrors } from '../../components';
 import { ValidationRules } from '../../services';
 import { getUserTypeDisplay } from '../../utils';
@@ -15,9 +15,10 @@ interface LoginFormProps {
 /** Componente de formulario de login con validación optimizada */
 export const LoginForm: React.FC<LoginFormProps> = ({ accessType }) => {
   const { login, isLoading, error, clearError } = useAuth();
-  const { handleError } = useErrorHandler();
   const { addNotification } = useNotification();
   const navigate = useNavigate();
+  const responsive = useResponsive();
+  const dimensions = useComponentDimensions();
   
   const {
     formData,
@@ -94,6 +95,11 @@ export const LoginForm: React.FC<LoginFormProps> = ({ accessType }) => {
                   
                   const { user, token } = await login(credentials);
                   
+                  // Validar que el usuario sea admin si se está usando el login de admin
+                  if (accessType === 'admin' && !user.isAdmin) {
+                    throw new Error('Acceso denegado: Este endpoint es solo para administradores');
+                  }
+                  
                   // Obtener tipo de usuario para mensaje personalizado
                   const userType = getUserTypeDisplay(user);
                   
@@ -104,10 +110,25 @@ export const LoginForm: React.FC<LoginFormProps> = ({ accessType }) => {
                     message: getWelcomeMessage(userType),
                     duration: 4000
                   });
+                  
                   navigate('/dashboard');
+                  
+                  // Forzar actualización de hooks de responsividad
+                  setTimeout(() => {
+                    window.dispatchEvent(new Event('resize'));
+                  }, 100);
                 } catch (err) {
                   // Mostrar error como notificación
-                  const errorMessage = err instanceof Error ? err.message : 'Error desconocido';
+                  let errorMessage = err instanceof Error 
+                    ? err.message 
+                    : (err as any)?.message || 'Error desconocido';
+                  
+                  // Detectar errores específicos del sistema
+                  if (errorMessage.includes('404') || errorMessage.includes('Not Found')) {
+                    errorMessage = 'API_404';
+                  } else if (errorMessage.includes('Network Error') || errorMessage.includes('ECONNREFUSED')) {
+                    errorMessage = 'NETWORK_ERROR';
+                  }
                   
                   // Obtener mensaje de error personalizado
                   const { title, message } = getErrorMessage(errorMessage, accessType);
@@ -118,28 +139,34 @@ export const LoginForm: React.FC<LoginFormProps> = ({ accessType }) => {
                     message,
                     duration: 0 // No auto-hide para errores críticos
                   });
-                  handleError(err, 'LoginForm');
+                  
+                  // No llamar handleError aquí para evitar notificaciones duplicadas
+                  // El error ya se muestra arriba con el mensaje personalizado en español
                 }
   };
 
   return (
-    <div className="w-full h-full flex flex-col items-center justify-center px-8">
+    <div 
+      className="w-full h-full flex flex-col items-center justify-center"
+      style={{ padding: dimensions.spacing.lg }}
+    >
       <form 
         onSubmit={handleSubmit}
-        className="w-full flex flex-col items-center justify-center space-y-8"
+        className="w-full flex flex-col items-center justify-center"
       >
         {/* Campos del formulario */}
-        <div className="w-full space-y-6">
+        <div className="w-full">
           {/* Campo Usuario/Email */}
-          <div className="w-full">
+          <div className="w-full" style={{ marginBottom: dimensions.spacing.md }}>
             <label 
               htmlFor="email" 
-              className="block text-white mb-1 istok-web"
+              className="block text-white istok-web"
               style={{
                 fontWeight: 400,
-                fontSize: '18px',
+                fontSize: dimensions.fontSize.lg,
                 lineHeight: '100%',
-                letterSpacing: '0%'
+                letterSpacing: '0%',
+                marginBottom: dimensions.spacing.xs
               }}
             >
               Email:
@@ -151,14 +178,18 @@ export const LoginForm: React.FC<LoginFormProps> = ({ accessType }) => {
               value={formData.email}
               onChange={handleInputChange}
               onBlur={handleInputBlur}
-              className={`w-full px-4 py-3 rounded-[30px] border-0 text-gray-800 placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-[#FF6E00] bg-[#D9D9D9] istok-web ${
+              className={`w-full rounded-[30px] border-0 text-gray-800 placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-[#FF6E00] bg-[#D9D9D9] istok-web ${
                 hasFieldErrors('email') && isFieldTouched('email') ? 'ring-2 ring-red-400' : 'ring-2 ring-transparent'
               }`}
               style={{
                 fontWeight: 400,
-                fontSize: '18px',
+                fontSize: dimensions.fontSize.lg,
                 lineHeight: '100%',
-                letterSpacing: '0%'
+                letterSpacing: '0%',
+                paddingLeft: dimensions.spacing.md,
+                paddingRight: dimensions.spacing.md,
+                paddingTop: dimensions.spacing.sm,
+                paddingBottom: dimensions.spacing.sm
               }}
               placeholder="Ingresa tu usuario o email"
               disabled={isLoading}
@@ -170,15 +201,16 @@ export const LoginForm: React.FC<LoginFormProps> = ({ accessType }) => {
 
           {/* Campo Contraseña - Solo para Admin */}
           {accessType === 'admin' && (
-            <div className="w-full">
+            <div className="w-full" style={{ marginBottom: dimensions.spacing.md }}>
               <label 
                 htmlFor="password" 
-                className="block text-white mb-1 istok-web"
+                className="block text-white istok-web"
                 style={{
                   fontWeight: 400,
-                  fontSize: '18px',
+                  fontSize: dimensions.fontSize.lg,
                   lineHeight: '100%',
-                  letterSpacing: '0%'
+                  letterSpacing: '0%',
+                  marginBottom: dimensions.spacing.xs
                 }}
               >
                 Contraseña:
@@ -190,14 +222,18 @@ export const LoginForm: React.FC<LoginFormProps> = ({ accessType }) => {
                 value={formData.password}
                 onChange={handleInputChange}
                 onBlur={handleInputBlur}
-                className={`w-full px-4 py-3 rounded-[30px] border-0 text-gray-800 placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-[#FF6E00] bg-[#D9D9D9] istok-web ${
+                className={`w-full rounded-[30px] border-0 text-gray-800 placeholder-gray-600 focus:outline-none focus:ring-2 focus:ring-[#FF6E00] bg-[#D9D9D9] istok-web ${
                   hasFieldErrors('password') && isFieldTouched('password') ? 'ring-2 ring-red-400' : 'ring-2 ring-transparent'
                 }`}
                 style={{
                   fontWeight: 400,
-                  fontSize: '18px',
+                  fontSize: dimensions.fontSize.lg,
                   lineHeight: '100%',
-                  letterSpacing: '0%'
+                  letterSpacing: '0%',
+                  paddingLeft: dimensions.spacing.md,
+                  paddingRight: dimensions.spacing.md,
+                  paddingTop: dimensions.spacing.sm,
+                  paddingBottom: dimensions.spacing.sm
                 }}
                 placeholder="Ingresa tu contraseña"
                 disabled={isLoading}
@@ -211,14 +247,14 @@ export const LoginForm: React.FC<LoginFormProps> = ({ accessType }) => {
 
 
         {/* Botón de envío */}
-        <div className="w-full flex justify-center">
+        <div className="w-full flex justify-center" style={{ marginTop: dimensions.spacing.lg }}>
           <button
             type="submit"
             disabled={isLoading}
             className="w-40 h-10 rounded-[50px] text-white transition-colors disabled:opacity-50 disabled:cursor-not-allowed istok-web"
             style={{
               fontWeight: 400,
-              fontSize: '18px',
+              fontSize: dimensions.fontSize.lg,
               lineHeight: '100%',
               letterSpacing: '0%',
               backgroundColor: '#FF6E00',

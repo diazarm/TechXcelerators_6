@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useComponentDimensions, useResponsive } from "../../hooks";
 import type { ResourceDropdownProps } from "./types";
 import { COLOR_CLASSES } from "../../constants";
 
@@ -10,11 +11,14 @@ const ResourceDropdown: React.FC<ResourceDropdownProps> = ({
   resources,
   loading,
 }) => {
+  const dimensions = useComponentDimensions();
+  const { scale } = useResponsive();
   return (
     <div className="relative">
       <div
         onClick={onToggle}
-        className={`flex items-center gap-1 ${COLOR_CLASSES.textPrimary} hover:text-[#4A476F] transition-colors font-medium ${responsive.text.small} cursor-pointer`}
+        className={`flex items-center gap-1 ${COLOR_CLASSES.textPrimary} hover:text-[#4A476F] transition-colors font-medium cursor-pointer`}
+        style={{ fontSize: dimensions.fontSize.sm }}
       >
         Recursos
         <svg
@@ -33,10 +37,28 @@ const ResourceDropdown: React.FC<ResourceDropdownProps> = ({
       </div>
 
       {isOpen && (
-        <div className="absolute top-full left-0 mt-2 w-52 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
-          <div className="py-2">
+        <div 
+          className="absolute top-full bg-white border border-gray-200 rounded-lg shadow-lg z-50"
+          style={{
+            right: 0,
+            marginTop: dimensions.spacing.xs,
+            width: 'auto', // Se ajusta al contenido
+            minWidth: `${scale(180)}px`, // Mínimo para los textos largos
+            maxWidth: '90vw' // Nunca excede el viewport
+          }}
+        >
+          <div style={{ paddingTop: dimensions.spacing.xs, paddingBottom: dimensions.spacing.xs }}>
             {loading ? (
-              <div className={`px-3 sm:px-4 py-2 text-gray-400 ${responsive.text.xsmall} sm:text-sm`}>
+              <div 
+                className="text-gray-400"
+                style={{
+                  paddingLeft: dimensions.spacing.md,
+                  paddingRight: dimensions.spacing.md,
+                  paddingTop: dimensions.spacing.xs,
+                  paddingBottom: dimensions.spacing.xs,
+                  fontSize: dimensions.fontSize.xs
+                }}
+              >
                 Cargando recursos...
               </div>
             ) : (
@@ -48,7 +70,14 @@ const ResourceDropdown: React.FC<ResourceDropdownProps> = ({
                     <Link
                       key={res._id}
                       to={res.link}
-                      className={`block px-3 sm:px-4 py-2 ${COLOR_CLASSES.textPrimary} hover:bg-gray-100 transition-colors ${responsive.text.xsmall} sm:text-sm`}
+                      className={`${COLOR_CLASSES.textPrimary} hover:bg-gray-100 transition-colors block`}
+                      style={{
+                        paddingLeft: dimensions.spacing.md,
+                        paddingRight: dimensions.spacing.md,
+                        paddingTop: dimensions.spacing.xs,
+                        paddingBottom: dimensions.spacing.xs,
+                        fontSize: dimensions.fontSize.xs
+                      }}
                     >
                       {res.name}
                     </Link>
@@ -57,7 +86,14 @@ const ResourceDropdown: React.FC<ResourceDropdownProps> = ({
                 {resources.length > 5 && (
                   <Link
                     to="/resources"
-                    className={`block px-3 sm:px-4 py-2 ${COLOR_CLASSES.textPrimary} hover:text-indigo-600 hover:bg-gray-100 transition-colors font-medium ${responsive.text.xsmall} sm:text-sm`}
+                    className={`${COLOR_CLASSES.textPrimary} hover:text-indigo-600 hover:bg-gray-100 transition-colors font-medium block`}
+                    style={{
+                      paddingLeft: dimensions.spacing.md,
+                      paddingRight: dimensions.spacing.md,
+                      paddingTop: dimensions.spacing.xs,
+                      paddingBottom: dimensions.spacing.xs,
+                      fontSize: dimensions.fontSize.xs
+                    }}
                   >
                     Ver más...
                   </Link>

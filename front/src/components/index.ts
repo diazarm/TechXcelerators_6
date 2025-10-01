@@ -22,6 +22,8 @@ export { default as Card } from './Card';
 
 // Componentes de formularios
 export { LoginForm } from './LoginForm';
+export { default as RegisterForm } from './RegisterForm';
+export { default as ConfirmationPage } from './ConfirmationPage';
 
 // Componentes de loading
 export { default as LoadingSpinner } from './LoadingSpinner';
@@ -52,6 +54,9 @@ export { default as SearchBar } from './SearchBar';
 
 // Componentes de cards
 export { default as CardGrid } from './CardGrid';
+
+// Componentes de imágenes responsivas
+export { ResponsiveImage, ResponsiveBackground } from './ResponsiveImage';
 
 // Tipos de componentes
 export type { ResourceDropdownProps } from './ResourceDropdown/types';

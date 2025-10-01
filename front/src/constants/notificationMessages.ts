@@ -5,10 +5,10 @@
 export const NOTIFICATION_MESSAGES = {
   // Mensajes de bienvenida por tipo de usuario
   WELCOME: {
-    ADMIN: 'Bienvenido, administrador. Has accedido al panel de administración con acceso completo al sistema.',
-    DIRECTOR: 'Bienvenido, director. Has accedido al sistema con permisos de gestión avanzada.',
-    USER: 'Bienvenido a Scala Learning. Tu sesión ha sido iniciada correctamente.',
-    DEFAULT: 'Bienvenido a Scala Learning. Tu sesión ha sido iniciada correctamente.'
+    ADMIN: '¡Bienvenido, administrador! Acceso completo al sistema.',
+    DIRECTOR: '¡Bienvenido, director! Permisos de gestión activados.',
+    USER: '¡Bienvenido a Scala Learning! Sesión iniciada correctamente.',
+    DEFAULT: '¡Bienvenido a Scala Learning! Sesión iniciada correctamente.'
   },
 
   // Mensajes de error específicos
@@ -77,6 +77,21 @@ export const getErrorMessage = (errorType: string, accessType?: 'staff' | 'admin
         message: accessType === 'admin' 
           ? NOTIFICATION_MESSAGES.ERROR.INVALID_CREDENTIALS_ADMIN
           : NOTIFICATION_MESSAGES.ERROR.INVALID_CREDENTIALS_STAFF
+      };
+    case 'API_404':
+      return {
+        title: 'Servicio no disponible',
+        message: 'El servidor no está respondiendo. Verifica que el backend esté corriendo en el puerto 3000.'
+      };
+    case 'NETWORK_ERROR':
+      return {
+        title: 'Sin conexión',
+        message: 'No se pudo conectar con el servidor. Verifica tu conexión.'
+      };
+    case 'Acceso denegado: Este endpoint es solo para administradores':
+      return {
+        title: 'Acceso restringido',
+        message: 'Este login es exclusivo para administradores. Usa el login de usuario para acceder con tu rol.'
       };
     case 'Contraseña requerida':
       return {

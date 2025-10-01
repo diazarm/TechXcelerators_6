@@ -1,6 +1,6 @@
 import React from 'react';
 import type { LoadingSpinnerProps } from './types';
-import { useResponsive } from '../../hooks';
+import { useResponsive, useComponentDimensions } from '../../hooks';
 import { COLOR_CLASSES } from '../../constants';
 
 /** Spinner de carga reutilizable con estilos responsive */
@@ -16,20 +16,21 @@ const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
   // Usar color por defecto de la aplicación si no se especifica
   const spinnerColor = color || COLOR_CLASSES.primary;
   const { text, flex, animation } = useResponsive();
+  const dimensions = useComponentDimensions();
 
-  // Configuración de tamaños
+  // Configuración de tamaños escalados
   const sizeClasses = {
-    small: 'w-4 h-4',
-    medium: 'w-8 h-8',
-    large: 'w-12 h-12',
-    xl: 'w-16 h-16'
+    small: { width: dimensions.spacing.sm, height: dimensions.spacing.sm },
+    medium: { width: dimensions.spacing.md, height: dimensions.spacing.md },
+    large: { width: dimensions.spacing.lg, height: dimensions.spacing.lg },
+    xl: { width: dimensions.spacing.xl, height: dimensions.spacing.xl }
   };
 
   const messageSizes = {
-    small: text.small,
-    medium: text.body,
-    large: text.h4,
-    xl: text.h3
+    small: dimensions.fontSize.sm,
+    medium: dimensions.fontSize.md,
+    large: dimensions.fontSize.lg,
+    xl: dimensions.fontSize.xl
   };
 
   // Colores de texto para mensajes
@@ -37,12 +38,12 @@ const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
 
   // Renderizar diferentes tipos de spinners
   const renderSpinner = () => {
-    const baseClasses = `${sizeClasses[size]} ${spinnerColor}`;
+    const baseSize = sizeClasses[size];
 
     switch (type) {
       case 'default':
         return (
-          <div className={`${baseClasses} animate-spin`}>
+          <div className={`animate-spin ${spinnerColor}`} style={baseSize}>
             <svg className="w-full h-full" viewBox="0 0 24 24" fill="none">
               <circle
                 className="opacity-25"
@@ -79,7 +80,10 @@ const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
 
       case 'pulse':
         return (
-          <div className={`${baseClasses} ${spinnerColor.replace('text-', 'bg-')} rounded-full animate-ping`} />
+          <div 
+            className={`${spinnerColor.replace('text-', 'bg-')} rounded-full animate-ping`} 
+            style={baseSize} 
+          />
         );
 
       case 'bars':
@@ -100,14 +104,14 @@ const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
 
       case 'ring':
         return (
-          <div className={`${baseClasses} animate-spin`}>
+          <div className={`animate-spin ${spinnerColor}`} style={baseSize}>
             <div className={`w-full h-full border-4 border-gray-200 border-t-current rounded-full`} />
           </div>
         );
 
       default:
         return (
-          <div className={`${baseClasses} animate-spin`}>
+          <div className={`animate-spin ${spinnerColor}`} style={baseSize}>
             <div className="w-full h-full border-4 border-gray-200 border-t-current rounded-full" />
           </div>
         );
@@ -119,7 +123,10 @@ const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
     <div className={`${flex.center} ${flex.col} space-y-4`}>
       {renderSpinner()}
       {message && (
-        <p className={`${messageSizes[size]} ${messageColor} text-center ${animation.fadeIn}`}>
+        <p 
+          className={`${messageColor} text-center ${animation.fadeIn}`}
+          style={{ fontSize: messageSizes[size] }}
+        >
           {message}
         </p>
       )}
