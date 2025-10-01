@@ -1,5 +1,5 @@
 import React from 'react';
-import { useComponentDimensions } from '../../hooks';
+import { useScreenSize } from '../../context';
 import type { ButtonProps } from './types';
 
 /** Componente Button reutilizable */
@@ -11,10 +11,11 @@ export const Button: React.FC<ButtonProps> = ({
   disabled = false,
   type = 'button',
   className = '',
+  style = {},
   iconLeft,
   iconRight,
 }) => {
-  const dimensions = useComponentDimensions();
+  const { dimensions, scale } = useScreenSize();
   // Clases base que se aplican a todos los botones
   const baseClasses = "font-medium transition-all duration-200 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center";
   
@@ -32,8 +33,8 @@ export const Button: React.FC<ButtonProps> = ({
       paddingRight: dimensions.spacing.md,
       paddingTop: dimensions.spacing.xs,
       paddingBottom: dimensions.spacing.xs,
-      fontSize: dimensions.fontSize.xs,
-      borderRadius: '4px',
+      fontSize: `${scale(12)}px`,
+      borderRadius: `${scale(4)}px`,
       height: dimensions.button.height.xs,
       gap: '0px'
     },
@@ -42,8 +43,8 @@ export const Button: React.FC<ButtonProps> = ({
       paddingRight: dimensions.spacing.md,
       paddingTop: dimensions.spacing.sm,
       paddingBottom: dimensions.spacing.sm,
-      fontSize: dimensions.fontSize.sm,
-      borderRadius: '6px',
+      fontSize: `${scale(13)}px`,
+      borderRadius: `${scale(6)}px`,
       height: dimensions.button.height.sm,
       gap: dimensions.spacing.xs
     },
@@ -52,8 +53,8 @@ export const Button: React.FC<ButtonProps> = ({
       paddingRight: dimensions.spacing.md,
       paddingTop: dimensions.spacing.sm,
       paddingBottom: dimensions.spacing.sm,
-      fontSize: dimensions.fontSize.md,
-      borderRadius: '6px',
+      fontSize: `${scale(14)}px`,
+      borderRadius: `${scale(6)}px`,
       height: dimensions.button.height.md,
       gap: dimensions.spacing.xs
     },
@@ -62,8 +63,8 @@ export const Button: React.FC<ButtonProps> = ({
       paddingRight: dimensions.spacing.lg,
       paddingTop: dimensions.spacing.sm,
       paddingBottom: dimensions.spacing.sm,
-      fontSize: dimensions.fontSize.lg,
-      borderRadius: '6px',
+      fontSize: `${scale(15)}px`,
+      borderRadius: `${scale(6)}px`,
       height: dimensions.button.height.lg,
       gap: dimensions.spacing.xs
     }
@@ -71,10 +72,10 @@ export const Button: React.FC<ButtonProps> = ({
 
   // Clases base sin dimensiones fijas
   const sizeClasses = {
-    xs: "rounded-[4px]",
-    sm: "rounded-[6px]",
-    md: "rounded-[6px]",
-    lg: "rounded-[6px]"
+    xs: "",
+    sm: "",
+    md: "",
+    lg: ""
   };
 
   // Clases para estado deshabilitado
@@ -95,6 +96,7 @@ export const Button: React.FC<ButtonProps> = ({
       className={buttonClasses}
       style={{
         ...sizeStyles[size],
+        ...style,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center'

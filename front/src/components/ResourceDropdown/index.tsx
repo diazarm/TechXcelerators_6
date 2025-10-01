@@ -1,18 +1,16 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useComponentDimensions, useResponsive } from "../../hooks";
+import { useScreenSize } from "../../context";
 import type { ResourceDropdownProps } from "./types";
 import { COLOR_CLASSES } from "../../constants";
 
 const ResourceDropdown: React.FC<ResourceDropdownProps> = ({
   isOpen,
   onToggle,
-  responsive,
   resources,
   loading,
 }) => {
-  const dimensions = useComponentDimensions();
-  const { scale } = useResponsive();
+  const { dimensions, scale } = useScreenSize();
   return (
     <div className="relative">
       <div

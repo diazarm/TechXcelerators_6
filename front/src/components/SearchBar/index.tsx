@@ -1,6 +1,7 @@
 import React from 'react';
 import { SearchModal } from '../SearchModal';
-import { useSearch, useNavbar, useComponentDimensions, useResponsive, useBreakpoints } from '../../hooks';
+import { useSearch, useNavbar } from '../../hooks';
+import { useScreenSize } from '../../context';
 import { mockSearchData } from '../../Mock/MockSearchData';
 import type { SearchResult } from '../../types/shared';
 
@@ -10,9 +11,7 @@ import type { SearchResult } from '../../types/shared';
  * Campo de búsqueda con modal de resultados que se puede usar en cualquier página
  */
 const SearchBar: React.FC = () => {
-  const dimensions = useComponentDimensions();
-  const { scale } = useResponsive();
-  const { isMobile } = useBreakpoints();
+  const { dimensions, scale, isMobile } = useScreenSize();
   
   // Hook de búsqueda con datos mock
   const {
@@ -67,7 +66,7 @@ const SearchBar: React.FC = () => {
           </label>
           
           <div 
-            className="bg-white rounded-[6px] flex items-center border-2 border-[#8C88B8]"
+            className="bg-white flex items-center border-2 border-[#8C88B8]"
             style={{ 
               width: isMobile ? '100%' : `${scale(540)}px`, 
               maxWidth: isMobile ? '100%' : `${scale(540)}px`,
@@ -75,7 +74,8 @@ const SearchBar: React.FC = () => {
               paddingLeft: dimensions.spacing.sm,
               paddingRight: dimensions.spacing.sm,
               paddingTop: dimensions.spacing.md,
-              paddingBottom: dimensions.spacing.md
+              paddingBottom: dimensions.spacing.md,
+              borderRadius: `${scale(6)}px`
             }}
           >
             <input 

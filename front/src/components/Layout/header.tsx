@@ -1,16 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Plus, UserPlus } from "react-feather";
-import { useResponsive, useHeader, useAuth, useComponentDimensions, useBreakpoints } from "../../hooks";
+import { useHeader, useAuth } from "../../hooks";
+import { useScreenSize } from "../../context";
 import { SearchBar, Button } from "../../components";
 import { getUserPermissions } from "../../utils";
 import type { HeaderProps } from "./types";
 
 
 export const Header: React.FC<HeaderProps> = ({ title }) => {
-  const responsive = useResponsive();
-  const dimensions = useComponentDimensions();
-  const { isMobile } = useBreakpoints();
+  const { getContainerForScreen, dimensions, isMobile } = useScreenSize();
   const { header } = useHeader();
   const { user } = useAuth();
 
@@ -22,7 +21,7 @@ export const Header: React.FC<HeaderProps> = ({ title }) => {
     <header className="bg-white">
       {/* SearchBar y Botón Crear Usuario */}
       <div className="bg-white py-2">
-        <div className={`${responsive.container}`}>
+        <div className={`${getContainerForScreen()}`}>
           {isMobile ? (
             /* Layout móvil */
             <div className="flex items-center">
@@ -81,14 +80,14 @@ export const Header: React.FC<HeaderProps> = ({ title }) => {
       </div>
       
       {/* Título después */}
-      <div className={`${responsive.container} py-4`}>
+      <div className={`${getContainerForScreen()} py-4`}>
         <div className="flex justify-center">
           <h1 
             className="text-[#585D8A] font-bold mb-4 text-center"
             style={{
               width: dimensions.spacing.xl + ' * 24',
               height: dimensions.spacing.lg,
-              fontSize: dimensions.fontSize['2xl'],
+              fontSize: isMobile ? dimensions.fontSize.xl : dimensions.fontSize['2xl'],
               lineHeight: dimensions.spacing.lg
             }}
           >

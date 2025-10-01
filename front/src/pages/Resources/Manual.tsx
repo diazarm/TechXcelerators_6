@@ -1,10 +1,13 @@
 import React from "react";
 import { COLOR_CLASSES } from "../../constants";
+import { useScreenSize } from "../../context";
 
 const Manual: React.FC = () => {
+  const { getContainerForScreen } = useScreenSize();
+  
   return (
     <main className="min-h-screen bg-white py-10 px-4">
-      <div className="max-w-3xl mx-auto bg-white p-8 rounded-xl shadow-md border border-gray-200">
+      <div className={`${getContainerForScreen()} bg-white p-8 rounded-xl shadow-md border border-gray-200`}>
         <h1 className={`text-4xl font-extrabold mb-6 ${COLOR_CLASSES.textPrimary}`}>
           Manual de Usuario
         </h1>

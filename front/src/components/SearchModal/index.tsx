@@ -1,5 +1,5 @@
 import React from 'react';
-import { useComponentDimensions } from '../../hooks';
+import { useScreenSize } from '../../context';
 import type { SearchModalProps } from './types';
 
 /**
@@ -16,14 +16,17 @@ export const SearchModal: React.FC<SearchModalProps> = ({
   selectedIndex,
   onResultSelect
 }) => {
-  const dimensions = useComponentDimensions();
+  const { dimensions, scale } = useScreenSize();
   
   // No renderizar si no está abierto
   if (!isOpen) return null;
 
   return (
     <div className="absolute top-full left-0 right-0 z-50 mt-2">
-      <div className="bg-white rounded-lg shadow-xl w-full max-h-[60vh] overflow-hidden border border-gray-200">
+      <div 
+        className="bg-white rounded-lg shadow-xl w-full overflow-hidden border border-gray-200"
+        style={{ maxHeight: `${scale(60)}vh` }}
+      >
         {/* Header del modal */}
         <div 
           className="bg-[#5D5A88] flex items-center justify-between"
@@ -71,7 +74,10 @@ export const SearchModal: React.FC<SearchModalProps> = ({
         </div>
 
         {/* Contenido del modal */}
-        <div className="overflow-y-auto max-h-[calc(60vh-80px)]">
+        <div 
+          className="overflow-y-auto"
+          style={{ maxHeight: `calc(${scale(60)}vh - ${scale(80)}px)` }}
+        >
           {results.length > 0 ? (
             <div style={{ paddingTop: dimensions.spacing.xs, paddingBottom: dimensions.spacing.xs }}>
               {results.map((result, index) => (
