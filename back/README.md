@@ -48,8 +48,8 @@ Incluye autenticación con JWT, control de roles (admin, director, usuario), y g
    SECRET_KEY=tu_clave
    JWT_EXPIRATION=3600
    ```
-# Conexión a MongoDB Atlas:
-# MONGO_URI=mongodb+srv://scala_dev:5WwlbMwKhz1IwMVR@bootcampudd.krd9m.mongodb.net/?retryWrites=true&w=majority&appName=BootcampUDD 
+- Conexión a MongoDB Atlas:
+- MONGO_URI=mongodb+srv://scala_dev:5WwlbMwKhz1IwMVR@bootcampudd.krd9m.mongodb.net/?retryWrites=true&w=majority&appName=BootcampUDD 
 
 4. Ejecutar en modo desarrollo:
 
