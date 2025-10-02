@@ -44,6 +44,8 @@ const CardGrid: React.FC<CardGridProps> = ({
           title={card.title}
           description={card.description}
           icon={card.icon}
+          leftHeaderContent={card.leftHeaderContent}
+          rightHeaderContent={card.rightHeaderContent}
           image={card.image}
           onButtonClick={() => onCardClick(card)}
         />
