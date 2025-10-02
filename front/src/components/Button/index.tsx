@@ -17,7 +17,7 @@ export const Button: React.FC<ButtonProps> = ({
 }) => {
   const { dimensions, scale } = useScreenSize();
   // Clases base que se aplican a todos los botones
-  const baseClasses = "font-medium transition-all duration-200 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center";
+  const baseClasses = "font-semibold transition-all duration-200 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center";
   
   // Clases específicas para cada variante
   const variantClasses = {

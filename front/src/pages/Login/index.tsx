@@ -68,7 +68,7 @@ const LoginPage: React.FC = () => {
             backgroundColor: 'rgba(164, 169, 194, 0.5)',
             padding: dimensions.spacing.lg,
             borderRadius: `${scale(20)}px`,
-            maxWidth: `${scale(380)}px`,
+            maxWidth: `${scale(450)}px`,
             minHeight: accessType === 'staff' ? `${scale(200)}px` : `${scale(280)}px`
           }}
         >

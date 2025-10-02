@@ -18,7 +18,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ accessType }) => {
   const { login, isLoading, error, clearError } = useAuth();
   const { addNotification } = useNotification();
   const navigate = useNavigate();
-  const { dimensions, scale } = useScreenSize();
+  const { dimensions } = useScreenSize();
   
   const {
     formData,
@@ -93,7 +93,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ accessType }) => {
                         // Para usuario, no se incluye password
                       };
                   
-                  const { user, token } = await login(credentials);
+                  const { user } = await login(credentials);
                   
                   // Validar que el usuario sea admin si se está usando el login de admin
                   if (accessType === 'admin' && !user.isAdmin) {
@@ -121,7 +121,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ accessType }) => {
                   // Mostrar error como notificación
                   let errorMessage = err instanceof Error 
                     ? err.message 
-                    : (err as any)?.message || 'Error desconocido';
+                    : (err as Error)?.message || 'Error desconocido';
                   
                   // Detectar errores específicos del sistema
                   if (errorMessage.includes('404') || errorMessage.includes('Not Found')) {
@@ -255,6 +255,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ accessType }) => {
             disabled={isLoading}
             onClick={() => {}}
             className="w-full"
+            style={{ opacity: 0.7 }}
           >
             {isLoading ? 'Ingresando...' : 'Ingresar'}
           </Button>

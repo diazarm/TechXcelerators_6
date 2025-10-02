@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import type { ErrorInfo } from 'react';
+import { AlertCircle } from 'react-feather';
 import type { ErrorBoundaryProps, ErrorBoundaryState } from './types';
 import { useScreenSize } from '../../context';
 
@@ -24,7 +25,7 @@ const DefaultErrorFallback: React.FC<{ error?: Error; onReset?: () => void }> = 
       />
       
       {/* Contenedor del error centrado */}
-      <div className="relative z-10 flex flex-col items-center px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8" style={{ minHeight: '100vh', paddingTop: dimensions.spacing['2xl'], paddingBottom: dimensions.spacing['2xl'] }}>
         {/* Logo */}
         <div 
           style={{
@@ -48,17 +49,21 @@ const DefaultErrorFallback: React.FC<{ error?: Error; onReset?: () => void }> = 
             borderRadius: `${scale(20)}px`,
             padding: dimensions.spacing.lg,
             maxWidth: `${scale(400)}px`,
-            minWidth: `${scale(280)}px`
+            minWidth: `${scale(280)}px`,
+            width: '90%'
           }}
         >
           {/* Icono de error */}
           <div 
+            className="flex justify-center mb-4"
             style={{
-              fontSize: `${scale(48)}px`,
-              marginBottom: dimensions.spacing.md
+              marginBottom: dimensions.spacing.lg
             }}
           >
-            ⚠️
+            <AlertCircle 
+              size={scale(48)} 
+              className="text-white" 
+            />
           </div>
           
           {/* Título */}
@@ -106,7 +111,7 @@ const DefaultErrorFallback: React.FC<{ error?: Error; onReset?: () => void }> = 
                 fontWeight: 400,
                 fontSize: `${scale(14)}px`,
                 backgroundColor: '#FF6E00',
-                boxShadow: '0px 4px 4px 0px #00000040',
+                boxShadow: '0px 2px 2px 0px #00000020',
                 height: `${scale(40)}px`,
                 borderRadius: `${scale(50)}px`
               }}
@@ -121,7 +126,7 @@ const DefaultErrorFallback: React.FC<{ error?: Error; onReset?: () => void }> = 
                 fontWeight: 400,
                 fontSize: `${scale(14)}px`,
                 backgroundColor: '#5D5A88',
-                boxShadow: '0px 4px 4px 0px #00000040',
+                boxShadow: '0px 2px 2px 0px #00000020',
                 height: `${scale(40)}px`,
                 borderRadius: `${scale(50)}px`
               }}

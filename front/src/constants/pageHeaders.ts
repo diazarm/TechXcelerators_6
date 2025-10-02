@@ -9,7 +9,7 @@ export const PAGE_HEADERS = {
     title: 'Conoce nuestros beneficios y funcionalidades'
   },
   '/alianza': {
-    title: 'Nuestras alianzas'
+    title: 'Nueva alianza'
   },
   '/gobernanza': {
     title: 'Gobernanzas'
