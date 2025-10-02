@@ -1,6 +1,6 @@
 # 📌 ScalaLearning - Backend
 
-Backend del proyecto **ScalaLearning**, desarrollado en **Node.js + Express + TypeScript**, con base de datos en **MongoDB**.
+Backend del proyecto **ScalaLearning**, desarrollado en **Node.js + Express + TypeScript**, con base de datos en **MongoDB Atlas**.
 Incluye autenticación con JWT, control de roles (admin, director, usuario), y gestión de secciones, recursos y alianzas.
 
 ---
@@ -10,7 +10,7 @@ Incluye autenticación con JWT, control de roles (admin, director, usuario), y g
 * [Node.js]
 * [Express]
 * [TypeScript]
-* [MongoDB] + [Mongoose]
+* [MongoDB Atlas] + [Mongoose]
 * [JWT] para autenticación
 * [bcrypt] para encriptación de contraseñas
 
@@ -19,7 +19,7 @@ Incluye autenticación con JWT, control de roles (admin, director, usuario), y g
 ## ⚙️ Requisitos previos
 
 * Node.js v18+
-* MongoDB (local o en la nube)
+* MongoDB Atlas (cuenta y cluster configurado)
 * Postman (opcional, para pruebas)
 
 ---
@@ -39,15 +39,17 @@ Incluye autenticación con JWT, control de roles (admin, director, usuario), y g
    npm install
    ```
 
-3. Crear el archivo `.env` en la raíz del proyecto:
+3. Crear el archivo `.env` en la raíz de la carpeta back:
 
    ```env
-   MONGODB_URI=mongodb://localhost:27017/scala_mvp
+   MONGODB_URI=aquí la cadena de conexion a MongoDB Atlas
    JWT_SECRET=tu_clave_secreta
    PORT=3000
    SECRET_KEY=tu_clave
    JWT_EXPIRATION=3600
    ```
+# Conexión a MongoDB Atlas:
+# MONGO_URI=mongodb+srv://scala_dev:5WwlbMwKhz1IwMVR@bootcampudd.krd9m.mongodb.net/?retryWrites=true&w=majority&appName=BootcampUDD 
 
 4. Ejecutar en modo desarrollo:
 
@@ -98,11 +100,24 @@ En la carpeta `/postman` encontrarás:
 
 ---
 
+## ☁️ Base de datos en Atlas
+
+- Base de datos: scalaBD
+- Usuario de desarrollo: scala_dev
+  - Role: readWrite
+  - Database: scalaBD
+  - Collections: * (todas las colecciones)
+
+- Usuarios de desarrollo pueden leer y escribir documentos de dicha Database.
+- Backend ya está configurado para consumir Atlas en desarrollo.
+
+---
+
 ## ☁️ Deploy
 
 El backend se desplegará en:
 
-* **Render**.
+* **Render (futuro)**.
 * Base de datos en **MongoDB Atlas** (recomendado para producción).
 
 ---
