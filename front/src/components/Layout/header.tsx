@@ -80,7 +80,13 @@ export const Header: React.FC<HeaderProps> = ({ title }) => {
       </div>
       
       {/* Título después */}
-      <div className={`${getContainerForScreen()} py-4`}>
+      <div 
+        className={`${getContainerForScreen()}`}
+        style={{
+          paddingTop: dimensions.spacing['2xl'],
+          paddingBottom: dimensions.spacing.xl
+        }}
+      >
         <div className="flex justify-center">
           <h1 
             className="text-[#585D8A] font-bold mb-4 text-center"

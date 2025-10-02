@@ -32,8 +32,8 @@ import "./App.css";
 
 function App() {
   return (
-    <ErrorBoundary>
-      <ScreenSizeProvider>
+    <ScreenSizeProvider>
+      <ErrorBoundary>
         <AuthProvider>
           <LoadingProvider>
             <HeaderProvider>
@@ -99,8 +99,8 @@ function App() {
           </HeaderProvider>
         </LoadingProvider>
       </AuthProvider>
-      </ScreenSizeProvider>
-    </ErrorBoundary>
+      </ErrorBoundary>
+    </ScreenSizeProvider>
   );
 }
 

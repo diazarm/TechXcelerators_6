@@ -22,7 +22,7 @@ const Card: React.FC<CardProps> = ({
   onButtonClick,
   className = ""
 }) => {
-  const { isMobile, isDesktop, isXLarge, isXXLarge, dimensions, scale } = useScreenSize();
+  const { isMobile, dimensions, scale } = useScreenSize();
   
   // Hook de responsividad para imágenes
   const { backgroundStyles } = useResponsiveImage({
@@ -39,7 +39,7 @@ const Card: React.FC<CardProps> = ({
         rounded-2xl
         shadow-sm
         ${isMobile ? 'p-4' : 'p-6'}
-        flex flex-col
+        flex flex-col justify-center
         ${className}
       `}
       style={{
@@ -83,10 +83,10 @@ const Card: React.FC<CardProps> = ({
       <h3 
         className={`
           ${image ? 'text-white font-bold' : COLOR_CLASSES.textPrimary} 
-          font-semibold relative z-10
+          font-bold relative z-10
           ${isMobile ? 'mb-2' : 'mb-3'}
         `}
-        style={{ fontSize: dimensions.fontSize.lg }}
+        style={{ fontSize: dimensions.fontSize.xl }}
       >
         {title}
       </h3>
@@ -94,11 +94,11 @@ const Card: React.FC<CardProps> = ({
       {/* Description */}
       <p 
         className={`
-          ${image ? 'text-white font-semibold' : COLOR_CLASSES.textSecondary} 
-          flex-grow relative z-10
+          ${image ? 'text-white font-light' : COLOR_CLASSES.textSecondary} 
+          flex-grow relative z-10 font-light
           ${isMobile ? 'mb-4' : 'mb-6'}
         `}
-        style={{ fontSize: dimensions.fontSize.sm }}
+        style={{ fontSize: dimensions.fontSize.md }}
       >
         {description}
       </p>

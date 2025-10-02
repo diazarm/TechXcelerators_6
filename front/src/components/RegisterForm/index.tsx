@@ -23,7 +23,6 @@ import type { RegisterFormProps } from './types';
 export const RegisterForm: React.FC<RegisterFormProps> = ({
   onSuccess,
   onError,
-  submitButtonText = "Registrar Usuario",
   isLoading: externalLoading = false
 }) => {
   const { registerUser, isLoading: registerLoading, clearError } = useRegister();
@@ -284,7 +283,8 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
             size="lg"
             disabled={isLoading}
             onClick={() => {}}
-            className="w-full"
+            className="w-full font-medium"
+            style={{ opacity: 0.7 }}
           >
             {isLoading ? 'Creando...' : 'Crear'}
           </Button>

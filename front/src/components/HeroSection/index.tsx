@@ -57,7 +57,12 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               paddingBottom: dimensions.spacing.md
             }}
           >
-            <div className="w-full">
+            <div 
+              className="mx-auto"
+              style={{
+                maxWidth: `${scale(500)}px`
+              }}
+            >
               <h1 
                 className={`leading-tight font-bold ${COLOR_CLASSES.textPrimary}`}
                 style={{ 
@@ -81,8 +86,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               {/* Botones debajo del texto Lorem ipsum */}
               {children && (
                 <div 
-                  className="flex flex-col sm:flex-row justify-center"
-                  style={{ gap: dimensions.spacing.lg }}
+                  className="flex flex-col sm:flex-row justify-between"
+                  style={{ gap: `${scale(24)}px` }}
                 >
                   {children}
                 </div>
