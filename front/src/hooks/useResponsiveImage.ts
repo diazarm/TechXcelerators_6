@@ -52,7 +52,7 @@ export interface ResponsiveImageStyles {
  * ```
  */
 export const useResponsiveImage = (options: UseResponsiveImageOptions): ResponsiveImageStyles => {
-  const { type, aspectRatio = 'auto', responsive = true, customWidth, customHeight, forceMobileConfig = false } = options;
+  const { type, aspectRatio = 'auto', responsive = true, customWidth, customHeight } = options;
   const dimensions = useComponentDimensions();
   const { isMobile, isTablet, isDesktop } = useBreakpoints();
 

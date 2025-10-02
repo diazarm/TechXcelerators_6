@@ -1,6 +1,4 @@
 import { createContext, useContext, ReactNode } from 'react';
-import { useResponsive, useBreakpoints } from '../../hooks/useResponsive';
-import { useComponentDimensions } from '../../hooks/useScaledDimensions';
 
 /**
  * Tipos para el contexto de tamaño de pantalla

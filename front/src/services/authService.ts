@@ -1,6 +1,6 @@
 import type { User, LoginCredentials } from '../types';
 import { api } from './api';
-import { errorService, logger } from './index';
+import { logger } from './index';
 
 /** Servicio de autenticación con backend real */
 
@@ -39,7 +39,7 @@ export const login = async (credentials: LoginCredentials): Promise<{ user: User
   } catch (error) {
     logger.error('Error en login', { 
       email: credentials.email, 
-      error: error instanceof Error ? error.message : (error as any)?.message || 'Unknown error',
+      error: error instanceof Error ? error.message : (error as Error)?.message || 'Unknown error',
       errorType: error instanceof Error ? error.constructor.name : typeof error
     }, 'AuthService');
     

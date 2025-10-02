@@ -1,11 +1,6 @@
 import React from 'react';
 import { 
-  Star, 
   Users, 
-  Edit, 
-  Globe, 
-  Zap, 
-  Image,
   FileText,
   Settings,
 } from 'react-feather';
@@ -36,8 +31,8 @@ export interface CardConfig {
 export const dashboardPageCards: CardConfig[] = [
   {
     id: 'nueva-alianza',
-    title: 'Nuestras alianzas',
-    description: 'Información básica del acuerdo de la alianza, información del ADN de la alianza y portafolio activo',
+    title: 'Nueva alianza',
+    description: 'Información del ADN de la alianza y portafolio activo',
     image: '/img/nuevaAlianza.jpg',
     href: '/alianza'
   },

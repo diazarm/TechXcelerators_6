@@ -69,7 +69,7 @@ const RegisterPage: React.FC = () => {
                   backgroundColor: 'rgba(164, 169, 194, 0.5)', // Opacidad del 50%
                   padding: dimensions.spacing.lg,
                   borderRadius: `${scale(20)}px`,
-                  maxWidth: `${scale(500)}px`,
+                  maxWidth: `${scale(600)}px`,
                   minHeight: `${scale(400)}px`
                 }}
               >

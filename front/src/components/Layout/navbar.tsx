@@ -15,10 +15,6 @@ export const Navbar: React.FC<HeaderProps> = ({ className = "" }) => {
   const { scale, dimensions, isMobile, getContainerForScreen } = useScreenSize();
   const { resources, loading } = useResources();
   
-  // Dimensiones escaladas para el botón de logout
-  const scaledDimensions = {
-    buttonHeight: `${scale(44)}px`
-  };
   const mobileMenuRef = useRef<HTMLDivElement>(null);
 
   // Determinar la ruta del logo según el estado de autenticación y rol
@@ -79,7 +75,7 @@ export const Navbar: React.FC<HeaderProps> = ({ className = "" }) => {
 
   return (
     <header
-      className={`bg-white shadow-sm relative ${className}`}
+      className={`bg-white shadow-sm relative sticky top-0 z-50 ${className}`}
       style={{ fontFamily: "Montserrat, sans-serif" }}
     >
       <div 
@@ -112,7 +108,7 @@ export const Navbar: React.FC<HeaderProps> = ({ className = "" }) => {
               <div 
                 className="flex items-center"
                 style={{ 
-                  gap: dimensions.spacing.sm,
+                  gap: dimensions.spacing.lg,
                   marginRight: dimensions.spacing.lg
                 }}
               >

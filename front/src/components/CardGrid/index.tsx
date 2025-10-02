@@ -16,7 +16,7 @@ const CardGrid: React.FC<CardGridProps> = ({
   className = "",
   columns = 3 // Valor por defecto
 }) => {
-  const { getGridForScreen, getGapForScreen } = useScreenSize();
+  const { getGapForScreen } = useScreenSize();
 
   // Determinar la clase de columnas basada en el parámetro
   const getGridColumnsClass = () => {

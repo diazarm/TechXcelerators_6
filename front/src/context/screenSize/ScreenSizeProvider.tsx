@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import React from 'react';
 import { useResponsive, useBreakpoints } from '../../hooks/useResponsive';
 import { useComponentDimensions } from '../../hooks/useScaledDimensions';
 import { ScreenSizeContext, ScreenSizeContextType, ScreenSizeProviderProps } from './ScreenSizeContext';
