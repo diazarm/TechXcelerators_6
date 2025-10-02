@@ -4,6 +4,7 @@ import {
   AuthProvider,
   HeaderProvider,
   NotificationProvider,
+  ScreenSizeProvider,
 } from "./context";
 import {
   ErrorBoundary,
@@ -32,10 +33,11 @@ import "./App.css";
 function App() {
   return (
     <ErrorBoundary>
-      <AuthProvider>
-        <LoadingProvider>
-          <HeaderProvider>
-            <NotificationProvider>
+      <ScreenSizeProvider>
+        <AuthProvider>
+          <LoadingProvider>
+            <HeaderProvider>
+              <NotificationProvider>
               <BrowserRouter>
                 <Routes>
                   {/* Login fuera del layout */}
@@ -97,6 +99,7 @@ function App() {
           </HeaderProvider>
         </LoadingProvider>
       </AuthProvider>
+      </ScreenSizeProvider>
     </ErrorBoundary>
   );
 }

@@ -2,7 +2,8 @@ import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Menu, X } from "react-feather";
 import { Button, ResourceDropdown } from "../../components"; // 👈 limpio desde barrel file
-import { useAuth, useNotification, useResponsive, useResources, useComponentDimensions, useBreakpoints, useScaledDimensions } from "../../hooks";
+import { useAuth, useNotification, useResources } from "../../hooks";
+import { useScreenSize } from "../../context";
 import { COLOR_CLASSES } from "../../constants";
 import type { HeaderProps } from "./types";
 
@@ -11,16 +12,13 @@ export const Navbar: React.FC<HeaderProps> = ({ className = "" }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { logout, isAuthenticated, user } = useAuth();
   const { addNotification } = useNotification();
-  const responsive = useResponsive();
-  const { scale } = useResponsive();
-  const dimensions = useComponentDimensions();
-  const { isMobile } = useBreakpoints();
+  const { scale, dimensions, isMobile, getContainerForScreen } = useScreenSize();
   const { resources, loading } = useResources();
   
   // Dimensiones escaladas para el botón de logout
-  const scaledDimensions = useScaledDimensions({
-    buttonHeight: 44
-  });
+  const scaledDimensions = {
+    buttonHeight: `${scale(44)}px`
+  };
   const mobileMenuRef = useRef<HTMLDivElement>(null);
 
   // Determinar la ruta del logo según el estado de autenticación y rol
@@ -85,10 +83,8 @@ export const Navbar: React.FC<HeaderProps> = ({ className = "" }) => {
       style={{ fontFamily: "Montserrat, sans-serif" }}
     >
       <div 
-        className="w-full max-w-[1512px] mx-auto"
+        className={`${getContainerForScreen()}`}
         style={{
-          paddingLeft: dimensions.spacing['2xl'],
-          paddingRight: dimensions.spacing['2xl'],
           paddingTop: dimensions.spacing.md,
           paddingBottom: dimensions.spacing.md
         }}
@@ -132,7 +128,6 @@ export const Navbar: React.FC<HeaderProps> = ({ className = "" }) => {
                 <ResourceDropdown
                   isOpen={isDropdownOpen}
                   onToggle={handleDropdownToggle}
-                  responsive={responsive}
                   resources={resources}
                   loading={loading}
                 />
@@ -169,7 +164,6 @@ export const Navbar: React.FC<HeaderProps> = ({ className = "" }) => {
               <ResourceDropdown
                 isOpen={isDropdownOpen}
                 onToggle={handleDropdownToggle}
-                responsive={responsive}
                 resources={resources}
                 loading={loading}
               />

@@ -1,12 +1,12 @@
 import React from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { LoginForm, ResponsiveBackground } from '../../components';
-import { useResponsive, useAuth, useComponentDimensions } from '../../hooks';
+import { useAuth } from '../../hooks';
+import { useScreenSize } from '../../context';
 
 /** Página de login */
 const LoginPage: React.FC = () => {
-  const { spacing } = useResponsive();
-  const dimensions = useComponentDimensions();
+  const { dimensions, scale } = useScreenSize();
   const { isAuthenticated } = useAuth();
   const [searchParams] = useSearchParams();
   const accessType = searchParams.get('type') || 'admin';
@@ -34,11 +34,9 @@ const LoginPage: React.FC = () => {
       />
       
       {/* Contenedor del formulario centrado */}
-      <div className={`relative z-10 flex flex-col items-center -mt-16 ${spacing.px.small}`}>
+      <div className="relative z-10 flex flex-col items-center -mt-16 px-4 sm:px-6 lg:px-8">
         {/* Logo */}
-        <div 
-          className="w-[300px] h-[130px] sm:w-[400px] sm:h-[173px] lg:w-[500px] lg:h-[217px]"
-        >
+        <div className="w-[300px] h-[130px] sm:w-[400px] sm:h-[173px] lg:w-[500px] lg:h-[217px]">
           <Link to={getLogoDestination()}>
             <img 
               src="/img/Logo3.png" 
@@ -65,11 +63,13 @@ const LoginPage: React.FC = () => {
 
         {/* Formulario de login */}
         <div 
-          className="rounded-[20px] relative w-full max-w-sm sm:max-w-md"
+          className="relative w-full"
           style={{
-            width: dimensions.card.large,
-            height: '280px',
-            backgroundColor: 'rgba(164, 169, 194, 0.5)'
+            backgroundColor: 'rgba(164, 169, 194, 0.5)',
+            padding: dimensions.spacing.lg,
+            borderRadius: `${scale(20)}px`,
+            maxWidth: `${scale(380)}px`,
+            minHeight: accessType === 'staff' ? `${scale(200)}px` : `${scale(280)}px`
           }}
         >
           <LoginForm accessType={accessType as 'staff' | 'admin'} />

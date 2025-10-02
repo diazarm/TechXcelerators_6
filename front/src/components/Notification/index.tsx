@@ -1,5 +1,5 @@
 import React from 'react';
-import { useComponentDimensions, useResponsive, useBreakpoints } from '../../hooks';
+import { useScreenSize } from '../../context';
 import type { NotificationProps } from './types';
 
 /** Componente de notificación estilo toast */
@@ -10,9 +10,7 @@ export const Notification: React.FC<NotificationProps> = ({
   onClose,
   visible = true
 }) => {
-  const dimensions = useComponentDimensions();
-  const { isMobile } = useResponsive();
-  const { isDesktop } = useBreakpoints();
+  const { dimensions, isMobile, isDesktop } = useScreenSize();
   const [isAnimating, setIsAnimating] = React.useState(false);
   
   React.useEffect(() => {

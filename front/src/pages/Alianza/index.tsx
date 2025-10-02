@@ -1,16 +1,16 @@
 import React from 'react';
 import { CardGrid } from '../../components';
-import { useCards, usePageHeader, useResponsive, useComponentDimensions } from '../../hooks';
+import { useCards, usePageHeader } from '../../hooks';
+import { useScreenSize } from '../../context';
 
 
 const Alianza: React.FC = () => {
-  const responsive = useResponsive();
-  const dimensions = useComponentDimensions();
+  const { getContainerForScreen, dimensions } = useScreenSize();
   const { cards, handleCardClick } = useCards('alianza');
   usePageHeader(); // Configuración automática del título
 
   return (
-    <div className={`${responsive.container}`}>
+    <div className={`${getContainerForScreen()}`}>
       {/* Grid de Tarjetas - El título ahora viene del Header dinámico */}
       {cards.length > 0 ? (
         <CardGrid 

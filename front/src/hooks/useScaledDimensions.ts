@@ -44,9 +44,9 @@ export const useComponentDimensions = () => {
     button: {
       height: {
         xs: `${scale(30)}px`,
-        sm: `${scale(40)}px`,
-        md: `${scale(50)}px`,
-        lg: `${scale(60)}px`
+        sm: `${scale(35)}px`,
+        md: `${scale(40)}px`,
+        lg: `${scale(45)}px`
       },
       minWidth: {
         xs: `${scale(80)}px`,
@@ -68,13 +68,13 @@ export const useComponentDimensions = () => {
     
     // Tipografía
     fontSize: {
-      xs: `${scale(12)}px`,
-      sm: `${scale(14)}px`,
-      md: `${scale(16)}px`,
-      lg: `${scale(18)}px`,
-      xl: `${scale(20)}px`,
-      '2xl': `${scale(24)}px`,
-      '3xl': `${scale(30)}px`
+      xs: `${scale(14)}px`,
+      sm: `${scale(16)}px`,
+      md: `${scale(18)}px`,
+      lg: `${scale(20)}px`,
+      xl: `${scale(22)}px`,
+      '2xl': `${scale(26)}px`,
+      '3xl': `${scale(32)}px`
     }
   };
 };

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { CheckCircle } from 'react-feather';
-import { useComponentDimensions } from '../../hooks';
+import { useScreenSize } from '../../context';
 import type { ConfirmationPageProps } from './types';
 
 /**
@@ -30,7 +30,7 @@ export const ConfirmationPage: React.FC<ConfirmationPageProps> = ({
 }) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const dimensions = useComponentDimensions();
+  const { dimensions, scale } = useScreenSize();
   
 
   // Obtener datos del estado de navegación si no se proporcionan como props
@@ -63,16 +63,24 @@ export const ConfirmationPage: React.FC<ConfirmationPageProps> = ({
       <div className="relative z-10 flex flex-col items-center justify-center px-8">
         {/* Contenedor del contenido con opacidad */}
         <div 
-          className="flex flex-col items-center justify-between rounded-[25px] w-[280px] sm:w-[450px] lg:w-[600px] min-h-[350px] sm:min-h-[420px] lg:min-h-[500px]"
+          className="flex flex-col items-center justify-between"
           style={{
             backgroundColor: 'rgba(30, 30, 30, 0.5)', // #1E1E1E con 50% opacidad
             padding: dimensions.spacing.xl,
-            gap: dimensions.spacing.lg
+            gap: dimensions.spacing.lg,
+            width: `${scale(400)}px`,
+            minWidth: `${scale(280)}px`,
+            maxWidth: `${scale(600)}px`,
+            minHeight: `${scale(350)}px`,
+            borderRadius: `${scale(25)}px`
           }}
         >
           {/* Logo */}
           <div 
-            className="w-[200px] sm:w-[350px] lg:w-[500px] h-[80px] sm:h-[140px] lg:h-[200px]"
+            style={{
+              width: `${scale(350)}px`,
+              height: `${scale(140)}px`
+            }}
           >
             <img 
               src="/img/Logo3.png" 

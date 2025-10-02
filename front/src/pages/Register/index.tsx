@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { RegisterForm } from '../../components';
-import { useResponsive, useAuth, useComponentDimensions } from '../../hooks';
+import { useAuth } from '../../hooks';
+import { useScreenSize } from '../../context';
 
 /**
  * RegisterPage - Página de registro de usuarios
@@ -16,8 +17,7 @@ import { useResponsive, useAuth, useComponentDimensions } from '../../hooks';
  * ```
  */
 const RegisterPage: React.FC = () => {
-  const { spacing } = useResponsive();
-  const dimensions = useComponentDimensions();
+  const { dimensions, scale } = useScreenSize();
   const { isAuthenticated } = useAuth();
 
   // Determinar la ruta del logo según el estado de autenticación
@@ -32,10 +32,13 @@ const RegisterPage: React.FC = () => {
     <div className="min-h-screen w-full flex items-center justify-center" style={{ backgroundColor: '#222222' }}>
       
       {/* Contenedor del formulario centrado */}
-      <div className={`flex flex-col items-center ${spacing.px.small}`}>
+      <div className="flex flex-col items-center px-4 sm:px-6 lg:px-8">
         {/* Logo */}
         <div 
-          className="w-[300px] h-[130px] sm:w-[400px] sm:h-[173px] lg:w-[500px] lg:h-[217px]"
+          style={{
+            width: `${scale(400)}px`,
+            height: `${scale(173)}px`
+          }}
         >
           <Link to={getLogoDestination()}>
             <img 
@@ -61,11 +64,13 @@ const RegisterPage: React.FC = () => {
 
               {/* Formulario de registro */}
               <div
-                className="rounded-[20px] relative w-full max-w-sm sm:max-w-md"
+                className="relative w-full"
                 style={{
-                  width: dimensions.card.medium,
-                  height: dimensions.card.medium,
-                  backgroundColor: 'rgba(164, 169, 194, 0.5)' // Opacidad del 50%
+                  backgroundColor: 'rgba(164, 169, 194, 0.5)', // Opacidad del 50%
+                  padding: dimensions.spacing.lg,
+                  borderRadius: `${scale(20)}px`,
+                  maxWidth: `${scale(500)}px`,
+                  minHeight: `${scale(400)}px`
                 }}
               >
           <RegisterForm />
