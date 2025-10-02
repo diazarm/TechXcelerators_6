@@ -3,6 +3,7 @@ import {
   Users, 
   FileText,
   Settings,
+  Star,
 } from 'react-feather';
 
 
@@ -102,16 +103,19 @@ export const recursosPageCards: CardConfig[] = [
 export const alianzaPageCards: CardConfig[] = [
   {
     id: 'portafolio-precios',
-    title: 'Portafolio y precios',
+    title: '',
     description: '',
     icon: React.createElement(Star, { 
       size: 48.9375,
-      strokeWidth: 2.5,
-      style: {
-        width: '48.9375px',
-        height: '48.9375px',
-        color: '#1E285F'
-      }
+      strokeWidth: 1.0,
+        style: {
+          width: '48.9375px',
+          height: '48.9375px',
+          color: '#1E285F',
+          position: 'absolute',
+          top: '-5x',
+          left: '-5px'
+        }
     }),
     href: '/portafolio-precios'
   },
