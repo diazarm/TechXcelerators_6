@@ -1,8 +1,5 @@
 import React from 'react';
 import { 
-  Users, 
-  FileText,
-  Settings,
   Star,
   EyeOff,
   Edit2,
@@ -29,7 +26,7 @@ const createScaledIcon = (size: number) => {
 /**
  * Función para crear iconos con componente específico y escalado
  */
-const createIcon = (IconComponent: React.ComponentType<any>, baseSize: number, color?: string) => {
+const createIcon = (IconComponent: React.ComponentType<{ size: number; color?: string }>, baseSize: number, color?: string) => {
   return React.createElement('div', {
     className: "flex items-center justify-center",
     style: {
@@ -45,7 +42,7 @@ const createIcon = (IconComponent: React.ComponentType<any>, baseSize: number, c
 /**
  * Función para crear iconos semibold
  */
-const createSemiboldIcon = (IconComponent: React.ComponentType<any>, baseSize: number, color?: string) => {
+const createSemiboldIcon = (IconComponent: React.ComponentType<{ size: number; color?: string; strokeWidth?: number }>, baseSize: number, color?: string) => {
   return React.createElement('div', {
     className: "flex items-center justify-center",
     style: {
@@ -62,7 +59,7 @@ const createSemiboldIcon = (IconComponent: React.ComponentType<any>, baseSize: n
 /**
  * Función para crear iconos con círculo sutil
  */
-const createIconWithCircle = (IconComponent: React.ComponentType<any>, baseSize: number, color?: string) => {
+const createIconWithCircle = (IconComponent: React.ComponentType<{ size: number; color?: string }>, baseSize: number, color?: string) => {
   return React.createElement('div', {
     className: "flex items-center justify-center rounded-full border border-gray-200",
     style: {
@@ -79,7 +76,7 @@ const createIconWithCircle = (IconComponent: React.ComponentType<any>, baseSize:
 /**
  * Función para crear múltiples iconos en un contenedor con escalado
  */
-const createMultipleIcons = (icons: Array<{ component: React.ComponentType<any>, size: number, color?: string, withCircle?: boolean }>, gap: number = 8) => {
+const createMultipleIcons = (icons: Array<{ component: React.ComponentType<{ size: number; color?: string; strokeWidth?: number }>, size: number, color?: string, withCircle?: boolean }>, gap: number = 8) => {
   return React.createElement('div', { 
     style: { display: 'flex', gap: `${gap}px`, alignItems: 'center' } 
   }, icons.map((icon) => 
@@ -156,30 +153,6 @@ export const dashboardPageCards: CardConfig[] = [
   }
 ];
 
-// Cards para la página Recursos (3 cards)
-export const recursosPageCards: CardConfig[] = [
-  {
-    id: 'portafolio',
-    title: 'Portafolios y precios',
-    description: 'Acceso a portafolios y precios de la alianza',
-    icon: React.createElement(FileText, { size: 24 }),
-    href: '/portafolio'
-  },
-  {
-    id: 'equipo',
-    title: 'Equipo',
-    description: 'Gestión de equipos de trabajo y asignación de responsabilidades.',
-    icon: React.createElement(Users, { size: 24 }),
-    href: '/equipo'
-  },
-  {
-    id: 'configuracion',
-    title: 'Configuración',
-    description: 'Configuración del sistema y preferencias de usuario.',
-    icon: React.createElement(Settings, { size: 24 }),
-    href: '/configuracion'
-  }
-];
 
 // Cards para la página Alianza (6 cards como en la imagen)
 export const alianzaPageCards: CardConfig[] = [
@@ -278,7 +251,6 @@ export const gobernanzaPageCards: CardConfig[] = [
  */
 export const cardConfigs = {
   dashboard: dashboardPageCards,
-  recursos: recursosPageCards,
   alianza: alianzaPageCards,
   gobernanza: gobernanzaPageCards
 } as const;
