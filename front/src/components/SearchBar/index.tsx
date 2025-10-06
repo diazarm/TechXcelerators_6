@@ -2,7 +2,6 @@ import React from 'react';
 import { SearchModal } from '../SearchModal';
 import { useSearch, useNavbar } from '../../hooks';
 import { useScreenSize } from '../../context';
-import { mockSearchData } from '../../Mock/MockSearchData';
 import type { SearchResult } from '../../types/shared';
 
 /**
@@ -13,14 +12,16 @@ import type { SearchResult } from '../../types/shared';
 const SearchBar: React.FC = () => {
   const { dimensions, scale, isMobile } = useScreenSize();
   
-  // Hook de búsqueda con datos mock
+  // Hook de búsqueda - conectado al backend real
   const {
     searchQuery,
     results,
     handleSearchChange,
     clearSearch,
-    isSearchActive
-  } = useSearch(mockSearchData);
+    isSearchActive,
+    isLoading,
+    error
+  } = useSearch();
 
   // Hook personalizado para manejar la lógica del navbar
   const {
@@ -98,7 +99,35 @@ const SearchBar: React.FC = () => {
               className="flex items-center"
               style={{ gap: dimensions.spacing.xs }}
             >
-              {isSearchActive && (
+              {isLoading && (
+                <div 
+                  className="animate-spin"
+                  style={{ 
+                    color: '#5D5A88',
+                    fontSize: dimensions.fontSize.sm,
+                    width: dimensions.spacing.sm,
+                    height: dimensions.spacing.sm
+                  }}
+                >
+                  ⟳
+                </div>
+              )}
+              
+              {error && !isLoading && (
+                <div 
+                  style={{ 
+                    color: '#FF6E00',
+                    fontSize: dimensions.fontSize.sm,
+                    width: dimensions.spacing.sm,
+                    height: dimensions.spacing.sm
+                  }}
+                  title={error}
+                >
+                  ⚠
+                </div>
+              )}
+              
+              {isSearchActive && !isLoading && (
                 <button
                   onClick={clearSearch}
                   className="text-gray-600 hover:text-gray-800 transition-colors rounded-full hover:bg-gray-100 flex items-center justify-center"
@@ -147,6 +176,8 @@ const SearchBar: React.FC = () => {
             searchQuery={searchQuery}
             selectedIndex={selectedIndex}
             onResultSelect={onResultSelect}
+            isLoading={isLoading}
+            error={error}
           />
         </div>
       </div>

@@ -41,5 +41,8 @@ export { AllianceService, allianceService } from './allianceService';
 // Exportaciones del servicio de recursos
 export { ResourceService } from './resourceService';
 
+// Exportaciones del servicio de búsqueda
+export { searchService } from './searchService';
+
 // Exportar tipos de servicios
 export type { LoggerConfig } from './types';

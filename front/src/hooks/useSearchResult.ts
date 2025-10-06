@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import type { SearchResult } from '../types';
 
 /**
@@ -6,6 +7,8 @@ import type { SearchResult } from '../types';
  * Incluye manejo de menú móvil, búsqueda y navegación por teclado
  */
 export const useNavbar = () => {
+  const navigate = useNavigate();
+  
   // Estados del menú móvil
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   
@@ -79,11 +82,40 @@ export const useNavbar = () => {
     result: SearchResult,
     clearSearch: () => void
   ) => {
-    // Aquí puedes navegar o hacer algo con el resultado
+    // Usar URL del backend si existe, sino navegar a página interna
+    if (result.url) {
+      // Abrir URL externa en nueva pestaña
+      window.open(result.url, '_blank');
+    } else {
+      // Navegar a página interna según el tipo
+      switch (result.category) {
+        case 'Alianza':
+          navigate('/alianza');
+          break;
+        
+        case 'Recurso':
+          navigate('/dashboard'); // Fallback al dashboard para recursos sin URL
+          break;
+        
+        case 'Sección':
+          if (result.title.toLowerCase().includes('gobernanza')) {
+            navigate('/gobernanza');
+          } else {
+            navigate('/dashboard'); // Fallback al dashboard
+          }
+          break;
+        
+        default:
+          navigate('/dashboard');
+          break;
+      }
+    }
+    
+    // Limpiar búsqueda y cerrar modal
     clearSearch();
     setSelectedIndex(-1);
     setShowSearchModal(false);
-  }, []);
+  }, [navigate]);
 
   /**
    * Abre el modal de búsqueda

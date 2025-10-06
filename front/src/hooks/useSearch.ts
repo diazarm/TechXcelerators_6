@@ -1,24 +1,49 @@
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useMemo, useCallback, useEffect } from 'react';
 import type { SearchResult } from '../types';
+import { searchService } from '../services/searchService';
 
 /**
  * Hook personalizado para manejar la funcionalidad de búsqueda
+ * Conectado directamente al backend real
  * 
- * @param data - Array de datos a buscar
  * @returns Objeto con estado de búsqueda y funciones de búsqueda
  */
-export const useSearch = (data: SearchResult[]) => {
+export const useSearch = () => {
   // Estado del término de búsqueda
   const [searchQuery, setSearchQuery] = useState<string>('');
   
-  // Estado de carga (para futuras implementaciones con API)
-  const [isLoading] = useState<boolean>(false);
+  // Estado de carga
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  
+  // Estado de resultados (para modo backend)
+  const [backendResults, setBackendResults] = useState<SearchResult[]>([]);
+  
+  // Estado de error
+  const [error, setError] = useState<string | null>(null);
 
   /**
    * Función para actualizar el término de búsqueda
    */
-  const handleSearchChange = useCallback((query: string) => {
+  const handleSearchChange = useCallback(async (query: string) => {
     setSearchQuery(query);
+    setError(null);
+    
+    // Si hay query, hacer búsqueda en el backend
+    if (query.trim()) {
+      setIsLoading(true);
+      try {
+        const results = await searchService.search(query);
+        setBackendResults(results);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Error en búsqueda');
+        setBackendResults([]);
+      } finally {
+        setIsLoading(false);
+      }
+    } else {
+      // Si no hay query, limpiar resultados
+      setBackendResults([]);
+    }
   }, []);
 
   /**
@@ -26,46 +51,21 @@ export const useSearch = (data: SearchResult[]) => {
    */
   const clearSearch = useCallback(() => {
     setSearchQuery('');
+    setBackendResults([]);
+    setError(null);
   }, []);
 
   /**
-   * Resultados filtrados basados en la consulta de búsqueda
-   * Se actualiza automáticamente cuando cambia searchQuery o data
+   * Resultados de la búsqueda en el backend
    */
-  const filteredResults = useMemo(() => {
-    if (!searchQuery.trim()) {
-      return data; // Si no hay búsqueda, mostrar todos los datos
-    }
-
-    const query = searchQuery.toLowerCase().trim();
-    
-    return data.filter((item) => {
-      // Buscar en título
-      if (item.title.toLowerCase().includes(query)) return true;
-      
-      // Buscar en descripción
-      if (item.description.toLowerCase().includes(query)) return true;
-      
-      // Buscar en categoría
-      if (item.category.toLowerCase().includes(query)) return true;
-      
-      // Buscar en tipo
-      if (item.type.toLowerCase().includes(query)) return true;
-      
-      // Buscar en palabras clave
-      if (item.keywords.some((keyword: string) => keyword.toLowerCase().includes(query))) return true;
-      
-      // Buscar en path
-      if (item.path.toLowerCase().includes(query)) return true;
-      
-      return false;
-    });
-  }, [searchQuery, data]);
+  const results = useMemo(() => {
+    return backendResults;
+  }, [backendResults]);
 
   /**
    * Verificar si hay resultados
    */
-  const hasResults = useMemo(() => filteredResults.length > 0, [filteredResults]);
+  const hasResults = useMemo(() => results.length > 0, [results]);
 
   /**
    * Verificar si la búsqueda está activa
@@ -76,16 +76,17 @@ export const useSearch = (data: SearchResult[]) => {
    * Obtener estadísticas de búsqueda
    */
   const searchStats = useMemo(() => ({
-    totalItems: data.length,
-    filteredItems: filteredResults.length,
+    totalItems: results.length,
+    filteredItems: results.length,
     searchQuery: searchQuery.trim()
-  }), [data.length, filteredResults.length, searchQuery]);
+  }), [results.length, searchQuery]);
 
   return {
     // Estado
     searchQuery,
     isLoading,
-    results: filteredResults,
+    results,
+    error,
     
     // Funciones
     handleSearchChange,

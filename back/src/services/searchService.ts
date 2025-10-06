@@ -3,6 +3,16 @@ import Resource from "../models/Resource";
 import Section from "../models/Section";
 
 export class SearchService {
+  // Función para normalizar texto (quitar tildes y caracteres especiales)
+  private normalizeText(text: string): string {
+    return text
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[ñÑ]/g, "n")
+      .trim();
+  }
+
   // Extraer términos clave de la consulta
   private extractKeywords(query: string): string[] {
     const stopwords = [
@@ -44,24 +54,44 @@ export class SearchService {
       "ser",
       "son",
       "dos",
-      "también",
+      "tambien",
       "fue",
-      "había",
+      "habia",
       "era",
       "muy",
-      "años",
+      "anos",
       "hasta",
       "desde",
-      "está",
+      "esta",
       "mi",
       "porque",
     ];
 
-    return query
-      .toLowerCase()
+    const normalizedQuery = this.normalizeText(query);
+
+    return normalizedQuery
       .split(/\W+/)
       .filter((word) => word.length > 2 && !stopwords.includes(word))
       .slice(0, 10); // Limitar a 10 términos máximo
+  }
+
+  private createFlexibleRegex(term: string): any {
+    const patterns = {
+      a: "[aáàäâ]",
+      e: "[eéèëê]",
+      i: "[iíìïî]",
+      o: "[oóòöô]",
+      u: "[uúùüû]",
+      n: "[nñ]",
+    };
+
+    let flexiblePattern = term;
+
+    Object.entries(patterns).forEach(([base, pattern]) => {
+      flexiblePattern = flexiblePattern.replace(new RegExp(base, "g"), pattern);
+    });
+
+    return { $regex: flexiblePattern, $options: "i" };
   }
 
   async searchAll(query: string, page: number = 1, limit: number = 10) {
@@ -77,48 +107,30 @@ export class SearchService {
     }
 
     try {
-      console.log("Iniciando búsqueda con keywords:", keywords);
+      const createSearchConditions = (fields: string[]) => {
+        return keywords.flatMap((term) =>
+          fields.map((field) => ({
+            [field]: this.createFlexibleRegex(term),
+          }))
+        );
+      };
 
       const alliances = await Alliance.find({
-        $or: [
-          ...keywords.map((term) => ({
-            name: { $regex: term, $options: "i" },
-          })),
-          ...keywords.map((term) => ({
-            description: { $regex: term, $options: "i" },
-          })),
-        ],
+        $or: createSearchConditions(["name", "siglas", "description"]),
       })
         .skip(skip)
         .limit(limit)
         .exec();
 
       const resources = await Resource.find({
-        $or: [
-          ...keywords.map((term) => ({
-            title: { $regex: term, $options: "i" },
-          })),
-          ...keywords.map((term) => ({
-            description: { $regex: term, $options: "i" },
-          })),
-          ...keywords.map((term) => ({
-            content: { $regex: term, $options: "i" },
-          })),
-        ],
+        $or: createSearchConditions(["name", "description", "content"]),
       })
         .skip(skip)
         .limit(limit)
         .exec();
 
       const sections = await Section.find({
-        $or: [
-          ...keywords.map((term) => ({
-            name: { $regex: term, $options: "i" },
-          })),
-          ...keywords.map((term) => ({
-            description: { $regex: term, $options: "i" },
-          })),
-        ],
+        $or: createSearchConditions(["title", "description"]),
       })
         .skip(skip)
         .limit(limit)
@@ -136,14 +148,18 @@ export class SearchService {
     }
   }
 
-  // Búsqueda exacta
   async searchExact(query: string, page: number = 1, limit: number = 10) {
     const skip = (page - 1) * limit;
-    const searchRegex = { $regex: query, $options: "i" };
+    const normalizedQuery = this.normalizeText(query);
+    const searchRegex = this.createFlexibleRegex(normalizedQuery);
 
     try {
       const alliances = await Alliance.find({
-        $or: [{ name: searchRegex }, { description: searchRegex }],
+        $or: [
+          { name: searchRegex },
+          { siglas: searchRegex },
+          { description: searchRegex },
+        ],
       })
         .skip(skip)
         .limit(limit)
@@ -151,7 +167,7 @@ export class SearchService {
 
       const resources = await Resource.find({
         $or: [
-          { title: searchRegex },
+          { name: searchRegex },
           { description: searchRegex },
           { content: searchRegex },
         ],
@@ -161,7 +177,7 @@ export class SearchService {
         .exec();
 
       const sections = await Section.find({
-        $or: [{ name: searchRegex }, { description: searchRegex }],
+        $or: [{ title: searchRegex }, { description: searchRegex }],
       })
         .skip(skip)
         .limit(limit)
@@ -170,11 +186,7 @@ export class SearchService {
       return {
         query,
         type: "exact",
-        results: {
-          alliances,
-          resources,
-          sections,
-        },
+        results: { alliances, resources, sections },
         total: alliances.length + resources.length + sections.length,
       };
     } catch (error) {

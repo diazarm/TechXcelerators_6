@@ -13,69 +13,72 @@ import {
 } from 'react-feather';
 
 /**
- * Función para crear iconos escalados
+ * Función de escalado basada en el ancho de la ventana
  */
-const createScaledIcon = (size: number) => {
-  return React.createElement('div', {
-    className: "flex items-center justify-center",
-    style: {
-      width: `${size}px`,
-      height: `${size}px`
-    }
-  }, React.createElement('div', { 
-    style: { 
-      width: `${size}px`, 
-      height: `${size}px` 
-    } 
-  }));
+const getScaleFactor = (): number => {
+  const width = window.innerWidth;
+  const baseWidth = 1440; // Base de referencia
+  const scaleFactor = width / baseWidth;
+  return Math.max(0.8, Math.min(2.5, scaleFactor)); // Limitar entre 0.8 y 2.5
+};
+
+/**
+ * Función para escalar valores numéricos
+ */
+const scale = (value: number): number => {
+  return Math.round(value * getScaleFactor());
 };
 
 /**
  * Función para crear iconos con componente específico y escalado
  */
 const createIcon = (IconComponent: React.ComponentType<{ size: number; color?: string }>, baseSize: number, color?: string) => {
+  const scaledSize = scale(baseSize);
   return React.createElement('div', {
     className: "flex items-center justify-center",
     style: {
-      width: `${baseSize}px`,
-      height: `${baseSize}px`
+      width: `${scaledSize}px`,
+      height: `${scaledSize}px`
     }
   }, React.createElement(IconComponent, {
-    size: baseSize,
+    size: scaledSize,
     color: color || '#585D8A'
   }));
 };
 
 /**
- * Función para crear iconos semibold
+ * Función para crear iconos semibold con escalado
  */
 const createSemiboldIcon = (IconComponent: React.ComponentType<{ size: number; color?: string; strokeWidth?: number }>, baseSize: number, color?: string) => {
+  const scaledSize = scale(baseSize);
   return React.createElement('div', {
     className: "flex items-center justify-center",
     style: {
-      width: `${baseSize}px`,
-      height: `${baseSize}px`
+      width: `${scaledSize}px`,
+      height: `${scaledSize}px`
     }
   }, React.createElement(IconComponent, {
-    size: baseSize,
+    size: scaledSize,
     color: color || '#585D8A',
     strokeWidth: 1.5 // Menos peso visual
   }));
 };
 
 /**
- * Función para crear iconos con círculo sutil
+ * Función para crear iconos con círculo sutil y escalado
  */
 const createIconWithCircle = (IconComponent: React.ComponentType<{ size: number; color?: string }>, baseSize: number, color?: string) => {
+  const scaledSize = scale(baseSize);
+  const scaledPadding = scale(12);
   return React.createElement('div', {
     className: "flex items-center justify-center rounded-full border border-gray-200",
     style: {
-      width: `${baseSize + 12}px`, // Aumentado de 8 a 12
-      height: `${baseSize + 12}px`, // Aumentado de 8 a 12
+      width: `${scaledSize + scaledPadding}px`,
+      height: `${scaledSize + scaledPadding}px`,
       backgroundColor: 'rgba(255, 255, 255, 0.8)'
     }
   }, React.createElement(IconComponent, {
-    size: baseSize,
+    size: scaledSize,
     color: color || '#5D5A88'
   }));
 };
@@ -83,9 +86,10 @@ const createIconWithCircle = (IconComponent: React.ComponentType<{ size: number;
 /**
  * Función para crear múltiples iconos en un contenedor con escalado
  */
-const createMultipleIcons = (icons: Array<{ component: React.ComponentType<{ size: number; color?: string; strokeWidth?: number }>, size: number, color?: string, withCircle?: boolean }>, gap: number = 8) => {
+const createMultipleIcons = (icons: Array<{ component: React.ComponentType<{ size: number; color?: string; strokeWidth?: number }>, size: number, color?: string, withCircle?: boolean }>, baseGap: number = 8) => {
+  const scaledGap = scale(baseGap);
   return React.createElement('div', { 
-    style: { display: 'flex', gap: `${gap}px`, alignItems: 'center' } 
+    style: { display: 'flex', gap: `${scaledGap}px`, alignItems: 'center' } 
   }, icons.map((icon) => 
     icon.withCircle ? createIconWithCircle(icon.component, icon.size, icon.color) : createIcon(icon.component, icon.size, icon.color)
   ));
