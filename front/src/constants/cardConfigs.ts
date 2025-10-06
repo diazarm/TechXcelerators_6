@@ -1,6 +1,13 @@
 import React from 'react';
 import { 
   Star,
+  Video,
+  Zap,
+  Users,
+  Globe,
+  Cast,
+  FileText,
+  Edit,
   EyeOff,
   Edit2,
 } from 'react-feather';
@@ -153,7 +160,6 @@ export const dashboardPageCards: CardConfig[] = [
   }
 ];
 
-
 // Cards para la página Alianza (6 cards como en la imagen)
 export const alianzaPageCards: CardConfig[] = [
   {
@@ -171,35 +177,55 @@ export const alianzaPageCards: CardConfig[] = [
     id: 'fichas-tecnicas',
     title: 'Fichas técnicas y grabaciones de capacitación del producto',
     description: '',
-    icon: createScaledIcon(70),
+    leftHeaderContent: createSemiboldIcon(Video, 32, '#1E285F'),
+    rightHeaderContent: createMultipleIcons([
+      { component: EyeOff, size: 18, color: '#5D5A88', withCircle: true },
+      { component: Edit2, size: 18, color: '#5D5A88', withCircle: true }
+    ]),
     href: '/fichas-tecnicas'
   },
   {
     id: 'usp',
     title: 'USP',
     description: '',
-    icon: createScaledIcon(70),
+    leftHeaderContent: createSemiboldIcon(Zap, 32, '#1E285F'),
+    rightHeaderContent: createMultipleIcons([
+      { component: EyeOff, size: 18, color: '#5D5A88', withCircle: true },
+      { component: Edit2, size: 18, color: '#5D5A88', withCircle: true }
+    ]),
     href: '/usp'
   },
   {
     id: 'organigrama',
     title: 'Organigrama',
     description: '',
-    icon: createScaledIcon(70),
+    leftHeaderContent: createSemiboldIcon(Users, 32, '#1E285F'),
+    rightHeaderContent: createMultipleIcons([
+      { component: EyeOff, size: 18, color: '#5D5A88', withCircle: true },
+      { component: Edit2, size: 18, color: '#5D5A88', withCircle: true }
+    ]),
     href: '/organigrama'
   },
   {
     id: 'directorio-contactos',
     title: 'Directorio de contactos de la alianza',
     description: '',
-    icon: createScaledIcon(70),
+    leftHeaderContent: createSemiboldIcon(Globe, 32, '#1E285F'),
+    rightHeaderContent: createMultipleIcons([
+      { component: EyeOff, size: 18, color: '#5D5A88', withCircle: true },
+      { component: Edit2, size: 18, color: '#5D5A88', withCircle: true }
+    ]),
     href: '/directorio-contactos'
   },
   {
     id: 'resumen-contrato',
     title: 'Resumen de contrato',
     description: '',
-    icon: createScaledIcon(70),
+    leftHeaderContent: createSemiboldIcon(Edit, 32, '#1E285F'),
+    rightHeaderContent: createMultipleIcons([
+      { component: EyeOff, size: 18, color: '#5D5A88', withCircle: true },
+      { component: Edit2, size: 18, color: '#5D5A88', withCircle: true }
+    ]),
     href: '/resumen-contrato'
   }
 ];
@@ -209,35 +235,35 @@ export const gobernanzaPageCards: CardConfig[] = [
     id: 'acta-colaboracion',
     title: 'Acta de comité de colaboración',
     description: '',
-    icon: createScaledIcon(70),
+    leftHeaderContent: createSemiboldIcon(Users, 32, '#1E285F'),
     href: '/gobernanza/acta-colaboracion'
   },
   {
     id: 'acta-direccion',
     title: 'Acta de comité de dirección',
     description: '',
-    icon: createScaledIcon(70),
+    leftHeaderContent: createSemiboldIcon(FileText, 32, '#1E285F'),
     href: '/gobernanza/acta-direccion'
   },
   {
     id: 'acta-estrategia',
     title: 'Acta de comité de estrategia y crecimiento',
     description: '',
-    icon: createScaledIcon(70),
+    leftHeaderContent: createSemiboldIcon(Edit, 32, '#1E285F'),
     href: '/gobernanza/acta-estrategia'
   },
   {
     id: 'grabaciones',
     title: 'Grabación de los comités',
     description: '',
-    icon: createScaledIcon(70),
+    leftHeaderContent: createSemiboldIcon(Video, 32, '#1E285F'),
     href: '/gobernanza/grabaciones'
   },
   {
     id: 'presentaciones',
     title: 'Presentaciones de comités',
     description: '',
-    icon: createScaledIcon(70),
+    leftHeaderContent: createSemiboldIcon(Cast, 32, '#1E285F'),
     href: '/gobernanza/presentaciones'
   }
 ];
@@ -269,3 +295,4 @@ export type PageType = keyof typeof cardConfigs;
 export const getCardConfig = (pageType: PageType): CardConfig[] => {
   return cardConfigs[pageType] || [];
 };
+
