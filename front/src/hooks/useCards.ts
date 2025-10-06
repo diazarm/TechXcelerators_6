@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { useAuth } from './useAuth';
 import { useNavigate } from 'react-router-dom';
 import { getCardConfig } from '../constants';
 
@@ -20,10 +21,22 @@ interface UseCardsReturn {
  */
 export const useCards = (pageType: PageType): UseCardsReturn => {
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   const cards = useMemo(() => {
-    return getCardConfig(pageType);
-  }, [pageType]);
+    const baseCards = getCardConfig(pageType);
+
+    // Mostrar acciones (iconos de la derecha) solo para admin o director en la página Alianza
+    if (pageType === 'alianza') {
+      const canSeeActions = Boolean(user?.isAdmin || user?.role === 'director');
+      return baseCards.map((card) => ({
+        ...card,
+        rightHeaderContent: canSeeActions ? card.rightHeaderContent : undefined,
+      }));
+    }
+
+    return baseCards;
+  }, [pageType, user?.isAdmin, user?.role]);
 
   const handleCardClick = (card: CardConfig) => {
     if (card.href) {
