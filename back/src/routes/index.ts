@@ -1,22 +1,25 @@
-import { Router } from 'express';
-import userRouter from './userRoutes';
-import allianceRouter from './allianceRoutes';
-import resourceRouter from './resourceRoutes';
-import sectionRouter from './sectionRoutes';
-import { authMiddleware } from '../middlewares/auth.middleware';
-import { search } from '../controllers/searchController';
+import { Router } from "express";
+import userRouter from "./userRoutes";
+import allianceRouter from "./allianceRoutes";
+import resourceRouter from "./resourceRoutes";
+import sectionRouter from "./sectionRoutes";
+import searchRoutes from "./searchRoutes"; 
+import { authMiddleware } from "../middlewares/auth.middleware";
 
 const router = Router();
 
-router.get('/', (_req, res) => {
-  res.send('¡API funcionando!');
+// Endpoint base para verificar API
+router.get("/", (_req, res) => {
+  res.send("¡API funcionando!");
 });
 
-router.get('/search', authMiddleware, search);
+// Montamos el módulo de búsqueda (usa su propio router)
+router.use("/search", authMiddleware, searchRoutes);
 
-router.use('/users', userRouter);
-router.use('/alliances', allianceRouter)
-router.use('/resources', resourceRouter);
-router.use('/sections', sectionRouter);
+router.use("/users", userRouter);
+router.use("/alliances", allianceRouter);
+router.use("/resources", resourceRouter);
+router.use("/sections", sectionRouter);
 
 export default router;
+
