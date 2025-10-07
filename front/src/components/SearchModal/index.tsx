@@ -144,7 +144,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({
 
           {/* Resultados */}
           {!isLoading && !error && results.length > 0 ? (
-            <div style={{ paddingTop: dimensions.spacing.xs, paddingBottom: dimensions.spacing.xs }}>
+            <div style={{ paddingTop: dimensions.spacing.xs, paddingBottom: dimensions.spacing.lg }}>
               {results.map((result, index) => (
                 <div
                   key={result.id}

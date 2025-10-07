@@ -30,14 +30,16 @@ export const Header: React.FC<HeaderProps> = ({ title }) => {
   const isAlianzaOrGobernanza = location.pathname === '/alianza' || location.pathname === '/gobernanza';
   
   const shouldShowCreateUserButton = canCreateUsers && isDashboard;
-  const shouldShowRestoreButton = canRestoreResources && isAlianzaOrGobernanza;
-
-  // Cargar recursos eliminados solo cuando se necesite mostrar el botón de restaurar
+  
+  // Cargar recursos eliminados si estamos en una página que puede restaurar
   useEffect(() => {
-    if (shouldShowRestoreButton) {
+    if (canRestoreResources && isAlianzaOrGobernanza) {
       resourceRestoration.loadDeletedResources();
     }
-  }, [shouldShowRestoreButton, resourceRestoration.loadDeletedResources]);
+  }, [canRestoreResources, isAlianzaOrGobernanza, resourceRestoration.loadDeletedResources]);
+
+  // Mostrar botón de restaurar solo si hay recursos eliminados
+  const shouldShowRestoreButton = canRestoreResources && isAlianzaOrGobernanza && resourceRestoration.hasDeletedResources;
 
   return (
     <header className="bg-white">

@@ -18,13 +18,18 @@ El ecosistema de cards está diseñado con **separación clara de responsabilida
 └── index.ts                    # Exportaciones centralizadas
 
 📁 hooks/
-├── useCards.ts            # Hook coordinador de cards
-└── index.ts              # Exportaciones centralizadas
+├── useCards.ts                   # Hook coordinador de cards
+├── useResourceManagement.ts      # Hook para edit/delete de recursos
+├── useResourceRestoration.ts     # Hook para restaurar recursos eliminados
+└── index.ts                      # Exportaciones centralizadas
 
 📁 components/
-├── Card/index.tsx        # Componente visual de card
-├── AllianceSelectionModal/ # Modal de selección de alianzas
-└── index.ts             # Exportaciones centralizadas
+├── Card/index.tsx                # Componente visual de card
+├── AllianceSelectionModal/       # Modal de selección de alianzas
+├── ResourceEditModal/            # Modal para editar recursos
+├── ResourceDeleteModal/          # Modal para confirmar soft delete
+├── ResourceRestoreModal/         # Modal para restaurar recursos
+└── index.ts                      # Exportaciones centralizadas
 ```
 
 ## 🔧 Componentes Principales
@@ -164,50 +169,209 @@ interface IResource {
 }
 ```
 
-## 🎨 Iconos de Acción
+## 🎨 Sistema de Gestión de Recursos (CRUD)
 
-### Iconos Disponibles
+### Iconos de Acción Disponibles
 
 - **EyeOff**: Soft delete (solo admin/director)
-- **Edit2**: Editar recurso (todos los usuarios)
+- **Edit2**: Editar recurso (solo admin/director)
 
 ### Implementación de Iconos de Acción
 
 ```typescript
-// En cardConfigs.ts - Agregar identificadores de recurso
+// En cardConfigs.ts - Configuración de card con iconos de acción
 {
   id: 'portafolio-precios',
   title: 'Portafolio y precios',
   description: '',
   leftHeaderContent: createSemiboldIcon(Star, 32, '#1E285F'),
   rightHeaderContent: createMultipleIcons([
-    { component: EyeOff, size: 18, color: '#5D5A88', withCircle: true },
-    { component: Edit2, size: 18, color: '#5D5A88', withCircle: true }
+    { component: EyeOff, size: 18, color: '#5D5A88', withCircle: true, type: 'delete' },
+    { component: Edit2, size: 18, color: '#5D5A88', withCircle: true, type: 'edit' }
   ]),
   sectionType: '68c9f2d8d6dbf0c558131e16',
-  resourceName: 'Portafolio y Precios',
-  // Nuevos campos para iconos de acción
-  resourceId: 'RESOURCE_ID_HERE',     // ID del recurso específico
-  canEdit: true,                      // Si el usuario puede editar
-  canDelete: true                     // Si el usuario puede hacer soft delete
+  resourceName: 'Portafolio y Precios'  // ✅ Identificador del recurso
 }
 ```
 
-## 🔧 Servicios Necesarios para Iconos
+### Hook: useResourceManagement
 
-### resourceService.ts (Frontend)
+**Responsabilidad**: Gestionar el estado y lógica de edición y eliminación de recursos.
 
 ```typescript
-// Servicios que necesitamos implementar
-export const updateResource = async (id: string, data: Partial<IResource>): Promise<IResource>
-export const softDeleteResource = async (id: string): Promise<IResource>
-export const getResourceById = async (id: string): Promise<IResource>
+const {
+  editModalOpen,           // Estado del modal de edición
+  deleteModalOpen,         // Estado del modal de eliminación
+  selectedResource,        // Recurso actualmente seleccionado
+  handleEditClick,         // Handler para abrir modal de edición
+  handleDeleteClick,       // Handler para abrir modal de eliminación
+  handleUpdateResource,    // Handler para actualizar recurso
+  handleSoftDeleteResource,// Handler para soft delete
+  closeModals             // Cerrar todos los modales
+} = useResourceManagement();
 ```
 
-### Modales Necesarios
+### Hook: useResourceRestoration
 
-1. **ResourceEditModal**: Para editar recursos
-2. **DeleteConfirmationModal**: Para confirmar soft delete
+**Responsabilidad**: Gestionar la restauración de recursos eliminados con persistencia en localStorage.
+
+```typescript
+const {
+  deletedResources,        // Lista de recursos eliminados
+  loading,                 // Estado de carga
+  restoreLoading,          // ID del recurso siendo restaurado
+  handleRestoreResource,   // Handler para restaurar un recurso
+  refreshDeletedResources, // Refrescar lista de recursos eliminados
+  loadDeletedResources,    // Cargar recursos eliminados (lazy)
+  hasCheckedResources     // Si ya se verificaron los recursos
+} = useResourceRestoration();
+```
+
+### Integración en Página (Alianza)
+
+```typescript
+const Alianza: React.FC = () => {
+  // Hook de gestión de recursos
+  const { 
+    editModalOpen, 
+    deleteModalOpen, 
+    selectedResource, 
+    closeModals,
+    handleEditClick, 
+    handleDeleteClick,
+    handleUpdateResource,
+    handleSoftDeleteResource
+  } = useResourceManagement();
+  
+  // Hook de cards con handlers de edit/delete
+  const { cards, handleCardClick } = useCards({ 
+    pageType: 'alianza',
+    onEditClick: handleEditClick,
+    onDeleteClick: handleDeleteClick
+  });
+
+  return (
+    <div>
+      {/* Modales de gestión */}
+      <ResourceEditModal
+        isOpen={editModalOpen}
+        onClose={closeModals}
+        resource={selectedResource}
+        onSave={handleUpdateResource}
+      />
+      
+      <ResourceDeleteModal
+        isOpen={deleteModalOpen}
+        onClose={closeModals}
+        resource={selectedResource}
+        onConfirm={handleSoftDeleteResource}
+      />
+      
+      {/* Grid de cards */}
+      <CardGrid cards={cards} onCardClick={handleCardClick} />
+    </div>
+  );
+};
+```
+
+### Sistema de Eventos Personalizados
+
+El sistema utiliza eventos personalizados para actualización automática:
+
+```typescript
+// Evento disparado al eliminar un recurso
+window.dispatchEvent(new CustomEvent('resourceDeleted', {
+  detail: { resourceId, resourceName, resource }
+}));
+
+// Evento disparado al restaurar un recurso
+window.dispatchEvent(new CustomEvent('resourceRestored', {
+  detail: { resourceId, resourceName }
+}));
+```
+
+### Persistencia en localStorage
+
+Los recursos eliminados se persisten en localStorage para mantener el estado entre:
+- Recargas de página
+- Cambios de rol
+- Navegación entre páginas
+
+```typescript
+// Clave en localStorage
+const DELETED_RESOURCES_KEY = 'deletedResources';
+
+// Se actualiza automáticamente en:
+// - Soft delete de recurso
+// - Restauración de recurso
+// - Eventos personalizados
+```
+
+### Botón de Restaurar en Header
+
+El header muestra un botón de restaurar que:
+- ✅ Solo visible para Admin/Director
+- ✅ Solo en páginas Alianza/Gobernanza
+- ✅ Siempre visible (independiente de si hay recursos eliminados)
+- ✅ Abre modal con lista de recursos para restaurar
+
+```typescript
+// En header.tsx
+{shouldShowRestoreButton && (
+  <Button
+    variant="secondary"
+    iconLeft={<RotateCcw size={18} />}
+    onClick={() => setRestoreModalOpen(true)}
+  >
+    Restaurar
+  </Button>
+)}
+```
+
+## 🔧 Servicios de Recursos
+
+### resourceManagementService.ts (Frontend)
+
+```typescript
+// ✅ Operaciones CRUD implementadas
+export const getAllResources = async (): Promise<IResource[]>
+export const getResourceById = async (id: string): Promise<IResource>
+export const getResourcesBySection = async (sectionId: string): Promise<IResource[]>
+export const createResource = async (resourceData: CreateResourceData): Promise<IResource>
+export const updateResource = async (id: string, data: UpdateResourceData): Promise<IResource>
+export const softDeleteResource = async (id: string): Promise<IResource>
+export const restoreResource = async (id: string): Promise<IResource>
+export const getDeletedResources = async (): Promise<IResource[]>
+
+// ✅ Utilidades
+export const getResourceIdByName = (resourceName: string): string | null
+export const getResourceByName = async (resourceName: string): Promise<IResource | null>
+
+// ✅ Mapeo de nombres a IDs
+export const RESOURCE_NAME_TO_ID_MAP: Record<string, string> = {
+  'Portafolio y Precios': '68c22af480f85343fb2bf920',
+  'Fichas técnicas y Grabaciones...': '68cae80754f9344f27defc8b',
+  // ... más recursos
+}
+```
+
+### Modales Implementados
+
+1. **ResourceEditModal**: Modal para editar recursos
+   - Campos: name, description, links
+   - Validación de campos requeridos
+   - Diseño consistente con la app
+
+2. **ResourceDeleteModal**: Modal de confirmación para soft delete
+   - Muestra nombre del recurso
+   - Confirmación explícita
+   - Diseño con gradiente rojo
+
+3. **ResourceRestoreModal**: Modal para restaurar recursos eliminados
+   - Lista de recursos eliminados
+   - Información de sección y fecha
+   - Botón individual para restaurar cada recurso
+   - Persistencia en localStorage
 
 ## 📱 Sistema de Escalado
 

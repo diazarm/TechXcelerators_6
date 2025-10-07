@@ -86,35 +86,60 @@ export const useNavbar = () => {
     if (result.url) {
       // Abrir URL externa en nueva pestaña
       window.open(result.url, '_blank');
+      // Limpiar búsqueda y cerrar modal
+      clearSearch();
+      setSelectedIndex(-1);
+      setShowSearchModal(false);
     } else {
       // Navegar a página interna según el tipo
+      let targetPath = '/dashboard'; // Default fallback
+      
       switch (result.category) {
         case 'Alianza':
-          navigate('/alianza');
+          targetPath = '/alianza';
           break;
         
         case 'Recurso':
-          navigate('/dashboard'); // Fallback al dashboard para recursos sin URL
+          targetPath = '/dashboard';
           break;
         
         case 'Sección':
-          if (result.title.toLowerCase().includes('gobernanza')) {
-            navigate('/gobernanza');
+          // Usar title o description para identificar la sección
+          const searchText = ((result.title || '') + ' ' + (result.description || '')).toLowerCase();
+          
+          if (searchText.includes('alianza') || searchText.includes('acuerdo') || searchText.includes('portafolio')) {
+            targetPath = '/alianza';
+          } else if (searchText.includes('gobernanza') || searchText.includes('comité') || searchText.includes('actas') || searchText.includes('organigrama')) {
+            targetPath = '/gobernanza';
+          } else if (searchText.includes('dashboard')) {
+            targetPath = '/dashboard';
           } else {
-            navigate('/dashboard'); // Fallback al dashboard
+            // Si no se puede determinar, usar el ID de la sección
+            // ID de Alianza: 68c9f2d8d6dbf0c558131e16
+            // ID de Gobernanza: 68cadb4f54f9344f27defc7b
+            if (result.id === '68c9f2d8d6dbf0c558131e16') {
+              targetPath = '/alianza';
+            } else if (result.id === '68cadb4f54f9344f27defc7b') {
+              targetPath = '/gobernanza';
+            } else {
+              targetPath = '/dashboard';
+            }
           }
           break;
         
         default:
-          navigate('/dashboard');
+          targetPath = '/dashboard';
           break;
       }
+      
+      // Navegar primero (sin recargar la página)
+      navigate(targetPath);
+      
+      // Luego limpiar búsqueda y cerrar modal
+      clearSearch();
+      setSelectedIndex(-1);
+      setShowSearchModal(false);
     }
-    
-    // Limpiar búsqueda y cerrar modal
-    clearSearch();
-    setSelectedIndex(-1);
-    setShowSearchModal(false);
   }, [navigate]);
 
   /**

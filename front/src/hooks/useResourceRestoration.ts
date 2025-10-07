@@ -3,11 +3,26 @@ import { getDeletedResources, restoreResource } from '../services/resourceManage
 import { showNotification } from '../services';
 import type { IResource } from '../types/resource';
 
+const DELETED_RESOURCES_KEY = 'deletedResources';
+
 export const useResourceRestoration = () => {
-  const [deletedResources, setDeletedResources] = useState<IResource[]>([]);
+  // Inicializar con datos de localStorage si existen
+  const [deletedResources, setDeletedResources] = useState<IResource[]>(() => {
+    const stored = localStorage.getItem(DELETED_RESOURCES_KEY);
+    if (stored) {
+      try {
+        return JSON.parse(stored);
+      } catch {
+        return [];
+      }
+    }
+    return [];
+  });
   const [loading, setLoading] = useState(false);
   const [restoreLoading, setRestoreLoading] = useState<string | null>(null);
-  const [hasCheckedResources, setHasCheckedResources] = useState(false);
+  const [hasCheckedResources, setHasCheckedResources] = useState(() => {
+    return localStorage.getItem(DELETED_RESOURCES_KEY) !== null;
+  });
 
   const fetchDeletedResources = useCallback(async () => {
     try {
@@ -29,7 +44,10 @@ export const useResourceRestoration = () => {
     setDeletedResources(prev => {
       const exists = prev.some(r => r._id === resource._id);
       if (!exists) {
-        return [...prev, resource];
+        const updated = [...prev, resource];
+        // Guardar en localStorage
+        localStorage.setItem(DELETED_RESOURCES_KEY, JSON.stringify(updated));
+        return updated;
       }
       return prev;
     });
@@ -42,7 +60,16 @@ export const useResourceRestoration = () => {
       await restoreResource(resourceId);
       
       // Actualizar la lista local - remover solo el recurso restaurado
-      setDeletedResources(prev => prev.filter(resource => resource._id !== resourceId));
+      setDeletedResources(prev => {
+        const updated = prev.filter(resource => resource._id !== resourceId);
+        // Actualizar localStorage
+        if (updated.length === 0) {
+          localStorage.removeItem(DELETED_RESOURCES_KEY);
+        } else {
+          localStorage.setItem(DELETED_RESOURCES_KEY, JSON.stringify(updated));
+        }
+        return updated;
+      });
       
       showNotification('success', 'Éxito', `El recurso "${resourceName}" ha sido restaurado correctamente`);
       
@@ -90,7 +117,16 @@ export const useResourceRestoration = () => {
     const handleResourceRestored = (event: CustomEvent) => {
       const { resourceId } = event.detail;
       // Solo remover el recurso restaurado de la lista local
-      setDeletedResources(prev => prev.filter(resource => resource._id !== resourceId));
+      setDeletedResources(prev => {
+        const updated = prev.filter(resource => resource._id !== resourceId);
+        // Actualizar localStorage
+        if (updated.length === 0) {
+          localStorage.removeItem(DELETED_RESOURCES_KEY);
+        } else {
+          localStorage.setItem(DELETED_RESOURCES_KEY, JSON.stringify(updated));
+        }
+        return updated;
+      });
     };
     window.addEventListener('resourceRestored', handleResourceRestored as EventListener);
     return () => {
@@ -119,6 +155,7 @@ export const useResourceRestoration = () => {
     handleRestoreResource,
     refreshDeletedResources: fetchDeletedResources,
     loadDeletedResources,
-    hasCheckedResources
+    hasCheckedResources,
+    hasDeletedResources: deletedResources.length > 0
   };
 };
