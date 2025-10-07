@@ -91,7 +91,7 @@ export const Notification: React.FC<NotificationProps> = ({
 
   return (
     <div 
-      className={`fixed z-50 ${getBackgroundColor()} border rounded-md shadow-lg transform transition-all duration-300 ease-in-out ${isAnimating ? 'animate-slide-down' : ''}`}
+      className={`fixed z-[60] ${getBackgroundColor()} border rounded-md shadow-lg transform transition-all duration-300 ease-in-out ${isAnimating ? 'animate-slide-down' : ''}`}
               style={{
                 top: isAnimating ? dimensions.spacing.md : '-100px',
                 left: '50%',

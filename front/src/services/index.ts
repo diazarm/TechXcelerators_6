@@ -41,5 +41,39 @@ export { AllianceService, allianceService } from './allianceService';
 // Exportaciones del servicio de recursos
 export { ResourceService } from './resourceService';
 
+// Exportaciones del servicio de búsqueda
+export { searchService } from './searchService';
+
+// Exportaciones del servicio de logos
+export { getLogoForAlliance, hasCustomLogo, getAvailableLogos } from './logoService';
+
+// Exportaciones del servicio de navegación de alianzas
+export {
+  getResourcesBySection,
+  getAlliances,
+  findResourceByName,
+  filterAlliances,
+  shouldShowModal,
+  navigateToUrl,
+  showNotification,
+  findAllianceLink,
+  showAllianceSelectionModal,
+  handleAllianceCardClick
+} from './allianceNavigationService';
+
+// Exportaciones del servicio de gestión de recursos
+export {
+  getAllResources,
+  getResourceById,
+  createResource,
+  updateResource,
+  softDeleteResource,
+  restoreResource,
+  getResourceIdByName,
+  getResourceByName,
+  RESOURCE_NAME_TO_ID_MAP
+} from './resourceManagementService';
+
 // Exportar tipos de servicios
 export type { LoggerConfig } from './types';
+export type { CreateResourceData, UpdateResourceData } from './resourceManagementService';

@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import type { NotificationContextType, Notification } from './types';
 import { NotificationContext } from './notification-context';
 
@@ -48,6 +48,23 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({ chil
     removeNotification,
     clearAllNotifications
   }), [notifications, addNotification, removeNotification, clearAllNotifications]);
+
+  // Exponer función global para notificaciones
+  useEffect(() => {
+    window.showNotification = (type: 'success' | 'error' | 'warning' | 'info', title: string, message: string) => {
+      addNotification({
+        type,
+        title,
+        message,
+        duration: type === 'error' ? 7000 : 5000 // Errores duran más
+      });
+    };
+
+    // Cleanup al desmontar
+    return () => {
+      window.showNotification = undefined;
+    };
+  }, [addNotification]);
 
   return (
     <NotificationContext.Provider value={contextValue}>

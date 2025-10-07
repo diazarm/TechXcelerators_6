@@ -3,7 +3,10 @@ export interface IResource {
   sectionId: string;
   name: string;
   description?: string;
-  link: string;
+  links: {
+    label?: string;
+    url: string;
+  }[];
   isActive: boolean;
   createdAt: Date;
   updatedAt: Date;

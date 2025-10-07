@@ -4,6 +4,15 @@
  */
 
 /**
+ * Interfaz para logos de alianzas
+ */
+export interface AllianceLogo {
+  _id: string;
+  label: string;
+  url: string;
+}
+
+/**
  * Interfaz principal de Alianza
  * Coincide exactamente con IAlliance del backend
  */
@@ -12,6 +21,7 @@ export interface Alliance {
   name: string;         // Nombre de la alianza
   siglas: string;       // Siglas de la alianza
   url?: string;         // URL opcional (el ? significa opcional)
+  logos?: AllianceLogo[]; // Logos de la alianza (opcional)
   isActive: boolean;    // Si está activa o no
   deleteAt: Date | null; // Para soft delete (null si no está eliminada)
   createdAt: Date;      // Fecha de creación
@@ -26,6 +36,7 @@ export interface CreateAllianceRequest {
   name: string;         // Nombre es obligatorio
   siglas: string;       // Siglas son obligatorias
   url?: string;         // URL es opcional
+  logos?: AllianceLogo[]; // Logos opcionales
 }
 
 /**
@@ -36,6 +47,7 @@ export interface UpdateAllianceRequest {
   name?: string;        // Nombre opcional
   siglas?: string;      // Siglas opcionales
   url?: string;         // URL opcional
+  logos?: AllianceLogo[]; // Logos opcionales
   isActive?: boolean;   // Estado activo opcional
 }
 
