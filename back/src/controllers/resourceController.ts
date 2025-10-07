@@ -5,7 +5,11 @@ const resourceService = new ResourceService();
 
 export const getResources = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const resources = await resourceService.getAllResources();
+
+        const includeDeleted = req.query.includeDeleted === 'true';
+        console.log('includeDeleted:', includeDeleted);
+        const resources = await resourceService.getAllResources(includeDeleted);
+
         res.status(200).json({
             success: true,
             message: "Recursos obtenidos correctamente",
@@ -43,7 +47,10 @@ export const getResourceById = async (req: Request, res: Response, next: NextFun
 
 export const getResourcesBySection = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const resources = await resourceService.getResourcesBySection(req.params.sectionId);
+
+        const sectionId = req.params.sectionId;
+        const includeDeleted = req.query.includeDeleted === 'true';
+        const resources = await resourceService.getResourcesBySection(sectionId, includeDeleted);
         res.status(200).json({
             success: true,
             message: "Recursos obtenidos correctamente",
