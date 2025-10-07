@@ -22,7 +22,8 @@ const Card: React.FC<CardProps> = ({
   rightHeaderContent,
   image,
   onButtonClick,
-  className = ""
+  className = "",
+  isActive = true
 }) => {
   const { isMobile, dimensions, scale } = useScreenSize();
   
@@ -39,6 +40,7 @@ const Card: React.FC<CardProps> = ({
         ${image ? 'relative overflow-hidden' : 'bg-white border border-gray-100 hover:border-gray-200'}
         rounded-2xl shadow-sm hover:shadow-md transition-all duration-300
         flex flex-col h-full
+        ${!isActive ? 'opacity-50' : ''}
         ${className}
       `}
       style={{
@@ -124,9 +126,22 @@ const Card: React.FC<CardProps> = ({
           height: `${scale(80)}px`, // ALTURA FIJA
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'flex-end'
+          justifyContent: 'space-between'
         }}
       >
+        {/* Badge sutil "No disponible" */}
+        {!isActive && (
+          <span 
+            className="text-red-600 font-medium text-xs"
+            style={{ fontSize: `${scale(11)}px` }}
+          >
+            No disponible
+          </span>
+        )}
+        
+        {/* Spacer si la card está activa */}
+        {isActive && <div />}
+        
         <Button
           variant="primary"
           size="xs"

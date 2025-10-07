@@ -40,6 +40,7 @@ export interface CardConfig {
   sectionType?: string;
   resourceName?: string;
   showModal?: boolean;
+  isActive?: boolean;
 }
 
 // ========================================
