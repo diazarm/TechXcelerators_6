@@ -10,25 +10,9 @@ import {
   Edit,
   EyeOff,
   Edit2,
+  Map,
 } from 'react-feather';
 
-/**
- * Función para crear iconos escalados
- */
-const createScaledIcon = (size: number) => {
-  return React.createElement('div', {
-    className: "flex items-center justify-center",
-    style: {
-      width: `${size}px`,
-      height: `${size}px`
-    }
-  }, React.createElement('div', { 
-    style: { 
-      width: `${size}px`, 
-      height: `${size}px` 
-    } 
-  }));
-};
 
 /**
  * Función para crear iconos con componente específico y escalado
@@ -268,6 +252,24 @@ export const gobernanzaPageCards: CardConfig[] = [
   }
 ];
 
+// Cards para la página Iniciativas (2 cards)
+export const iniciativasPageCards: CardConfig[] = [
+  {
+    id: 'planes-accion',
+    title: 'Master plan',
+    description: 'Plan estrategico a largo plazo con los ejes principales',
+    leftHeaderContent: createSemiboldIcon(Map, 32, '#1E285F'),
+    href: '/iniciativas/planes-accion'
+  },
+  {
+    id: 'seguimiento-resultados',
+    title: 'Plan de excelencia operativa en 360 / 2025',
+    description: 'Compromiso con la innovación, calidad y sostenibilidad',
+    leftHeaderContent: createSemiboldIcon(Star, 32, '#1E285F'),
+    href: '/iniciativas/seguimiento-resultados'
+  }
+];
+
 // ========================================
 // CONFIGURACIÓN GENERAL
 // ========================================
@@ -278,7 +280,8 @@ export const gobernanzaPageCards: CardConfig[] = [
 export const cardConfigs = {
   dashboard: dashboardPageCards,
   alianza: alianzaPageCards,
-  gobernanza: gobernanzaPageCards
+  gobernanza: gobernanzaPageCards,
+  iniciativas: iniciativasPageCards
 } as const;
 
 /**

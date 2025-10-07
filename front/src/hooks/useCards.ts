@@ -6,7 +6,7 @@ import { getCardConfig } from '../constants';
 import type { CardConfig } from '../constants';
 
 
-type PageType = 'dashboard' | 'gobernanza' | 'alianza';
+type PageType = 'dashboard' | 'gobernanza' | 'alianza' | 'iniciativas';
 
 
 interface UseCardsReturn {
