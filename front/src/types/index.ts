@@ -65,3 +65,10 @@ export type {
 
 
 export type { IResource } from './resource';
+
+// Tipos de API
+export type {
+  ApiResponse,
+  ResourceResponse,
+  ResourceListResponse
+} from './api';

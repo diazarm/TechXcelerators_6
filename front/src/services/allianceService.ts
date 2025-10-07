@@ -10,27 +10,14 @@ import type {
   Alliance,
   CreateAllianceRequest,
   UpdateAllianceRequest,
-  AllianceFilters
+  AllianceFilters,
+  AllianceApiResponse,
+  AllianceListApiResponse
 } from '../types/alliance';
+import { api } from './api';
 
-import { mockAlliances } from '../Mock/mockAlliances';
+const BASE_URL = '/alliances';
 
-// TODO: Reemplazar con la URL real del backend
-// const BASE_URL = 'http://localhost:3000/api/alliances';
-
-/**
- * Simula delay de red para testing
- */
-const simulateNetworkDelay = (ms: number = 500): Promise<void> => {
-  return new Promise(resolve => setTimeout(resolve, ms));
-};
-
-/**
- * Simula error de red ocasional para testing
- */
-const simulateNetworkError = (): boolean => {
-  return Math.random() < 0.1; // 10% de probabilidad de error
-};
 
 /**
  * Servicio de Alianzas
@@ -43,31 +30,23 @@ export class AllianceService {
    */
   async getAlliances(filters?: AllianceFilters): Promise<Alliance[]> {
     try {
-      await simulateNetworkDelay();
-      
-      if (simulateNetworkError()) {
-        throw new Error('Error de conexión con el servidor');
-      }
-
-      // TODO: Reemplazar con llamada real al backend
-      // const response = await fetch(`${BASE_URL}?${new URLSearchParams(filters)}`);
-      // const data: AllianceListApiResponse = await response.json();
-      // return data.data;
-
-      // Usar mock data temporal
-      let filteredAlliances = [...mockAlliances];
-      
-      // Aplicar filtros
+      const params = new URLSearchParams();
       if (filters?.isActive !== undefined) {
-        filteredAlliances = filteredAlliances.filter(a => a.isActive === filters.isActive);
+        params.append('isActive', filters.isActive.toString());
       }
-      
-      if (!filters?.includeDeleted) {
-        filteredAlliances = filteredAlliances.filter(a => a.deleteAt === null);
+      if (filters?.includeDeleted) {
+        params.append('includeDeleted', 'true');
       }
 
-      return filteredAlliances;
-    } catch (error) {
+      const response = await api.get<AllianceListApiResponse>(`${BASE_URL}?${params.toString()}`);
+      const data = response.data;
+      
+      if (!data.success) {
+        throw new Error(data.message || 'Error al obtener alianzas');
+      }
+
+      return data.data;
+    } catch (error: any) {
       console.error('Error al obtener alianzas:', error);
       throw error;
     }
@@ -79,23 +58,19 @@ export class AllianceService {
    */
   async getAllianceById(id: string): Promise<Alliance | null> {
     try {
-      await simulateNetworkDelay();
+      const response = await api.get<AllianceApiResponse>(`${BASE_URL}/${id}`);
+      const data = response.data;
       
-      if (simulateNetworkError()) {
-        throw new Error('Error de conexión con el servidor');
+      if (!data.success) {
+        throw new Error(data.message || 'Error al obtener alianza');
       }
 
-      // TODO: Reemplazar con llamada real al backend
-      // const response = await fetch(`${BASE_URL}/${id}`);
-      // if (!response.ok) return null;
-      // const data: AllianceApiResponse = await response.json();
-      // return data.data;
-
-      // Usar mock data temporal
-      const alliance = mockAlliances.find(a => a._id === id);
-      return alliance || null;
-    } catch (error) {
+      return data.data;
+    } catch (error: any) {
       console.error('Error al obtener alianza:', error);
+      if (error.response?.status === 404) {
+        return null;
+      }
       throw error;
     }
   }
@@ -106,38 +81,15 @@ export class AllianceService {
    */
   async createAlliance(data: CreateAllianceRequest): Promise<Alliance> {
     try {
-      await simulateNetworkDelay();
+      const response = await api.post<AllianceApiResponse>(BASE_URL, data);
+      const result = response.data;
       
-      if (simulateNetworkError()) {
-        throw new Error('Error de conexión con el servidor');
+      if (!result.success) {
+        throw new Error(result.message || 'Error al crear alianza');
       }
 
-      // TODO: Reemplazar con llamada real al backend
-      // const response = await fetch(BASE_URL, {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify(data)
-      // });
-      // const result: AllianceApiResponse = await response.json();
-      // return result.data;
-
-      // Simular creación con mock data
-      const newAlliance: Alliance = {
-        _id: Date.now().toString(), // Simular ID generado por MongoDB
-        name: data.name,
-        siglas: data.siglas,
-        url: data.url,
-        isActive: true,
-        deleteAt: null,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      };
-
-      // En un caso real, aquí se guardaría en la base de datos
-      console.log('Nueva alianza creada:', newAlliance);
-      
-      return newAlliance;
-    } catch (error) {
+      return result.data;
+    } catch (error: any) {
       console.error('Error al crear alianza:', error);
       throw error;
     }
@@ -149,38 +101,15 @@ export class AllianceService {
    */
   async updateAlliance(id: string, data: UpdateAllianceRequest): Promise<Alliance> {
     try {
-      await simulateNetworkDelay();
+      const response = await api.put<AllianceApiResponse>(`${BASE_URL}/${id}`, data);
+      const result = response.data;
       
-      if (simulateNetworkError()) {
-        throw new Error('Error de conexión con el servidor');
+      if (!result.success) {
+        throw new Error(result.message || 'Error al actualizar alianza');
       }
 
-      // TODO: Reemplazar con llamada real al backend
-      // const response = await fetch(`${BASE_URL}/${id}`, {
-      //   method: 'PUT',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify(data)
-      // });
-      // const result: AllianceApiResponse = await response.json();
-      // return result.data;
-
-      // Simular actualización con mock data
-      const existingAlliance = mockAlliances.find(a => a._id === id);
-      if (!existingAlliance) {
-        throw new Error('Alianza no encontrada');
-      }
-
-      const updatedAlliance: Alliance = {
-        ...existingAlliance,
-        ...data, // Aplicar solo los campos que se actualizaron
-        updatedAt: new Date()
-      };
-
-      // En un caso real, aquí se actualizaría en la base de datos
-      console.log('Alianza actualizada:', updatedAlliance);
-      
-      return updatedAlliance;
-    } catch (error) {
+      return result.data;
+    } catch (error: any) {
       console.error('Error al actualizar alianza:', error);
       throw error;
     }
@@ -192,27 +121,13 @@ export class AllianceService {
    */
   async deleteAlliance(id: string): Promise<void> {
     try {
-      await simulateNetworkDelay();
+      const response = await api.delete<AllianceApiResponse>(`${BASE_URL}/${id}`);
+      const result = response.data;
       
-      if (simulateNetworkError()) {
-        throw new Error('Error de conexión con el servidor');
+      if (!result.success) {
+        throw new Error(result.message || 'Error al eliminar alianza');
       }
-
-      // TODO: Reemplazar con llamada real al backend
-      // const response = await fetch(`${BASE_URL}/${id}`, {
-      //   method: 'DELETE'
-      // });
-      // if (!response.ok) throw new Error('Error al eliminar alianza');
-
-      // Simular soft delete con mock data
-      const existingAlliance = mockAlliances.find(a => a._id === id);
-      if (!existingAlliance) {
-        throw new Error('Alianza no encontrada');
-      }
-
-      // En un caso real, aquí se marcaría como eliminada en la base de datos
-      console.log(`Alianza ${id} eliminada (soft delete)`);
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error al eliminar alianza:', error);
       throw error;
     }
@@ -220,41 +135,19 @@ export class AllianceService {
 
   /**
    * Restaurar alianza eliminada
-   * POST /alliances/:id/restore
+   * PATCH /alliances/restore/:id
    */
   async restoreAlliance(id: string): Promise<Alliance> {
     try {
-      await simulateNetworkDelay();
+      const response = await api.patch<AllianceApiResponse>(`${BASE_URL}/restore/${id}`);
+      const result = response.data;
       
-      if (simulateNetworkError()) {
-        throw new Error('Error de conexión con el servidor');
+      if (!result.success) {
+        throw new Error(result.message || 'Error al restaurar alianza');
       }
 
-      // TODO: Reemplazar con llamada real al backend
-      // const response = await fetch(`${BASE_URL}/${id}/restore`, {
-      //   method: 'POST'
-      // });
-      // const result: AllianceApiResponse = await response.json();
-      // return result.data;
-
-      // Simular restauración con mock data
-      const existingAlliance = mockAlliances.find(a => a._id === id);
-      if (!existingAlliance) {
-        throw new Error('Alianza no encontrada');
-      }
-
-      const restoredAlliance: Alliance = {
-        ...existingAlliance,
-        isActive: true,
-        deleteAt: null,
-        updatedAt: new Date()
-      };
-
-      // En un caso real, aquí se restauraría en la base de datos
-      console.log('Alianza restaurada:', restoredAlliance);
-      
-      return restoredAlliance;
-    } catch (error) {
+      return result.data;
+    } catch (error: any) {
       console.error('Error al restaurar alianza:', error);
       throw error;
     }
