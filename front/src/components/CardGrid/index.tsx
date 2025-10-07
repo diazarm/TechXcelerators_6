@@ -48,6 +48,7 @@ const CardGrid: React.FC<CardGridProps> = ({
           rightHeaderContent={card.rightHeaderContent}
           image={card.image}
           onButtonClick={() => onCardClick(card)}
+          isActive={card.isActive}
         />
       ))}
     </div>

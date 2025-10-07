@@ -3,26 +3,11 @@ import { getDeletedResources, restoreResource } from '../services/resourceManage
 import { showNotification } from '../services';
 import type { IResource } from '../types/resource';
 
-const DELETED_RESOURCES_KEY = 'deletedResources';
-
 export const useResourceRestoration = () => {
-  // Inicializar con datos de localStorage si existen
-  const [deletedResources, setDeletedResources] = useState<IResource[]>(() => {
-    const stored = localStorage.getItem(DELETED_RESOURCES_KEY);
-    if (stored) {
-      try {
-        return JSON.parse(stored);
-      } catch {
-        return [];
-      }
-    }
-    return [];
-  });
+  const [deletedResources, setDeletedResources] = useState<IResource[]>([]);
   const [loading, setLoading] = useState(false);
   const [restoreLoading, setRestoreLoading] = useState<string | null>(null);
-  const [hasCheckedResources, setHasCheckedResources] = useState(() => {
-    return localStorage.getItem(DELETED_RESOURCES_KEY) !== null;
-  });
+  const [hasCheckedResources, setHasCheckedResources] = useState(false);
 
   const fetchDeletedResources = useCallback(async () => {
     try {
@@ -33,25 +18,11 @@ export const useResourceRestoration = () => {
     } catch (error) {
       console.error('Error fetching deleted resources:', error);
       showNotification('error', 'Error', 'No se pudieron cargar los recursos eliminados');
+      setDeletedResources([]);
       setHasCheckedResources(true);
     } finally {
       setLoading(false);
     }
-  }, []);
-
-  // Función para agregar recurso eliminado al estado local
-  const addDeletedResource = useCallback((resource: any) => {
-    setDeletedResources(prev => {
-      const exists = prev.some(r => r._id === resource._id);
-      if (!exists) {
-        const updated = [...prev, resource];
-        // Guardar en localStorage
-        localStorage.setItem(DELETED_RESOURCES_KEY, JSON.stringify(updated));
-        return updated;
-      }
-      return prev;
-    });
-    setHasCheckedResources(true);
   }, []);
 
   const handleRestoreResource = useCallback(async (resourceId: string, resourceName: string) => {
@@ -59,17 +30,8 @@ export const useResourceRestoration = () => {
       setRestoreLoading(resourceId);
       await restoreResource(resourceId);
       
-      // Actualizar la lista local - remover solo el recurso restaurado
-      setDeletedResources(prev => {
-        const updated = prev.filter(resource => resource._id !== resourceId);
-        // Actualizar localStorage
-        if (updated.length === 0) {
-          localStorage.removeItem(DELETED_RESOURCES_KEY);
-        } else {
-          localStorage.setItem(DELETED_RESOURCES_KEY, JSON.stringify(updated));
-        }
-        return updated;
-      });
+      // Refrescar la lista de recursos eliminados desde el backend
+      await fetchDeletedResources();
       
       showNotification('success', 'Éxito', `El recurso "${resourceName}" ha sido restaurado correctamente`);
       
@@ -83,7 +45,7 @@ export const useResourceRestoration = () => {
     } finally {
       setRestoreLoading(null);
     }
-  }, []);
+  }, [fetchDeletedResources]);
 
   // Función para cargar recursos eliminados solo cuando se necesite
   const loadDeletedResources = useCallback(() => {
@@ -94,15 +56,9 @@ export const useResourceRestoration = () => {
 
   // Escuchar eventos de recursos eliminados para actualizar automáticamente
   useEffect(() => {
-    const handleResourceDeleted = (event: CustomEvent) => {
-      // Usar el recurso completo del evento
-      const { resource } = event.detail;
-      const deletedResource = {
-        ...resource,
-        isActive: false,
-        deletedAt: new Date().toISOString()
-      };
-      addDeletedResource(deletedResource);
+    const handleResourceDeleted = () => {
+      // Refrescar la lista desde el backend
+      fetchDeletedResources();
     };
 
     window.addEventListener('resourceDeleted', handleResourceDeleted as EventListener);
@@ -110,43 +66,20 @@ export const useResourceRestoration = () => {
     return () => {
       window.removeEventListener('resourceDeleted', handleResourceDeleted as EventListener);
     };
-  }, [addDeletedResource]);
+  }, [fetchDeletedResources]);
 
   // Escuchar eventos de recursos restaurados para actualizar automáticamente
   useEffect(() => {
-    const handleResourceRestored = (event: CustomEvent) => {
-      const { resourceId } = event.detail;
-      // Solo remover el recurso restaurado de la lista local
-      setDeletedResources(prev => {
-        const updated = prev.filter(resource => resource._id !== resourceId);
-        // Actualizar localStorage
-        if (updated.length === 0) {
-          localStorage.removeItem(DELETED_RESOURCES_KEY);
-        } else {
-          localStorage.setItem(DELETED_RESOURCES_KEY, JSON.stringify(updated));
-        }
-        return updated;
-      });
+    const handleResourceRestored = () => {
+      // Refrescar la lista desde el backend
+      fetchDeletedResources();
     };
+    
     window.addEventListener('resourceRestored', handleResourceRestored as EventListener);
     return () => {
       window.removeEventListener('resourceRestored', handleResourceRestored as EventListener);
     };
-  }, []);
-
-  // Escuchar evento de forzar actualización de recursos eliminados
-  useEffect(() => {
-    const handleForceRefresh = (event: CustomEvent) => {
-      const newDeletedResources = event.detail.deletedResources;
-      newDeletedResources.forEach((resource: any) => {
-        addDeletedResource(resource);
-      });
-    };
-    window.addEventListener('forceRefreshDeletedResources', handleForceRefresh as EventListener);
-    return () => {
-      window.removeEventListener('forceRefreshDeletedResources', handleForceRefresh as EventListener);
-    };
-  }, [addDeletedResource]);
+  }, [fetchDeletedResources]);
 
   return {
     deletedResources,
