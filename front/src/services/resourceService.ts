@@ -1,4 +1,5 @@
 import type { IResource } from "../types/resource";
+import type { ResourceListResponse, ResourceResponse } from "../types/api";
 import { api } from "./api";
 
 const BASE_URL = '/resources';
@@ -10,7 +11,7 @@ export class ResourceService {
    */
   async getAllResources(): Promise<IResource[]> {
     try {
-      const response = await api.get(BASE_URL);
+      const response = await api.get<ResourceListResponse>(BASE_URL);
       const data = response.data;
       
       if (!data.success) {
@@ -30,7 +31,7 @@ export class ResourceService {
    */
   async getResourcesBySection(sectionId: string): Promise<IResource[]> {
     try {
-      const response = await api.get(`${BASE_URL}/section/${sectionId}`);
+      const response = await api.get<ResourceListResponse>(`${BASE_URL}/section/${sectionId}`);
       const data = response.data;
       
       if (!data.success) {
@@ -50,7 +51,7 @@ export class ResourceService {
    */
   async getResourceById(id: string): Promise<IResource | null> {
     try {
-      const response = await api.get(`${BASE_URL}/${id}`);
+      const response = await api.get<ResourceResponse>(`${BASE_URL}/${id}`);
       const data = response.data;
       
       if (!data.success) {
@@ -58,7 +59,7 @@ export class ResourceService {
       }
 
       return data.data;
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error al obtener recurso:', error);
       if (error.response?.status === 404) {
         return null;

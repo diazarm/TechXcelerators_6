@@ -10,4 +10,5 @@ export interface CardProps {
   onButtonClick?: () => void;
   className?: string;
   isActive?: boolean;
+  size?: 'small' | 'medium' | 'rectangular';
 }

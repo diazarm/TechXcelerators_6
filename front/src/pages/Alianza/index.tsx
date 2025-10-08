@@ -128,10 +128,11 @@ const Alianza: React.FC = () => {
       
       {/* Grid de Tarjetas - El título ahora viene del Header dinámico */}
       {cards.length > 0 ? (
-        <CardGrid 
-          cards={cards} 
-          onCardClick={handleCardClick}
-        />
+      <CardGrid 
+        cards={cards} 
+        onCardClick={handleCardClick}
+        defaultCardSize="medium"
+      />
       ) : (
         /* Estado vacío */
         <div className="text-center py-12">
