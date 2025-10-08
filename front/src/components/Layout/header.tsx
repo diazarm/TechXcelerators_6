@@ -128,7 +128,7 @@ export const Header: React.FC<HeaderProps> = ({ title }) => {
         </div>
       </div>
       
-      {/* Título después */}
+      {/* Título y Descripción */}
       <div 
         className={`${getContainerForScreen()}`}
         style={{
@@ -136,18 +136,35 @@ export const Header: React.FC<HeaderProps> = ({ title }) => {
           paddingBottom: dimensions.spacing.xl
         }}
       >
-        <div className="flex justify-center">
+        <div className="flex flex-col items-center text-center">
           <h1 
-            className="text-[#585D8A] font-bold mb-4 text-center"
+            className="text-[#585D8A] font-bold mb-2"
             style={{
-              width: dimensions.spacing.xl + ' * 24',
-              height: dimensions.spacing.lg,
               fontSize: isMobile ? dimensions.fontSize.xl : dimensions.fontSize['2xl'],
-              lineHeight: dimensions.spacing.lg
+              lineHeight: isMobile ? dimensions.fontSize.xl : dimensions.fontSize['2xl']
             }}
           >
             {header.title || title || ''}
           </h1>
+          
+          {/* Descripción solo si existe */}
+          {header.description && (
+            <p 
+              className="text-[#6B7280] font-normal max-w-4xl"
+              style={{
+                fontSize: dimensions.fontSize.sm,
+                lineHeight: dimensions.fontSize.lg,
+                marginTop: dimensions.spacing.sm
+              }}
+            >
+              {header.description.split('\n').map((line, index) => (
+                <React.Fragment key={index}>
+                  {line}
+                  {index < header.description.split('\n').length - 1 && <br />}
+                </React.Fragment>
+              ))}
+            </p>
+          )}
         </div>
       </div>
 
