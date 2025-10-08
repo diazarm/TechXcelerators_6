@@ -51,7 +51,7 @@ export interface CardConfig {
 export const dashboardPageCards: CardConfig[] = [
   {
     id: 'nueva-alianza',
-    title: 'Nueva alianza',
+    title: 'Nuestra alianza',
     description: 'Información del ADN de la alianza y portafolio activo',
     image: '/img/nuevaAlianza.jpg',
     href: '/alianza'
