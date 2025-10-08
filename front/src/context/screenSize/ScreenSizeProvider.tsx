@@ -1,7 +1,7 @@
-import React from 'react';
 import { useResponsive, useBreakpoints } from '../../hooks/useResponsive';
 import { useComponentDimensions } from '../../hooks/useScaledDimensions';
-import { ScreenSizeContext, ScreenSizeContextType, ScreenSizeProviderProps } from './ScreenSizeContext';
+import { ScreenSizeContext } from './ScreenSizeContext';
+import type { ScreenSizeContextType, ScreenSizeProviderProps } from './ScreenSizeContext';
 
 /**
  * Provider para el contexto de tamaño de pantalla

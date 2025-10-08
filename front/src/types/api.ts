@@ -4,6 +4,7 @@
  */
 
 import type { IResource } from './resource';
+import type { User } from './shared';
 
 /**
  * Respuesta estándar de la API
@@ -24,6 +25,24 @@ export type ResourceResponse = ApiResponse<IResource>;
  * Respuesta para listas de recursos
  */
 export type ResourceListResponse = ApiResponse<IResource[]>;
+
+/**
+ * Respuesta de login con usuario y token
+ */
+export interface LoginResponseData {
+  user: User;
+  token: string;
+}
+
+/**
+ * Respuesta para operaciones de login
+ */
+export type LoginResponse = ApiResponse<LoginResponseData>;
+
+/**
+ * Respuesta para validación de token
+ */
+export type ValidateTokenResponse = ApiResponse<User>;
 
 // Re-exportar tipos de recursos para conveniencia
 export type { IResource };

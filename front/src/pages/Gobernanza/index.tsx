@@ -16,6 +16,7 @@ const Gobernanza: React.FC = () => {
         <CardGrid 
           cards={cards} 
           onCardClick={handleCardClick}
+          defaultCardSize="medium"
         />
       ) : (
         /* Estado vacío */

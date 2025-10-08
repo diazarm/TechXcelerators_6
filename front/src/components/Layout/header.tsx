@@ -67,6 +67,7 @@ export const Header: React.FC<HeaderProps> = ({ title }) => {
                     iconLeft={<RotateCcw size={16} />}
                     onClick={() => setRestoreModalOpen(true)}
                   >
+                    <span className="sr-only">Restaurar</span>
                   </Button>
                 )}
                 
@@ -78,6 +79,7 @@ export const Header: React.FC<HeaderProps> = ({ title }) => {
                       size="xs"
                       iconLeft={<UserPlus size={16} color="white" />}
                     >
+                      <span className="sr-only">Crear Usuario</span>
                     </Button>
                   </Link>
                 )}

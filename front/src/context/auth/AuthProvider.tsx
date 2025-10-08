@@ -68,7 +68,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   }, [checkAuth]);
 
   /** Iniciar sesión del usuario */
-  const loginUser = async (credentials: LoginCredentials): Promise<void> => {
+  const loginUser = async (credentials: LoginCredentials): Promise<{ user: User; token: string }> => {
     try {
       setIsLoading(true);
       setError(null);

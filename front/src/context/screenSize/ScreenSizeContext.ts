@@ -1,4 +1,5 @@
-import { createContext, useContext, ReactNode } from 'react';
+import { createContext, useContext } from 'react';
+import type { ReactNode } from 'react';
 
 /**
  * Tipos para el contexto de tamaño de pantalla
@@ -106,7 +107,7 @@ export interface ScreenSizeContextType {
     card: {
       small: string;
       medium: string;
-      large: string;
+      rectangular: string;
     };
     button: {
       height: {
@@ -129,6 +130,11 @@ export interface ScreenSizeContextType {
       lg: string;
       xl: string;
       '2xl': string;
+      '3xl': string;
+      '4xl': string;
+      '5xl': string;
+      '6xl': string;
+      '8xl': string;
     };
     fontSize: {
       xs: string;
@@ -138,6 +144,10 @@ export interface ScreenSizeContextType {
       xl: string;
       '2xl': string;
       '3xl': string;
+      '4xl': string;
+      '5xl': string;
+      '6xl': string;
+      '8xl': string;
     };
   };
   

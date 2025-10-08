@@ -37,7 +37,7 @@ export const useComponentDimensions = () => {
     card: {
       small: `${scale(240)}px`,
       medium: `${scale(320)}px`,
-      large: `${scale(400)}px`
+      rectangular: `${scale(480)}px`
     },
     
     // Botones
@@ -63,7 +63,12 @@ export const useComponentDimensions = () => {
       md: `${scale(16)}px`,
       lg: `${scale(24)}px`,
       xl: `${scale(32)}px`,
-      '2xl': `${scale(48)}px`
+      '2xl': `${scale(48)}px`,
+      '3xl': `${scale(64)}px`,
+      '4xl': `${scale(80)}px`,
+      '5xl': `${scale(96)}px`,
+      '6xl': `${scale(128)}px`,
+      '8xl': `${scale(192)}px`
     },
     
     // Tipografía
@@ -74,7 +79,11 @@ export const useComponentDimensions = () => {
       lg: `${scale(20)}px`,
       xl: `${scale(22)}px`,
       '2xl': `${scale(26)}px`,
-      '3xl': `${scale(32)}px`
+      '3xl': `${scale(32)}px`,
+      '4xl': `${scale(36)}px`,
+      '5xl': `${scale(40)}px`,
+      '6xl': `${scale(48)}px`,
+      '8xl': `${scale(64)}px`
     }
   };
 };
