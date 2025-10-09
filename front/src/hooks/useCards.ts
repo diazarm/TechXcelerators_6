@@ -36,8 +36,8 @@ export const useCards = ({ pageType, onEditClick, onDeleteClick }: UseCardsProps
   const cards = useMemo(() => {
     const baseCards = getCardConfig(pageType);
 
-    // Mostrar acciones (iconos de la derecha) solo para admin o director en la página Alianza
-    if (pageType === 'alianza') {
+    // Mostrar acciones (iconos de la derecha) solo para admin o director en Alianza e Iniciativas
+    if (pageType === 'alianza' || pageType === 'iniciativas') {
       const canSeeActions = Boolean(user?.isAdmin || user?.role === 'director');
       return baseCards.map((card) => {
         // Si el usuario puede ver acciones y la card tiene iconos, hacerlos clickeables

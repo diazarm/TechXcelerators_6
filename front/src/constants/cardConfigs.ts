@@ -41,6 +41,7 @@ export interface CardConfig {
   sectionType?: string;
   resourceName?: string;
   showModal?: boolean;
+  isActive?: boolean;
 }
 
 // ========================================
@@ -51,7 +52,7 @@ export interface CardConfig {
 export const dashboardPageCards: CardConfig[] = [
   {
     id: 'nueva-alianza',
-    title: 'Nueva alianza',
+    title: 'Nuestra alianza',
     description: 'Información del ADN de la alianza y portafolio activo',
     image: '/img/nuevaAlianza.jpg',
     href: '/alianza'
@@ -216,14 +217,26 @@ export const iniciativasPageCards: CardConfig[] = [
     title: 'Master plan',
     description: 'Plan estrategico a largo plazo con los ejes principales',
     leftHeaderContent: createSemiboldIcon(Map, 32, '#1E285F'),
-    href: '/iniciativas/planes-accion'
+    rightHeaderContent: createMultipleIcons([
+      { component: EyeOff, size: 18, color: '#5D5A88', withCircle: true, type: 'delete' },
+      { component: Edit2, size: 18, color: '#5D5A88', withCircle: true, type: 'edit' }
+    ]),
+    sectionType: '68cadd0154f9344f27defc81',
+    resourceName: 'Masterplan',
+    showModal: true
   },
   {
     id: 'seguimiento-resultados',
     title: 'Plan de excelencia operativa en 360 / 2025',
     description: 'Compromiso con la innovación, calidad y sostenibilidad',
     leftHeaderContent: createSemiboldIcon(Star, 32, '#1E285F'),
-    href: '/iniciativas/seguimiento-resultados'
+    rightHeaderContent: createMultipleIcons([
+      { component: EyeOff, size: 18, color: '#5D5A88', withCircle: true, type: 'delete' },
+      { component: Edit2, size: 18, color: '#5D5A88', withCircle: true, type: 'edit' }
+    ]),
+    sectionType: '68cadd0154f9344f27defc81',
+    resourceName: 'Plan de excelencia operativa en 360 - 2025',
+    showModal: true
   }
 ];
 

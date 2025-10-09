@@ -1,15 +1,125 @@
-import React from 'react';
-import { Card } from '../../components';
-import { useCards, usePageHeader } from '../../hooks';
+import React, { useEffect, useState } from 'react';
+import { Card, ResourceEditModal, ResourceDeleteModal, LoadingSpinner, Notification } from '../../components';
+import { useCards, usePageHeader, useResourceManagement } from '../../hooks';
 import { useScreenSize } from '../../context';
+import type { CardConfig } from '../../constants';
 
 const Iniciativas: React.FC = () => {
   const { getContainerForScreen, dimensions, getGapForScreen } = useScreenSize();
-  const { cards, handleCardClick } = useCards('iniciativas');
+  
+  // Hook para gestión de recursos
+  const { 
+    editModalOpen, 
+    deleteModalOpen, 
+    selectedResource, 
+    closeModals,
+    handleEditClick, 
+    handleDeleteClick,
+    handleUpdateResource,
+    handleSoftDeleteResource
+  } = useResourceManagement();
+  
+  const { cards: baseCards, handleCardClick } = useCards({ 
+    pageType: 'iniciativas',
+    onEditClick: handleEditClick,
+    onDeleteClick: handleDeleteClick
+  });
+  
+  // Estado local para las cards con su isActive actualizado
+  const [cards, setCards] = useState<CardConfig[]>(baseCards);
+  const [loading] = useState(false);
+  const [error] = useState<string | null>(null);
+
   usePageHeader(); // Configuración automática del título
+
+  // Actualizar cards cuando baseCards cambia (solo al montar)
+  useEffect(() => {
+    setCards(baseCards);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Escuchar evento de recurso eliminado para actualizar visual
+  useEffect(() => {
+    const handleResourceDeleted = (event: CustomEvent) => {
+      const { resource } = event.detail;
+      
+      // Actualizar la card correspondiente marcándola como inactiva
+      setCards(prevCards => 
+        prevCards.map(card => 
+          card.resourceName === resource.name 
+            ? { ...card, isActive: false }
+            : card
+        )
+      );
+    };
+
+    window.addEventListener('resourceDeleted', handleResourceDeleted as EventListener);
+    
+    return () => {
+      window.removeEventListener('resourceDeleted', handleResourceDeleted as EventListener);
+    };
+  }, []);
+
+  // Escuchar evento de recurso restaurado para actualizar visual
+  useEffect(() => {
+    const handleResourceRestored = (event: CustomEvent) => {
+      const { resourceName } = event.detail;
+      
+      // Actualizar la card correspondiente marcándola como activa
+      setCards(prevCards => 
+        prevCards.map(card => 
+          card.resourceName === resourceName 
+            ? { ...card, isActive: true }
+            : card
+        )
+      );
+    };
+
+    window.addEventListener('resourceRestored', handleResourceRestored as EventListener);
+    
+    return () => {
+      window.removeEventListener('resourceRestored', handleResourceRestored as EventListener);
+    };
+  }, []);
+
+  // Mostrar loading
+  if (loading) {
+    return (
+      <div className={`${getContainerForScreen()} flex items-center justify-center min-h-screen`}>
+        <LoadingSpinner />
+      </div>
+    );
+  }
+
+  // Mostrar error
+  if (error) {
+    return (
+      <div className={`${getContainerForScreen()}`}>
+        <Notification 
+          type="error" 
+          message={`Error al cargar iniciativas: ${error}`}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className={`${getContainerForScreen()} pb-32`}>
+      {/* Modales de gestión de recursos */}
+      <ResourceEditModal
+        isOpen={editModalOpen}
+        onClose={closeModals}
+        resource={selectedResource}
+        onSave={handleUpdateResource}
+      />
+      
+      <ResourceDeleteModal
+        isOpen={deleteModalOpen}
+        onClose={closeModals}
+        resource={selectedResource}
+        onConfirm={handleSoftDeleteResource}
+      />
+      
       {/* Subtítulo renderizado dentro de la página */}
       <div 
         className="text-center"
