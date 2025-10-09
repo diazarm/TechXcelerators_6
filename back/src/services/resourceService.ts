@@ -2,8 +2,11 @@ import mongoose from "mongoose";
 import Resource, { IResource } from "../models/Resource";
 
 export class ResourceService {
-    async getAllResources(): Promise<IResource[]> {
-        return Resource.find().exec();
+    async getAllResources(includeDeleted = false): Promise<IResource[]> {
+        const query = includeDeleted
+        ? Resource.find().setOptions({ includeDeleted: true }) //Incluye soft deleted
+        : Resource.find({ isActive: true }); //Solo activos
+        return query.exec();
     }
     async createResource(data: Partial<IResource>): Promise<IResource> {
         const resource = new Resource(data);
@@ -26,8 +29,13 @@ export class ResourceService {
         return Resource.findByIdAndUpdate(id, { isActive: false, deletedAt: new Date() }, { new: true }).exec();
     }
 
-    async getResourcesBySection(sectionId: string): Promise<IResource[]> {
-        return Resource.find({ sectionId }).exec();
+    async getResourcesBySection(sectionId: string, includeDeleted = false): Promise<IResource[]> {
+        const filter = includeDeleted
+            ? {sectionId} // Incluye soft deleted
+            : { sectionId, isActive: true }; // Solo activos
+
+            const query = Resource.find(filter).setOptions({ includeDeleted: true });
+        return query.exec();
     }
 
     //Método para restaurar un recurso

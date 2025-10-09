@@ -47,8 +47,54 @@ export interface SearchResult {
   id: string;
   title: string;
   description: string;
-  category: string;
+  category: 'Alianza' | 'Recurso' | 'Sección';
   path: string;
-  type: string;
+  type: 'Alianza' | 'Recurso' | 'Sección';
   keywords: string[];
+  content?: string; // Para resources que tienen content
+  
+  // Información adicional para mejor UX en el modal
+  subtitle?: string; // Información secundaria (siglas, sección, etc.)
+  actionText?: string; // Texto del botón de acción
+  hasUrl?: boolean; // Si tiene URL (para alianzas)
+  linksCount?: number; // Cantidad de links (para recursos)
+  resourcesCount?: number; // Cantidad de recursos (para secciones)
+  url?: string; // URL real del backend para navegación
+}
+
+// Estructura de respuesta del backend
+export interface BackendSearchResponse {
+  query: string;
+  keywords: string[];
+  results: {
+    alliances: Array<{
+      _id: string;
+      name: string;
+      description: string;
+      siglas?: string;
+      url?: string;
+    }>;
+    resources: Array<{
+      _id: string;
+      title: string;
+      description: string;
+      content?: string;
+      sectionName?: string;
+      links?: Array<{
+        label?: string;
+        url: string;
+      }>;
+    }>;
+    sections: Array<{
+      _id: string;
+      name: string;
+      description: string;
+      resourcesCount?: number;
+    }>;
+  };
+  total: number;
+  pagination: {
+    page: number;
+    limit: number;
+  };
 }

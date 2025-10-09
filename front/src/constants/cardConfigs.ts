@@ -12,68 +12,13 @@ import {
   Edit2,
   Map,
 } from 'react-feather';
+import { 
+  createSemiboldIcon,
+  createMultipleIcons
+} from './iconFactory';
 
 
-/**
- * Función para crear iconos con componente específico y escalado
- */
-const createIcon = (IconComponent: React.ComponentType<{ size: number; color?: string }>, baseSize: number, color?: string) => {
-  return React.createElement('div', {
-    className: "flex items-center justify-center",
-    style: {
-      width: `${baseSize}px`,
-      height: `${baseSize}px`
-    }
-  }, React.createElement(IconComponent, {
-    size: baseSize,
-    color: color || '#585D8A'
-  }));
-};
 
-/**
- * Función para crear iconos semibold
- */
-const createSemiboldIcon = (IconComponent: React.ComponentType<{ size: number; color?: string; strokeWidth?: number }>, baseSize: number, color?: string) => {
-  return React.createElement('div', {
-    className: "flex items-center justify-center",
-    style: {
-      width: `${baseSize}px`,
-      height: `${baseSize}px`
-    }
-  }, React.createElement(IconComponent, {
-    size: baseSize,
-    color: color || '#585D8A',
-    strokeWidth: 1.5 // Menos peso visual
-  }));
-};
-
-/**
- * Función para crear iconos con círculo sutil
- */
-const createIconWithCircle = (IconComponent: React.ComponentType<{ size: number; color?: string }>, baseSize: number, color?: string) => {
-  return React.createElement('div', {
-    className: "flex items-center justify-center rounded-full border border-gray-200",
-    style: {
-      width: `${baseSize + 12}px`, // Aumentado de 8 a 12
-      height: `${baseSize + 12}px`, // Aumentado de 8 a 12
-      backgroundColor: 'rgba(255, 255, 255, 0.8)'
-    }
-  }, React.createElement(IconComponent, {
-    size: baseSize,
-    color: color || '#5D5A88'
-  }));
-};
-
-/**
- * Función para crear múltiples iconos en un contenedor con escalado
- */
-const createMultipleIcons = (icons: Array<{ component: React.ComponentType<{ size: number; color?: string; strokeWidth?: number }>, size: number, color?: string, withCircle?: boolean }>, gap: number = 8) => {
-  return React.createElement('div', { 
-    style: { display: 'flex', gap: `${gap}px`, alignItems: 'center' } 
-  }, icons.map((icon) => 
-    icon.withCircle ? createIconWithCircle(icon.component, icon.size, icon.color) : createIcon(icon.component, icon.size, icon.color)
-  ));
-};
 
 /**
  * Configuración de Tarjetas
@@ -92,6 +37,10 @@ export interface CardConfig {
   image?: string;
   href?: string;
   onClick?: () => void;
+  // Identificadores para lógica de alianzas
+  sectionType?: string;
+  resourceName?: string;
+  showModal?: boolean;
 }
 
 // ========================================
@@ -150,12 +99,13 @@ export const alianzaPageCards: CardConfig[] = [
     id: 'portafolio-precios',
     title: 'Portafolio y precios',
     description: '',
-    leftHeaderContent: createSemiboldIcon(Star, 32, '#1E285F'), // Más grande y semibold
+    leftHeaderContent: createSemiboldIcon(Star, 32, '#1E285F'),
     rightHeaderContent: createMultipleIcons([
-      { component: EyeOff, size: 18, color: '#5D5A88', withCircle: true },
-      { component: Edit2, size: 18, color: '#5D5A88', withCircle: true }
+      { component: EyeOff, size: 18, color: '#5D5A88', withCircle: true, type: 'delete' },
+      { component: Edit2, size: 18, color: '#5D5A88', withCircle: true, type: 'edit' }
     ]),
-    href: '/portafolio-precios'
+    sectionType: '68c9f2d8d6dbf0c558131e16',
+    resourceName: 'Portafolio y Precios'
   },
   {
     id: 'fichas-tecnicas',
@@ -163,10 +113,11 @@ export const alianzaPageCards: CardConfig[] = [
     description: '',
     leftHeaderContent: createSemiboldIcon(Video, 32, '#1E285F'),
     rightHeaderContent: createMultipleIcons([
-      { component: EyeOff, size: 18, color: '#5D5A88', withCircle: true },
-      { component: Edit2, size: 18, color: '#5D5A88', withCircle: true }
+      { component: EyeOff, size: 18, color: '#5D5A88', withCircle: true, type: 'delete' },
+      { component: Edit2, size: 18, color: '#5D5A88', withCircle: true, type: 'edit' }
     ]),
-    href: '/fichas-tecnicas'
+    sectionType: '68c9f2d8d6dbf0c558131e16',
+    resourceName: 'Fichas técnicas y Grabaciones de capacitación en producto'
   },
   {
     id: 'usp',
@@ -174,10 +125,11 @@ export const alianzaPageCards: CardConfig[] = [
     description: '',
     leftHeaderContent: createSemiboldIcon(Zap, 32, '#1E285F'),
     rightHeaderContent: createMultipleIcons([
-      { component: EyeOff, size: 18, color: '#5D5A88', withCircle: true },
-      { component: Edit2, size: 18, color: '#5D5A88', withCircle: true }
+      { component: EyeOff, size: 18, color: '#5D5A88', withCircle: true, type: 'delete' },
+      { component: Edit2, size: 18, color: '#5D5A88', withCircle: true, type: 'edit' }
     ]),
-    href: '/usp'
+    sectionType: '68c9f2d8d6dbf0c558131e16',
+    resourceName: 'USP'
   },
   {
     id: 'organigrama',
@@ -185,10 +137,11 @@ export const alianzaPageCards: CardConfig[] = [
     description: '',
     leftHeaderContent: createSemiboldIcon(Users, 32, '#1E285F'),
     rightHeaderContent: createMultipleIcons([
-      { component: EyeOff, size: 18, color: '#5D5A88', withCircle: true },
-      { component: Edit2, size: 18, color: '#5D5A88', withCircle: true }
+      { component: EyeOff, size: 18, color: '#5D5A88', withCircle: true, type: 'delete' },
+      { component: Edit2, size: 18, color: '#5D5A88', withCircle: true, type: 'edit' }
     ]),
-    href: '/organigrama'
+    sectionType: '68c9f2d8d6dbf0c558131e16',
+    resourceName: 'Estructura organizacional de equipo de trabajo (Organigrama)'
   },
   {
     id: 'directorio-contactos',
@@ -196,10 +149,12 @@ export const alianzaPageCards: CardConfig[] = [
     description: '',
     leftHeaderContent: createSemiboldIcon(Globe, 32, '#1E285F'),
     rightHeaderContent: createMultipleIcons([
-      { component: EyeOff, size: 18, color: '#5D5A88', withCircle: true },
-      { component: Edit2, size: 18, color: '#5D5A88', withCircle: true }
+      { component: EyeOff, size: 18, color: '#5D5A88', withCircle: true, type: 'delete' },
+      { component: Edit2, size: 18, color: '#5D5A88', withCircle: true, type: 'edit' }
     ]),
-    href: '/directorio-contactos'
+    sectionType: '68c9f2d8d6dbf0c558131e16',
+    resourceName: 'Directorio de contactos de la alianza',
+    showModal: true
   },
   {
     id: 'resumen-contrato',
@@ -207,10 +162,12 @@ export const alianzaPageCards: CardConfig[] = [
     description: '',
     leftHeaderContent: createSemiboldIcon(Edit, 32, '#1E285F'),
     rightHeaderContent: createMultipleIcons([
-      { component: EyeOff, size: 18, color: '#5D5A88', withCircle: true },
-      { component: Edit2, size: 18, color: '#5D5A88', withCircle: true }
+      { component: EyeOff, size: 18, color: '#5D5A88', withCircle: true, type: 'delete' },
+      { component: Edit2, size: 18, color: '#5D5A88', withCircle: true, type: 'edit' }
     ]),
-    href: '/resumen-contrato'
+    sectionType: '68c9f2d8d6dbf0c558131e16',
+    resourceName: 'Resumen de Contrato',
+    showModal: true
   }
 ];
 

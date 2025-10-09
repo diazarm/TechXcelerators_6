@@ -15,16 +15,8 @@
  * ```
  */
 
-// Mock data de alianzas
-export { 
-  mockAlliances, 
-  getActiveAlliances, 
-  getDeletedAlliances, 
-  getInactiveAlliances 
-} from './mockAlliances';
 
 // Mock data de recursos
 export { mockResources } from './MockResources';
 
-// Mock data de búsqueda
-export { mockSearchData } from './MockSearchData';
+
