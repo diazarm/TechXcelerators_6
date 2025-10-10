@@ -65,6 +65,7 @@ export class ResourceService {
     return resource; // Si ya estaba activo, lo devolvemos igual
   }
 
+  //Método para buscar recursos por alianza
   async getResourcesByAlliance(allianceLabel: string): Promise<IResource[]> {
     const normalizedLabel = normalizeText(allianceLabel);
     const exactRegex = createFlexibleRegex(`^${normalizedLabel}$`);

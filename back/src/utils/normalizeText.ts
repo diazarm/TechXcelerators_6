@@ -1,3 +1,4 @@
+// Función para normalizar texto (quitar tildes, ñ, mayúsculas, espacios)
 export function normalizeText(text: string): string {
   return text
     .toLowerCase()
@@ -7,6 +8,7 @@ export function normalizeText(text: string): string {
     .trim();
 }
 
+// Función para crear una expresión regular flexible (considera tildes y ñ)
 export function createFlexibleRegex(term: string): any {
   const patterns = {
     a: "[aáàäâ]",

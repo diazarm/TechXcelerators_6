@@ -141,6 +141,7 @@ export const restoreResource = async (
   }
 };
 
+// Función para obtener recursos por alianza
 export const getResourcesByAlliance = async (
   req: Request,
   res: Response,
