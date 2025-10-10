@@ -67,7 +67,7 @@ const ResourceDropdown: React.FC<ResourceDropdownProps> = ({
                   .map((res) => (
                     <Link
                       key={res._id}
-                      to={res.link}
+                      to={res.links?.[0]?.url || '#'}
                       className={`${COLOR_CLASSES.textPrimary} hover:bg-gray-100 transition-colors block`}
                       style={{
                         paddingLeft: dimensions.spacing.md,

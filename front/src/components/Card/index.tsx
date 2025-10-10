@@ -22,7 +22,9 @@ const Card: React.FC<CardProps> = ({
   rightHeaderContent,
   image,
   onButtonClick,
-  className = ""
+  className = "",
+  isActive = true,
+  size = 'medium'
 }) => {
   const { isMobile, dimensions, scale } = useScreenSize();
   
@@ -33,12 +35,58 @@ const Card: React.FC<CardProps> = ({
     responsive: true
   });
 
+  // Obtener dimensiones según el tamaño de la card
+  const getCardDimensions = () => {
+    if (size === 'rectangular') {
+      // En móvil: cards rectangulares más pequeñas pero manteniendo proporción
+      if (isMobile) {
+        return {
+          width: `${320}px`, // Fijo en móvil para evitar conflictos
+          height: `${200}px` // Fijo en móvil para evitar conflictos
+        };
+      }
+      // En desktop: cards rectangulares escaladas proporcionalmente
+      // Base: 480x280px (ratio 1.71:1)
+      return {
+        width: (dimensions.card as any).rectangular,
+        height: `${scale(280)}px` // Escala proporcionalmente con el ancho
+      };
+    }
+    // Para small y medium
+    const dimension = dimensions.card[size];
+    return {
+      width: dimension,
+      height: dimension
+    };
+  };
+
+  // Obtener tamaño de icono según el tamaño de la card
+  const getIconSize = () => {
+    switch (size) {
+      case 'small':
+        return `20px`; // Iconos más pequeños para cards small (fijo)
+      case 'rectangular':
+        return `32px`; // Iconos normales para rectangular (fijo)
+      case 'medium':
+      default:
+        return `32px`; // Iconos normales para medium (fijo)
+    }
+  };
+
+  // Determinar si mostrar botón según el tamaño
+  const shouldShowButton = () => {
+    return size !== 'small'; // Cards small no tienen botón
+  };
+
+  const cardDimensions = getCardDimensions();
+
   return (
     <div 
       className={`
         ${image ? 'relative overflow-hidden' : 'bg-white border border-gray-100 hover:border-gray-200'}
         rounded-2xl shadow-sm hover:shadow-md transition-all duration-300
         flex flex-col h-full
+        ${!isActive ? 'opacity-50' : ''}
         ${className}
       `}
       style={{
@@ -46,8 +94,8 @@ const Card: React.FC<CardProps> = ({
           backgroundImage: `url(${image})`,
           ...backgroundStyles
         } : {}),
-        width: dimensions.card.medium,
-        height: dimensions.card.medium
+        width: cardDimensions.width,
+        height: cardDimensions.height
       }}
     >
       {/* Overlay con opacidad si hay imagen */}
@@ -63,7 +111,7 @@ const Card: React.FC<CardProps> = ({
         style={{
           padding: `${scale(16)}px`,
           paddingBottom: `${scale(8)}px`,
-          height: `${scale(80)}px`, // ALTURA FIJA
+          height: size === 'rectangular' && isMobile ? `60px` : `${scale(80)}px`, // Fijo en móvil rectangular
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between'
@@ -71,7 +119,7 @@ const Card: React.FC<CardProps> = ({
       >
         {/* Contenido izquierdo */}
         <div className="relative z-10" style={{ transform: `scale(${scale(1)})` }}>
-          {leftHeaderContent || (icon && <div>{icon}</div>)}
+          {leftHeaderContent || (icon && <div style={{ fontSize: getIconSize() }}>{icon}</div>)}
         </div>
         
         {/* Contenido derecho */}
@@ -87,7 +135,7 @@ const Card: React.FC<CardProps> = ({
           padding: `${scale(24)}px`,
           paddingTop: `${scale(8)}px`,
           paddingBottom: `${scale(8)}px`,
-          minHeight: `${scale(120)}px`
+          minHeight: size === 'rectangular' && isMobile ? `80px` : `${scale(120)}px` // Fijo en móvil rectangular
         }}
       >
         <h3 
@@ -121,26 +169,42 @@ const Card: React.FC<CardProps> = ({
         style={{
           padding: `${scale(16)}px`,
           paddingTop: `${scale(8)}px`,
-          height: `${scale(80)}px`, // ALTURA FIJA
+          height: size === 'rectangular' && isMobile ? `60px` : `${scale(80)}px`, // Fijo en móvil rectangular
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'flex-end'
+          justifyContent: 'space-between'
         }}
       >
-        <Button
-          variant="primary"
-          size="xs"
-          onClick={onButtonClick}
-          iconRight={<ArrowRight className="w-4 h-4" />}
-          style={{ 
-            minWidth: `${scale(110)}px`,
-            opacity: 1,
-            position: 'relative',
-            zIndex: 30
-          }}
-        >
-          Ir
-        </Button>
+        {/* Badge sutil "No disponible" */}
+        {!isActive && (
+          <span 
+            className="text-red-600 font-medium text-xs"
+            style={{ fontSize: `${scale(11)}px` }}
+          >
+            No disponible
+          </span>
+        )}
+        
+        {/* Spacer si la card está activa */}
+        {isActive && <div />}
+        
+        {/* Botón solo si no es card small */}
+        {shouldShowButton() && (
+          <Button
+            variant="primary"
+            size="xs"
+            onClick={onButtonClick}
+            iconRight={<ArrowRight className="w-4 h-4" />}
+            style={{ 
+              minWidth: `${scale(110)}px`,
+              opacity: 1,
+              position: 'relative',
+              zIndex: 30
+            }}
+          >
+            Ir
+          </Button>
+        )}
       </footer>
     </div>
   );

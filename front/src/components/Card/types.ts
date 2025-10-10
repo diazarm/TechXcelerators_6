@@ -9,4 +9,6 @@ export interface CardProps {
   image?: string;
   onButtonClick?: () => void;
   className?: string;
+  isActive?: boolean;
+  size?: 'small' | 'medium' | 'rectangular';
 }

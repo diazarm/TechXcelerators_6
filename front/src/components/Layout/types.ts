@@ -16,6 +16,8 @@ export interface MainLayoutProps {
 export interface HeaderProps {
     /** Título principal del header */
     title?: string;
+    /** Descripción del header */
+    description?: string;
     /** Mostrar botón de navegación móvil */
     showNavButton?: boolean;
     /** Callback para el click del botón de navegación */

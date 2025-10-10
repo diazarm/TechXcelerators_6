@@ -16,4 +16,8 @@ export interface SearchModalProps {
   selectedIndex: number;
   /** Función para manejar la selección de un resultado */
   onResultSelect: (result: SearchResult) => void;
+  /** Estado de carga */
+  isLoading?: boolean;
+  /** Mensaje de error */
+  error?: string | null;
 }

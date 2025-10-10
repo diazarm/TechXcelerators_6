@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { HeroSection, Button } from '../../components';
+import { HeroSection, Button, AllianceSlider } from '../../components';
 import { useAuth } from '../../hooks';
 
 /** Página de inicio con HeroSection */
@@ -44,6 +44,9 @@ const Home: React.FC = () => {
           </>
         )}
       </HeroSection>
+      
+      {/* Slider de alianzas al final */}
+      <AllianceSlider />
     </div>
   );
 };

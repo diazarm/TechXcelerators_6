@@ -3,22 +3,22 @@ import { ResourceService } from "../services/resourceService";
 
 const resourceService = new ResourceService();
 
-export const getResources = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    const resources = await resourceService.getAllResources();
-    res.status(200).json({
-      success: true,
-      message: "Recursos obtenidos correctamente",
-      data: resources,
-    });
-  } catch (error) {
-    next(error);
-  }
-};
+export const getResources = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+
+        const includeDeleted = req.query.includeDeleted === 'true';
+        console.log('includeDeleted:', includeDeleted);
+        const resources = await resourceService.getAllResources(includeDeleted);
+
+        res.status(200).json({
+            success: true,
+            message: "Recursos obtenidos correctamente",
+            data: resources
+        });
+    } catch (error) {
+        next(error);
+    }
+}
 
 export const createResource = async (
   req: Request,
@@ -55,24 +55,21 @@ export const getResourceById = async (
   }
 };
 
-export const getResourcesBySection = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    const resources = await resourceService.getResourcesBySection(
-      req.params.sectionId
-    );
-    res.status(200).json({
-      success: true,
-      message: "Recursos obtenidos correctamente",
-      data: resources,
-    });
-  } catch (error) {
-    next(error);
-  }
-};
+export const getResourcesBySection = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+
+        const sectionId = req.params.sectionId;
+        const includeDeleted = req.query.includeDeleted === 'true';
+        const resources = await resourceService.getResourcesBySection(sectionId, includeDeleted);
+        res.status(200).json({
+            success: true,
+            message: "Recursos obtenidos correctamente",
+            data: resources
+        });
+    } catch (error) {
+        next(error);
+    }
+}
 
 export const updateResource = async (
   req: Request,

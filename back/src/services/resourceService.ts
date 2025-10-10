@@ -3,13 +3,16 @@ import Resource, { IResource } from "../models/Resource";
 import { createFlexibleRegex, normalizeText } from "../utils/normalizeText";
 
 export class ResourceService {
-  async getAllResources(): Promise<IResource[]> {
-    return Resource.find().exec();
-  }
-  async createResource(data: Partial<IResource>): Promise<IResource> {
-    const resource = new Resource(data);
-    return resource.save();
-  }
+    async getAllResources(includeDeleted = false): Promise<IResource[]> {
+        const query = includeDeleted
+        ? Resource.find().setOptions({ includeDeleted: true }) //Incluye soft deleted
+        : Resource.find({ isActive: true }); //Solo activos
+        return query.exec();
+    }
+    async createResource(data: Partial<IResource>): Promise<IResource> {
+        const resource = new Resource(data);
+        return resource.save();
+    }
 
   async getResourceById(id: string): Promise<IResource | null> {
     if (!mongoose.Types.ObjectId.isValid(id)) return null;
@@ -33,9 +36,19 @@ export class ResourceService {
     ).exec();
   }
 
-  async getResourcesBySection(sectionId: string): Promise<IResource[]> {
-    return Resource.find({ sectionId }).exec();
-  }
+    async getResourcesBySection(sectionId: string, includeDeleted = false): Promise<IResource[]> {
+        const filter = includeDeleted
+            ? {sectionId} // Incluye soft deleted
+            : { sectionId, isActive: true }; // Solo activos
+
+            const query = Resource.find(filter).setOptions({ includeDeleted: true });
+        return query.exec();
+    }
+
+    //Método para restaurar un recurso
+    async restoreResource(id: string): Promise<IResource | null> {
+        if (!mongoose.Types.ObjectId.isValid(id)) return null;
+
 
   //Método para restaurar un recurso
   async restoreResource(id: string): Promise<IResource | null> {
