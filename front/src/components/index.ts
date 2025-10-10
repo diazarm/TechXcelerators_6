@@ -38,6 +38,12 @@ export { default as ValidationErrors } from './ValidationErrors';
 export { Notification } from './Notification';
 export { NotificationContainer } from './NotificationContainer';
 
+// Componentes de modales
+export { AllianceSelectionModal } from './AllianceSelectionModal';
+export { ResourceEditModal } from './ResourceEditModal';
+export { ResourceDeleteModal } from './ResourceDeleteModal';
+export { ResourceRestoreModal } from './ResourceRestoreModal';
+
 // Componentes de layout
 export { default as MainLayout } from './Layout/MainLayout';
 export { Header } from './Layout/header';
@@ -57,6 +63,9 @@ export { default as CardGrid } from './CardGrid';
 
 // Componentes de imágenes responsivas
 export { ResponsiveImage, ResponsiveBackground } from './ResponsiveImage';
+
+// Componentes de alianzas
+export { AllianceSlider } from './AllianceSlider';
 
 // Tipos de componentes
 export type { ResourceDropdownProps } from './ResourceDropdown/types';

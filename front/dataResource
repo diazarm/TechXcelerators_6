@@ -1,0 +1,1414 @@
+[{
+  "_id": {
+    "$oid": "68c22af480f85343fb2bf920"
+  },
+  "sectionId": {
+    "$oid": "68c9f2d8d6dbf0c558131e16"
+  },
+  "name": "Portafolio y Precios",
+  "description": "Recurso referente a portafolio y precios",
+  "isActive": true,
+  "deletedAt": null,
+  "createdAt": {
+    "$date": "2025-09-11T01:50:44.957Z"
+  },
+  "updatedAt": {
+    "$date": "2025-09-17T21:42:06.836Z"
+  },
+  "__v": 0,
+  "links": [
+    {
+      "label": " ",
+      "url": "https://app.powerbi.com/groups/7b69435c-2078-47cc-9fa3-a19fbe2b43e5/reports/e1784ebc-0153-42d2-aed2-2ac1a8f65aed/ReportSection61645640702cd2560706?experience=power-bi",
+      "_id": {
+        "$oid": "68cb2b2ee7461e967e34e0f7"
+      }
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "68cae80754f9344f27defc8b"
+  },
+  "sectionId": {
+    "$oid": "68c9f2d8d6dbf0c558131e16"
+  },
+  "name": "Fichas técnicas y Grabaciones de capacitación en producto",
+  "description": "Recurso referente a fichas técnicas y grabaciones",
+  "isActive": true,
+  "deletedAt": null,
+  "createdAt": {
+    "$date": "2025-09-17T16:55:35.199Z"
+  },
+  "updatedAt": {
+    "$date": "2025-09-17T21:43:56.976Z"
+  },
+  "__v": 0,
+  "links": [
+    {
+      "label": " ",
+      "url": "https://docs.google.com/spreadsheets/d/16IHW0uaGfcfovqroubWPY839wuiUv-Gu/edit?gid=1801067394#gid=1801067394",
+      "_id": {
+        "$oid": "68cb2b9ce7461e967e34e0fa"
+      }
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "68caf0e66e22346e481f8c72"
+  },
+  "sectionId": {
+    "$oid": "68c9f2d8d6dbf0c558131e16"
+  },
+  "name": "Directorio de contactos de la alianza",
+  "description": "Recurso referente al directorio de cada alianza",
+  "links": [
+    {
+      "label": "EAFIT",
+      "url": "https://docs.google.com/spreadsheets/d/1hg_M5jsTM5lZ0Ftvok0cBlqBmMcOD8sE/edit?gid=1203174479#gid=1203174479",
+      "_id": {
+        "$oid": "68caf0e66e22346e481f8c73"
+      }
+    },
+    {
+      "label": "Uninorte",
+      "url": "https://docs.google.com/spreadsheets/d/1upOa9FrWk2EkPXnrgh1pOeV68m-1_6fY/edit?gid=1241051756#gid=1241051756",
+      "_id": {
+        "$oid": "68caf0e66e22346e481f8c74"
+      }
+    },
+    {
+      "label": "UNAB",
+      "url": "https://docs.google.com/spreadsheets/d/1gvSdiim7DEyushIVpQ0ctiVnd1YJlLDm/edit?gid=1241051756#gid=1241051756",
+      "_id": {
+        "$oid": "68caf0e66e22346e481f8c75"
+      }
+    },
+    {
+      "label": "UDD",
+      "url": "https://docs.google.com/spreadsheets/d/1CDwNnLIet6E-nB2B5i_ub2oYho5Dptf_/edit?gid=1241051756#gid=1241051756",
+      "_id": {
+        "$oid": "68caf0e66e22346e481f8c76"
+      }
+    },
+    {
+      "label": "Central",
+      "url": "https://docs.google.com/spreadsheets/d/1Bvd_Qij-LyUaDSS5I-gMxgjCf0QBdwOr/edit?gid=1241051756#gid=1241051756",
+      "_id": {
+        "$oid": "68caf0e66e22346e481f8c77"
+      }
+    },
+    {
+      "label": "UNIS",
+      "url": "https://docs.google.com/spreadsheets/d/1uE-Cr9F_MpGF8NLxUja7JDm3Tarl4LME/edit?gid=1241051756#gid=1241051756",
+      "_id": {
+        "$oid": "68caf0e66e22346e481f8c78"
+      }
+    },
+    {
+      "label": "UP",
+      "url": "https://docs.google.com/spreadsheets/d/1t3yHe_IiOWbkznWaD4hHNf8vZ3g-ptys/edit?gid=1241051756#gid=1241051756",
+      "_id": {
+        "$oid": "68caf0e66e22346e481f8c79"
+      }
+    },
+    {
+      "label": "UCSS",
+      "url": "https://docs.google.com/spreadsheets/d/1wzLbvFNcZMCSgp-3cmkz1O5qVXGU6Hd6/edit?gid=1143636169#gid=1143636169",
+      "_id": {
+        "$oid": "68caf0e66e22346e481f8c7a"
+      }
+    }
+  ],
+  "isActive": true,
+  "deletedAt": null,
+  "createdAt": {
+    "$date": "2025-09-17T17:33:26.362Z"
+  },
+  "updatedAt": {
+    "$date": "2025-09-17T17:33:26.362Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68caf4f56e22346e481f8c9a"
+  },
+  "sectionId": {
+    "$oid": "68cadb4f54f9344f27defc7b"
+  },
+  "name": "Actas de comité de estrategia y crecimiento",
+  "description": "Recurso referente a las actas de estrategia y crecimiento de cada alianza",
+  "links": [
+    {
+      "label": "EAFIT",
+      "url": "https://docs.google.com/spreadsheets/d/1yNV6InDnRNSPjraCT2JDK0jkEZXyISHe6sZK8cmyug4/edit?gid=0#gid=0",
+      "_id": {
+        "$oid": "68caf4f56e22346e481f8c9b"
+      }
+    },
+    {
+      "label": "Uninorte",
+      "url": "https://docs.google.com/spreadsheets/d/1yNV6InDnRNSPjraCT2JDK0jkEZXyISHe6sZK8cmyug4/edit?gid=0#gid=0",
+      "_id": {
+        "$oid": "68caf4f56e22346e481f8c9c"
+      }
+    },
+    {
+      "label": "UNAB",
+      "url": "https://docs.google.com/spreadsheets/d/1yNV6InDnRNSPjraCT2JDK0jkEZXyISHe6sZK8cmyug4/edit?gid=0#gid=0",
+      "_id": {
+        "$oid": "68caf4f56e22346e481f8c9d"
+      }
+    },
+    {
+      "label": "UDD",
+      "url": "https://docs.google.com/spreadsheets/d/1yNV6InDnRNSPjraCT2JDK0jkEZXyISHe6sZK8cmyug4/edit?gid=0#gid=0",
+      "_id": {
+        "$oid": "68caf4f56e22346e481f8c9e"
+      }
+    },
+    {
+      "label": "Central",
+      "url": "https://drive.google.com/drive/folders/1rUNsK_eYRYx3dGIFfXRmU4LNGJ9rKIgF",
+      "_id": {
+        "$oid": "68caf4f56e22346e481f8c9f"
+      }
+    },
+    {
+      "label": "UNIS",
+      "url": "https://docs.google.com/spreadsheets/d/1yNV6InDnRNSPjraCT2JDK0jkEZXyISHe6sZK8cmyug4/edit?gid=0#gid=0",
+      "_id": {
+        "$oid": "68caf4f56e22346e481f8ca0"
+      }
+    },
+    {
+      "label": "UP",
+      "url": "https://docs.google.com/spreadsheets/d/1yNV6InDnRNSPjraCT2JDK0jkEZXyISHe6sZK8cmyug4/edit?gid=0#gid=0",
+      "_id": {
+        "$oid": "68caf4f56e22346e481f8ca1"
+      }
+    },
+    {
+      "label": "UCSS",
+      "url": "https://docs.google.com/spreadsheets/d/1yNV6InDnRNSPjraCT2JDK0jkEZXyISHe6sZK8cmyug4/edit?gid=0#gid=0",
+      "_id": {
+        "$oid": "68caf4f56e22346e481f8ca2"
+      }
+    }
+  ],
+  "isActive": true,
+  "deletedAt": null,
+  "createdAt": {
+    "$date": "2025-09-17T17:50:45.937Z"
+  },
+  "updatedAt": {
+    "$date": "2025-09-17T17:50:45.937Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cb2547e7461e967e34e0ca"
+  },
+  "sectionId": {
+    "$oid": "68cadccc54f9344f27defc7f"
+  },
+  "name": "Calendario académico de las alianzas",
+  "description": "Recurso referente al calendario académico de las alianzas",
+  "links": [
+    {
+      "label": " ",
+      "url": "https://docs.google.com/spreadsheets/d/10Cjv8AR2-5_n1ILBCKYdEhs2FteRpGST/edit?pli=1&gid=439947869#gid=439947869",
+      "_id": {
+        "$oid": "68cb2547e7461e967e34e0cb"
+      }
+    }
+  ],
+  "isActive": true,
+  "deletedAt": null,
+  "createdAt": {
+    "$date": "2025-09-17T21:16:55.657Z"
+  },
+  "updatedAt": {
+    "$date": "2025-09-17T21:16:55.657Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cb27fae7461e967e34e0d8"
+  },
+  "sectionId": {
+    "$oid": "68cadd0154f9344f27defc81"
+  },
+  "name": "Masterplan",
+  "description": "Masterplan de Dirección de experiencia y permanencia",
+  "links": [
+    {
+      "label": " ",
+      "url": "https://docs.google.com/spreadsheets/d/1w_jaw-Y8YAxRjGmhxtAOhrsYljkn6pn6tATtiErl_TI/edit?pli=1&gid=1368237395#gid=1368237395",
+      "_id": {
+        "$oid": "68cb27fae7461e967e34e0d9"
+      }
+    }
+  ],
+  "isActive": true,
+  "deletedAt": null,
+  "createdAt": {
+    "$date": "2025-09-17T21:28:26.190Z"
+  },
+  "updatedAt": {
+    "$date": "2025-09-17T21:28:26.190Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cb2986e7461e967e34e0e2"
+  },
+  "sectionId": {
+    "$oid": "68cadd9354f9344f27defc83"
+  },
+  "name": "Uninorte",
+  "description": " ",
+  "links": [
+    {
+      "label": " ",
+      "url": " ",
+      "_id": {
+        "$oid": "68cb2986e7461e967e34e0e3"
+      }
+    }
+  ],
+  "isActive": false,
+  "deletedAt": null,
+  "createdAt": {
+    "$date": "2025-09-17T21:35:02.386Z"
+  },
+  "updatedAt": {
+    "$date": "2025-09-17T21:35:02.386Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cb29a6e7461e967e34e0f1"
+  },
+  "sectionId": {
+    "$oid": "68cadd9354f9344f27defc83"
+  },
+  "name": "UP",
+  "description": " ",
+  "links": [
+    {
+      "label": " ",
+      "url": " ",
+      "_id": {
+        "$oid": "68cb29a6e7461e967e34e0f2"
+      }
+    }
+  ],
+  "isActive": false,
+  "deletedAt": null,
+  "createdAt": {
+    "$date": "2025-09-17T21:35:34.924Z"
+  },
+  "updatedAt": {
+    "$date": "2025-09-17T21:35:34.924Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68caf1f86e22346e481f8c7c"
+  },
+  "sectionId": {
+    "$oid": "68c9f2d8d6dbf0c558131e16"
+  },
+  "name": "Resumen de Contrato",
+  "description": "Recurso referente al contrato de cada alianza",
+  "links": [
+    {
+      "label": "EAFIT",
+      "url": "https://docs.google.com/spreadsheets/d/1yNV6InDnRNSPjraCT2JDK0jkEZXyISHe6sZK8cmyug4/edit?gid=0#gid=0",
+      "_id": {
+        "$oid": "68caf1f86e22346e481f8c7d"
+      }
+    },
+    {
+      "label": "Uninorte",
+      "url": "https://docs.google.com/spreadsheets/d/1yNV6InDnRNSPjraCT2JDK0jkEZXyISHe6sZK8cmyug4/edit?gid=0#gid=0",
+      "_id": {
+        "$oid": "68caf1f86e22346e481f8c7e"
+      }
+    },
+    {
+      "label": "UNAB",
+      "url": "https://docs.google.com/spreadsheets/d/1yNV6InDnRNSPjraCT2JDK0jkEZXyISHe6sZK8cmyug4/edit?gid=0#gid=0",
+      "_id": {
+        "$oid": "68caf1f86e22346e481f8c7f"
+      }
+    },
+    {
+      "label": "UDD",
+      "url": "https://docs.google.com/spreadsheets/d/1yNV6InDnRNSPjraCT2JDK0jkEZXyISHe6sZK8cmyug4/edit?gid=0#gid=0",
+      "_id": {
+        "$oid": "68caf1f86e22346e481f8c80"
+      }
+    },
+    {
+      "label": "Central",
+      "url": "https://docs.google.com/spreadsheets/d/1yNV6InDnRNSPjraCT2JDK0jkEZXyISHe6sZK8cmyug4/edit?gid=0#gid=0",
+      "_id": {
+        "$oid": "68caf1f86e22346e481f8c81"
+      }
+    },
+    {
+      "label": "UNIS",
+      "url": "https://docs.google.com/spreadsheets/d/1yNV6InDnRNSPjraCT2JDK0jkEZXyISHe6sZK8cmyug4/edit?gid=0#gid=0",
+      "_id": {
+        "$oid": "68caf1f86e22346e481f8c82"
+      }
+    },
+    {
+      "label": "UP",
+      "url": "https://docs.google.com/spreadsheets/d/1yNV6InDnRNSPjraCT2JDK0jkEZXyISHe6sZK8cmyug4/edit?gid=0#gid=0",
+      "_id": {
+        "$oid": "68caf1f86e22346e481f8c83"
+      }
+    },
+    {
+      "label": "UCSS",
+      "url": "https://docs.google.com/spreadsheets/d/1yNV6InDnRNSPjraCT2JDK0jkEZXyISHe6sZK8cmyug4/edit?gid=0#gid=0",
+      "_id": {
+        "$oid": "68caf1f86e22346e481f8c84"
+      }
+    }
+  ],
+  "isActive": true,
+  "deletedAt": null,
+  "createdAt": {
+    "$date": "2025-09-17T17:38:00.672Z"
+  },
+  "updatedAt": {
+    "$date": "2025-09-17T17:38:00.672Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68caf35e6e22346e481f8c86"
+  },
+  "sectionId": {
+    "$oid": "68cadb4f54f9344f27defc7b"
+  },
+  "name": "Actas de comité de colaboración",
+  "description": "Recurso referente a las actas de colaboración de cada alianza",
+  "links": [
+    {
+      "label": "EAFIT",
+      "url": "https://drive.google.com/drive/folders/1o2qAb-Yh3OrQc0JmwCHns4ZeAId9FTPA",
+      "_id": {
+        "$oid": "68caf35e6e22346e481f8c87"
+      }
+    },
+    {
+      "label": "Uninorte",
+      "url": "https://drive.google.com/drive/folders/1l1_b0e14B9bMTs-i1ST63t2u6A99qiIX",
+      "_id": {
+        "$oid": "68caf35e6e22346e481f8c88"
+      }
+    },
+    {
+      "label": "UNAB",
+      "url": "https://drive.google.com/drive/folders/1xmLv6tUcdzICAwmArpxGctNnjFQrzpH9",
+      "_id": {
+        "$oid": "68caf35e6e22346e481f8c89"
+      }
+    },
+    {
+      "label": "UDD",
+      "url": "https://drive.google.com/drive/folders/1jXRC3GlosZxh5qLzYEJmzIJqNl-g98we",
+      "_id": {
+        "$oid": "68caf35e6e22346e481f8c8a"
+      }
+    },
+    {
+      "label": "Central",
+      "url": "https://drive.google.com/drive/folders/1BncQAYPFLYuBHctoE_XXO3Nm4O8mDuyK",
+      "_id": {
+        "$oid": "68caf35e6e22346e481f8c8b"
+      }
+    },
+    {
+      "label": "UNIS",
+      "url": "https://drive.google.com/drive/folders/17vBucUpBS4tTpGXkKUaD0e3SyyylPIBo",
+      "_id": {
+        "$oid": "68caf35e6e22346e481f8c8c"
+      }
+    },
+    {
+      "label": "UP",
+      "url": "https://drive.google.com/drive/folders/1l9kVdDouCJWlCI95wfjl8ybY-bsUeLNw",
+      "_id": {
+        "$oid": "68caf35e6e22346e481f8c8d"
+      }
+    },
+    {
+      "label": "UCSS",
+      "url": "https://drive.google.com/drive/folders/1LO1WkCCuuvAOaHUNYNLA-Dhj-aJcpG0u",
+      "_id": {
+        "$oid": "68caf35e6e22346e481f8c8e"
+      }
+    }
+  ],
+  "isActive": true,
+  "deletedAt": null,
+  "createdAt": {
+    "$date": "2025-09-17T17:43:58.545Z"
+  },
+  "updatedAt": {
+    "$date": "2025-09-17T17:43:58.545Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68caf4586e22346e481f8c90"
+  },
+  "sectionId": {
+    "$oid": "68cadb4f54f9344f27defc7b"
+  },
+  "name": "Actas de comité de dirección",
+  "description": "Recurso referente a las actas de dirección de cada alianza",
+  "links": [
+    {
+      "label": "EAFIT",
+      "url": "https://drive.google.com/drive/folders/14OTlMpsi9qAJGRZwc6BL9xg0-sOx7Y6j",
+      "_id": {
+        "$oid": "68caf4586e22346e481f8c91"
+      }
+    },
+    {
+      "label": "Uninorte",
+      "url": "https://drive.google.com/drive/folders/1ZACX5zGXkSied_PlB6q1jny9B6OuKHNA",
+      "_id": {
+        "$oid": "68caf4586e22346e481f8c92"
+      }
+    },
+    {
+      "label": "UNAB",
+      "url": "https://drive.google.com/drive/folders/1ZgML6Nes81QBUoTUOd2BxtSC59v7sTHW?usp=drive_link",
+      "_id": {
+        "$oid": "68caf4586e22346e481f8c93"
+      }
+    },
+    {
+      "label": "UDD",
+      "url": "https://docs.google.com/spreadsheets/d/1yNV6InDnRNSPjraCT2JDK0jkEZXyISHe6sZK8cmyug4/edit?gid=0#gid=0",
+      "_id": {
+        "$oid": "68caf4586e22346e481f8c94"
+      }
+    },
+    {
+      "label": "Central",
+      "url": "https://drive.google.com/drive/folders/13IhsbJOsTSskvromZ2EUC_zLNModnwzO",
+      "_id": {
+        "$oid": "68caf4586e22346e481f8c95"
+      }
+    },
+    {
+      "label": "UNIS",
+      "url": "https://docs.google.com/spreadsheets/d/1yNV6InDnRNSPjraCT2JDK0jkEZXyISHe6sZK8cmyug4/edit?gid=0#gid=0",
+      "_id": {
+        "$oid": "68caf4586e22346e481f8c96"
+      }
+    },
+    {
+      "label": "UP",
+      "url": "https://docs.google.com/spreadsheets/d/1yNV6InDnRNSPjraCT2JDK0jkEZXyISHe6sZK8cmyug4/edit?gid=0#gid=0",
+      "_id": {
+        "$oid": "68caf4586e22346e481f8c97"
+      }
+    },
+    {
+      "label": "UCSS",
+      "url": "https://drive.google.com/drive/folders/1C9lZLuzsh2U5VRGAxykZsR4izUZUeT_C",
+      "_id": {
+        "$oid": "68caf4586e22346e481f8c98"
+      }
+    }
+  ],
+  "isActive": true,
+  "deletedAt": null,
+  "createdAt": {
+    "$date": "2025-09-17T17:48:08.609Z"
+  },
+  "updatedAt": {
+    "$date": "2025-09-17T17:48:08.609Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68caf5fe6e22346e481f8ca7"
+  },
+  "sectionId": {
+    "$oid": "68cadb4f54f9344f27defc7b"
+  },
+  "name": "Presentaciones de comités",
+  "description": "Recurso referente a las presentaciones de comités",
+  "links": [
+    {
+      "label": " ",
+      "url": "https://docs.google.com/spreadsheets/d/1yNV6InDnRNSPjraCT2JDK0jkEZXyISHe6sZK8cmyug4/edit?gid=0#gid=0",
+      "_id": {
+        "$oid": "68caf5fe6e22346e481f8ca8"
+      }
+    }
+  ],
+  "isActive": true,
+  "deletedAt": null,
+  "createdAt": {
+    "$date": "2025-09-17T17:55:10.759Z"
+  },
+  "updatedAt": {
+    "$date": "2025-09-17T17:55:10.759Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68caf7e56e22346e481f8cad"
+  },
+  "sectionId": {
+    "$oid": "68cadba054f9344f27defc7d"
+  },
+  "name": "Proyección de crecimiento de la alianza con su portafolio",
+  "description": "",
+  "links": [
+    {
+      "label": " ",
+      "url": "https://docs.google.com/spreadsheets/d/1yNV6InDnRNSPjraCT2JDK0jkEZXyISHe6sZK8cmyug4/edit?gid=0#gid=0",
+      "_id": {
+        "$oid": "68caf7e56e22346e481f8cae"
+      }
+    }
+  ],
+  "isActive": true,
+  "deletedAt": null,
+  "createdAt": {
+    "$date": "2025-09-17T18:03:17.351Z"
+  },
+  "updatedAt": {
+    "$date": "2025-09-17T18:03:17.351Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68caf8246e22346e481f8cb0"
+  },
+  "sectionId": {
+    "$oid": "68cadba054f9344f27defc7d"
+  },
+  "name": "Estudios de viabilidad y factibilidad",
+  "description": "",
+  "links": [
+    {
+      "label": " ",
+      "url": "https://docs.google.com/spreadsheets/d/1yNV6InDnRNSPjraCT2JDK0jkEZXyISHe6sZK8cmyug4/edit?gid=0#gid=0",
+      "_id": {
+        "$oid": "68caf8246e22346e481f8cb1"
+      }
+    }
+  ],
+  "isActive": true,
+  "deletedAt": null,
+  "createdAt": {
+    "$date": "2025-09-17T18:04:20.645Z"
+  },
+  "updatedAt": {
+    "$date": "2025-09-17T18:04:20.645Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cb24e5e7461e967e34e0bf"
+  },
+  "sectionId": {
+    "$oid": "68cadccc54f9344f27defc7f"
+  },
+  "name": "Tablero PBI experiencia",
+  "description": "Recurso referente al tablero de Power BI de experiencia de cada alianza",
+  "links": [
+    {
+      "label": "EAFIT diplomados",
+      "url": "https://app.powerbi.com/groups/b3136d58-322e-4646-855c-88805ae575ba/reports/8af2c7e5-d638-4c49-943e-bd33874fcfe3/f766ec735cc09e06619d?experience=power-bi",
+      "_id": {
+        "$oid": "68cb24e5e7461e967e34e0c0"
+      }
+    },
+    {
+      "label": "EAFIT Inglés",
+      "url": "https://app.powerbi.com/groups/841f33ad-b933-4422-9e22-007e6c2165a6/reports/bf2b8709-c4f0-4779-a45a-e8c9472bf9a8?experience=power-bi",
+      "_id": {
+        "$oid": "68cb24e5e7461e967e34e0c1"
+      }
+    },
+    {
+      "label": "Uninorte",
+      "url": "https://app.powerbi.com/links/PcHoC4uwDt?ctid=b32a3684-b4dd-4867-87d1-256a58db70ec&pbi_source=linkShare",
+      "_id": {
+        "$oid": "68cb24e5e7461e967e34e0c2"
+      }
+    },
+    {
+      "label": "UNAB",
+      "url": "https://app.powerbi.com/links/Xuoaq_Arrj?ctid=b32a3684-b4dd-4867-87d1-256a58db70ec&pbi_source=linkShare",
+      "_id": {
+        "$oid": "68cb24e5e7461e967e34e0c3"
+      }
+    },
+    {
+      "label": "UDD",
+      "url": "https://app.powerbi.com/links/Ql1XtL6ElZ?ctid=b32a3684-b4dd-4867-87d1-256a58db70ec&pbi_source=linkShare",
+      "_id": {
+        "$oid": "68cb24e5e7461e967e34e0c4"
+      }
+    },
+    {
+      "label": "Central",
+      "url": "https://app.powerbi.com/links/9Sb3kXEmH6?ctid=b32a3684-b4dd-4867-87d1-256a58db70ec&pbi_source=linkShare",
+      "_id": {
+        "$oid": "68cb24e5e7461e967e34e0c5"
+      }
+    },
+    {
+      "label": "UNIS",
+      "url": "https://app.powerbi.com/links/xKlnSc2q4z?ctid=b32a3684-b4dd-4867-87d1-256a58db70ec&pbi_source=linkShare",
+      "_id": {
+        "$oid": "68cb24e5e7461e967e34e0c6"
+      }
+    },
+    {
+      "label": "UP",
+      "url": "https://app.powerbi.com/links/iN3zu_bx9h?ctid=b32a3684-b4dd-4867-87d1-256a58db70ec&pbi_source=linkShare",
+      "_id": {
+        "$oid": "68cb24e5e7461e967e34e0c7"
+      }
+    },
+    {
+      "label": "UCSS",
+      "url": "https://app.powerbi.com/links/d0k1XwwTxo?ctid=b32a3684-b4dd-4867-87d1-256a58db70ec&pbi_source=linkShare",
+      "_id": {
+        "$oid": "68cb24e5e7461e967e34e0c8"
+      }
+    }
+  ],
+  "isActive": true,
+  "deletedAt": null,
+  "createdAt": {
+    "$date": "2025-09-17T21:15:17.392Z"
+  },
+  "updatedAt": {
+    "$date": "2025-09-17T21:15:17.392Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cb298de7461e967e34e0e5"
+  },
+  "sectionId": {
+    "$oid": "68cadd9354f9344f27defc83"
+  },
+  "name": "UNAB",
+  "description": " ",
+  "links": [
+    {
+      "label": " ",
+      "url": " ",
+      "_id": {
+        "$oid": "68cb298de7461e967e34e0e6"
+      }
+    }
+  ],
+  "isActive": false,
+  "deletedAt": null,
+  "createdAt": {
+    "$date": "2025-09-17T21:35:09.582Z"
+  },
+  "updatedAt": {
+    "$date": "2025-09-17T21:35:09.582Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cb2993e7461e967e34e0e8"
+  },
+  "sectionId": {
+    "$oid": "68cadd9354f9344f27defc83"
+  },
+  "name": "UDD",
+  "description": " ",
+  "links": [
+    {
+      "label": " ",
+      "url": " ",
+      "_id": {
+        "$oid": "68cb2993e7461e967e34e0e9"
+      }
+    }
+  ],
+  "isActive": false,
+  "deletedAt": null,
+  "createdAt": {
+    "$date": "2025-09-17T21:35:15.614Z"
+  },
+  "updatedAt": {
+    "$date": "2025-09-17T21:35:15.614Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cae87f54f9344f27defc8d"
+  },
+  "sectionId": {
+    "$oid": "68c9f2d8d6dbf0c558131e16"
+  },
+  "name": "USP",
+  "description": "Recurso referente a USP",
+  "isActive": false,
+  "deletedAt": null,
+  "createdAt": {
+    "$date": "2025-09-17T16:57:35.540Z"
+  },
+  "updatedAt": {
+    "$date": "2025-09-17T21:45:09.201Z"
+  },
+  "__v": 0,
+  "links": [
+    {
+      "label": " ",
+      "url": "https://docs.google.com/spreadsheets/d/1yNV6InDnRNSPjraCT2JDK0jkEZXyISHe6sZK8cmyug4/edit?gid=0#gid=0",
+      "_id": {
+        "$oid": "68cb2be5e7461e967e34e0fd"
+      }
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "68cae8c154f9344f27defc8f"
+  },
+  "sectionId": {
+    "$oid": "68c9f2d8d6dbf0c558131e16"
+  },
+  "name": "Estructura organizacional de equipo de trabajo (Organigrama)",
+  "description": "Recurso referente al organigrama",
+  "isActive": false,
+  "deletedAt": null,
+  "createdAt": {
+    "$date": "2025-09-17T16:58:41.943Z"
+  },
+  "updatedAt": {
+    "$date": "2025-09-17T21:45:54.698Z"
+  },
+  "__v": 0,
+  "links": [
+    {
+      "label": " ",
+      "url": "https://docs.google.com/spreadsheets/d/1yNV6InDnRNSPjraCT2JDK0jkEZXyISHe6sZK8cmyug4/edit?gid=0#gid=0",
+      "_id": {
+        "$oid": "68cb2c12e7461e967e34e100"
+      }
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "68caf5876e22346e481f8ca4"
+  },
+  "sectionId": {
+    "$oid": "68cadb4f54f9344f27defc7b"
+  },
+  "name": "Grabación de los comités",
+  "description": "Recurso referente a la grabación de comités",
+  "links": [
+    {
+      "label": " ",
+      "url": "https://docs.google.com/spreadsheets/d/1yNV6InDnRNSPjraCT2JDK0jkEZXyISHe6sZK8cmyug4/edit?gid=0#gid=0",
+      "_id": {
+        "$oid": "68caf5876e22346e481f8ca5"
+      }
+    }
+  ],
+  "isActive": true,
+  "deletedAt": null,
+  "createdAt": {
+    "$date": "2025-09-17T17:53:11.601Z"
+  },
+  "updatedAt": {
+    "$date": "2025-09-17T17:53:11.601Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cb238de7461e967e34e0aa"
+  },
+  "sectionId": {
+    "$oid": "68cadccc54f9344f27defc7f"
+  },
+  "name": "Tablero PBI éxito estudiantil",
+  "description": "Recurso referente al tablero de Power BI de éxito estudiantil de cada alianza",
+  "links": [
+    {
+      "label": "EAFIT diplomados",
+      "url": "https://app.powerbi.com/groups/b3136d58-322e-4646-855c-88805ae575ba/reports/20c1f618-0f9b-4748-afb1-0b1ed4dc9a32/4cbe5597a2be0d501403?experience=power-bi",
+      "_id": {
+        "$oid": "68cb238de7461e967e34e0ab"
+      }
+    },
+    {
+      "label": "EAFIT Inglés",
+      "url": "https://app.powerbi.com/groups/841f33ad-b933-4422-9e22-007e6c2165a6/reports/a4182988-1c12-427a-97e0-4fee53f2c04c?experience=power-bi",
+      "_id": {
+        "$oid": "68cb238de7461e967e34e0ac"
+      }
+    },
+    {
+      "label": "Uninorte",
+      "url": "https://app.powerbi.com/links/7HHcWDNf5A?ctid=b32a3684-b4dd-4867-87d1-256a58db70ec&pbi_source=linkShare",
+      "_id": {
+        "$oid": "68cb238de7461e967e34e0ad"
+      }
+    },
+    {
+      "label": "UNAB",
+      "url": "https://app.powerbi.com/links/wxcbtayfT6?ctid=b32a3684-b4dd-4867-87d1-256a58db70ec&pbi_source=linkShare",
+      "_id": {
+        "$oid": "68cb238de7461e967e34e0ae"
+      }
+    },
+    {
+      "label": "UDD",
+      "url": "https://app.powerbi.com/links/Ql1XtL6ElZ?ctid=b32a3684-b4dd-4867-87d1-256a58db70ec&pbi_source=linkShare",
+      "_id": {
+        "$oid": "68cb238de7461e967e34e0af"
+      }
+    },
+    {
+      "label": "Central",
+      "url": "https://app.powerbi.com/links/Yj0HexNp0f?ctid=b32a3684-b4dd-4867-87d1-256a58db70ec&pbi_source=linkShare",
+      "_id": {
+        "$oid": "68cb238de7461e967e34e0b0"
+      }
+    },
+    {
+      "label": "UNIS",
+      "url": "https://app.powerbi.com/links/9W1Y92kgvm?ctid=b32a3684-b4dd-4867-87d1-256a58db70ec&pbi_source=linkShare",
+      "_id": {
+        "$oid": "68cb238de7461e967e34e0b1"
+      }
+    },
+    {
+      "label": "UP",
+      "url": "https://app.powerbi.com/links/4QmLcOh8sB?ctid=b32a3684-b4dd-4867-87d1-256a58db70ec&pbi_source=linkShare",
+      "_id": {
+        "$oid": "68cb238de7461e967e34e0b2"
+      }
+    },
+    {
+      "label": "UCSS",
+      "url": "https://app.powerbi.com/links/_m4kf_1WTa?ctid=b32a3684-b4dd-4867-87d1-256a58db70ec&pbi_source=linkShare",
+      "_id": {
+        "$oid": "68cb238de7461e967e34e0b3"
+      }
+    }
+  ],
+  "isActive": true,
+  "deletedAt": null,
+  "createdAt": {
+    "$date": "2025-09-17T21:09:33.910Z"
+  },
+  "updatedAt": {
+    "$date": "2025-09-17T21:09:33.910Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cb2745e7461e967e34e0cd"
+  },
+  "sectionId": {
+    "$oid": "68cadccc54f9344f27defc7f"
+  },
+  "name": "Calendario operacional",
+  "description": "Recurso referente al calendario operacional de las alianzas",
+  "links": [
+    {
+      "label": "EAFIT diplomados",
+      "url": "https://docs.google.com/spreadsheets/d/15KEAMu_0HEjZZhiacMHzgfHUwCSA4fjy/edit?gid=1585308074#gid=1585308074",
+      "_id": {
+        "$oid": "68cb2745e7461e967e34e0ce"
+      }
+    },
+    {
+      "label": "Uninorte Especializaciones",
+      "url": "https://docs.google.com/spreadsheets/d/12IDckMR6rhcHMp89lnIZsAur3GWNoaTh/edit?gid=1346528531#gid=1346528531",
+      "_id": {
+        "$oid": "68cb2745e7461e967e34e0cf"
+      }
+    },
+    {
+      "label": "Uninorte Diplomados",
+      "url": "https://docs.google.com/spreadsheets/d/1qoEjEj3JnrduCiLFy_R_KarxL4-tYbJk/edit?gid=370136713#gid=370136713",
+      "_id": {
+        "$oid": "68cb2745e7461e967e34e0d0"
+      }
+    },
+    {
+      "label": "UNAB",
+      "url": "https://docs.google.com/spreadsheets/d/1GmVCQaMwARkzdOn0YXawqymCxPUFy1Gq/edit?gid=737307056#gid=737307056",
+      "_id": {
+        "$oid": "68cb2745e7461e967e34e0d1"
+      }
+    },
+    {
+      "label": "UDD",
+      "url": "https://docs.google.com/spreadsheets/d/1TV9vb_vQu1noJCwljMAnlQ4GIdam3cKvOidCsugYb1U/edit?gid=893076356#gid=893076356",
+      "_id": {
+        "$oid": "68cb2745e7461e967e34e0d2"
+      }
+    },
+    {
+      "label": "Central",
+      "url": "https://docs.google.com/spreadsheets/d/13PxtYg6s6Qp38D_oFBUd3MCAe9kfGAuL/edit?gid=707791300#gid=707791300",
+      "_id": {
+        "$oid": "68cb2745e7461e967e34e0d3"
+      }
+    },
+    {
+      "label": "UNIS",
+      "url": "https://docs.google.com/spreadsheets/d/17yD3t-b2pWm_yF6q24URIbxIB3pTMvgJ/edit?gid=847592759#gid=847592759",
+      "_id": {
+        "$oid": "68cb2745e7461e967e34e0d4"
+      }
+    },
+    {
+      "label": "UP",
+      "url": "https://docs.google.com/spreadsheets/d/1vYy0ra9JRQl5Ocz7N1a_2zqzsXecGE60/edit?gid=515182682#gid=515182682",
+      "_id": {
+        "$oid": "68cb2745e7461e967e34e0d5"
+      }
+    },
+    {
+      "label": "UCSS",
+      "url": "https://docs.google.com/spreadsheets/d/1Gc1pivkKa96bkIH2b6ZE0Ehze73gNBdD/edit?gid=1264588177#gid=1264588177",
+      "_id": {
+        "$oid": "68cb2745e7461e967e34e0d6"
+      }
+    }
+  ],
+  "isActive": true,
+  "deletedAt": null,
+  "createdAt": {
+    "$date": "2025-09-17T21:25:25.645Z"
+  },
+  "updatedAt": {
+    "$date": "2025-09-17T21:25:25.645Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cb2978e7461e967e34e0df"
+  },
+  "sectionId": {
+    "$oid": "68cadd9354f9344f27defc83"
+  },
+  "name": "EAFIT",
+  "description": " ",
+  "links": [
+    {
+      "label": " ",
+      "url": " ",
+      "_id": {
+        "$oid": "68cb2978e7461e967e34e0e0"
+      }
+    }
+  ],
+  "isActive": false,
+  "deletedAt": null,
+  "createdAt": {
+    "$date": "2025-09-17T21:34:48.384Z"
+  },
+  "updatedAt": {
+    "$date": "2025-09-17T21:34:48.384Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cb2999e7461e967e34e0eb"
+  },
+  "sectionId": {
+    "$oid": "68cadd9354f9344f27defc83"
+  },
+  "name": "Central",
+  "description": " ",
+  "links": [
+    {
+      "label": " ",
+      "url": " ",
+      "_id": {
+        "$oid": "68cb2999e7461e967e34e0ec"
+      }
+    }
+  ],
+  "isActive": false,
+  "deletedAt": null,
+  "createdAt": {
+    "$date": "2025-09-17T21:35:21.750Z"
+  },
+  "updatedAt": {
+    "$date": "2025-09-17T21:35:21.750Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cb29a0e7461e967e34e0ee"
+  },
+  "sectionId": {
+    "$oid": "68cadd9354f9344f27defc83"
+  },
+  "name": "UNIS",
+  "description": " ",
+  "links": [
+    {
+      "label": " ",
+      "url": " ",
+      "_id": {
+        "$oid": "68cb29a0e7461e967e34e0ef"
+      }
+    }
+  ],
+  "isActive": false,
+  "deletedAt": null,
+  "createdAt": {
+    "$date": "2025-09-17T21:35:28.210Z"
+  },
+  "updatedAt": {
+    "$date": "2025-09-17T21:35:28.210Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cb29b5e7461e967e34e0f4"
+  },
+  "sectionId": {
+    "$oid": "68cadd9354f9344f27defc83"
+  },
+  "name": "UCSS",
+  "description": " ",
+  "links": [
+    {
+      "label": " ",
+      "url": " ",
+      "_id": {
+        "$oid": "68cb29b5e7461e967e34e0f5"
+      }
+    }
+  ],
+  "isActive": false,
+  "deletedAt": null,
+  "createdAt": {
+    "$date": "2025-09-17T21:35:49.134Z"
+  },
+  "updatedAt": {
+    "$date": "2025-09-17T21:35:49.134Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68caf67c6e22346e481f8caa"
+  },
+  "sectionId": {
+    "$oid": "68cadba054f9344f27defc7d"
+  },
+  "name": "Budget",
+  "description": " ",
+  "links": [
+    {
+      "label": " ",
+      "url": "https://docs.google.com/spreadsheets/d/1jcHcTjHMWA4iF3GM-8PEfJQewirYSzoR/edit?gid=1856423460#gid=1856423460",
+      "_id": {
+        "$oid": "68caf67c6e22346e481f8cab"
+      }
+    }
+  ],
+  "isActive": true,
+  "deletedAt": null,
+  "createdAt": {
+    "$date": "2025-09-17T17:57:16.632Z"
+  },
+  "updatedAt": {
+    "$date": "2025-09-17T17:57:16.632Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68caf83c6e22346e481f8cb3"
+  },
+  "sectionId": {
+    "$oid": "68cadba054f9344f27defc7d"
+  },
+  "name": "Aprobación de portafolio por alianza",
+  "description": "",
+  "links": [
+    {
+      "label": " ",
+      "url": "https://docs.google.com/spreadsheets/d/1yNV6InDnRNSPjraCT2JDK0jkEZXyISHe6sZK8cmyug4/edit?gid=0#gid=0",
+      "_id": {
+        "$oid": "68caf83c6e22346e481f8cb4"
+      }
+    }
+  ],
+  "isActive": true,
+  "deletedAt": null,
+  "createdAt": {
+    "$date": "2025-09-17T18:04:44.147Z"
+  },
+  "updatedAt": {
+    "$date": "2025-09-17T18:04:44.147Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cb1a93e7461e967e34e09f"
+  },
+  "sectionId": {
+    "$oid": "68cadccc54f9344f27defc7f"
+  },
+  "name": "Tablero PBI Ventas",
+  "description": "Recurso referente al tablero de Power BI Ventas de cada alianza",
+  "links": [
+    {
+      "label": "EAFIT diplomados",
+      "url": "https://app.powerbi.com/groups/b3136d58-322e-4646-855c-88805ae575ba/reports/6b970b9f-fa60-4836-bb31-b4285a4f70e0/6b0c5d04c80d0369bdd7?experience=power-bi",
+      "_id": {
+        "$oid": "68cb1a93e7461e967e34e0a0"
+      }
+    },
+    {
+      "label": "EAFIT Inglés",
+      "url": "https://app.powerbi.com/groups/841f33ad-b933-4422-9e22-007e6c2165a6/reports/3471dbcf-5b36-4708-9ec6-607d016413f4?experience=power-bi",
+      "_id": {
+        "$oid": "68cb1a93e7461e967e34e0a1"
+      }
+    },
+    {
+      "label": "Uninorte",
+      "url": "https://app.powerbi.com/links/kbBLZ1NY8x?ctid=b32a3684-b4dd-4867-87d1-256a58db70ec&pbi_source=linkShare",
+      "_id": {
+        "$oid": "68cb1a93e7461e967e34e0a2"
+      }
+    },
+    {
+      "label": "UNAB",
+      "url": "https://app.powerbi.com/links/oRN3sP0qsi?ctid=b32a3684-b4dd-4867-87d1-256a58db70ec&pbi_source=linkShare",
+      "_id": {
+        "$oid": "68cb1a93e7461e967e34e0a3"
+      }
+    },
+    {
+      "label": "UDD",
+      "url": "https://app.powerbi.com/links/E-fBi5tE8f?ctid=b32a3684-b4dd-4867-87d1-256a58db70ec&pbi_source=linkShare",
+      "_id": {
+        "$oid": "68cb1a93e7461e967e34e0a4"
+      }
+    },
+    {
+      "label": "Central",
+      "url": "https://app.powerbi.com/links/6iRI9H2VDf?ctid=b32a3684-b4dd-4867-87d1-256a58db70ec&pbi_source=linkShare",
+      "_id": {
+        "$oid": "68cb1a93e7461e967e34e0a5"
+      }
+    },
+    {
+      "label": "UNIS",
+      "url": "https://app.powerbi.com/links/idWV3yXCvu?ctid=b32a3684-b4dd-4867-87d1-256a58db70ec&pbi_source=linkShare",
+      "_id": {
+        "$oid": "68cb1a93e7461e967e34e0a6"
+      }
+    },
+    {
+      "label": "UP",
+      "url": "https://app.powerbi.com/links/oX-ESfFiZo?ctid=b32a3684-b4dd-4867-87d1-256a58db70ec&pbi_source=linkShare",
+      "_id": {
+        "$oid": "68cb1a93e7461e967e34e0a7"
+      }
+    },
+    {
+      "label": "UCSS",
+      "url": "https://app.powerbi.com/links/1vW1-Q3Pfe?ctid=b32a3684-b4dd-4867-87d1-256a58db70ec&pbi_source=linkShare",
+      "_id": {
+        "$oid": "68cb1a93e7461e967e34e0a8"
+      }
+    }
+  ],
+  "isActive": true,
+  "deletedAt": null,
+  "createdAt": {
+    "$date": "2025-09-17T20:31:15.112Z"
+  },
+  "updatedAt": {
+    "$date": "2025-09-17T20:31:15.112Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cb2443e7461e967e34e0b5"
+  },
+  "sectionId": {
+    "$oid": "68cadccc54f9344f27defc7f"
+  },
+  "name": "Tablero PBI gestión docente",
+  "description": "Recurso referente al tablero de Power BI de gestión docente de cada alianza",
+  "links": [
+    {
+      "label": "EAFIT diplomados",
+      "url": "https://app.powerbi.com/groups/b3136d58-322e-4646-855c-88805ae575ba/reports/01dd54a3-340e-462b-8b58-ebc108ea4052/ReportSectionfbe45c767eecf3235789?experience=power-bi",
+      "_id": {
+        "$oid": "68cb2443e7461e967e34e0b6"
+      }
+    },
+    {
+      "label": "Uninorte",
+      "url": "https://app.powerbi.com/links/97WNMP0VPM?ctid=b32a3684-b4dd-4867-87d1-256a58db70ec&pbi_source=linkShare",
+      "_id": {
+        "$oid": "68cb2443e7461e967e34e0b7"
+      }
+    },
+    {
+      "label": "UNAB",
+      "url": "https://app.powerbi.com/links/oN5Nu_QRWb?ctid=b32a3684-b4dd-4867-87d1-256a58db70ec&pbi_source=linkShare",
+      "_id": {
+        "$oid": "68cb2443e7461e967e34e0b8"
+      }
+    },
+    {
+      "label": "UDD",
+      "url": "https://app.powerbi.com/links/Ql1XtL6ElZ?ctid=b32a3684-b4dd-4867-87d1-256a58db70ec&pbi_source=linkShare",
+      "_id": {
+        "$oid": "68cb2443e7461e967e34e0b9"
+      }
+    },
+    {
+      "label": "Central",
+      "url": "https://app.powerbi.com/links/MD4AbM40Yr?ctid=b32a3684-b4dd-4867-87d1-256a58db70ec&pbi_source=linkShare",
+      "_id": {
+        "$oid": "68cb2443e7461e967e34e0ba"
+      }
+    },
+    {
+      "label": "UNIS",
+      "url": "https://app.powerbi.com/links/rJPc6YdChN?ctid=b32a3684-b4dd-4867-87d1-256a58db70ec&pbi_source=linkShare",
+      "_id": {
+        "$oid": "68cb2443e7461e967e34e0bb"
+      }
+    },
+    {
+      "label": "UP",
+      "url": "https://app.powerbi.com/links/daRfSbFWEA?ctid=b32a3684-b4dd-4867-87d1-256a58db70ec&pbi_source=linkShare",
+      "_id": {
+        "$oid": "68cb2443e7461e967e34e0bc"
+      }
+    },
+    {
+      "label": "UCSS",
+      "url": "https://app.powerbi.com/links/dK70tz3W7L?ctid=b32a3684-b4dd-4867-87d1-256a58db70ec&pbi_source=linkShare",
+      "_id": {
+        "$oid": "68cb2443e7461e967e34e0bd"
+      }
+    }
+  ],
+  "isActive": true,
+  "deletedAt": null,
+  "createdAt": {
+    "$date": "2025-09-17T21:12:35.517Z"
+  },
+  "updatedAt": {
+    "$date": "2025-09-17T21:12:35.517Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cb2880e7461e967e34e0db"
+  },
+  "sectionId": {
+    "$oid": "68cadd0154f9344f27defc81"
+  },
+  "name": "Plan de excelencia operativa en 360 - 2025",
+  "description": "Plan de excelencia operativa en 360 - Dirección Sx y Permanencia",
+  "links": [
+    {
+      "label": " ",
+      "url": "https://docs.google.com/spreadsheets/d/1iSAypTWMBH9oFF-wpiy8ydGlx2OmsvbmIbrZydcIUD0/edit?gid=1368237395#gid=1368237395",
+      "_id": {
+        "$oid": "68cb2880e7461e967e34e0dc"
+      }
+    }
+  ],
+  "isActive": true,
+  "deletedAt": null,
+  "createdAt": {
+    "$date": "2025-09-17T21:30:40.657Z"
+  },
+  "updatedAt": {
+    "$date": "2025-09-17T21:30:40.657Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68dda1be69672674383c4b35"
+  },
+  "sectionId": {
+    "$oid": "68cadd9354f9344f27defc83"
+  },
+  "name": "UAC",
+  "description": " ",
+  "links": [
+    {
+      "label": " ",
+      "url": " ",
+      "_id": {
+        "$oid": "68dda1be69672674383c4b36"
+      }
+    }
+  ],
+  "isActive": false,
+  "deletedAt": null,
+  "createdAt": {
+    "$date": "2025-10-01T21:48:46.161Z"
+  },
+  "updatedAt": {
+    "$date": "2025-10-01T21:48:46.161Z"
+  },
+  "__v": 0
+}]

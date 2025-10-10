@@ -6,7 +6,7 @@ import { useScreenSize } from '../../context';
 
 const Gobernanza: React.FC = () => {
   const { getContainerForScreen, dimensions } = useScreenSize();
-  const { cards, handleCardClick } = useCards('gobernanza');
+  const { cards, handleCardClick } = useCards({ pageType: 'gobernanza' });
   usePageHeader(); // Configuración automática del título
 
   return (
@@ -16,6 +16,7 @@ const Gobernanza: React.FC = () => {
         <CardGrid 
           cards={cards} 
           onCardClick={handleCardClick}
+          defaultCardSize="medium"
         />
       ) : (
         /* Estado vacío */

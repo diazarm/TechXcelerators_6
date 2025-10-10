@@ -51,4 +51,24 @@ export type {
   ValidationState
 } from './validation';
 
-export type { IResource } from "./resource";
+// Tipos de alianzas
+export type {
+  Alliance,
+  CreateAllianceRequest,
+  UpdateAllianceRequest,
+  AllianceApiResponse,
+  AllianceListApiResponse,
+  AllianceFilters,
+  AllianceState,
+  AllianceActions
+} from './alliance';
+
+
+export type { IResource } from './resource';
+
+// Tipos de API
+export type {
+  ApiResponse,
+  ResourceResponse,
+  ResourceListResponse
+} from './api';

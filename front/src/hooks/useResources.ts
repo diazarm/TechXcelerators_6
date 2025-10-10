@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import type { IResource } from "../types/resource";
-import { ResourceService } from "../services/resourceService";
+import { resourceService } from "../services/resourceService";
 
 export const useResources = () => {
   const [resources, setResources] = useState<IResource[]>([]);
@@ -8,7 +8,7 @@ export const useResources = () => {
 
   const fetchResources = async () => {
     setLoading(true);
-    const data = await ResourceService.getAll();
+    const data = await resourceService.getAllResources();
     setResources(data);
     setLoading(false);
   };

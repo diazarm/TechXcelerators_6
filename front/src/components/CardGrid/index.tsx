@@ -14,7 +14,8 @@ const CardGrid: React.FC<CardGridProps> = ({
   cards,
   onCardClick,
   className = "",
-  columns = 3 // Valor por defecto
+  columns = 3, // Valor por defecto
+  defaultCardSize = 'medium'
 }) => {
   const { getGapForScreen } = useScreenSize();
 
@@ -48,6 +49,8 @@ const CardGrid: React.FC<CardGridProps> = ({
           rightHeaderContent={card.rightHeaderContent}
           image={card.image}
           onButtonClick={() => onCardClick(card)}
+          isActive={card.isActive}
+          size={defaultCardSize}
         />
       ))}
     </div>

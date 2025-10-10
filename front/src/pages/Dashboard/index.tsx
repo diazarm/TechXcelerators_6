@@ -11,7 +11,7 @@ import { useScreenSize } from '../../context';
  */
 const Dashboard: React.FC = () => {
   const { getContainerForScreen, dimensions } = useScreenSize();
-  const { cards, handleCardClick } = useCards('dashboard');
+  const { cards, handleCardClick } = useCards({ pageType: 'dashboard' });
   usePageHeader(); // Configuración automática del título
 
   return (
@@ -21,6 +21,7 @@ const Dashboard: React.FC = () => {
         <CardGrid 
           cards={cards} 
           onCardClick={handleCardClick}
+          defaultCardSize="medium"
         />
       ) : (
         /* Estado vacío */
