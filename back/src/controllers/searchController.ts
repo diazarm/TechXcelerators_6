@@ -20,6 +20,30 @@ export const search = async (req: Request, res: Response): Promise<void> => {
       results = await searchService.searchAll(q, pageNum, limitNum);
     }
 
+    if (
+      !results ||
+      !results.results ||
+      ((!results.results.alliances || results.results.alliances.length === 0) &&
+        (!results.results.resources ||
+          results.results.resources.length === 0) &&
+        (!results.results.sections || results.results.sections.length === 0))
+    ) {
+      res.status(404).json({
+        success: false,
+        message: "No se encontraron resultados para la búsqueda",
+        data: results?.results || {
+          alliances: [],
+          resources: [],
+          sections: [],
+        },
+        pagination: {
+          page: pageNum,
+          limit: limitNum,
+        },
+      });
+      return;
+    }
+
     res.json({
       ...results,
       pagination: {
