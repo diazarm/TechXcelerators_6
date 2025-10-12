@@ -71,7 +71,7 @@ export class ResourceService {
   //Método para buscar recursos por alianza
   async getResourcesByAlliance(allianceLabel: string): Promise<any[]> {
     const normalizedLabel = normalizeText(allianceLabel);
-    const exactRegex = createFlexibleRegex(`^${normalizedLabel}$`);
+    const exactRegex = createFlexibleRegex(`.*${normalizedLabel}.*`);
 
     return Resource.aggregate([
       { $unwind: "$links" },
