@@ -136,14 +136,60 @@ export const showNotification = (type: 'success' | 'error' | 'warning' | 'info',
 
 /**
  * Busca link específico para una alianza en un recurso
+ * Maneja inconsistencias en labels (case-insensitive, sufijos, etc.)
  * @param resource - Recurso que contiene los links
  * @param alliance - Alianza seleccionada
  * @returns Link encontrado o undefined
  */
 export const findAllianceLink = (resource: IResource, alliance: Alliance) => {
-  return resource.links.find((link: any) => 
-    link.label?.trim() === alliance.siglas
-  );
+  return resource.links.find((link: any) => {
+    const label = link.label?.trim();
+    const siglas = alliance.siglas.trim();
+    
+    if (!label) return false;
+    
+    // Match case-insensitive
+    const labelUpper = label.toUpperCase();
+    const siglasUpper = siglas.toUpperCase();
+    
+    // 1. Match exacto (case-insensitive)
+    if (labelUpper === siglasUpper) return true;
+    
+    // 2. Match si el label comienza con las siglas seguido de espacio
+    // Esto maneja casos como "EAFIT diplomados", "EAFIT Inglés"
+    if (labelUpper.startsWith(siglasUpper + ' ')) return true;
+    
+    // 3. Casos especiales de variaciones conocidas
+    // UNINORTE vs Uninorte
+    if (siglasUpper === 'UNINORTE' && labelUpper === 'UNINORTE') return true;
+    
+    return false;
+  });
+};
+
+/**
+ * Busca TODOS los links para una alianza (para casos de múltiples programas)
+ * @param resource - Recurso que contiene los links
+ * @param alliance - Alianza seleccionada
+ * @returns Array de links que coinciden con la alianza
+ */
+export const findAllAllianceLinks = (resource: IResource, alliance: Alliance) => {
+  return resource.links.filter((link: any) => {
+    const label = link.label?.trim();
+    const siglas = alliance.siglas.trim();
+    
+    if (!label) return false;
+    
+    const labelUpper = label.toUpperCase();
+    const siglasUpper = siglas.toUpperCase();
+    
+    // Mismo criterio que findAllianceLink
+    if (labelUpper === siglasUpper) return true;
+    if (labelUpper.startsWith(siglasUpper + ' ')) return true;
+    if (siglasUpper === 'UNINORTE' && labelUpper === 'UNINORTE') return true;
+    
+    return false;
+  });
 };
 
 /**
@@ -243,43 +289,99 @@ export const showAllianceSelectionModal = async (alliances: Alliance[], resource
       }
     };
 
+    // Estado para manejo de múltiples programas
+    let selectedAllianceForPrograms: Alliance | null = null;
+    let availablePrograms: any[] = [];
+
     // Función para manejar selección de alianza
     const handleAllianceSelect = (selectedAlliance: Alliance) => {
-      // Buscar el link específico para esta alianza
-      const allianceLink = findAllianceLink(resource, selectedAlliance);
+      // Buscar TODOS los links para esta alianza
+      const allianceLinks = findAllAllianceLinks(resource, selectedAlliance);
       
-      if (allianceLink) {
-        console.log(`Navegando a ${selectedAlliance.siglas}: ${allianceLink.url}`);
-        
-        navigateToUrl(allianceLink.url);
-        
-        // Solo cerrar modal si se encontró y navegó exitosamente
+      if (allianceLinks.length === 0) {
+        // Sin links
+        showNotification('warning', 'Enlace no encontrado', `No se encontró enlace para la alianza ${selectedAlliance.siglas}. Intenta con otra alianza.`);
+        return;
+      }
+      
+      if (allianceLinks.length === 1) {
+        // Un solo link → Navegar directo
+        console.log(`Navegando a ${selectedAlliance.siglas}: ${allianceLinks[0].url}`);
+        navigateToUrl(allianceLinks[0].url);
         closeModal();
       } else {
-        // Mostrar notificación pero mantener modal abierta
-        showNotification('warning', 'Enlace no encontrado', `No se encontró enlace para la alianza ${selectedAlliance.siglas}. Intenta con otra alianza.`);
-        // NO cerrar la modal aquí - permitir que el usuario seleccione otra alianza
+        // Múltiples links → Mostrar selector de programas
+        selectedAllianceForPrograms = selectedAlliance;
+        availablePrograms = allianceLinks;
+        
+        // Re-renderizar modal con selector de programas
+        renderModalWithProgramSelector();
       }
     };
-    
-    // Función para cerrar modal (botón X)
-    const handleClose = () => {
-      closeModal();
-    };
-    
-    // Renderizar modal
-    root.render(
-      React.createElement(ScreenSizeProvider, { children: null },
-        React.createElement(AllianceSelectionModal, {
+
+    // Función para renderizar modal con selector de programas integrado
+    const renderModalWithProgramSelector = () => {
+      const { useState } = React;
+      
+      // Componente que integra selector en la modal original
+      const EnhancedAllianceModal = () => {
+        const [selectedProgramIndex, setSelectedProgramIndex] = useState(0);
+        const [showingPrograms] = useState(true);
+        
+        const handleProgramSelect = () => {
+          const selectedProgram = availablePrograms[selectedProgramIndex];
+          console.log(`Navegando a ${selectedAllianceForPrograms?.siglas} - ${selectedProgram.label}: ${selectedProgram.url}`);
+          navigateToUrl(selectedProgram.url);
+          closeModal();
+        };
+        
+        const handleBackToAlliances = () => {
+          renderInitialModal();
+        };
+        
+        return React.createElement(AllianceSelectionModal, {
           isOpen: true,
-          onClose: handleClose,
+          onClose: closeModal,
           alliances: alliances,
           onSelect: handleAllianceSelect,
           sectionTitle: resource.name,
-          isLoading: false
-        })
-      )
-    );
+          isLoading: false,
+          // Props adicionales para selector de programas
+          showProgramSelector: showingPrograms,
+          selectedAlliance: selectedAllianceForPrograms,
+          availablePrograms: availablePrograms.map(p => p.label),
+          selectedProgramIndex: selectedProgramIndex,
+          onProgramChange: setSelectedProgramIndex,
+          onProgramConfirm: handleProgramSelect,
+          onBackToAlliances: handleBackToAlliances
+        } as any); // Temporal: any para evitar error de tipos
+      };
+      
+      root.render(
+        React.createElement(ScreenSizeProvider, null,
+          React.createElement(EnhancedAllianceModal)
+        )
+      );
+    };
+
+    // Función para renderizar modal inicial
+    const renderInitialModal = () => {
+      root.render(
+        React.createElement(ScreenSizeProvider, { children: null },
+          React.createElement(AllianceSelectionModal, {
+            isOpen: true,
+            onClose: closeModal,
+            alliances: alliances,
+            onSelect: handleAllianceSelect,
+            sectionTitle: resource.name,
+            isLoading: false
+          })
+        )
+      );
+    };
+    
+    // Renderizar modal inicial
+    renderInitialModal();
     
   } catch (error) {
     console.error('Error al mostrar modal:', error);

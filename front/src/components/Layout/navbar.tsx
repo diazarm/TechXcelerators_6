@@ -75,7 +75,7 @@ export const Navbar: React.FC<HeaderProps> = ({ className = "" }) => {
 
   return (
     <header
-      className={`bg-white shadow-sm relative sticky top-0 z-50 ${className}`}
+      className={`bg-white shadow-sm sticky top-0 z-50 ${className}`}
       style={{ fontFamily: "Montserrat, sans-serif" }}
     >
       <div 

@@ -26,6 +26,7 @@ import {
   FAQ,
   Changelog,
   Alianza,
+  Gestion,
 } from "./pages";
 
 import "./App.css";
@@ -87,6 +88,14 @@ function App() {
                       element={
                         <AuthGuard>
                           <Alianza />
+                        </AuthGuard>
+                      }
+                    />
+                    <Route
+                      path="gestion"
+                      element={
+                        <AuthGuard>
+                          <Gestion />
                         </AuthGuard>
                       }
                     />

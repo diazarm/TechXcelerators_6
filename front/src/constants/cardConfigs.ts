@@ -10,6 +10,12 @@ import {
   Edit,
   EyeOff,
   Edit2,
+  BarChart,
+  Award,
+  BookOpen,
+  Book,
+  UserPlus,
+  Calendar,
 } from 'react-feather';
 import { 
   createSemiboldIcon,
@@ -209,6 +215,88 @@ export const gobernanzaPageCards: CardConfig[] = [
   }
 ];
 
+// Cards para la página Gestión (6 cards como en la imagen)
+export const gestionPageCards: CardConfig[] = [
+  {
+    id: 'tablero-pbi-ventas',
+    title: 'Tablero PBI ventas',
+    description: '',
+    leftHeaderContent: createSemiboldIcon(BarChart, 32, '#1E285F'),
+    rightHeaderContent: createMultipleIcons([
+      { component: EyeOff, size: 18, color: '#5D5A88', withCircle: true, type: 'delete' },
+      { component: Edit2, size: 18, color: '#5D5A88', withCircle: true, type: 'edit' }
+    ]),
+    sectionType: '68cadccc54f9344f27defc7f',
+    resourceName: 'Tablero PBI Ventas',
+    showModal: true
+  },
+  {
+    id: 'tablero-pbi-exito-estudiantil',
+    title: 'Tablero PBI éxito estudiantil',
+    description: '',
+    leftHeaderContent: createSemiboldIcon(Award, 32, '#1E285F'),
+    rightHeaderContent: createMultipleIcons([
+      { component: EyeOff, size: 18, color: '#5D5A88', withCircle: true, type: 'delete' },
+      { component: Edit2, size: 18, color: '#5D5A88', withCircle: true, type: 'edit' }
+    ]),
+    sectionType: '68cadccc54f9344f27defc7f',
+    resourceName: 'Tablero PBI éxito estudiantil',
+    showModal: true
+  },
+  {
+    id: 'calendario-academico-alianzas',
+    title: 'Calendario académico de las alianzas',
+    description: '',
+    leftHeaderContent: createSemiboldIcon(BookOpen, 32, '#1E285F'),
+    rightHeaderContent: createMultipleIcons([
+      { component: EyeOff, size: 18, color: '#5D5A88', withCircle: true, type: 'delete' },
+      { component: Edit2, size: 18, color: '#5D5A88', withCircle: true, type: 'edit' }
+    ]),
+    sectionType: '68cadccc54f9344f27defc7f',
+    resourceName: 'Calendario académico de las alianzas'
+    // NO tiene showModal: true porque solo tiene 1 link
+  },
+  {
+    id: 'tablero-pbi-gestion-docente',
+    title: 'Tablero PBI gestión docente',
+    description: '',
+    leftHeaderContent: createSemiboldIcon(Book, 32, '#1E285F'),
+    rightHeaderContent: createMultipleIcons([
+      { component: EyeOff, size: 18, color: '#5D5A88', withCircle: true, type: 'delete' },
+      { component: Edit2, size: 18, color: '#5D5A88', withCircle: true, type: 'edit' }
+    ]),
+    sectionType: '68cadccc54f9344f27defc7f',
+    resourceName: 'Tablero PBI gestión docente',
+    showModal: true
+  },
+  {
+    id: 'tablero-pbi-experiencia',
+    title: 'Tablero PBI experiencia',
+    description: '',
+    leftHeaderContent: createSemiboldIcon(UserPlus, 32, '#1E285F'),
+    rightHeaderContent: createMultipleIcons([
+      { component: EyeOff, size: 18, color: '#5D5A88', withCircle: true, type: 'delete' },
+      { component: Edit2, size: 18, color: '#5D5A88', withCircle: true, type: 'edit' }
+    ]),
+    sectionType: '68cadccc54f9344f27defc7f',
+    resourceName: 'Tablero PBI experiencia',
+    showModal: true
+  },
+  {
+    id: 'calendario-operacional',
+    title: 'Calendario operacional',
+    description: '',
+    leftHeaderContent: createSemiboldIcon(Calendar, 32, '#1E285F'),
+    rightHeaderContent: createMultipleIcons([
+      { component: EyeOff, size: 18, color: '#5D5A88', withCircle: true, type: 'delete' },
+      { component: Edit2, size: 18, color: '#5D5A88', withCircle: true, type: 'edit' }
+    ]),
+    sectionType: '68cadccc54f9344f27defc7f',
+    resourceName: 'Calendario operacional',
+    showModal: true
+  }
+];
+
 // ========================================
 // CONFIGURACIÓN GENERAL
 // ========================================
@@ -219,7 +307,8 @@ export const gobernanzaPageCards: CardConfig[] = [
 export const cardConfigs = {
   dashboard: dashboardPageCards,
   alianza: alianzaPageCards,
-  gobernanza: gobernanzaPageCards
+  gobernanza: gobernanzaPageCards,
+  gestion: gestionPageCards
 } as const;
 
 /**

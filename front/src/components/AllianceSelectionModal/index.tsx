@@ -1,8 +1,9 @@
 import React from 'react';
-import { X } from 'react-feather';
+import { X, ChevronDown } from 'react-feather';
 import type { Alliance } from '../../types/alliance';
 import { useResponsive } from '../../hooks/useResponsive';
 import { getLogoForAlliance } from '../../services';
+import { Button } from '../Button';
 
 interface AllianceSelectionModalProps {
   isOpen: boolean;
@@ -11,6 +12,14 @@ interface AllianceSelectionModalProps {
   onSelect: (alliance: Alliance) => void;
   sectionTitle: string;
   isLoading?: boolean;
+  // Props para selector de programas (cuando una alianza tiene múltiples links)
+  showProgramSelector?: boolean;
+  selectedAlliance?: Alliance | null;
+  availablePrograms?: string[];
+  selectedProgramIndex?: number;
+  onProgramChange?: (index: number) => void;
+  onProgramConfirm?: () => void;
+  onBackToAlliances?: () => void;
 }
 
 
@@ -20,7 +29,14 @@ export const AllianceSelectionModal: React.FC<AllianceSelectionModalProps> = ({
   alliances,
   onSelect,
   sectionTitle,
-  isLoading = false
+  isLoading = false,
+  showProgramSelector = false,
+  selectedAlliance = null,
+  availablePrograms = [],
+  selectedProgramIndex = 0,
+  onProgramChange,
+  onProgramConfirm,
+  onBackToAlliances
 }) => {
   const { scale } = useResponsive();
   
@@ -41,27 +57,24 @@ export const AllianceSelectionModal: React.FC<AllianceSelectionModalProps> = ({
 
   return (
     <div 
-      className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-in fade-in duration-300"
+      className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-2 sm:p-4 animate-in fade-in duration-300"
       onClick={handleBackdropClick}
     >
       <div 
-        className="bg-white/95 backdrop-blur-md shadow-2xl border border-white/20 overflow-hidden animate-in zoom-in-95 duration-300"
+        className="bg-white/95 backdrop-blur-md shadow-2xl border border-white/20 overflow-hidden w-full h-full sm:w-auto sm:h-auto sm:max-w-[768px] sm:max-h-[90vh] flex flex-col"
         style={{ 
-          borderRadius: `${scale(16)}px`,
-          maxWidth: `${scale(768)}px`,
-          width: '100%',
-          maxHeight: `calc(100vh - ${scale(32)}px)`
+          borderRadius: `${scale(16)}px`
         }}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header más compacto */}
         <div 
-          className="relative bg-gradient-to-br from-[#5D5A88] via-[#6B6A9A] to-[#827896]"
+          className="relative bg-gradient-to-br from-[#5D5A88] via-[#6B6A9A] to-[#827896] flex-shrink-0"
           style={{ 
-            paddingLeft: `${scale(24)}px`,
-            paddingRight: `${scale(24)}px`,
-            paddingTop: `${scale(16)}px`,
-            paddingBottom: `${scale(16)}px`
+            paddingLeft: `${scale(16)}px`,
+            paddingRight: `${scale(16)}px`,
+            paddingTop: `${scale(12)}px`,
+            paddingBottom: `${scale(12)}px`
           }}
         >
           <button
@@ -101,11 +114,9 @@ export const AllianceSelectionModal: React.FC<AllianceSelectionModalProps> = ({
 
         {/* Content con scroll condicional */}
         <div 
-          className="bg-gradient-to-b from-white to-gray-50/50"
+          className="bg-gradient-to-b from-white to-gray-50/50 flex-1 overflow-y-auto"
           style={{ 
-            padding: `${scale(24)}px`,
-            maxHeight: `calc(100vh - ${scale(120)}px)`,
-            overflowY: 'auto'
+            padding: `${scale(24)}px`
           }}
         >
           {isLoading ? (
@@ -143,8 +154,7 @@ export const AllianceSelectionModal: React.FC<AllianceSelectionModalProps> = ({
             </div>
           ) : (
             <div 
-              className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
-              style={{ gap: `${scale(16)}px` }}
+              className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4"
             >
               {alliances.map((alliance, index) => (
                 <div
@@ -234,23 +244,93 @@ export const AllianceSelectionModal: React.FC<AllianceSelectionModalProps> = ({
           )}
         </div>
 
-        {/* Footer más compacto */}
-        <div 
-          className="bg-gray-50/50 border-t border-gray-100"
-          style={{ 
-            paddingLeft: `${scale(24)}px`,
-            paddingRight: `${scale(24)}px`,
-            paddingTop: `${scale(12)}px`,
-            paddingBottom: `${scale(12)}px`
-          }}
-        >
-          <p 
-            className="text-center text-gray-500"
-            style={{ fontSize: `${scale(12)}px` }}
+        {/* Selector de programas (cuando una alianza tiene múltiples opciones) */}
+        {showProgramSelector && selectedAlliance && (
+          <div 
+            className="border-t border-gray-200 flex-shrink-0"
+            style={{ 
+              padding: `${scale(12)}px ${scale(24)}px`,
+              backgroundColor: '#FAFAFA'
+            }}
           >
-            Selecciona una alianza para acceder a los recursos específicos
-          </p>
-        </div>
+            {/* Mensaje, dropdown y botones con espacio */}
+            <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-0 sm:justify-between">
+              <div className="flex flex-col sm:flex-row sm:items-center gap-2">
+                <span 
+                  className="text-gray-600 text-sm"
+                  style={{ fontSize: `${scale(12)}px` }}
+                >
+                  Selecciona programa de {selectedAlliance.siglas}:
+                </span>
+                
+                {/* Dropdown muy compacto */}
+                <div className="relative" style={{ minWidth: `${scale(180)}px` }}>
+                  <select
+                    value={selectedProgramIndex}
+                    onChange={(e) => onProgramChange?.(parseInt(e.target.value))}
+                    className="w-full appearance-none bg-white border border-gray-300 text-gray-700 rounded cursor-pointer hover:border-[#5D5A88] focus:outline-none focus:ring-1 focus:ring-[#5D5A88] focus:border-transparent transition-colors"
+                    style={{
+                      padding: `${scale(6)}px ${scale(28)}px ${scale(6)}px ${scale(8)}px`,
+                      fontSize: `${scale(12)}px`
+                    }}
+                  >
+                    {availablePrograms.map((program, index) => (
+                      <option key={index} value={index}>
+                        {program}
+                      </option>
+                    ))}
+                  </select>
+                  
+                  {/* Icono chevron */}
+                  <div 
+                    className="absolute right-0 top-0 bottom-0 flex items-center pointer-events-none"
+                    style={{ paddingRight: `${scale(8)}px` }}
+                  >
+                    <ChevronDown size={scale(14)} className="text-gray-400" />
+                  </div>
+                </div>
+              </div>
+              
+              {/* Botones hacia la derecha */}
+              <div className="flex gap-2 sm:ml-auto">
+                <Button
+                  onClick={onBackToAlliances}
+                  variant="secondary"
+                  size="xs"
+                >
+                  Volver
+                </Button>
+                <Button
+                  onClick={onProgramConfirm}
+                  variant="primary"
+                  size="xs"
+                >
+                  Continuar
+                </Button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Footer más compacto */}
+        {!showProgramSelector && (
+          <div 
+            className="bg-gray-50/50 border-t border-gray-100"
+            style={{ 
+              paddingLeft: `${scale(24)}px`,
+              paddingRight: `${scale(24)}px`,
+              paddingTop: `${scale(12)}px`,
+              paddingBottom: `${scale(12)}px`
+            }}
+          >
+            <p 
+              className="text-center text-gray-500"
+              style={{ fontSize: `${scale(12)}px` }}
+            >
+              Selecciona una alianza para acceder a los recursos específicos
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );
