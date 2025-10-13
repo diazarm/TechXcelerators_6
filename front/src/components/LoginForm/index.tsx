@@ -108,7 +108,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ accessType }) => {
                     type: 'success',
                     title: NOTIFICATION_MESSAGES.TITLES.SUCCESS,
                     message: getWelcomeMessage(userType),
-                    duration: 4000
+                    duration: 5000
                   });
                   
                   navigate('/dashboard');

@@ -21,3 +21,4 @@ export * from './iconFactory';
 export * from './pageHeaders';
 export * from './notificationMessages';
 export * from './sectionMapping';
+export * from './allianceData';

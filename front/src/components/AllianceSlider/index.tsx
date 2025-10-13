@@ -1,58 +1,92 @@
 import React from 'react';
 import { useScreenSize } from '../../context';
-import { ALLIANCE_DATA } from './allianceData';
+import { ALLIANCE_DATA } from '../../constants';
 import type { AllianceSliderProps, AllianceItemProps } from './types';
 
 /**
  * Componente individual de logo de alianza
  */
 const AllianceItem: React.FC<AllianceItemProps> = ({ alliance }) => {
-  const { scale, isMobile, isTablet } = useScreenSize();
+  const { scale } = useScreenSize();
   
-  // Tamaño fijo escalado según pantalla
-  const getLogoSize = () => {
-    if (isMobile) return scale(60);
-    if (isTablet) return scale(80);
-    return scale(100);
-  };
+  // Tamaño base de 80px escalado según pantalla
+  const logoSize = scale(80);
+  const containerWidth = scale(144); // 80 * 1.8
+  const marginH = scale(24);
 
-  const logoSize = getLogoSize();
+  const content = (
+    <img
+      src={alliance.logo}
+      alt={alliance.name}
+      className="object-contain transition-transform duration-300 hover:scale-110"
+      style={{
+        width: `${logoSize}px`,
+        height: `${logoSize}px`,
+        maxWidth: `${logoSize}px`,
+        maxHeight: `${logoSize}px`,
+      }}
+      loading="lazy"
+    />
+  );
 
   return (
     <div
-      className="flex items-center justify-center w-full"
+      className="flex items-center justify-center flex-shrink-0"
       style={{
+        width: `${containerWidth}px`,
         height: `${logoSize}px`,
-        minHeight: `${logoSize}px`
+        marginLeft: `${marginH}px`,
+        marginRight: `${marginH}px`,
       }}
     >
-      <div
-        style={{
-          width: `${logoSize}px`,
-          height: `${logoSize}px`,
-          maxWidth: '100%',
-          maxHeight: '100%'
-        }}
-      >
-        <img
-          src={alliance.logo}
-          alt={alliance.name}
-          className="w-full h-full object-contain"
-          loading="lazy"
-        />
-      </div>
+      {alliance.url ? (
+        <a
+          href={alliance.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          title={`Visitar ${alliance.name} - ${alliance.url}`}
+          className="cursor-pointer relative group"
+          style={{
+            width: `${logoSize}px`,
+            height: `${logoSize}px`,
+          }}
+        >
+          {content}
+          {/* Tooltip */}
+          <span 
+            className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-gray-900 text-white text-xs rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none whitespace-nowrap z-50"
+            style={{
+              fontSize: scale(12),
+            }}
+          >
+            {alliance.url}
+          </span>
+        </a>
+      ) : (
+        <div
+          style={{
+            width: `${logoSize}px`,
+            height: `${logoSize}px`,
+          }}
+        >
+          {content}
+        </div>
+      )}
     </div>
   );
 };
 
 /**
- * Componente principal del slider de alianzas
+ * Componente principal del slider de alianzas con movimiento infinito
  */
 export const AllianceSlider: React.FC<AllianceSliderProps> = ({ className = '' }) => {
-  const { dimensions, scale, isMobile, isTablet } = useScreenSize();
+  const { dimensions } = useScreenSize();
+
+  // Triplicamos los logos para asegurar un loop perfecto sin gaps
+  const duplicatedAlliances = [...ALLIANCE_DATA, ...ALLIANCE_DATA, ...ALLIANCE_DATA];
 
   return (
-    <section className={`w-full ${className}`}>
+    <section className={`w-full overflow-hidden ${className}`}>
       {/* Título */}
       <div 
         className="text-center"
@@ -72,29 +106,38 @@ export const AllianceSlider: React.FC<AllianceSliderProps> = ({ className = '' }
         </h2>
       </div>
 
-      {/* Franja de logos */}
+      {/* Franja de logos con animación infinita */}
       <div 
+        className="w-full"
         style={{
           paddingTop: dimensions.spacing.lg,
           paddingBottom: dimensions.spacing.lg,
-          paddingLeft: dimensions.spacing.lg,
-          paddingRight: dimensions.spacing.lg,
         }}
       >
-        <div className="w-full">
-          <div 
-            className={`grid gap-4 ${
-              isMobile ? 'grid-cols-4' : 
-              isTablet ? 'grid-cols-6' : 
-              'grid-cols-8'
-            }`}
-            style={{
-              gap: `${scale(isMobile ? 8 : 16)}px`
-            }}
-          >
-            {ALLIANCE_DATA.map((alliance) => (
+        <div className="relative w-full overflow-hidden">
+          <style>
+            {`
+              @keyframes scroll-logos {
+                0% {
+                  transform: translateX(0);
+                }
+                100% {
+                  transform: translateX(calc(-100% / 3));
+                }
+              }
+              
+              .logos-track {
+                animation: scroll-logos 60s linear infinite;
+                display: flex;
+                width: max-content;
+              }
+            `}
+          </style>
+          
+          <div className="logos-track">
+            {duplicatedAlliances.map((alliance, index) => (
               <AllianceItem 
-                key={alliance.id}
+                key={`${alliance.id}-${index}`}
                 alliance={alliance}
               />
             ))}

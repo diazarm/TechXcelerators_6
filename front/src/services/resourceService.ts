@@ -59,9 +59,11 @@ export class ResourceService {
       }
 
       return data.data;
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Error al obtener recurso:', error);
-      if (error.response?.status === 404) {
+      if (error && typeof error === 'object' && 'response' in error && 
+          error.response && typeof error.response === 'object' && 'status' in error.response && 
+          error.response.status === 404) {
         return null;
       }
       throw error;

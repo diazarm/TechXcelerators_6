@@ -90,12 +90,12 @@ export const findResourceByName = (resources: IResource[], resourceName?: string
 };
 
 /**
- * Filtra alianzas removiendo UNINORTE
+ * Filtra alianzas (actualmente no aplica ningún filtro)
  * @param alliances - Array de alianzas
- * @returns Array filtrado de alianzas
+ * @returns Array de alianzas sin filtrar
  */
 export const filterAlliances = (alliances: Alliance[]): Alliance[] => {
-  return alliances.filter(alliance => alliance.siglas !== 'UNINORTE');
+  return alliances;
 };
 
 /**
@@ -142,7 +142,7 @@ export const showNotification = (type: 'success' | 'error' | 'warning' | 'info',
  * @returns Link encontrado o undefined
  */
 export const findAllianceLink = (resource: IResource, alliance: Alliance) => {
-  return resource.links.find((link: any) => {
+  return resource.links.find((link: { label?: string; url?: string }) => {
     const label = link.label?.trim();
     const siglas = alliance.siglas.trim();
     
@@ -174,7 +174,7 @@ export const findAllianceLink = (resource: IResource, alliance: Alliance) => {
  * @returns Array de links que coinciden con la alianza
  */
 export const findAllAllianceLinks = (resource: IResource, alliance: Alliance) => {
-  return resource.links.filter((link: any) => {
+  return resource.links.filter((link: { label?: string; url?: string }) => {
     const label = link.label?.trim();
     const siglas = alliance.siglas.trim();
     
@@ -291,7 +291,7 @@ export const showAllianceSelectionModal = async (alliances: Alliance[], resource
 
     // Estado para manejo de múltiples programas
     let selectedAllianceForPrograms: Alliance | null = null;
-    let availablePrograms: any[] = [];
+    let availablePrograms: { label: string; url: string }[] = [];
 
     // Función para manejar selección de alianza
     const handleAllianceSelect = (selectedAlliance: Alliance) => {
@@ -312,7 +312,9 @@ export const showAllianceSelectionModal = async (alliances: Alliance[], resource
       } else {
         // Múltiples links → Mostrar selector de programas
         selectedAllianceForPrograms = selectedAlliance;
-        availablePrograms = allianceLinks;
+        availablePrograms = allianceLinks.filter((link): link is { label: string; url: string } => 
+          link.label !== undefined && link.url !== undefined
+        );
         
         // Re-renderizar modal con selector de programas
         renderModalWithProgramSelector();
@@ -354,7 +356,7 @@ export const showAllianceSelectionModal = async (alliances: Alliance[], resource
           onProgramChange: setSelectedProgramIndex,
           onProgramConfirm: handleProgramSelect,
           onBackToAlliances: handleBackToAlliances
-        } as any); // Temporal: any para evitar error de tipos
+        });
       };
       
       root.render(

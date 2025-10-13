@@ -28,7 +28,7 @@ export const ALLIANCE_DATA: AllianceData[] = [
     id: 'ucatolica',
     name: 'Pontificia Universidad Católica de Chile',
     logo: '/img/ucatolica.png',
-    url: 'https://www.uc.cl'
+    url: 'https://www.ucss.edu.pe/'
   },
   {
     id: 'ucusco',
@@ -59,5 +59,12 @@ export const ALLIANCE_DATA: AllianceData[] = [
     name: 'Universidad EAFIT',
     logo: '/img/eafit.png',
     url: 'https://www.eafit.edu.co'
+  },
+  {
+    id: 'uninorte',
+    name: 'Universidad del Norte',
+    logo: '/img/uninorte.png',
+    url: 'https://www.uninorte.edu.co'
   }
 ];
+

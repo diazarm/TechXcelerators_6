@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useLocation, Outlet } from "react-router-dom";
 import { useScreenSize } from "../../context";
 import type { MainLayoutProps } from "./types";
@@ -14,6 +14,15 @@ const MainLayout: React.FC<MainLayoutProps> = ({
   const isHomePage = location.pathname === "/";
   const isLoginPage = location.pathname === "/login";
   const shouldShowHeader = !isHomePage && !isLoginPage;
+
+  // Scroll to top en cada cambio de ruta
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth'
+    });
+  }, [location.pathname]);
 
   return (
     <div

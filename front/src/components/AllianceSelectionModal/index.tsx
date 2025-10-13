@@ -154,7 +154,10 @@ export const AllianceSelectionModal: React.FC<AllianceSelectionModalProps> = ({
             </div>
           ) : (
             <div 
-              className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4"
+              className="grid grid-cols-3"
+              style={{
+                gap: `${scale(16)}px`
+              }}
             >
               {alliances.map((alliance, index) => (
                 <div
@@ -177,7 +180,8 @@ export const AllianceSelectionModal: React.FC<AllianceSelectionModalProps> = ({
                         className="rounded-xl bg-gradient-to-br from-gray-50 to-gray-100 border border-gray-200/50 group-hover:border-[#FF6E00]/40 group-hover:from-[#FFF5F0] group-hover:to-[#FFE5D6] flex items-center justify-center overflow-hidden transition-all duration-200 shadow-sm group-hover:shadow-md"
                         style={{
                           width: `${scale(64)}px`,
-                          height: `${scale(64)}px`
+                          height: `${scale(64)}px`,
+                          borderRadius: `${scale(12)}px`
                         }}
                       >
                         <img

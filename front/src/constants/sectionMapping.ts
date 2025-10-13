@@ -23,15 +23,15 @@ export const ROUTE_TO_SECTION_MAP = {
   '/gestion': {
     sectionId: '68cadccc54f9344f27defc7f',
     title: 'Gestión'
+  },
+  '/iniciativas': {
+    sectionId: '68cadd0154f9344f27defc81',
+    title: 'Iniciativas'
   }
   // Agregar nuevas secciones aquí:
   // '/planeacion': {
   //   sectionId: '68cadba054f9344f27defc7d',
   //   title: 'Planeación'
-  // },
-  // '/iniciativas': {
-  //   sectionId: '68cadd0154f9344f27defc81',
-  //   title: 'Iniciativas'
   // }
 } as const;
 
@@ -80,4 +80,15 @@ export const getSectionTitleById = (sectionId: string): string | undefined => {
   );
   return section?.title;
 };
+
+/**
+ * IDs de sección centralizados
+ * Usar estos en lugar de hardcodear los IDs en otros archivos
+ */
+export const SECTION_IDS = {
+  ALIANZA: ROUTE_TO_SECTION_MAP['/alianza'].sectionId,
+  GOBERNANZA: ROUTE_TO_SECTION_MAP['/gobernanza'].sectionId,
+  GESTION: ROUTE_TO_SECTION_MAP['/gestion'].sectionId,
+  INICIATIVAS: ROUTE_TO_SECTION_MAP['/iniciativas'].sectionId,
+} as const;
 

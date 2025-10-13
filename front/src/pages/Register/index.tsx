@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { RegisterForm } from '../../components';
 import { useAuth } from '../../hooks';
@@ -19,6 +19,15 @@ import { useScreenSize } from '../../context';
 const RegisterPage: React.FC = () => {
   const { dimensions, scale } = useScreenSize();
   const { isAuthenticated } = useAuth();
+
+  // Scroll to top al montar la página
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth'
+    });
+  }, []);
 
   // Determinar la ruta del logo según el estado de autenticación
   const getLogoDestination = () => {

@@ -20,18 +20,6 @@ export const SectionFilter: React.FC<SectionFilterProps> = ({
   const totalCount = sections.reduce((sum, section) => sum + (section.count || 0), 0);
 
   // Obtener el título de la sección seleccionada
-  const getSelectedTitle = () => {
-    if (selectedSectionId === 'all') {
-      return `Todas las secciones${totalCount > 0 ? ` (${totalCount})` : ''}`;
-    }
-    
-    const section = sections.find(s => s.sectionId === selectedSectionId);
-    if (section) {
-      return `${section.title}${section.count !== undefined ? ` (${section.count})` : ''}`;
-    }
-    
-    return 'Seleccionar sección';
-  };
 
   return (
     <div className={`relative ${className}`}>

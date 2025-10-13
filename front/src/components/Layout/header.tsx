@@ -41,7 +41,7 @@ export const Header: React.FC<HeaderProps> = ({ title }) => {
     if (canRestoreResources && isPageWithResources) {
       resourceRestoration.loadDeletedResources();
     }
-  }, [canRestoreResources, isPageWithResources, resourceRestoration.loadDeletedResources]);
+  }, [canRestoreResources, isPageWithResources, resourceRestoration]);
 
   // Mostrar botón de restaurar solo si hay recursos eliminados
   const shouldShowRestoreButton = canRestoreResources && isPageWithResources && resourceRestoration.hasDeletedResources;
