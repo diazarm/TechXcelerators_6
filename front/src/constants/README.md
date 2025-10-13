@@ -55,6 +55,40 @@ export interface CardConfig {
 }
 ```
 
+### **Sistema de Tamaños de Cards**
+
+**IMPORTANTE:** El tamaño se define a nivel de página, NO por card individual.
+
+```typescript
+// En las páginas
+<CardGrid 
+  cards={cards} 
+  onCardClick={handleCardClick}
+  defaultCardSize="medium"  // ← Todas las cards usan este tamaño
+/>
+```
+
+#### **Tamaños Disponibles:**
+
+| Tamaño | Dimensiones | Uso | Características |
+|--------|-------------|-----|-----------------|
+| **small** | 240x240px | Galerías, listas compactas | Sin botón, iconos 20px |
+| **medium** | 320x320px (DEFAULT) | Navegación estándar | Con botón "Ir", iconos 32px |
+| **rectangular** | 480x280px | Contenido extenso | Con botón, iconos 32px, formato horizontal |
+
+#### **Ejemplos de Uso:**
+
+```typescript
+// Página con cards pequeñas (galería)
+<CardGrid defaultCardSize="small" columns={3} />
+
+// Página estándar (Dashboard, Alianza, etc.)
+<CardGrid defaultCardSize="medium" columns={3} />
+
+// Página con cards rectangulares (contenido extenso)
+<CardGrid defaultCardSize="rectangular" columns={2} />
+```
+
 ### **Configuraciones por Página**
 
 ```typescript
