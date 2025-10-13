@@ -28,8 +28,8 @@ export const Footer: React.FC<FooterProps> = ({ variant = "dark" }) => {
   // Configuración de colores según la variante
   const isDark = variant === "dark";
   const logo = isDark ? "/img/Logo3.png" : "/img/LogoScala2.png";
-  // Logo más grande para el footer
-  const logoHeight = `${scale(140)}px`;
+  // Logo más grande para el footer - ajustar tamaño según tema
+  const logoHeight = isDark ? `${scale(140)}px` : `${scale(120)}px`;
   
   const footerClasses = isDark 
     ? "bg-black text-white" 
@@ -37,7 +37,7 @@ export const Footer: React.FC<FooterProps> = ({ variant = "dark" }) => {
   
   const iconColorClasses = isDark 
     ? "text-white" 
-    : "text-gray-700";
+    : "text-white";
   
   const borderClasses = isDark 
     ? "border-gray-600" 
@@ -46,6 +46,12 @@ export const Footer: React.FC<FooterProps> = ({ variant = "dark" }) => {
   const copyrightClasses = isDark 
     ? "text-gray-400" 
     : "text-gray-600";
+
+  // Colores específicos para tema light
+  const lightTextClasses = isDark ? "text-gray-300" : "text-gray-700";
+  const lightIconBg = isDark ? "#232323" : "#5D5A88";
+  const lightDividerColor = isDark ? "#A2A2A2" : "#D1D5DB";
+  const lightLinkHover = isDark ? "hover:text-white" : "hover:text-[#5D5A88]";
 
   const handleLogoClick = (e: React.MouseEvent) => {
     if (!isAuthenticated) {
@@ -94,7 +100,7 @@ export const Footer: React.FC<FooterProps> = ({ variant = "dark" }) => {
                 style={{
                   width: scale(28),
                   height: scale(28),
-                  backgroundColor: '#232323'
+                  backgroundColor: lightIconBg
                 }}
                 aria-label="Facebook"
               >
@@ -115,7 +121,7 @@ export const Footer: React.FC<FooterProps> = ({ variant = "dark" }) => {
                 style={{
                   width: scale(28),
                   height: scale(28),
-                  backgroundColor: '#232323'
+                  backgroundColor: lightIconBg
                 }}
                 aria-label="Instagram"
               >
@@ -136,7 +142,7 @@ export const Footer: React.FC<FooterProps> = ({ variant = "dark" }) => {
                 style={{
                   width: scale(28),
                   height: scale(28),
-                  backgroundColor: '#232323'
+                  backgroundColor: lightIconBg
                 }}
                 aria-label="LinkedIn"
               >
@@ -157,7 +163,7 @@ export const Footer: React.FC<FooterProps> = ({ variant = "dark" }) => {
                 style={{
                   width: scale(28),
                   height: scale(28),
-                  backgroundColor: '#232323'
+                  backgroundColor: lightIconBg
                 }}
                 aria-label="YouTube"
               >
@@ -188,8 +194,8 @@ export const Footer: React.FC<FooterProps> = ({ variant = "dark" }) => {
           </div>
 
           {/* Línea divisoria */}
-          <div className="lg:hidden w-full h-px my-8" style={{ backgroundColor: '#A2A2A2' }}></div>
-          <div className="hidden lg:block w-px h-auto mx-8" style={{ backgroundColor: '#A2A2A2' }}></div>
+          <div className="lg:hidden w-full h-px my-8" style={{ backgroundColor: lightDividerColor }}></div>
+          <div className="hidden lg:block w-px h-auto mx-8" style={{ backgroundColor: lightDividerColor }}></div>
 
           {/* Columna 2: Texto corporativo */}
           <div 
@@ -197,24 +203,24 @@ export const Footer: React.FC<FooterProps> = ({ variant = "dark" }) => {
             style={{ gap: scale(12) }}
           >
             <p 
-              className="text-gray-300 leading-relaxed"
+              className={`${lightTextClasses} leading-relaxed`}
               style={{ fontSize: scale(14) }}
             >
-              Somos una corporación internacional especializada en la transformación digital educativa y la generación de alianzas estratégicas con instituciones de educación superior en más de 20 países.
+              Somos una corporación internacional que establece alianzas estratégicas con instituciones de educación superior en más de 20 países.
             </p>
             
             <p 
-              className="text-gray-300 leading-relaxed"
+              className={`${lightTextClasses} leading-relaxed`}
               style={{ fontSize: scale(14) }}
             >
-              Ofrecemos un ecosistema de servicios integral (360), diseñado específicamente para potenciar el crecimiento exponencial de las matrículas en la modalidad virtual.
+              Ofrecemos un ecosistema de servicios 360 enfocado en la transformación digital y diseñado para potenciar exponencialmente las matrículas virtuales.
             </p>
             
             <p 
-              className="text-gray-300 leading-relaxed"
+              className={`${lightTextClasses} leading-relaxed`}
               style={{ fontSize: scale(14) }}
             >
-              Nos consolidamos como un aliado estratégico clave para la educación superior, aportando agilidad digital, nuestro know-how especializado y la experiencia necesaria para impulsar a las universidades hacia el liderazgo en el entorno digital. Nuestro objetivo es asegurar una expansión sostenible y una posición competitiva en el mercado global.
+              Aportamos agilidad, know-how especializado y la experiencia necesaria para impulsar el crecimiento y el liderazgo de las universidades en el ámbito de la educación superior virtual.
             </p>
           </div>
         </div>
@@ -234,7 +240,7 @@ export const Footer: React.FC<FooterProps> = ({ variant = "dark" }) => {
               href="https://scalalearning.com/wp-content/uploads/2022/05/Politica-Privacidad_SCALALEARNING_25042022.pdf"
               target="_blank"
               rel="noopener noreferrer"
-              className={`${copyrightClasses} hover:text-white transition-colors underline`}
+              className={`${copyrightClasses} ${lightLinkHover} transition-colors underline`}
             >
               Política de privacidad y aviso de confidencialidad
             </a>

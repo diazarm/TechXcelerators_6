@@ -303,16 +303,16 @@ export const Navbar: React.FC<HeaderProps> = ({ className = "" }) => {
               </Link>
 
               <Link
-                to="#"
-                className="block font-medium py-2 transition-colors"
-                style={{ fontSize: dimensions.fontSize.md, color: '#FF6E00' }}
+                to="/gestion"
+                className="block text-gray-700 hover:text-[#4A476F] transition-colors font-medium py-2"
+                style={{ fontSize: dimensions.fontSize.md }}
                 onClick={closeMobileMenu}
               >
                 Gestión
               </Link>
 
               <Link
-                to="#"
+                to="/iniciativas"
                 className="block text-gray-700 hover:text-[#4A476F] transition-colors font-medium py-2"
                 style={{ fontSize: dimensions.fontSize.md }}
                 onClick={closeMobileMenu}
