@@ -26,6 +26,7 @@ import {
   FAQ,
   Changelog,
   Alianza,
+  Gestion,
   Iniciativas,
 } from "./pages";
 
@@ -92,6 +93,14 @@ function App() {
                       }
                     />
                     <Route
+                      path="gestion"
+                      element={
+                        <AuthGuard>
+                          <Gestion />
+                        </AuthGuard>
+                      }
+                    />
+                    <Route
                       path="iniciativas"
                       element={
                         <AuthGuard>
@@ -99,6 +108,7 @@ function App() {
                         </AuthGuard>
                       }
                     />
+
                   </Route>
                 </Routes>
 

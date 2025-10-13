@@ -182,8 +182,8 @@ export const useResponsiveImage = (options: UseResponsiveImageOptions): Responsi
     const backgroundImageStyles: React.CSSProperties = {
       backgroundSize: config.backgroundSize,
       backgroundPosition: config.backgroundPosition,
-      backgroundRepeat: (config as any).backgroundRepeat || 'no-repeat',
-      backgroundAttachment: (config as any).backgroundAttachment || 'scroll',
+      backgroundRepeat: 'backgroundRepeat' in config ? config.backgroundRepeat : 'no-repeat',
+      backgroundAttachment: 'backgroundAttachment' in config ? config.backgroundAttachment : 'scroll',
       transition: 'all 0.3s ease-in-out',
       // Configuraciones específicas para mobile
       ...(isMobile && type === 'background-login' && {

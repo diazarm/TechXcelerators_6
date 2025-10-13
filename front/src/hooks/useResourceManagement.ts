@@ -43,7 +43,18 @@ export const useResourceManagement = () => {
     if (!selectedResource) return;
     
     try {
-      await updateResource(selectedResource._id, resourceData);
+      const updatedResource = await updateResource(selectedResource._id, resourceData);
+      
+      // Emitir evento personalizado para notificar que se actualizó un recurso
+      window.dispatchEvent(new CustomEvent('resourceUpdated', {
+        detail: { 
+          resourceId: selectedResource._id, 
+          oldName: selectedResource.name, // nombre anterior
+          newName: resourceData.name,      // nombre nuevo
+          resource: updatedResource
+        }
+      }));
+      
     } catch (error) {
       console.error('Error al actualizar recurso:', error);
       throw error;

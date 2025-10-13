@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useScreenSize } from "../../context";
+import { useAuth, useNotification } from "../../hooks";
 import { Facebook, Instagram, Linkedin, Youtube } from "react-feather";
 
 /**
@@ -20,32 +21,19 @@ export interface FooterProps {
  * Footer con logo, redes sociales, enlaces de navegación y copyright
  */
 export const Footer: React.FC<FooterProps> = ({ variant = "dark" }) => {
-  const { getContainerForScreen, dimensions } = useScreenSize();
+  const { getContainerForScreen, scale } = useScreenSize();
+  const { isAuthenticated } = useAuth();
+  const { addNotification } = useNotification();
 
   // Configuración de colores según la variante
   const isDark = variant === "dark";
   const logo = isDark ? "/img/Logo3.png" : "/img/LogoScala2.png";
-  // Ajuste específico para que el logo del footer se vea del mismo tamaño visual que el navbar
-  // Los logos tienen diferentes proporciones, por eso necesitamos multiplicadores específicos
-  const navbarLogoHeight = dimensions.spacing.xl; // 32px escalado
-  const footerLogoMultiplier = isDark ? 2.5 : 2.8; // Multiplicador aumentado significativamente
-  const logoHeight = `${parseFloat(navbarLogoHeight) * footerLogoMultiplier}px`;
+  // Logo más grande para el footer
+  const logoHeight = `${scale(140)}px`;
   
   const footerClasses = isDark 
     ? "bg-black text-white" 
     : "bg-white text-gray-900";
-  
-  const headerClasses = isDark 
-    ? "text-white" 
-    : "text-blue-900";
-  
-  const linkClasses = isDark 
-    ? "text-gray-400 hover:text-white" 
-    : "text-gray-600 hover:text-blue-900";
-  
-  const iconClasses = isDark 
-    ? "bg-gray-700 hover:bg-gray-600" 
-    : "bg-gray-200 hover:bg-gray-300";
   
   const iconColorClasses = isDark 
     ? "text-white" 
@@ -59,224 +47,175 @@ export const Footer: React.FC<FooterProps> = ({ variant = "dark" }) => {
     ? "text-gray-400" 
     : "text-gray-600";
 
+  const handleLogoClick = (e: React.MouseEvent) => {
+    if (!isAuthenticated) {
+      e.preventDefault();
+      addNotification({
+        type: "info",
+        title: "Inicia sesión",
+        message: "Para acceder al dashboard, inicia sesión primero",
+        duration: 5000
+      });
+    }
+  };
+
   return (
-    <footer className={footerClasses}>
+    <footer id="footer" className={footerClasses}>
       <div 
         className={`${getContainerForScreen()}`}
-        style={{ paddingTop: dimensions.spacing.xl, paddingBottom: dimensions.spacing.xl }}
+        style={{ paddingTop: scale(48), paddingBottom: scale(32) }}
       >
-        {/* Contenido principal */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
+        {/* Layout de dos columnas */}
+        <div className="flex flex-col lg:flex-row gap-8">
           
-          {/* Logo y Redes Sociales */}
-          <div className="space-y-8 md:space-y-8">
+          {/* Columna 1: Logo, Redes Sociales y Botón de Contacto */}
+          <div className="flex flex-col items-center" style={{ gap: scale(24) }}>
             {/* Logo */}
-            <div className="flex items-center justify-between md:justify-start">
-              <Link to="/" className="flex items-center space-x-2 hover:opacity-80 transition-opacity">
-                <img 
-                  src={logo} 
-                  alt="Scala Learning" 
-                  className={`w-auto ${isDark ? '' : 'object-contain ml-6'}`}
-                  style={{ height: logoHeight }}
-                />
-              </Link>
-              
-              {/* Redes Sociales - Solo en móvil al lado del logo */}
-              <div className="flex space-x-2 md:hidden">
+            <Link 
+              to={isAuthenticated ? "/dashboard" : "/"} 
+              className="flex items-center hover:opacity-80 transition-opacity"
+              onClick={handleLogoClick}
+            >
+              <img 
+                src={logo} 
+                alt="Scala Learning" 
+                className="w-auto object-contain"
+                style={{ height: logoHeight }}
+              />
+            </Link>
+            
+            {/* Redes Sociales */}
+            <div className="flex" style={{ gap: scale(8) }}>
               <a 
-                href="#" 
-                className={`${iconClasses} rounded-lg flex items-center justify-center transition-colors`}
+                href="https://web.facebook.com/scalalearninglatam/?_rdc=1&_rdr"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-lg flex items-center justify-center transition-colors"
                 style={{
-                  width: dimensions.spacing.lg,
-                  height: dimensions.spacing.lg
+                  width: scale(28),
+                  height: scale(28),
+                  backgroundColor: '#232323'
                 }}
                 aria-label="Facebook"
               >
                 <Facebook 
                   className={`${iconColorClasses}`} 
                   style={{
-                    width: dimensions.spacing.md,
-                    height: dimensions.spacing.md
+                    width: scale(12),
+                    height: scale(12)
                   }}
                 />
               </a>
               
               <a 
-                href="#" 
-                className={`${iconClasses} rounded-lg flex items-center justify-center transition-colors`}
+                href="https://www.instagram.com/scalalearninglatam/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-lg flex items-center justify-center transition-colors"
                 style={{
-                  width: dimensions.spacing.lg,
-                  height: dimensions.spacing.lg
+                  width: scale(28),
+                  height: scale(28),
+                  backgroundColor: '#232323'
                 }}
                 aria-label="Instagram"
               >
                 <Instagram 
                   className={`${iconColorClasses}`} 
                   style={{
-                    width: dimensions.spacing.md,
-                    height: dimensions.spacing.md
+                    width: scale(12),
+                    height: scale(12)
                   }}
                 />
               </a>
               
               <a 
-                href="#" 
-                className={`${iconClasses} rounded-lg flex items-center justify-center transition-colors`}
+                href="https://www.linkedin.com/company/scalalearninglatam/posts/?feedView=all"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-lg flex items-center justify-center transition-colors"
                 style={{
-                  width: dimensions.spacing.lg,
-                  height: dimensions.spacing.lg
+                  width: scale(28),
+                  height: scale(28),
+                  backgroundColor: '#232323'
                 }}
                 aria-label="LinkedIn"
               >
                 <Linkedin 
                   className={`${iconColorClasses}`} 
                   style={{
-                    width: dimensions.spacing.md,
-                    height: dimensions.spacing.md
+                    width: scale(12),
+                    height: scale(12)
                   }}
                 />
               </a>
               
               <a 
-                href="#" 
-                className={`${iconClasses} rounded-lg flex items-center justify-center transition-colors`}
+                href="https://www.youtube.com/channel/UCTso-90g7wyYSj7suVKfghQ"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-lg flex items-center justify-center transition-colors"
                 style={{
-                  width: dimensions.spacing.lg,
-                  height: dimensions.spacing.lg
+                  width: scale(28),
+                  height: scale(28),
+                  backgroundColor: '#232323'
                 }}
                 aria-label="YouTube"
               >
                 <Youtube 
                   className={`${iconColorClasses}`} 
                   style={{
-                    width: dimensions.spacing.md,
-                    height: dimensions.spacing.md
+                    width: scale(12),
+                    height: scale(12)
                   }}
                 />
               </a>
-              </div>
             </div>
             
-            {/* Redes Sociales - Solo en desktop debajo del logo */}
-            <div className="hidden md:flex space-x-4">
-              <a 
-                href="#" 
-                className={`${iconClasses} rounded-lg flex items-center justify-center transition-colors`}
-                style={{
-                  width: dimensions.spacing.lg,
-                  height: dimensions.spacing.lg
-                }}
-                aria-label="Facebook"
-              >
-                <Facebook 
-                  className={`${iconColorClasses}`} 
-                  style={{
-                    width: dimensions.spacing.md,
-                    height: dimensions.spacing.md
-                  }}
-                />
-              </a>
-              
-              <a 
-                href="#" 
-                className={`${iconClasses} rounded-lg flex items-center justify-center transition-colors`}
-                style={{
-                  width: dimensions.spacing.lg,
-                  height: dimensions.spacing.lg
-                }}
-                aria-label="Instagram"
-              >
-                <Instagram 
-                  className={`${iconColorClasses}`} 
-                  style={{
-                    width: dimensions.spacing.md,
-                    height: dimensions.spacing.md
-                  }}
-                />
-              </a>
-              
-              <a 
-                href="#" 
-                className={`${iconClasses} rounded-lg flex items-center justify-center transition-colors`}
-                style={{
-                  width: dimensions.spacing.lg,
-                  height: dimensions.spacing.lg
-                }}
-                aria-label="LinkedIn"
-              >
-                <Linkedin 
-                  className={`${iconColorClasses}`} 
-                  style={{
-                    width: dimensions.spacing.md,
-                    height: dimensions.spacing.md
-                  }}
-                />
-              </a>
-              
-              <a 
-                href="#" 
-                className={`${iconClasses} rounded-lg flex items-center justify-center transition-colors`}
-                style={{
-                  width: dimensions.spacing.lg,
-                  height: dimensions.spacing.lg
-                }}
-                aria-label="YouTube"
-              >
-                <Youtube 
-                  className={`${iconColorClasses}`} 
-                  style={{
-                    width: dimensions.spacing.md,
-                    height: dimensions.spacing.md
-                  }}
-                />
-              </a>
-            </div>
-          </div>
-
-          {/* Enlaces de Navegación */}
-          <div className="space-y-6">
-            <h3 
-              className={`${headerClasses} font-medium`}
-              style={{ fontSize: dimensions.fontSize.lg }}
-            >
-              Acerca de
-            </h3>
-            <div className="space-y-3">
-              <Link to="/alianza" className={`block ${linkClasses} transition-colors`}>Nuestra Alianza</Link>
-              <Link to="/gobernanza" className={`block ${linkClasses} transition-colors`}>Gobernanza</Link>
-              <Link to="#" className={`block ${linkClasses} transition-colors`}>Planeación</Link>
-              <Link to="#" className={`block ${linkClasses} transition-colors`} style={{ color: '#FF6E00' }}>Gestión</Link>
-              <Link to="#" className={`block ${linkClasses} transition-colors`}>Iniciativa</Link>
-            </div>
-          </div>
-
-          <div className="space-y-6">
-            <h3 
-              className={`${headerClasses} font-medium`}
-              style={{ fontSize: dimensions.fontSize.lg }}
-            >
-              Recursos
-            </h3>
-            <div className="space-y-3">
-              <Link to="#" className={`block ${linkClasses} transition-colors`} style={{ color: '#FF6E00' }}>Chat IA</Link>
-              <Link to="#" className={`block ${linkClasses} transition-colors`}>Galería de Imágenes e Hitos de la Alianza</Link>
-            </div>
-          </div>
-
-          <div className="space-y-6">
-            <h3 
-              className={`${headerClasses} font-medium`}
-              style={{ fontSize: dimensions.fontSize.lg }}
+            {/* Botón de Contacto */}
+            <a
+              href="https://scalalearning.com/contactanos/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="border-2 rounded-lg px-4 py-2 font-medium transition-all duration-300 hover:bg-opacity-10 hover:bg-orange-500 self-center"
+              style={{
+                borderColor: '#FF6E00',
+                color: '#FF6E00',
+                fontSize: scale(14)
+              }}
             >
               Contacto
-            </h3>
-            <div className="space-y-3">
-              <div className={`block ${linkClasses}`}>
-                Mariano Sánchez Fontecilla 310<br />
-                Oficina 02-137, Las Condes.
-              </div>
-              <div className={`block ${linkClasses}`}>+56 22 594-0659</div>
-            </div>
+            </a>
+          </div>
+
+          {/* Línea divisoria */}
+          <div className="lg:hidden w-full h-px my-8" style={{ backgroundColor: '#A2A2A2' }}></div>
+          <div className="hidden lg:block w-px h-auto mx-8" style={{ backgroundColor: '#A2A2A2' }}></div>
+
+          {/* Columna 2: Texto corporativo */}
+          <div 
+            className="flex flex-col justify-center flex-1"
+            style={{ gap: scale(12) }}
+          >
+            <p 
+              className="text-gray-300 leading-relaxed"
+              style={{ fontSize: scale(14) }}
+            >
+              Somos una corporación internacional especializada en la transformación digital educativa y la generación de alianzas estratégicas con instituciones de educación superior en más de 20 países.
+            </p>
+            
+            <p 
+              className="text-gray-300 leading-relaxed"
+              style={{ fontSize: scale(14) }}
+            >
+              Ofrecemos un ecosistema de servicios integral (360), diseñado específicamente para potenciar el crecimiento exponencial de las matrículas en la modalidad virtual.
+            </p>
+            
+            <p 
+              className="text-gray-300 leading-relaxed"
+              style={{ fontSize: scale(14) }}
+            >
+              Nos consolidamos como un aliado estratégico clave para la educación superior, aportando agilidad digital, nuestro know-how especializado y la experiencia necesaria para impulsar a las universidades hacia el liderazgo en el entorno digital. Nuestro objetivo es asegurar una expansión sostenible y una posición competitiva en el mercado global.
+            </p>
           </div>
         </div>
       </div>
@@ -285,13 +224,20 @@ export const Footer: React.FC<FooterProps> = ({ variant = "dark" }) => {
       <div className={`border-t ${borderClasses}`}>
         <div 
           className={`${getContainerForScreen()}`}
-          style={{ paddingTop: dimensions.spacing.md, paddingBottom: dimensions.spacing.md }}
+          style={{ paddingTop: scale(16), paddingBottom: scale(16) }}
         >
           <p 
             className={`text-center ${copyrightClasses}`}
-            style={{ fontSize: dimensions.fontSize.md }}
+            style={{ fontSize: scale(12) }}
           >
-            Copyright © 2005 Scala Learning | Terms and Conditions | Privacy Policy
+            Copyright © 2025 Scala Learning | Todos los derechos reservados | <a 
+              href="https://scalalearning.com/wp-content/uploads/2022/05/Politica-Privacidad_SCALALEARNING_25042022.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`${copyrightClasses} hover:text-white transition-colors underline`}
+            >
+              Política de privacidad y aviso de confidencialidad
+            </a>
           </p>
         </div>
       </div>

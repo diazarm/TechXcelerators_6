@@ -27,6 +27,18 @@ export const Navbar: React.FC<HeaderProps> = ({ className = "" }) => {
     return '/';
   };
 
+  const handleLogoClick = (e: React.MouseEvent) => {
+    if (!isAuthenticated) {
+      e.preventDefault();
+      addNotification({
+        type: "info",
+        title: "Inicia sesión",
+        message: "Para acceder al dashboard, inicia sesión primero",
+        duration: 5000
+      });
+    }
+  };
+
   const handleDropdownToggle = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
@@ -37,7 +49,7 @@ export const Navbar: React.FC<HeaderProps> = ({ className = "" }) => {
       type: "success",
       title: "Sesión cerrada",
       message: "Has cerrado sesión correctamente. ¡Hasta pronto!",
-      duration: 3000,
+      duration: 5000,
     });
   };
 
@@ -75,7 +87,7 @@ export const Navbar: React.FC<HeaderProps> = ({ className = "" }) => {
 
   return (
     <header
-      className={`bg-white shadow-sm relative sticky top-0 z-50 ${className}`}
+      className={`bg-white shadow-sm sticky top-0 z-50 ${className}`}
       style={{ fontFamily: "Montserrat, sans-serif" }}
     >
       <div 
@@ -92,6 +104,7 @@ export const Navbar: React.FC<HeaderProps> = ({ className = "" }) => {
               to={getLogoDestination()}
               className="flex items-center hover:opacity-80 transition-opacity"
               style={{ gap: dimensions.spacing.xs }}
+              onClick={handleLogoClick}
             >
               <img
                 src="/img/LogoScala.png"
@@ -112,13 +125,13 @@ export const Navbar: React.FC<HeaderProps> = ({ className = "" }) => {
                   marginRight: dimensions.spacing.lg
                 }}
               >
-                <Link
-                  to="/acerca"
+                <a
+                  href="#footer"
                   className={`${COLOR_CLASSES.textPrimary} hover:text-[#4A476F] transition-colors font-medium`}
                   style={{ fontSize: dimensions.fontSize.sm }}
                 >
                   Acerca de
-                </Link>
+                </a>
 
                 {/* Dropdown de Recursos */}
                 <ResourceDropdown
@@ -128,13 +141,15 @@ export const Navbar: React.FC<HeaderProps> = ({ className = "" }) => {
                   loading={loading}
                 />
 
-                <Link
-                  to="/contacto"
+                <a
+                  href="https://scalalearning.com/contactanos/"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className={`${COLOR_CLASSES.textPrimary} hover:text-[#4A476F] transition-colors font-medium`}
                   style={{ fontSize: dimensions.fontSize.sm }}
                 >
                   Contacto
-                </Link>
+                </a>
               </div>
             </nav>
           )}
@@ -251,14 +266,14 @@ export const Navbar: React.FC<HeaderProps> = ({ className = "" }) => {
               style={{ gap: dimensions.spacing.md }}
             >
               {/* Enlaces de navegación */}
-              <Link
-                to="/acerca"
+              <a
+                href="#footer"
                 className="block text-gray-700 hover:text-[#4A476F] transition-colors font-medium py-2"
                 style={{ fontSize: dimensions.fontSize.md }}
                 onClick={closeMobileMenu}
               >
                 Acerca de
-              </Link>
+              </a>
 
               <Link
                 to="/alianza"
@@ -314,14 +329,16 @@ export const Navbar: React.FC<HeaderProps> = ({ className = "" }) => {
                 Galería
               </Link>
 
-              <Link
-                to="/contacto"
+              <a
+                href="https://scalalearning.com/contactanos/"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="block text-gray-700 hover:text-[#4A476F] transition-colors font-medium py-2"
                 style={{ fontSize: dimensions.fontSize.md }}
                 onClick={closeMobileMenu}
               >
                 Contacto
-              </Link>
+              </a>
 
               {/* Botón Salir en móvil */}
               {isAuthenticated && (

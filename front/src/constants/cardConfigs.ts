@@ -10,12 +10,19 @@ import {
   Edit,
   EyeOff,
   Edit2,
+  BarChart,
+  Award,
+  BookOpen,
+  Book,
+  UserPlus,
+  Calendar,
   Map,
 } from 'react-feather';
 import { 
   createSemiboldIcon,
   createMultipleIcons
 } from './iconFactory';
+import { SECTION_IDS } from './sectionMapping';
 
 
 
@@ -105,7 +112,7 @@ export const alianzaPageCards: CardConfig[] = [
       { component: EyeOff, size: 18, color: '#5D5A88', withCircle: true, type: 'delete' },
       { component: Edit2, size: 18, color: '#5D5A88', withCircle: true, type: 'edit' }
     ]),
-    sectionType: '68c9f2d8d6dbf0c558131e16',
+    sectionType: SECTION_IDS.ALIANZA,
     resourceName: 'Portafolio y Precios'
   },
   {
@@ -117,7 +124,7 @@ export const alianzaPageCards: CardConfig[] = [
       { component: EyeOff, size: 18, color: '#5D5A88', withCircle: true, type: 'delete' },
       { component: Edit2, size: 18, color: '#5D5A88', withCircle: true, type: 'edit' }
     ]),
-    sectionType: '68c9f2d8d6dbf0c558131e16',
+    sectionType: SECTION_IDS.ALIANZA,
     resourceName: 'Fichas técnicas y Grabaciones de capacitación en producto'
   },
   {
@@ -129,7 +136,7 @@ export const alianzaPageCards: CardConfig[] = [
       { component: EyeOff, size: 18, color: '#5D5A88', withCircle: true, type: 'delete' },
       { component: Edit2, size: 18, color: '#5D5A88', withCircle: true, type: 'edit' }
     ]),
-    sectionType: '68c9f2d8d6dbf0c558131e16',
+    sectionType: SECTION_IDS.ALIANZA,
     resourceName: 'USP'
   },
   {
@@ -141,7 +148,7 @@ export const alianzaPageCards: CardConfig[] = [
       { component: EyeOff, size: 18, color: '#5D5A88', withCircle: true, type: 'delete' },
       { component: Edit2, size: 18, color: '#5D5A88', withCircle: true, type: 'edit' }
     ]),
-    sectionType: '68c9f2d8d6dbf0c558131e16',
+    sectionType: SECTION_IDS.ALIANZA,
     resourceName: 'Estructura organizacional de equipo de trabajo (Organigrama)'
   },
   {
@@ -153,7 +160,7 @@ export const alianzaPageCards: CardConfig[] = [
       { component: EyeOff, size: 18, color: '#5D5A88', withCircle: true, type: 'delete' },
       { component: Edit2, size: 18, color: '#5D5A88', withCircle: true, type: 'edit' }
     ]),
-    sectionType: '68c9f2d8d6dbf0c558131e16',
+    sectionType: SECTION_IDS.ALIANZA,
     resourceName: 'Directorio de contactos de la alianza',
     showModal: true
   },
@@ -166,7 +173,7 @@ export const alianzaPageCards: CardConfig[] = [
       { component: EyeOff, size: 18, color: '#5D5A88', withCircle: true, type: 'delete' },
       { component: Edit2, size: 18, color: '#5D5A88', withCircle: true, type: 'edit' }
     ]),
-    sectionType: '68c9f2d8d6dbf0c558131e16',
+    sectionType: SECTION_IDS.ALIANZA,
     resourceName: 'Resumen de Contrato',
     showModal: true
   }
@@ -210,6 +217,88 @@ export const gobernanzaPageCards: CardConfig[] = [
   }
 ];
 
+// Cards para la página Gestión (6 cards)
+export const gestionPageCards: CardConfig[] = [
+  {
+    id: 'tablero-pbi-ventas',
+    title: 'Tablero PBI ventas',
+    description: '',
+    leftHeaderContent: createSemiboldIcon(BarChart, 32, '#1E285F'),
+    rightHeaderContent: createMultipleIcons([
+      { component: EyeOff, size: 18, color: '#5D5A88', withCircle: true, type: 'delete' },
+      { component: Edit2, size: 18, color: '#5D5A88', withCircle: true, type: 'edit' }
+    ]),
+    sectionType: SECTION_IDS.GESTION,
+    resourceName: 'Tablero PBI Ventas',
+    showModal: true
+  },
+  {
+    id: 'tablero-pbi-exito-estudiantil',
+    title: 'Tablero PBI éxito estudiantil',
+    description: '',
+    leftHeaderContent: createSemiboldIcon(Award, 32, '#1E285F'),
+    rightHeaderContent: createMultipleIcons([
+      { component: EyeOff, size: 18, color: '#5D5A88', withCircle: true, type: 'delete' },
+      { component: Edit2, size: 18, color: '#5D5A88', withCircle: true, type: 'edit' }
+    ]),
+    sectionType: SECTION_IDS.GESTION,
+    resourceName: 'Tablero PBI éxito estudiantil',
+    showModal: true
+  },
+  {
+    id: 'calendario-academico-alianzas',
+    title: 'Calendario académico de las alianzas',
+    description: '',
+    leftHeaderContent: createSemiboldIcon(BookOpen, 32, '#1E285F'),
+    rightHeaderContent: createMultipleIcons([
+      { component: EyeOff, size: 18, color: '#5D5A88', withCircle: true, type: 'delete' },
+      { component: Edit2, size: 18, color: '#5D5A88', withCircle: true, type: 'edit' }
+    ]),
+    sectionType: SECTION_IDS.GESTION,
+    resourceName: 'Calendario académico de las alianzas'
+    // NO tiene showModal: true porque solo tiene 1 link
+  },
+  {
+    id: 'tablero-pbi-gestion-docente',
+    title: 'Tablero PBI gestión docente',
+    description: '',
+    leftHeaderContent: createSemiboldIcon(Book, 32, '#1E285F'),
+    rightHeaderContent: createMultipleIcons([
+      { component: EyeOff, size: 18, color: '#5D5A88', withCircle: true, type: 'delete' },
+      { component: Edit2, size: 18, color: '#5D5A88', withCircle: true, type: 'edit' }
+    ]),
+    sectionType: SECTION_IDS.GESTION,
+    resourceName: 'Tablero PBI gestión docente',
+    showModal: true
+  },
+  {
+    id: 'tablero-pbi-experiencia',
+    title: 'Tablero PBI experiencia',
+    description: '',
+    leftHeaderContent: createSemiboldIcon(UserPlus, 32, '#1E285F'),
+    rightHeaderContent: createMultipleIcons([
+      { component: EyeOff, size: 18, color: '#5D5A88', withCircle: true, type: 'delete' },
+      { component: Edit2, size: 18, color: '#5D5A88', withCircle: true, type: 'edit' }
+    ]),
+    sectionType: SECTION_IDS.GESTION,
+    resourceName: 'Tablero PBI experiencia',
+    showModal: true
+  },
+  {
+    id: 'calendario-operacional',
+    title: 'Calendario operacional',
+    description: '',
+    leftHeaderContent: createSemiboldIcon(Calendar, 32, '#1E285F'),
+    rightHeaderContent: createMultipleIcons([
+      { component: EyeOff, size: 18, color: '#5D5A88', withCircle: true, type: 'delete' },
+      { component: Edit2, size: 18, color: '#5D5A88', withCircle: true, type: 'edit' }
+    ]),
+    sectionType: SECTION_IDS.GESTION,
+    resourceName: 'Calendario operacional',
+    showModal: true
+  }
+];
+
 // Cards para la página Iniciativas (2 cards)
 export const iniciativasPageCards: CardConfig[] = [
   {
@@ -221,7 +310,7 @@ export const iniciativasPageCards: CardConfig[] = [
       { component: EyeOff, size: 18, color: '#5D5A88', withCircle: true, type: 'delete' },
       { component: Edit2, size: 18, color: '#5D5A88', withCircle: true, type: 'edit' }
     ]),
-    sectionType: '68cadd0154f9344f27defc81',
+    sectionType: SECTION_IDS.INICIATIVAS,
     resourceName: 'Masterplan',
     showModal: true
   },
@@ -234,7 +323,7 @@ export const iniciativasPageCards: CardConfig[] = [
       { component: EyeOff, size: 18, color: '#5D5A88', withCircle: true, type: 'delete' },
       { component: Edit2, size: 18, color: '#5D5A88', withCircle: true, type: 'edit' }
     ]),
-    sectionType: '68cadd0154f9344f27defc81',
+    sectionType: SECTION_IDS.INICIATIVAS,
     resourceName: 'Plan de excelencia operativa en 360 - 2025',
     showModal: true
   }
@@ -251,6 +340,7 @@ export const cardConfigs = {
   dashboard: dashboardPageCards,
   alianza: alianzaPageCards,
   gobernanza: gobernanzaPageCards,
+  gestion: gestionPageCards,
   iniciativas: iniciativasPageCards
 } as const;
 
