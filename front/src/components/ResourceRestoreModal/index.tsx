@@ -64,9 +64,13 @@ export const ResourceRestoreModal: React.FC<ResourceRestoreModalProps> = ({
       onClick={handleBackdropClick}
     >
       <div 
-        className="bg-white/95 backdrop-blur-md shadow-2xl border border-white/20 overflow-hidden w-full h-full sm:w-auto sm:h-auto sm:max-w-[800px] sm:max-h-[90vh] flex flex-col"
+        className="bg-white/95 backdrop-blur-md shadow-2xl border border-white/20 overflow-hidden w-full h-full flex flex-col"
         style={{ 
-          borderRadius: `${scale(16)}px`
+          borderRadius: `${scale(16)}px`,
+          width: `${scale(800)}px`,
+          height: `${scale(600)}px`,
+          maxWidth: `${scale(800)}px`,
+          maxHeight: `${scale(600)}px`
         }}
         onClick={(e) => e.stopPropagation()}
       >
