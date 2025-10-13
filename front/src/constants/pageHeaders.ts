@@ -26,7 +26,7 @@ export const PAGE_HEADERS = {
     title: 'ASISTENTE IA'
   },
   '/galeria': {
-    title: 'GALERÍA DE FOTOS E HITOS'
+    title: 'Galería de fotos'
   }
 } as const;
 

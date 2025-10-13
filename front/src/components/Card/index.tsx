@@ -48,7 +48,7 @@ const Card: React.FC<CardProps> = ({
       // En desktop: cards rectangulares escaladas proporcionalmente
       // Base: 480x280px (ratio 1.71:1)
       return {
-        width: (dimensions.card as any).rectangular,
+        width: dimensions.card.rectangular,
         height: `${scale(280)}px` // Escala proporcionalmente con el ancho
       };
     }

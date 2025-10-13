@@ -29,3 +29,5 @@ export { default as Alianza } from './Alianza';
 export { default as Gobernanza } from './Gobernanza/index';
 
 export { default as Iniciativas } from './iniciativas';
+
+export { default as Galeria } from './Galeria';

@@ -17,6 +17,7 @@
 export * from './appConstants';
 export * from './colors';
 export * from './cardConfigs';
+export * from './galleryConfigs';
 export * from './iconFactory';
 export * from './pageHeaders';
 export * from './notificationMessages';

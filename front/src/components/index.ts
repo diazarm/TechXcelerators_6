@@ -43,6 +43,12 @@ export { AllianceSelectionModal } from './AllianceSelectionModal';
 export { ResourceEditModal } from './ResourceEditModal';
 export { ResourceDeleteModal } from './ResourceDeleteModal';
 export { ResourceRestoreModal } from './ResourceRestoreModal';
+export { default as GalleryEditModal } from './GalleryEditModal';
+export { default as GalleryDeleteModal } from './GalleryDeleteModal';
+
+// Componentes específicos de galería
+export { default as GalleryCard } from './GalleryCard';
+export { default as GalleryCardGrid } from './GalleryCardGrid';
 
 // Componentes de layout
 export { default as MainLayout } from './Layout/MainLayout';
