@@ -10,6 +10,10 @@ import {
   Edit,
   EyeOff,
   Edit2,
+  Database,
+  Crosshair,
+  TrendingUp,
+  Briefcase,
 } from 'react-feather';
 import { 
   createSemiboldIcon,
@@ -177,6 +181,11 @@ export const gobernanzaPageCards: CardConfig[] = [
     title: 'Acta de comité de colaboración',
     description: '',
     leftHeaderContent: createSemiboldIcon(Users, 32, '#1E285F'),
+    rightHeaderContent: createMultipleIcons([
+      { component: EyeOff, size: 18, color: '#5D5A88', withCircle: true, type: 'delete' },
+      { component: Edit2, size: 18, color: '#5D5A88', withCircle: true, type: 'edit' }
+    ]),
+    resourceName: 'Acta de comité de colaboración',
     href: '/gobernanza/acta-colaboracion'
   },
   {
@@ -184,6 +193,11 @@ export const gobernanzaPageCards: CardConfig[] = [
     title: 'Acta de comité de dirección',
     description: '',
     leftHeaderContent: createSemiboldIcon(FileText, 32, '#1E285F'),
+    rightHeaderContent: createMultipleIcons([
+      { component: EyeOff, size: 18, color: '#5D5A88', withCircle: true, type: 'delete' },
+      { component: Edit2, size: 18, color: '#5D5A88', withCircle: true, type: 'edit' }
+    ]),
+    resourceName: 'Acta de comité de dirección',
     href: '/gobernanza/acta-direccion'
   },
   {
@@ -191,6 +205,11 @@ export const gobernanzaPageCards: CardConfig[] = [
     title: 'Acta de comité de estrategia y crecimiento',
     description: '',
     leftHeaderContent: createSemiboldIcon(Edit, 32, '#1E285F'),
+    rightHeaderContent: createMultipleIcons([
+      { component: EyeOff, size: 18, color: '#5D5A88', withCircle: true, type: 'delete' },
+      { component: Edit2, size: 18, color: '#5D5A88', withCircle: true, type: 'edit' }
+    ]),
+    resourceName: 'Acta de comité de estrategia y crecimiento',
     href: '/gobernanza/acta-estrategia'
   },
   {
@@ -198,6 +217,11 @@ export const gobernanzaPageCards: CardConfig[] = [
     title: 'Grabación de los comités',
     description: '',
     leftHeaderContent: createSemiboldIcon(Video, 32, '#1E285F'),
+    rightHeaderContent: createMultipleIcons([
+      { component: EyeOff, size: 18, color: '#5D5A88', withCircle: true, type: 'delete' },
+      { component: Edit2, size: 18, color: '#5D5A88', withCircle: true, type: 'edit' }
+    ]),
+    resourceName: 'Grabación de los comités',
     href: '/gobernanza/grabaciones'
   },
   {
@@ -205,7 +229,64 @@ export const gobernanzaPageCards: CardConfig[] = [
     title: 'Presentaciones de comités',
     description: '',
     leftHeaderContent: createSemiboldIcon(Cast, 32, '#1E285F'),
+    rightHeaderContent: createMultipleIcons([
+      { component: EyeOff, size: 18, color: '#5D5A88', withCircle: true, type: 'delete' },
+      { component: Edit2, size: 18, color: '#5D5A88', withCircle: true, type: 'edit' }
+    ]),
+    resourceName: 'Presentaciones de comités',
     href: '/gobernanza/presentaciones'
+  }
+];
+
+// Cards para la página Planeación (4 cards rectangulares)
+export const planeacionPageCards: CardConfig[] = [
+  {
+    id: 'budget',
+    title: 'Budget',
+    description: '',
+    leftHeaderContent: createSemiboldIcon(Database, 32, '#1E285F'),
+    rightHeaderContent: createMultipleIcons([
+      { component: EyeOff, size: 18, color: '#5D5A88', withCircle: true, type: 'delete' },
+      { component: Edit2, size: 18, color: '#5D5A88', withCircle: true, type: 'edit' }
+    ]),
+    sectionType: 'planeacion',
+    resourceName: 'Budget'
+  },
+  {
+    id: 'proyeccion-crecimiento',
+    title: 'Proyección de crecimiento de la alianza con su portafolio',
+    description: '',
+    leftHeaderContent: createSemiboldIcon(Crosshair, 32, '#1E285F'),
+    rightHeaderContent: createMultipleIcons([
+      { component: EyeOff, size: 18, color: '#5D5A88', withCircle: true, type: 'delete' },
+      { component: Edit2, size: 18, color: '#5D5A88', withCircle: true, type: 'edit' }
+    ]),
+    sectionType: 'planeacion',
+    resourceName: 'Proyección de crecimiento de la alianza con su portafolio'
+  },
+  {
+    id: 'estudios-viabilidad',
+    title: 'Estudios de viabilidad y factibilidad',
+    description: '',
+    leftHeaderContent: createSemiboldIcon(TrendingUp, 32, '#1E285F'),
+    rightHeaderContent: createMultipleIcons([
+      { component: EyeOff, size: 18, color: '#5D5A88', withCircle: true, type: 'delete' },
+      { component: Edit2, size: 18, color: '#5D5A88', withCircle: true, type: 'edit' }
+    ]),
+    sectionType: 'planeacion',
+    resourceName: 'Estudios de viabilidad y factibilidad'
+  },
+  {
+    id: 'aprobacion-portafolio',
+    title: 'Aprobación de portafolio por alianza',
+    description: '',
+    leftHeaderContent: createSemiboldIcon(Briefcase, 32, '#1E285F'),
+    rightHeaderContent: createMultipleIcons([
+      { component: EyeOff, size: 18, color: '#5D5A88', withCircle: true, type: 'delete' },
+      { component: Edit2, size: 18, color: '#5D5A88', withCircle: true, type: 'edit' }
+    ]),
+    sectionType: 'planeacion',
+    resourceName: 'Aprobación de portafolio por alianza'
   }
 ];
 
@@ -219,7 +300,8 @@ export const gobernanzaPageCards: CardConfig[] = [
 export const cardConfigs = {
   dashboard: dashboardPageCards,
   alianza: alianzaPageCards,
-  gobernanza: gobernanzaPageCards
+  gobernanza: gobernanzaPageCards,
+  planeacion: planeacionPageCards
 } as const;
 
 /**

@@ -9,7 +9,7 @@ import { useResponsive } from './useResponsive';
 import type { CardConfig } from '../constants';
 
 
-type PageType = 'dashboard' | 'gobernanza' | 'alianza';
+type PageType = 'dashboard' | 'gobernanza' | 'alianza' | 'planeacion';
 
 
 interface UseCardsProps {
@@ -36,8 +36,9 @@ export const useCards = ({ pageType, onEditClick, onDeleteClick }: UseCardsProps
   const cards = useMemo(() => {
     const baseCards = getCardConfig(pageType);
 
-    // Mostrar acciones (iconos de la derecha) solo para admin o director en la página Alianza
-    if (pageType === 'alianza') {
+    // Mostrar acciones (iconos de la derecha) solo para admin o director en páginas con acciones
+    const pagesWithActions: PageType[] = ['alianza', 'planeacion', 'gobernanza'];
+    if (pagesWithActions.includes(pageType)) {
       const canSeeActions = Boolean(user?.isAdmin || user?.role === 'director');
       return baseCards.map((card) => {
         // Si el usuario puede ver acciones y la card tiene iconos, hacerlos clickeables

@@ -19,6 +19,7 @@ import {
   ConfirmationPage,
   Dashboard,
   Gobernanza,
+  Planeacion,
   Instalacion,
   Manual,
   Seguridad,
@@ -69,6 +70,16 @@ function App() {
                       element={
                         <AuthGuard>
                           <Dashboard />
+                        </AuthGuard>
+                      }
+                    />
+
+                    {/* Rutas de Gobernanza y Alianza - AÑADIDAS AQUÍ */}
+                    <Route
+                      path="planeacion"
+                      element={
+                        <AuthGuard>
+                          <Planeacion />
                         </AuthGuard>
                       }
                     />
