@@ -20,7 +20,7 @@ export const PAGE_HEADERS = {
     title: 'PLANEACIÓN'
   },
   '/iniciativas': {
-    title: 'INICIATIVAS'
+    title: 'Iniciativas'
   },
   '/asistenteIa': {
     title: 'ASISTENTE IA'
