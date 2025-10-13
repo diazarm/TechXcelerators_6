@@ -16,6 +16,7 @@ import {
   Book,
   UserPlus,
   Calendar,
+  Map,
 } from 'react-feather';
 import { 
   createSemiboldIcon,
@@ -215,7 +216,7 @@ export const gobernanzaPageCards: CardConfig[] = [
   }
 ];
 
-// Cards para la página Gestión (6 cards como en la imagen)
+// Cards para la página Gestión (6 cards)
 export const gestionPageCards: CardConfig[] = [
   {
     id: 'tablero-pbi-ventas',
@@ -297,6 +298,36 @@ export const gestionPageCards: CardConfig[] = [
   }
 ];
 
+// Cards para la página Iniciativas (2 cards)
+export const iniciativasPageCards: CardConfig[] = [
+  {
+    id: 'planes-accion',
+    title: 'Master plan',
+    description: 'Plan estrategico a largo plazo con los ejes principales',
+    leftHeaderContent: createSemiboldIcon(Map, 32, '#1E285F'),
+    rightHeaderContent: createMultipleIcons([
+      { component: EyeOff, size: 18, color: '#5D5A88', withCircle: true, type: 'delete' },
+      { component: Edit2, size: 18, color: '#5D5A88', withCircle: true, type: 'edit' }
+    ]),
+    sectionType: '68cadd0154f9344f27defc81',
+    resourceName: 'Masterplan',
+    showModal: true
+  },
+  {
+    id: 'seguimiento-resultados',
+    title: 'Plan de excelencia operativa en 360 / 2025',
+    description: 'Compromiso con la innovación, calidad y sostenibilidad',
+    leftHeaderContent: createSemiboldIcon(Star, 32, '#1E285F'),
+    rightHeaderContent: createMultipleIcons([
+      { component: EyeOff, size: 18, color: '#5D5A88', withCircle: true, type: 'delete' },
+      { component: Edit2, size: 18, color: '#5D5A88', withCircle: true, type: 'edit' }
+    ]),
+    sectionType: '68cadd0154f9344f27defc81',
+    resourceName: 'Plan de excelencia operativa en 360 - 2025',
+    showModal: true
+  }
+];
+
 // ========================================
 // CONFIGURACIÓN GENERAL
 // ========================================
@@ -308,7 +339,8 @@ export const cardConfigs = {
   dashboard: dashboardPageCards,
   alianza: alianzaPageCards,
   gobernanza: gobernanzaPageCards,
-  gestion: gestionPageCards
+  gestion: gestionPageCards,
+  iniciativas: iniciativasPageCards
 } as const;
 
 /**

@@ -27,6 +27,7 @@ import {
   Changelog,
   Alianza,
   Gestion,
+  Iniciativas,
 } from "./pages";
 
 import "./App.css";
@@ -74,7 +75,7 @@ function App() {
                       }
                     />
 
-                    {/* Rutas de Gobernanza y Alianza - AÑADIDAS AQUÍ */}
+                    {/* Rutas de Gobernanza, Alianza e Iniciativas - AÑADIDAS AQUÍ */}
                     <Route
                       path="gobernanza"
                       element={
@@ -96,6 +97,14 @@ function App() {
                       element={
                         <AuthGuard>
                           <Gestion />
+                        </AuthGuard>
+                      }
+                    />
+                    <Route
+                      path="iniciativas"
+                      element={
+                        <AuthGuard>
+                          <Iniciativas />
                         </AuthGuard>
                       }
                     />

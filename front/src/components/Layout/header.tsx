@@ -32,19 +32,19 @@ export const Header: React.FC<HeaderProps> = ({ title }) => {
 
   // Determinar qué botones mostrar según la página
   const isDashboard = location.pathname === '/dashboard';
-  const isAlianzaOrGobernanzaOrGestion = location.pathname === '/alianza' || location.pathname === '/gobernanza' || location.pathname === '/gestion';
+  const isPageWithResources = location.pathname === '/alianza' || location.pathname === '/gobernanza' || location.pathname === '/gestion' || location.pathname === '/iniciativas';
   
   const shouldShowCreateUserButton = canCreateUsers && isDashboard;
   
   // Cargar recursos eliminados si estamos en una página que puede restaurar
   useEffect(() => {
-    if (canRestoreResources && isAlianzaOrGobernanzaOrGestion) {
+    if (canRestoreResources && isPageWithResources) {
       resourceRestoration.loadDeletedResources();
     }
-  }, [canRestoreResources, isAlianzaOrGobernanzaOrGestion, resourceRestoration.loadDeletedResources]);
+  }, [canRestoreResources, isPageWithResources, resourceRestoration.loadDeletedResources]);
 
   // Mostrar botón de restaurar solo si hay recursos eliminados
-  const shouldShowRestoreButton = canRestoreResources && isAlianzaOrGobernanzaOrGestion && resourceRestoration.hasDeletedResources;
+  const shouldShowRestoreButton = canRestoreResources && isPageWithResources && resourceRestoration.hasDeletedResources;
 
   return (
     <header className="bg-white">
@@ -64,7 +64,7 @@ export const Header: React.FC<HeaderProps> = ({ title }) => {
               
               {/* Espacio derecho con botones o espacio vacío */}
               <div className="flex-1 flex justify-end gap-2">
-                {/* Botón de restaurar recursos en móvil - solo en Alianza/Gobernanza/Gestión */}
+                {/* Botón de restaurar recursos en móvil - solo en páginas con recursos */}
                 {shouldShowRestoreButton && (
                   <Button
                     variant="secondary"
@@ -103,7 +103,7 @@ export const Header: React.FC<HeaderProps> = ({ title }) => {
               
               {/* Espacio derecho con botones o espacio vacío */}
               <div className="flex-1 flex justify-end gap-3">
-                {/* Botón de restaurar recursos - Solo visible en Alianza/Gobernanza/Gestión */}
+                {/* Botón de restaurar recursos - Solo visible en páginas con recursos */}
                 {shouldShowRestoreButton && (
                   <Button
                     variant="secondary"

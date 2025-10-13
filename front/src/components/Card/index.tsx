@@ -152,11 +152,15 @@ const Card: React.FC<CardProps> = ({
         {description && (
           <p 
             className={`
-              ${image ? 'text-white font-light' : COLOR_CLASSES.textSecondary} 
-              relative z-10 font-light
+              ${image ? 'text-white font-light' : 'font-light'} 
+              relative z-10
               ${isMobile ? 'mb-4' : 'mb-6'}
             `}
-            style={{ fontSize: `${scale(18)}px` }}
+            style={{ 
+              fontSize: `${scale(15)}px`,
+              color: image ? 'white' : '#9795B5',
+              fontFamily: 'DM Sans, sans-serif'
+            }}
           >
             {description}
           </p>
