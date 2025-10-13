@@ -8,7 +8,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({
   className = "",
   footerVariant = "dark",
 }) => {
-  const { getContainerForScreen, dimensions } = useScreenSize();
+  const { getContainerForScreen, scale } = useScreenSize();
   const location = useLocation();
 
   const isHomePage = location.pathname === "/";
@@ -37,10 +37,10 @@ const MainLayout: React.FC<MainLayoutProps> = ({
 
       {/* Main content */}
       <main 
-        className={`${getContainerForScreen()} flex-1`}
+        className={`${!isHomePage ? getContainerForScreen() : ''} flex-1`}
         style={{
-          paddingBottom: dimensions.spacing.xl,
-          paddingTop: dimensions.spacing.md
+          paddingBottom: !isHomePage ? `${scale(24)}px` : '0px',
+          paddingTop: !isHomePage ? `${scale(16)}px` : '0px'
         }}
       >
         <Outlet /> {/* 👈 Aquí se montan las páginas según la ruta */}
