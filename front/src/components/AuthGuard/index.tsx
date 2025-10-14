@@ -39,7 +39,7 @@ export const AuthGuard: React.FC<AuthGuardProps> = ({ children }) => {
           type: 'info',
           title: 'Acceso requerido',
           message: 'Para acceder al sitio, necesitas estar autenticado. Haz clic en el botón "Usuario o Admin" para iniciar sesión.',
-          duration: 6000
+          duration: 5000
         });
         setHasShownNotification(true);
       }

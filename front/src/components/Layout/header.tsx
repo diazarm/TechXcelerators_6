@@ -5,6 +5,7 @@ import { useHeader, useAuth } from "../../hooks";
 import { useScreenSize } from "../../context";
 import { SearchBar, Button } from "../../components";
 import { getUserPermissions } from "../../utils";
+import { getSectionByRoute } from "../../constants";
 import { useResourceRestoration } from "../../hooks/useResourceRestoration";
 import { ResourceRestoreModal } from "../ResourceRestoreModal";
 import type { HeaderProps } from "./types";
@@ -22,24 +23,28 @@ export const Header: React.FC<HeaderProps> = ({ title }) => {
   const canCreateUsers = permissions?.canCreateUsers ?? false;
   const canRestoreResources = permissions?.canRestoreResources ?? false;
 
+  // Detectar sección actual
+  const currentSection = getSectionByRoute(location.pathname);
+  const currentSectionId = currentSection?.sectionId;
+
   // Hook para restaurar recursos (optimizado para no cargar automáticamente)
-  const resourceRestoration = useResourceRestoration();
+  const resourceRestoration = useResourceRestoration({ currentSectionId });
 
   // Determinar qué botones mostrar según la página
   const isDashboard = location.pathname === '/dashboard';
-  const isAlianzaOrGobernanza = location.pathname === '/alianza' || location.pathname === '/gobernanza';
+  const isPageWithResources = location.pathname === '/alianza' || location.pathname === '/gobernanza' || location.pathname === '/gestion' || location.pathname === '/iniciativas';
   
   const shouldShowCreateUserButton = canCreateUsers && isDashboard;
   
   // Cargar recursos eliminados si estamos en una página que puede restaurar
   useEffect(() => {
-    if (canRestoreResources && isAlianzaOrGobernanza) {
+    if (canRestoreResources && isPageWithResources) {
       resourceRestoration.loadDeletedResources();
     }
-  }, [canRestoreResources, isAlianzaOrGobernanza, resourceRestoration.loadDeletedResources]);
+  }, [canRestoreResources, isPageWithResources, resourceRestoration]);
 
   // Mostrar botón de restaurar solo si hay recursos eliminados
-  const shouldShowRestoreButton = canRestoreResources && isAlianzaOrGobernanza && resourceRestoration.hasDeletedResources;
+  const shouldShowRestoreButton = canRestoreResources && isPageWithResources && resourceRestoration.hasDeletedResources;
 
   return (
     <header className="bg-white">
@@ -59,7 +64,7 @@ export const Header: React.FC<HeaderProps> = ({ title }) => {
               
               {/* Espacio derecho con botones o espacio vacío */}
               <div className="flex-1 flex justify-end gap-2">
-                {/* Botón de restaurar recursos en móvil - solo en Alianza/Gobernanza */}
+                {/* Botón de restaurar recursos en móvil - solo en páginas con recursos */}
                 {shouldShowRestoreButton && (
                   <Button
                     variant="secondary"
@@ -67,6 +72,7 @@ export const Header: React.FC<HeaderProps> = ({ title }) => {
                     iconLeft={<RotateCcw size={16} />}
                     onClick={() => setRestoreModalOpen(true)}
                   >
+                    <span className="sr-only">Restaurar</span>
                   </Button>
                 )}
                 
@@ -78,6 +84,7 @@ export const Header: React.FC<HeaderProps> = ({ title }) => {
                       size="xs"
                       iconLeft={<UserPlus size={16} color="white" />}
                     >
+                      <span className="sr-only">Crear Usuario</span>
                     </Button>
                   </Link>
                 )}
@@ -96,7 +103,7 @@ export const Header: React.FC<HeaderProps> = ({ title }) => {
               
               {/* Espacio derecho con botones o espacio vacío */}
               <div className="flex-1 flex justify-end gap-3">
-                {/* Botón de restaurar recursos - Solo visible en Alianza/Gobernanza */}
+                {/* Botón de restaurar recursos - Solo visible en páginas con recursos */}
                 {shouldShowRestoreButton && (
                   <Button
                     variant="secondary"
@@ -126,7 +133,7 @@ export const Header: React.FC<HeaderProps> = ({ title }) => {
         </div>
       </div>
       
-      {/* Título después */}
+      {/* Título y Descripción */}
       <div 
         className={`${getContainerForScreen()}`}
         style={{
@@ -134,18 +141,35 @@ export const Header: React.FC<HeaderProps> = ({ title }) => {
           paddingBottom: dimensions.spacing.xl
         }}
       >
-        <div className="flex justify-center">
+        <div className="flex flex-col items-center text-center">
           <h1 
-            className="text-[#585D8A] font-bold mb-4 text-center"
+            className="text-[#585D8A] font-bold mb-2"
             style={{
-              width: dimensions.spacing.xl + ' * 24',
-              height: dimensions.spacing.lg,
               fontSize: isMobile ? dimensions.fontSize.xl : dimensions.fontSize['2xl'],
-              lineHeight: dimensions.spacing.lg
+              lineHeight: isMobile ? dimensions.fontSize.xl : dimensions.fontSize['2xl']
             }}
           >
             {header.title || title || ''}
           </h1>
+          
+          {/* Descripción solo si existe */}
+          {header.description && (
+            <p 
+              className="text-[#6B7280] font-normal max-w-4xl"
+              style={{
+                fontSize: dimensions.fontSize.sm,
+                lineHeight: dimensions.fontSize.lg,
+                marginTop: dimensions.spacing.sm
+              }}
+            >
+              {header.description.split('\n').map((line, index) => (
+                <React.Fragment key={index}>
+                  {line}
+                  {index < header.description!.split('\n').length - 1 && <br />}
+                </React.Fragment>
+              ))}
+            </p>
+          )}
         </div>
       </div>
 
@@ -157,6 +181,9 @@ export const Header: React.FC<HeaderProps> = ({ title }) => {
         loading={resourceRestoration.loading}
         restoreLoading={resourceRestoration.restoreLoading}
         onRestoreResource={resourceRestoration.handleRestoreResource}
+        selectedSectionId={resourceRestoration.selectedSectionId}
+        onSectionChange={resourceRestoration.setSelectedSectionId}
+        sectionOptions={resourceRestoration.sectionOptions}
       />
     </header>
   );

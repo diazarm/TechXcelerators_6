@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useNotification, useErrorHandler } from './index';
 import { logger, api } from '../services';
+import type { ValidateTokenResponse } from '../types/api';
 
 export interface RegisterFormData {
   name: string;
@@ -88,7 +89,7 @@ export const useRegister = () => {
         role: registerData.role 
       }, 'useRegister');
 
-      const response = await api.post('/users/', registerData);
+      const response = await api.post<ValidateTokenResponse>('/users/', registerData);
 
       if (!response.data.success) {
         throw new Error(response.data.error || 'Error al crear usuario');
@@ -113,7 +114,7 @@ export const useRegister = () => {
         type: 'success',
         title: 'Usuario creado',
         message: `Usuario ${userData.name} registrado exitosamente`,
-        duration: 3000
+        duration: 5000
       });
 
       // Navegar a página de confirmación

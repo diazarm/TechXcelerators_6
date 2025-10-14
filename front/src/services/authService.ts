@@ -1,4 +1,5 @@
 import type { User, LoginCredentials } from '../types';
+import type { LoginResponse, ValidateTokenResponse } from '../types/api';
 import { api } from './api';
 import { logger } from './index';
 
@@ -20,7 +21,7 @@ export const login = async (credentials: LoginCredentials): Promise<{ user: User
     logger.debug('Enviando credenciales al backend', { email: credentials.email, hasPassword: !!credentials.password }, 'AuthService');
     
     // Llamada real al backend
-    const response = await api.post('/users/login', credentials);
+    const response = await api.post<LoginResponse>('/users/login', credentials);
     
     if (!response.data.success || !response.data.data) {
       throw new Error(response.data.error || 'Error en el login');
@@ -58,30 +59,30 @@ export const validateToken = async (token: string): Promise<User> => {
     }
     
     // Llamada real al backend para validar token
-    const response = await api.get('/users/verifytoken');
+    const response = await api.get<ValidateTokenResponse>('/users/verifytoken');
     
-    if (!response.data || !response.data.user) {
-      throw new Error('Token inválido o expirado');
+    if (!response.data.success || !response.data.data) {
+      throw new Error(response.data.error || 'Token inválido o expirado');
     }
     
-    const user = response.data.user;
+    const user = response.data.data;
     
     logger.debug('Token validado exitosamente', { 
-      userId: user.uid, 
+      userId: user.id, 
       isAdmin: user.isAdmin, 
       role: user.role 
     }, 'AuthService');
     
     // Convertir formato del backend al formato del frontend
     const frontendUser: User = {
-      id: user.uid,
+      id: user.id,
       name: user.name,
       email: user.email,
-      isActive: true, // El backend no incluye isActive en el payload del token
+      isActive: user.isActive || true, // El backend puede no incluir isActive
       role: user.role,
       isAdmin: user.isAdmin,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString()
+      createdAt: user.createdAt || new Date().toISOString(),
+      updatedAt: user.updatedAt || new Date().toISOString()
     };
     
     return frontendUser;

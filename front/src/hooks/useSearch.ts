@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback, useEffect } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import type { SearchResult } from '../types';
 import { searchService } from '../services/searchService';
 

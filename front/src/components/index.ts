@@ -64,6 +64,13 @@ export { default as CardGrid } from './CardGrid';
 // Componentes de imágenes responsivas
 export { ResponsiveImage, ResponsiveBackground } from './ResponsiveImage';
 
+// Componentes de alianzas
+export { AllianceSlider } from './AllianceSlider';
+
+// Componentes de filtrado
+export { SectionFilter } from './SectionFilter';
+export type { SectionFilterProps, SectionOption } from './SectionFilter/types';
+
 // Tipos de componentes
 export type { ResourceDropdownProps } from './ResourceDropdown/types';
 

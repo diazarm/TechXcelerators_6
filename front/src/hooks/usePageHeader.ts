@@ -26,6 +26,7 @@ export const usePageHeader = (): void => {
     if (pageConfig) {
       setHeader({
         title: pageConfig.title,
+        description: 'description' in pageConfig ? pageConfig.description : '',
         className: ''
       });
     }

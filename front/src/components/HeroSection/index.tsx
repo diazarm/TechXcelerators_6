@@ -16,17 +16,17 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   showImage = true,
   children
 }) => {
-  const { dimensions, scale, getContainerForScreen } = useScreenSize();
+  const { scale, getContainerForScreen } = useScreenSize();
 
   return (
     <section 
       className="bg-gray-50 overflow-hidden"
       style={{
-        minHeight: `${scale(35)}vh`,
-        borderRadius: dimensions.spacing.xl,
-        marginTop: dimensions.spacing.xl,
-        paddingTop: dimensions.spacing.xl,
-        paddingBottom: dimensions.spacing.xl
+        minHeight: `${scale(280)}px`, // Altura fija escalada en lugar de vh
+        borderRadius: `${scale(16)}px`,
+        marginTop: `${scale(24)}px`,
+        paddingTop: `${scale(24)}px`,
+        paddingBottom: `${scale(24)}px`
       }}
     >
       <div className={`${getContainerForScreen()}`}>
@@ -38,11 +38,11 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                 src="/img/HomeHS.jpg" 
                 alt="Home Hero Section" 
                 className="w-full h-full object-cover"
-                style={{ borderRadius: dimensions.spacing.xl }}
+                style={{ borderRadius: `${scale(16)}px` }}
               />
               <div 
                 className="absolute inset-0 bg-black/30"
-                style={{ borderRadius: dimensions.spacing.xl }}
+                style={{ borderRadius: `${scale(16)}px` }}
               ></div>
             </div>
           )}
@@ -51,10 +51,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           <div 
             className="bg-gray-50 flex flex-col justify-center"
             style={{
-              paddingLeft: dimensions.spacing.lg,
-              paddingRight: dimensions.spacing.lg,
-              paddingTop: dimensions.spacing.md,
-              paddingBottom: dimensions.spacing.md
+              paddingLeft: `${scale(24)}px`,
+              paddingRight: `${scale(24)}px`,
+              paddingTop: `${scale(16)}px`,
+              paddingBottom: `${scale(16)}px`
             }}
           >
             <div 
@@ -66,8 +66,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               <h1 
                 className={`leading-tight font-bold ${COLOR_CLASSES.textPrimary}`}
                 style={{ 
-                  fontSize: dimensions.fontSize['3xl'],
-                  marginBottom: dimensions.spacing.lg
+                  fontSize: `${scale(28)}px`,
+                  marginBottom: `${scale(24)}px`
                 }}
               >
                 {title || "¡Hola! ¡Bienvenido a Scala Learning!"}
@@ -76,8 +76,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               <p 
                 className={`${COLOR_CLASSES.textSecondary} leading-relaxed`}
                 style={{ 
-                  fontSize: dimensions.fontSize.md,
-                  marginBottom: dimensions.spacing.lg
+                  fontSize: `${scale(16)}px`,
+                  marginBottom: `${scale(24)}px`
                 }}
               >
                 {description || "Lorem ipsum dolor sit amet consectetur adipiscing eli mattis sit phasellus mollis sit aliquam sit nullam neque ultrices."}

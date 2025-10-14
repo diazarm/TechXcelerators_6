@@ -9,16 +9,22 @@ export const PAGE_HEADERS = {
     title: 'Conoce nuestros beneficios y funcionalidades'
   },
   '/alianza': {
-    title: 'Nueva alianza'
+    title: 'Nuestra alianza',
+    description: 'Información básica del acuerdo de la Alianza, evaluar permisos para visualización de contratos o documentos confidenciales. + Información del ADN de la Alianza (Student Person, USP de la Alianza) + Portafolio activo.'
   },
   '/gobernanza': {
-    title: 'Gobernanzas'
+    title: 'Gobernanzas',
+    description: 'Equipo de trabajo, actas, grabaciones y presentaciones de comités.'
+  },
+  '/gestion': {
+    title: 'Gestión',
+    description: 'Power BI de resultados + calendario académico'
   },
   '/planeacion': {
     title: 'PLANEACIÓN'
   },
   '/iniciativas': {
-    title: 'INICIATIVAS'
+    title: 'Iniciativas'
   },
   '/asistenteIa': {
     title: 'ASISTENTE IA'
