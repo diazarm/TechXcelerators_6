@@ -3,7 +3,7 @@ import userRouter from './userRoutes';
 import allianceRouter from './allianceRoutes';
 import resourceRouter from './resourceRoutes';
 import sectionRouter from './sectionRoutes';
-import documentRouter from './documentRoutes'; // 👈 importar la nueva ruta
+import documentRouter from './documentRoutes';
 import { authMiddleware } from '../middlewares/auth.middleware';
 import { search } from '../controllers/searchController';
 
