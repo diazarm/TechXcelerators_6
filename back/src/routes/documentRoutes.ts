@@ -6,10 +6,14 @@ import {
   uploadDocument,
   listAllDocuments,
   getOneDocument,
-  deleteDocument,
+  removeDocument,
+  downloadDocument,
+  restoreDocuments,
 } from '../controllers/documentController';
+import { authMiddleware } from '../middlewares/auth.middleware';
+import { verifyAdmin } from '../middlewares/verifyAdmin.middleware';
 
-const router = Router();
+const documentRouter = Router();
 
 // === Configuración de Multer ===
 const UPLOAD_DIR = path.join(process.cwd(), 'uploads');
@@ -31,8 +35,11 @@ const ALLOWED_MIME = new Set([
 ]);
 
 const fileFilter: multer.Options['fileFilter'] = (_req, file, cb) => {
-  if (ALLOWED_MIME.has(file.mimetype)) cb(null, true);
-  else cb(new Error('Tipo de archivo no permitido'), false);
+  if (ALLOWED_MIME.has(file.mimetype)) {
+    cb(null, true); // Aceptar el archivo
+  } else {
+    cb(new Error('Tipo de archivo no permitido')); // Rechazar el archivo
+  }
 };
 
 const upload = multer({
@@ -42,9 +49,15 @@ const upload = multer({
 });
 
 // === Endpoints ===
-router.post('/upload', upload.single('file'), uploadDocument);
-router.get('/', listAllDocuments);
-router.get('/:id', getOneDocument);
-router.delete('/:id', deleteDocument);
+// ✅ Solo ADMIN puede subir o eliminar
+documentRouter.post('/upload', authMiddleware, verifyAdmin, upload.single('file'), uploadDocument);
+documentRouter.delete('/:id', authMiddleware, verifyAdmin, removeDocument);
+documentRouter.patch('/restore/:id', authMiddleware, verifyAdmin, restoreDocuments);
 
-export default router;
+// ✅ Usuarios autenticados (user, director) pueden ver y descargar
+documentRouter.get('/', authMiddleware, listAllDocuments);
+documentRouter.get('/:id', authMiddleware, getOneDocument);
+
+documentRouter.get('/download/:id', authMiddleware, downloadDocument);
+
+export default documentRouter;

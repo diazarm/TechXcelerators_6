@@ -1,61 +1,58 @@
 import path from 'path';
 import fs from 'fs/promises';
-import Document from '../models/Document';
+import DocumentModel, { DocumentType } from '../models/Document';
 
 // ===== Crear documento =====
-export const createDocument = async (data: any) => {
-  const doc = new Document(data);
+export const createDocument = async (data: Partial<DocumentType>) => {
+  const doc = new DocumentModel(data);
   return await doc.save();
 };
 
 // ===== Listar documentos =====
-export const listDocuments = async (filters: any = {}) => {
-  const { search, type, page = 1, limit = 20 } = filters;
-  const query: Record<string, any> = { isDeleted: false }; // ✅ Ignora eliminados
+export const listDocuments = async (filters: Partial<DocumentType> = {}) => {
+  const query: any = { isDeleted: false }; // ✅ Ignora eliminados
+  
+  if (filters.category) query.category = filters.category;
+  if(filters.name) query.name = new RegExp(filters.name, 'i');
 
-  if (search) {
-    query.$or = [
-      { name: { $regex: search, $options: 'i' } },
-      { description: { $regex: search, $options: 'i' } },
-    ];
-  }
-
-  if (type) {
-    query.type = type.includes('/')
-      ? type
-      : { $regex: `^${type}/`, $options: 'i' };
-  }
-
-  const skip = (page - 1) * limit;
-
-  const [items, total] = await Promise.all([
-    Document.find(query).sort({ uploadDate: -1 }).skip(skip).limit(limit),
-    Document.countDocuments(query),
-  ]);
-
-  return {
-    items,
-    pagination: {
-      total,
-      page,
-      limit,
-      pages: Math.ceil(total / limit) || 1,
-    },
-  };
+  return await DocumentModel.find(query).sort({ uploadDate: -1 });
+  
 };
 
 // ===== Obtener documento por ID =====
 export const getDocumentById = async (id: string) => {
-  return await Document.findOne({ _id: id, isDeleted: false });
+  return await DocumentModel.findOne({ _id: id, isDeleted: false });
 };
 
 // ===== Soft delete =====
-export const deleteDocumentById = async (id: string) => {
-  const doc = await Document.findById(id);
+export const deleteDocument = async (id: string) => {
+  //Busca el documento que NO esté eliminado
+  const doc = await DocumentModel.findOne({ _id: id, isDeleted: false });
+  if (!doc) return null;
+  doc.isDeleted = true;
+  await doc.save();
+  return doc._id;
+};
+
+//Restaurar documento (si es necesario)
+export const restoreDocument = async (id: string) => {
+  const doc = await DocumentModel.findOne({ _id: id, isDeleted: true });
+  if (!doc) return null;
+  doc.isDeleted = false;
+  await doc.save();
+  return doc._id;
+};
+
+// ===== Descargar documento =====
+export const getDocumentFile = async (id: string) => {
+  const doc = await DocumentModel.findOne({ _id: id, isDeleted: false });
   if (!doc) return null;
 
-  doc.isDeleted = true; // ✅ Soft delete
-  await doc.save();
-
-  return doc;
+  const absolutePath = path.join(process.cwd(), doc.filePath);
+  try {
+    await fs.access(absolutePath); // Verifica que el archivo existe
+    return { doc, absolutePath };
+  } catch {
+    return null; // Archivo no encontrado en el sistema
+  }
 };

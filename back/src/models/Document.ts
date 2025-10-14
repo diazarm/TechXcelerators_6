@@ -4,6 +4,10 @@ const DocumentSchema = new mongoose.Schema(
   {
     name: { type: String, required: true },
     description: { type: String },
+    category: { type: String,
+      enum: ['manual', 'guia', 'politicas', 'faqs', 'otros'],
+      required: true
+    },
     type: { type: String, required: true }, // MIME (e.g., application/pdf)
     url: { type: String, required: true },  // /uploads/<file>
     filePath: { type: String, required: true }, // ruta real
