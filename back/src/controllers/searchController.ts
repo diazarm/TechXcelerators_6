@@ -10,7 +10,7 @@ export const search = async (req: Request, res: Response): Promise<void> => {
       res.status(401).json({ error: "No autorizado" });
       return;
     }
-    const userId = req.user.uid || req.user._id;
+    const userId = req.user._id;
 
     const { q, page = 1, limit = 10, type = "smart" } = req.query;
 
@@ -83,7 +83,7 @@ export const getUserSearchKeywords = async (req: Request, res: Response) => {
       res.status(401).json({ error: "No autorizado" });
       return;
     }
-    const userId = req.user.uid || req.user._id;
+    const userId = req.user._id;
     const user = await User.findById(userId).select("searchKeywords");
     if (!user) {
       return res
