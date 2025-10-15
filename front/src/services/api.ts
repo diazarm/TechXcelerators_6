@@ -71,14 +71,13 @@ api.interceptors.response.use(
     const appError = handleApiError(error);
     
     // Si el error es 401 (no autorizado), limpiar token
+    // NO redirigir aquí - dejar que AuthProvider maneje la lógica de navegación
     if (isAxiosError(error) && error.response?.status === 401) {
       localStorage.removeItem('authToken');
       localStorage.removeItem('user');
       
-      // Redirigir a login si es necesario
-      if (window.location.pathname !== '/login') {
-        window.location.href = '/login';
-      }
+      // Emitir evento personalizado para que AuthProvider reaccione
+      window.dispatchEvent(new CustomEvent('authTokenExpired'));
     }
     
     return Promise.reject(appError);

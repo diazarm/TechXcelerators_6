@@ -57,7 +57,6 @@ export const useAllianceNavigation = () => {
         const allianceLink = findAllianceLink(resource, selectedAlliance);
         
         if (allianceLink) {
-          console.log(`Navegando a ${selectedAlliance.siglas}: ${allianceLink.url}`);
           
           navigateToUrl(allianceLink.url);
           
@@ -90,7 +89,6 @@ export const useAllianceNavigation = () => {
       );
       
     } catch (error) {
-      console.error('Error al mostrar modal:', error);
       showNotification('error', 'Error de modal', 'Error al abrir la selección de alianzas');
     }
   }, []);
@@ -103,7 +101,6 @@ export const useAllianceNavigation = () => {
    */
   const handleAllianceCardClick = useCallback(async (sectionType: string, resourceName?: string, showModal?: boolean) => {
     try {
-      console.log(`Clic en sección: ${sectionType}${resourceName ? `, recurso: ${resourceName}` : ''}`);
       
       // Buscar recurso específico por nombre
       try {
@@ -111,7 +108,6 @@ export const useAllianceNavigation = () => {
         const resources = await getResourcesBySection(sectionType);
         
         if (resources.length > 0) {
-          console.log(`Encontrados ${resources.length} recursos para ${sectionType}`);
           
           // Buscar el recurso objetivo
           const searchResult = findResourceByName(resources, resourceName);
@@ -142,7 +138,6 @@ export const useAllianceNavigation = () => {
             } else {
               // Navegación directa al primer link
               const targetLink = targetResource.links[0];
-              console.log(`Navegando a ${targetResource.name}: ${targetLink.url}`);
               
               navigateToUrl(targetLink.url);
             }
@@ -155,12 +150,10 @@ export const useAllianceNavigation = () => {
           showNotification('info', 'Recursos próximamente', 'No hay recursos disponibles para esta sección. Próximamente se implementará esta funcionalidad.');
         }
       } catch (resourceError) {
-        console.log(`No se encontraron recursos para ${sectionType}:`, resourceError);
         showNotification('error', 'Error de conexión', 'No se encontraron recursos para esta sección. Próximamente se implementará esta funcionalidad.');
       }
       
     } catch (error) {
-      console.error('Error al manejar click de card de alianza:', error);
       const errorMessage = error instanceof Error ? error.message : 'Error desconocido';
       showNotification('error', 'Error del sistema', `Error: ${errorMessage}`);
     }

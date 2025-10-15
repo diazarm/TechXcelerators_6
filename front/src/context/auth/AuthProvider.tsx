@@ -46,11 +46,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         // Actualizar localStorage con datos validados del backend
         localStorage.setItem('user', JSON.stringify(validatedUser));
       } catch (validationError) {
-        console.error('Token inválido, cerrando sesión:', validationError);
         logoutUser();
       }
     } catch (err) {
-      console.error('Error verificando autenticación:', err);
       logoutUser();
     } finally {
       setIsLoading(false);
@@ -66,6 +64,19 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     
     return () => clearTimeout(timer);
   }, [checkAuth]);
+
+  /** Escuchar eventos de token expirado desde API interceptor */
+  useEffect(() => {
+    const handleTokenExpired = () => {
+      logoutUser();
+    };
+
+    window.addEventListener('authTokenExpired', handleTokenExpired);
+    
+    return () => {
+      window.removeEventListener('authTokenExpired', handleTokenExpired);
+    };
+  }, [logoutUser]);
 
   /** Iniciar sesión del usuario */
   const loginUser = async (credentials: LoginCredentials): Promise<{ user: User; token: string }> => {

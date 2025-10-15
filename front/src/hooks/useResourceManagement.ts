@@ -14,10 +14,8 @@ export const useResourceManagement = () => {
         setSelectedResource(resource);
         setEditModalOpen(true);
       } else {
-        console.warn(`No se encontró el recurso: ${resourceName}`);
       }
     } catch (error) {
-      console.error('Error al obtener recurso para edición:', error);
     }
   }, []);
 
@@ -28,10 +26,8 @@ export const useResourceManagement = () => {
         setSelectedResource(resource);
         setDeleteModalOpen(true);
       } else {
-        console.warn(`No se encontró el recurso: ${resourceName}`);
       }
     } catch (error) {
-      console.error('Error al obtener recurso para eliminación:', error);
     }
   }, []);
 
@@ -56,7 +52,6 @@ export const useResourceManagement = () => {
       }));
       
     } catch (error) {
-      console.error('Error al actualizar recurso:', error);
       throw error;
     }
   }, [selectedResource]);
@@ -85,7 +80,6 @@ export const useResourceManagement = () => {
       // También cerrar el modal de eliminación
       closeModals();
     } catch (error) {
-      console.error('Error al desactivar recurso:', error);
       throw error;
     }
   }, [selectedResource, closeModals]);

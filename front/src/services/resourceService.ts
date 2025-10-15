@@ -20,7 +20,6 @@ export class ResourceService {
 
       return data.data;
     } catch (error) {
-      console.error('Error al obtener recursos:', error);
       throw error;
     }
   }
@@ -40,7 +39,6 @@ export class ResourceService {
 
       return data.data;
     } catch (error) {
-      console.error('Error al obtener recursos por sección:', error);
       throw error;
     }
   }
@@ -60,7 +58,6 @@ export class ResourceService {
 
       return data.data;
     } catch (error: unknown) {
-      console.error('Error al obtener recurso:', error);
       if (error && typeof error === 'object' && 'response' in error && 
           error.response && typeof error.response === 'object' && 'status' in error.response && 
           error.response.status === 404) {

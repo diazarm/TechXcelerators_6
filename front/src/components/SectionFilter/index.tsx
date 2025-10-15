@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { ChevronDown } from 'react-feather';
 import { useScreenSize } from '../../context';
 import type { SectionFilterProps } from './types';
@@ -15,57 +15,110 @@ export const SectionFilter: React.FC<SectionFilterProps> = ({
   loading = false
 }) => {
   const { scale } = useScreenSize();
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   // Calcular el total de recursos en todas las secciones
   const totalCount = sections.reduce((sum, section) => sum + (section.count || 0), 0);
 
-  // Obtener el título de la sección seleccionada
+  // Obtener el texto de la opción seleccionada
+  const getSelectedText = () => {
+    if (selectedSectionId === 'all') {
+      return `Todas las secciones${totalCount > 0 ? ` (${totalCount})` : ''}`;
+    }
+    const section = sections.find(s => s.sectionId === selectedSectionId);
+    return section ? `${section.title}${section.count !== undefined ? ` (${section.count})` : ''}` : 'Seleccionar...';
+  };
+
+  // Cerrar dropdown al hacer click fuera
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const handleOptionClick = (value: string) => {
+    onSectionChange(value);
+    setIsOpen(false);
+  };
 
   return (
-    <div className={`relative ${className}`}>
+    <div className={`relative ${className}`} ref={dropdownRef}>
       <label 
-        className="block text-gray-700 font-medium mb-1"
+        className="block text-[#1E285F] font-medium mb-1"
         style={{ fontSize: `${scale(14)}px` }}
       >
         Filtrar por sección:
       </label>
       
       <div className="relative">
-        <select
-          value={selectedSectionId}
-          onChange={(e) => onSectionChange(e.target.value)}
+        {/* Trigger button */}
+        <button
+          type="button"
+          onClick={() => setIsOpen(!isOpen)}
           disabled={loading}
-          className="w-full bg-white border border-gray-300 text-gray-700 rounded-lg appearance-none cursor-pointer hover:border-[#5D5A88] focus:outline-none focus:ring-2 focus:ring-[#5D5A88] focus:border-transparent transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full bg-white border border-gray-200 text-[#1E285F] rounded-lg cursor-pointer hover:border-[#5D5A88] focus:outline-none focus:ring-2 focus:ring-[#5D5A88] focus:border-transparent transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-left flex items-center justify-between"
           style={{
             padding: `${scale(10)}px ${scale(40)}px ${scale(10)}px ${scale(12)}px`,
-            fontSize: `${scale(14)}px`
+            fontSize: `${scale(14)}px`,
+            minHeight: `${scale(40)}px`
           }}
         >
-          {/* Opción: Todas las secciones */}
-          <option value="all">
-            {`Todas las secciones${totalCount > 0 ? ` (${totalCount})` : ''}`}
-          </option>
-          
-          {/* Opciones: Secciones individuales */}
-          {sections.map((section) => (
-            <option key={section.sectionId} value={section.sectionId}>
-              {section.title}{section.count !== undefined ? ` (${section.count})` : ''}
-            </option>
-          ))}
-        </select>
-        
-        {/* Icono de chevron */}
-        <div 
-          className="absolute right-0 top-0 bottom-0 flex items-center pointer-events-none"
-          style={{
-            paddingRight: `${scale(12)}px`
-          }}
-        >
+          <span className="truncate">{getSelectedText()}</span>
           <ChevronDown 
             size={scale(18)} 
-            className="text-gray-400"
+            className={`text-gray-400 transition-transform ${isOpen ? 'rotate-180' : ''}`}
           />
-        </div>
+        </button>
+        
+        {/* Dropdown menu */}
+        {isOpen && (
+          <div 
+            className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-50 max-h-60 overflow-y-auto"
+            style={{
+              maxWidth: '100%',
+              minWidth: '200px'
+            }}
+          >
+            {/* Opción: Todas las secciones */}
+            <button
+              type="button"
+              onClick={() => handleOptionClick('all')}
+              className={`w-full text-left px-3 py-2 hover:bg-gray-50 transition-colors ${
+                selectedSectionId === 'all' ? 'bg-[#5D5A88] text-white' : 'text-[#1E285F]'
+              }`}
+              style={{
+                fontSize: `${scale(14)}px`,
+                padding: `${scale(8)}px ${scale(12)}px`
+              }}
+            >
+              Todas las secciones{totalCount > 0 ? ` (${totalCount})` : ''}
+            </button>
+            
+            {/* Opciones: Secciones individuales */}
+            {sections.map((section) => (
+              <button
+                key={section.sectionId}
+                type="button"
+                onClick={() => handleOptionClick(section.sectionId)}
+                className={`w-full text-left px-3 py-2 hover:bg-gray-50 transition-colors ${
+                  selectedSectionId === section.sectionId ? 'bg-[#5D5A88] text-white' : 'text-[#1E285F]'
+                }`}
+                style={{
+                  fontSize: `${scale(14)}px`,
+                  padding: `${scale(8)}px ${scale(12)}px`
+                }}
+              >
+                {section.title}{section.count !== undefined ? ` (${section.count})` : ''}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
       
       {/* Indicador de carga */}

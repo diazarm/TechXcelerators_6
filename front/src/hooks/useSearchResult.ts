@@ -109,7 +109,6 @@ export const useNavbar = () => {
         setShowSearchModal(false);
         return;
       } catch (error) {
-        console.error('Error al cargar recurso:', error);
         // Si falla, continuar con el flujo normal
       }
     }

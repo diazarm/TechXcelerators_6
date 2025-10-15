@@ -100,7 +100,6 @@ export const searchFromBackend = async (
     
     return transformBackendResponse(response.data as BackendSearchResponse);
   } catch (error) {
-    console.error('Error en búsqueda del backend:', error);
     throw error;
   }
 };

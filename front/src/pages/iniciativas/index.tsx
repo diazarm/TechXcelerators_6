@@ -121,12 +121,12 @@ const Iniciativas: React.FC = () => {
       {/* Grid de Tarjetas - El título ahora viene del Header dinámico */}
       {cards.length > 0 ? (
         <div className="flex justify-center">
-          <CardGrid 
-            cards={cards} 
-            onCardClick={handleCardClick}
-            defaultCardSize="medium"
-            columns={2}
-          />
+              <CardGrid 
+                cards={cards} 
+                onCardClick={handleCardClick}
+                defaultCardSize="rectangular"
+                columns={2}
+              />
         </div>
       ) : (
         /* Estado vacío */
