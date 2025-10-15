@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useScreenSize } from '../../context';
+import { useEscapeKey } from '../../hooks';
 import type { SearchModalProps } from './types';
 
 /**
@@ -19,6 +20,21 @@ export const SearchModal: React.FC<SearchModalProps> = ({
   error = null
 }) => {
   const { dimensions, scale } = useScreenSize();
+  const selectedResultRef = useRef<HTMLDivElement>(null);
+  
+  // Hook de accesibilidad - Solo Escape key, sin focus trap
+  // El focus debe permanecer en el input del SearchBar
+  useEscapeKey(isOpen, onClose);
+  
+  // Scroll automático al resultado seleccionado cuando cambia selectedIndex
+  useEffect(() => {
+    if (selectedIndex >= 0 && selectedResultRef.current) {
+      selectedResultRef.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'nearest'
+      });
+    }
+  }, [selectedIndex]);
   
   // No renderizar si no está abierto
   if (!isOpen) return null;
@@ -26,6 +42,8 @@ export const SearchModal: React.FC<SearchModalProps> = ({
   return (
     <div className="absolute top-full left-0 right-0 z-50 mt-2">
       <div 
+        role="listbox"
+        aria-labelledby="search-modal-title"
         className="bg-white rounded-lg shadow-xl w-full overflow-hidden border border-gray-200"
         style={{ maxHeight: `${scale(60)}vh` }}
       >
@@ -41,6 +59,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({
         >
           <div>
             <h3 
+              id="search-modal-title"
               className="text-white font-bold"
               style={{ fontSize: dimensions.fontSize.lg }}
             >
@@ -148,6 +167,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({
               {results.map((result, index) => (
                 <div
                   key={result.id}
+                  ref={index === selectedIndex ? selectedResultRef : null}
                   className={`cursor-pointer border-b border-gray-200 last:border-b-0 ${
                     index === selectedIndex 
                       ? 'bg-[#5D5A88]' 

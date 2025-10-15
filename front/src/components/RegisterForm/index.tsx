@@ -140,6 +140,8 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
       <form 
         onSubmit={handleSubmit}
         className="w-full flex flex-col items-center justify-center"
+        aria-label="Formulario de registro de nuevos usuarios"
+        noValidate
       >
         {/* Campos del formulario */}
         <div className="w-full">
@@ -181,8 +183,11 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
               }}
               placeholder="Ingresa el nombre completo"
               disabled={isLoading}
+              aria-invalid={hasFieldErrors('name') && isFieldTouched('name')}
+              aria-describedby={hasFieldErrors('name') && isFieldTouched('name') ? 'name-error' : undefined}
+              aria-required="true"
             />
-            <ValidationErrors errors={getFieldErrors('name')} />
+            <ValidationErrors errors={getFieldErrors('name')} id="name-error" />
           </div>
 
           {/* Campo Email */}
@@ -223,8 +228,11 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
               }}
               placeholder="Ingresa el correo electrónico"
               disabled={isLoading}
+              aria-invalid={hasFieldErrors('email') && isFieldTouched('email')}
+              aria-describedby={hasFieldErrors('email') && isFieldTouched('email') ? 'register-email-error' : undefined}
+              aria-required="true"
             />
-            <ValidationErrors errors={getFieldErrors('email')} />
+            <ValidationErrors errors={getFieldErrors('email')} id="register-email-error" />
           </div>
 
           {/* Campo Rol */}
@@ -267,11 +275,14 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
                 backgroundSize: '16px 12px'
               }}
               disabled={isLoading}
+              aria-invalid={hasFieldErrors('role') && isFieldTouched('role')}
+              aria-describedby={hasFieldErrors('role') && isFieldTouched('role') ? 'role-error' : undefined}
+              aria-required="true"
             >
               <option value="user">Usuario</option>
               <option value="director">Director</option>
             </select>
-            <ValidationErrors errors={getFieldErrors('role')} />
+            <ValidationErrors errors={getFieldErrors('role')} id="role-error" />
           </div>
         </div>
 

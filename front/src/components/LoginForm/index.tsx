@@ -153,6 +153,8 @@ export const LoginForm: React.FC<LoginFormProps> = ({ accessType }) => {
       <form 
         onSubmit={handleSubmit}
         className="w-full flex flex-col items-center justify-center"
+        aria-label={`Formulario de inicio de sesión para ${accessType === 'admin' ? 'administradores' : 'staff'}`}
+        noValidate
       >
         {/* Campos del formulario */}
         <div className="w-full">
@@ -193,9 +195,13 @@ export const LoginForm: React.FC<LoginFormProps> = ({ accessType }) => {
               }}
               placeholder="Ingresa tu usuario o email"
               disabled={isLoading}
+              aria-invalid={hasFieldErrors('email') && isFieldTouched('email')}
+              aria-describedby={hasFieldErrors('email') && isFieldTouched('email') ? 'email-error' : undefined}
+              aria-required="true"
             />
             <ValidationErrors 
-              errors={getFieldErrors('email')} 
+              errors={getFieldErrors('email')}
+              id="email-error"
             />
           </div>
 
@@ -237,9 +243,13 @@ export const LoginForm: React.FC<LoginFormProps> = ({ accessType }) => {
                 }}
                 placeholder="Ingresa tu contraseña"
                 disabled={isLoading}
+                aria-invalid={hasFieldErrors('password') && isFieldTouched('password')}
+                aria-describedby={hasFieldErrors('password') && isFieldTouched('password') ? 'password-error' : undefined}
+                aria-required="true"
               />
               <ValidationErrors 
-                errors={getFieldErrors('password')} 
+                errors={getFieldErrors('password')}
+                id="password-error"
               />
             </div>
           )}

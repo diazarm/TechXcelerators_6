@@ -191,7 +191,8 @@ export const Navbar: React.FC<HeaderProps> = ({ className = "" }) => {
                   backgroundColor: 'transparent',
                   border: 'none'
                 }}
-                aria-label="Abrir menú"
+                aria-label={isMobileMenuOpen ? "Cerrar menú" : "Abrir menú"}
+                aria-expanded={isMobileMenuOpen}
               >
                 {isMobileMenuOpen ? (
                   <X 
