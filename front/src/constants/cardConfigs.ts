@@ -382,7 +382,7 @@ export const galeriaPageCards: CardConfig[] = [
     id: 'uninorte-gallery',
     title: 'Uninorte',
     description: 'Universidad Del Norte',
-    image: '/img/UniNorte.png',
+    image: '/img/UniNorte_Galeria.png',
     rightHeaderContent: createMultipleIcons([
       { component: EyeOff, size: 18, color: '#5D5A88', withCircle: true, type: 'delete' },
       { component: Edit2, size: 18, color: '#5D5A88', withCircle: true, type: 'edit' }

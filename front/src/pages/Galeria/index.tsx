@@ -19,7 +19,7 @@ const Galeria: React.FC = () => {
     handleDeleteClick,
     handleUpdateResource,
     handleSoftDeleteResource
-  } = useResourceManagement({ isGallery: true });
+  } = useResourceManagement();
   
   const { cards: baseCards, handleCardClick } = useCards({ 
     pageType: 'galeria',
