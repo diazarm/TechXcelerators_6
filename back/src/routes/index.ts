@@ -3,6 +3,7 @@ import userRouter from './userRoutes';
 import allianceRouter from './allianceRoutes';
 import resourceRouter from './resourceRoutes';
 import sectionRouter from './sectionRoutes';
+import documentRouter from './documentRoutes';
 import searchRouter from './searchRoutes';
 
 const router = Router();
@@ -12,9 +13,9 @@ router.get('/', (_req, res) => {
 });
 
 router.use('/users', userRouter);
-router.use('/alliances', allianceRouter)
+router.use('/alliances', allianceRouter);
 router.use('/resources', resourceRouter);
 router.use('/sections', sectionRouter);
-router.use('/search', searchRouter);
 
 export default router;
+

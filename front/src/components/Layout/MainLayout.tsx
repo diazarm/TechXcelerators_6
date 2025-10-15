@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useLocation, Outlet } from "react-router-dom";
 import { useScreenSize } from "../../context";
 import type { MainLayoutProps } from "./types";
@@ -8,12 +8,21 @@ const MainLayout: React.FC<MainLayoutProps> = ({
   className = "",
   footerVariant = "dark",
 }) => {
-  const { getContainerForScreen, dimensions } = useScreenSize();
+  const { getContainerForScreen, scale } = useScreenSize();
   const location = useLocation();
 
   const isHomePage = location.pathname === "/";
   const isLoginPage = location.pathname === "/login";
   const shouldShowHeader = !isHomePage && !isLoginPage;
+
+  // Scroll to top en cada cambio de ruta
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth'
+    });
+  }, [location.pathname]);
 
   return (
     <div
@@ -28,10 +37,10 @@ const MainLayout: React.FC<MainLayoutProps> = ({
 
       {/* Main content */}
       <main 
-        className={`${getContainerForScreen()} flex-1`}
+        className={`${!isHomePage ? getContainerForScreen() : ''} flex-1`}
         style={{
-          paddingBottom: dimensions.spacing.xl,
-          paddingTop: dimensions.spacing.md
+          paddingBottom: !isHomePage ? `${scale(24)}px` : '0px',
+          paddingTop: !isHomePage ? `${scale(16)}px` : '0px'
         }}
       >
         <Outlet /> {/* 👈 Aquí se montan las páginas según la ruta */}

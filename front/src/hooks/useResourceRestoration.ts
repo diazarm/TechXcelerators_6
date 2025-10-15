@@ -1,10 +1,22 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useMemo } from 'react';
 import { getDeletedResources, restoreResource } from '../services/resourceManagementService';
 import { showNotification } from '../services';
+import { getAllSections } from '../constants';
 import type { IResource } from '../types/resource';
+import type { SectionOption } from '../components/SectionFilter/types';
 
-export const useResourceRestoration = () => {
-  const [deletedResources, setDeletedResources] = useState<IResource[]>([]);
+interface UseResourceRestorationProps {
+  /** ID de la sección actual (opcional) */
+  currentSectionId?: string;
+}
+
+export const useResourceRestoration = (props?: UseResourceRestorationProps) => {
+  const currentSectionId = props?.currentSectionId;
+  
+  const [allDeletedResources, setAllDeletedResources] = useState<IResource[]>([]);
+  const [selectedSectionId, setSelectedSectionId] = useState<string | 'all'>(
+    currentSectionId || 'all'
+  );
   const [loading, setLoading] = useState(false);
   const [restoreLoading, setRestoreLoading] = useState<string | null>(null);
   const [hasCheckedResources, setHasCheckedResources] = useState(false);
@@ -13,17 +25,39 @@ export const useResourceRestoration = () => {
     try {
       setLoading(true);
       const resources = await getDeletedResources();
-      setDeletedResources(resources);
+      setAllDeletedResources(resources);
       setHasCheckedResources(true);
     } catch (error) {
       console.error('Error fetching deleted resources:', error);
       showNotification('error', 'Error', 'No se pudieron cargar los recursos eliminados');
-      setDeletedResources([]);
+      setAllDeletedResources([]);
       setHasCheckedResources(true);
     } finally {
       setLoading(false);
     }
   }, []);
+
+  // Filtrar recursos según la sección seleccionada
+  const filteredDeletedResources = useMemo(() => {
+    if (selectedSectionId === 'all') {
+      return allDeletedResources;
+    }
+    return allDeletedResources.filter(
+      resource => resource.sectionId?.toString() === selectedSectionId
+    );
+  }, [allDeletedResources, selectedSectionId]);
+
+  // Calcular count de recursos por sección
+  const sectionOptions = useMemo((): SectionOption[] => {
+    const sections = getAllSections();
+    return sections.map(section => ({
+      sectionId: section.sectionId,
+      title: section.title,
+      count: allDeletedResources.filter(
+        resource => resource.sectionId?.toString() === section.sectionId
+      ).length
+    }));
+  }, [allDeletedResources]);
 
   const handleRestoreResource = useCallback(async (resourceId: string, resourceName: string) => {
     try {
@@ -82,13 +116,18 @@ export const useResourceRestoration = () => {
   }, [fetchDeletedResources]);
 
   return {
-    deletedResources,
+    deletedResources: filteredDeletedResources,
+    allDeletedResources,
     loading,
     restoreLoading,
     handleRestoreResource,
     refreshDeletedResources: fetchDeletedResources,
     loadDeletedResources,
     hasCheckedResources,
-    hasDeletedResources: deletedResources.length > 0
+    hasDeletedResources: allDeletedResources.length > 0, // Basado en TODOS los recursos, no solo filtrados
+    // Filtrado por sección
+    selectedSectionId,
+    setSelectedSectionId,
+    sectionOptions
   };
 };

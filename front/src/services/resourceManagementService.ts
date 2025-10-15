@@ -169,7 +169,7 @@ export const getDeletedResources = async (): Promise<IResource[]> => {
     return allResources.filter(resource => 
       resource.isActive === false || resource.deletedAt
     );
-  } catch (error) {
+  } catch {
     return [];
   }
 };

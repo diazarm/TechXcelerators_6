@@ -114,7 +114,7 @@ export const useRegister = () => {
         type: 'success',
         title: 'Usuario creado',
         message: `Usuario ${userData.name} registrado exitosamente`,
-        duration: 3000
+        duration: 5000
       });
 
       // Navegar a página de confirmación

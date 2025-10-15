@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { LoginForm, ResponsiveBackground } from '../../components';
 import { useAuth } from '../../hooks';
@@ -10,6 +10,15 @@ const LoginPage: React.FC = () => {
   const { isAuthenticated } = useAuth();
   const [searchParams] = useSearchParams();
   const accessType = searchParams.get('type') || 'admin';
+
+  // Scroll to top al montar la página
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth'
+    });
+  }, []);
 
   // Determinar la ruta del logo según el estado de autenticación
   const getLogoDestination = () => {

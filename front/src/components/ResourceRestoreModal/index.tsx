@@ -2,8 +2,11 @@ import React from 'react';
 import { X, RotateCcw, Calendar, Folder } from 'react-feather';
 import { useResponsive } from '../../hooks/useResponsive';
 import { Button } from '../Button';
+import { SectionFilter } from '../SectionFilter';
 import LoadingSpinner from '../LoadingSpinner';
+import { getSectionTitleById } from '../../constants';
 import type { IResource } from '../../types/resource';
+import type { SectionOption } from '../SectionFilter/types';
 
 interface ResourceRestoreModalProps {
   isOpen: boolean;
@@ -12,6 +15,10 @@ interface ResourceRestoreModalProps {
   loading: boolean;
   restoreLoading: string | null;
   onRestoreResource: (resourceId: string, resourceName: string) => void;
+  // Filtrado por sección
+  selectedSectionId: string | 'all';
+  onSectionChange: (sectionId: string | 'all') => void;
+  sectionOptions: SectionOption[];
 }
 
 export const ResourceRestoreModal: React.FC<ResourceRestoreModalProps> = ({
@@ -20,7 +27,10 @@ export const ResourceRestoreModal: React.FC<ResourceRestoreModalProps> = ({
   deletedResources,
   loading,
   restoreLoading,
-  onRestoreResource
+  onRestoreResource,
+  selectedSectionId,
+  onSectionChange,
+  sectionOptions
 }) => {
   const { scale } = useResponsive();
 
@@ -31,13 +41,8 @@ export const ResourceRestoreModal: React.FC<ResourceRestoreModalProps> = ({
   };
 
   const getSectionName = (sectionId: string): string => {
-    // Mapeo de IDs de sección a nombres
-    const sectionMap: Record<string, string> = {
-      '68c9f2d8d6dbf0c558131e16': 'Alianza',
-      '68c9f2d8d6dbf0c558131e17': 'Gobernanza',
-      '68c9f2d8d6dbf0c558131e18': 'Dashboard'
-    };
-    return sectionMap[sectionId] || 'Sección Desconocida';
+    // Usar el helper centralizado
+    return getSectionTitleById(sectionId) || 'Sección Desconocida';
   };
 
   const formatDate = (date: Date | string): string => {
@@ -55,16 +60,17 @@ export const ResourceRestoreModal: React.FC<ResourceRestoreModalProps> = ({
 
   return (
     <div 
-      className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-in fade-in duration-300"
+      className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-2 sm:p-4 animate-in fade-in duration-300"
       onClick={handleBackdropClick}
     >
       <div 
-        className="bg-white/95 backdrop-blur-md shadow-2xl border border-white/20 overflow-hidden animate-in zoom-in-95 duration-300"
+        className="bg-white/95 backdrop-blur-md shadow-2xl border border-white/20 overflow-hidden w-full h-full flex flex-col"
         style={{ 
           borderRadius: `${scale(16)}px`,
+          width: `${scale(800)}px`,
+          height: `${scale(600)}px`,
           maxWidth: `${scale(800)}px`,
-          width: '100%',
-          maxHeight: '90vh'
+          maxHeight: `${scale(600)}px`
         }}
         onClick={(e) => e.stopPropagation()}
       >
@@ -111,12 +117,21 @@ export const ResourceRestoreModal: React.FC<ResourceRestoreModalProps> = ({
 
         {/* Content */}
         <div 
-          className="overflow-y-auto"
+          className="flex-1 overflow-y-auto"
           style={{ 
-            padding: `${scale(24)}px`,
-            maxHeight: 'calc(90vh - 120px)'
+            padding: `${scale(24)}px`
           }}
         >
+          {/* Filtro de sección */}
+          <div style={{ marginBottom: `${scale(20)}px` }}>
+            <SectionFilter
+              selectedSectionId={selectedSectionId}
+              onSectionChange={onSectionChange}
+              sections={sectionOptions}
+              loading={loading}
+            />
+          </div>
+
           {loading ? (
             <div className="flex justify-center items-center" style={{ minHeight: `${scale(200)}px` }}>
               <LoadingSpinner />
