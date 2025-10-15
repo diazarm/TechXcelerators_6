@@ -63,6 +63,7 @@ export { default as CardGrid } from './CardGrid';
 
 // Componentes de imágenes responsivas
 export { ResponsiveImage, ResponsiveBackground } from './ResponsiveImage';
+export { OptimizedImage } from './OptimizedImage';
 
 // Componentes de alianzas
 export { AllianceSlider } from './AllianceSlider';

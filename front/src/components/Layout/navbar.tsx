@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Menu, X } from "react-feather";
-import { Button, ResourceDropdown } from "../../components"; // 👈 limpio desde barrel file
+import { Button, ResourceDropdown, OptimizedImage } from "../../components"; // 👈 limpio desde barrel file
 import { useAuth, useNotification, useResources } from "../../hooks";
 import { useScreenSize } from "../../context";
 import { COLOR_CLASSES } from "../../constants";
@@ -106,11 +106,12 @@ export const Navbar: React.FC<HeaderProps> = ({ className = "" }) => {
               style={{ gap: dimensions.spacing.xs }}
               onClick={handleLogoClick}
             >
-              <img
+              <OptimizedImage
                 src="/img/LogoScala.png"
                 alt="Scala Learning"
                 className="w-auto"
                 style={{ height: dimensions.spacing['2xl'] }}
+                loading="eager"
               />
             </Link>
           </div>

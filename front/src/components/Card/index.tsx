@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { ArrowRight } from 'react-feather';
 import { Button } from '../Button';
 import { useResponsiveImage } from '../../hooks';
@@ -34,6 +34,35 @@ const Card: React.FC<CardProps> = ({
     aspectRatio: '4/3',
     responsive: true
   });
+
+  // Estado para manejar la imagen con WebP fallback
+  const [imageSrc, setImageSrc] = useState(image);
+
+  // Intentar cargar WebP si hay imagen
+  useEffect(() => {
+    if (!image) return;
+
+    // Generar ruta WebP
+    const getWebPPath = (originalSrc: string): string => {
+      const lastDotIndex = originalSrc.lastIndexOf('.');
+      if (lastDotIndex === -1) return originalSrc + '.webp';
+      return originalSrc.substring(0, lastDotIndex) + '.webp';
+    };
+
+    const webpSrc = getWebPPath(image);
+
+    // Intentar cargar WebP primero
+    const img = new Image();
+    img.onload = () => {
+      // WebP existe y se cargó correctamente
+      setImageSrc(webpSrc);
+    };
+    img.onerror = () => {
+      // WebP no existe o falló, usar original
+      setImageSrc(image);
+    };
+    img.src = webpSrc;
+  }, [image]);
 
   // Obtener dimensiones según el tamaño de la card
   const getCardDimensions = () => {
@@ -91,7 +120,7 @@ const Card: React.FC<CardProps> = ({
       `}
       style={{
         ...(image ? {
-          backgroundImage: `url(${image})`,
+          backgroundImage: `url(${imageSrc})`,
           ...backgroundStyles
         } : {}),
         width: cardDimensions.width,

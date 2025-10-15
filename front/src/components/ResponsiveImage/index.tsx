@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useResponsiveImage } from '../../hooks';
 import type { ImageType, AspectRatio } from '../../hooks/useResponsiveImage';
 
@@ -135,12 +135,37 @@ export const ResponsiveBackground: React.FC<ResponsiveBackgroundProps> = ({
     forceMobileConfig
   });
 
+  const [imageSrc, setImageSrc] = useState(src);
+
+  useEffect(() => {
+    // Generar ruta WebP
+    const getWebPPath = (originalSrc: string): string => {
+      const lastDotIndex = originalSrc.lastIndexOf('.');
+      if (lastDotIndex === -1) return originalSrc + '.webp';
+      return originalSrc.substring(0, lastDotIndex) + '.webp';
+    };
+
+    const webpSrc = getWebPPath(src);
+
+    // Intentar cargar WebP primero
+    const img = new Image();
+    img.onload = () => {
+      // WebP existe y se cargó correctamente
+      setImageSrc(webpSrc);
+    };
+    img.onerror = () => {
+      // WebP no existe o falló, usar original
+      setImageSrc(src);
+    };
+    img.src = webpSrc;
+  }, [src]);
+
   return (
     <div
       className={`${backgroundClasses} ${className}`}
       style={{
         ...backgroundStyles,
-        backgroundImage: `url(${src})`,
+        backgroundImage: `url(${imageSrc})`,
         ...style
       }}
     >

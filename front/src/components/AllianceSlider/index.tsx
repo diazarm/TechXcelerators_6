@@ -1,6 +1,7 @@
 import React from 'react';
 import { useScreenSize } from '../../context';
 import { ALLIANCE_DATA } from '../../constants';
+import { OptimizedImage } from '../OptimizedImage';
 import type { AllianceSliderProps, AllianceItemProps } from './types';
 
 /**
@@ -15,7 +16,7 @@ const AllianceItem: React.FC<AllianceItemProps> = ({ alliance }) => {
   const marginH = scale(24);
 
   const content = (
-    <img
+    <OptimizedImage
       src={alliance.logo}
       alt={alliance.name}
       className="object-contain transition-transform duration-300 hover:scale-110"
