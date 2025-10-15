@@ -46,8 +46,7 @@ export class AllianceService {
       }
 
       return data.data;
-    } catch (error: any) {
-      console.error('Error al obtener alianzas:', error);
+    } catch (error: unknown) {
       throw error;
     }
   }
@@ -66,9 +65,10 @@ export class AllianceService {
       }
 
       return data.data;
-    } catch (error: any) {
-      console.error('Error al obtener alianza:', error);
-      if (error.response?.status === 404) {
+    } catch (error: unknown) {
+      if (error && typeof error === 'object' && 'response' in error && 
+          error.response && typeof error.response === 'object' && 'status' in error.response && 
+          error.response.status === 404) {
         return null;
       }
       throw error;
@@ -89,8 +89,7 @@ export class AllianceService {
       }
 
       return result.data;
-    } catch (error: any) {
-      console.error('Error al crear alianza:', error);
+    } catch (error: unknown) {
       throw error;
     }
   }
@@ -109,8 +108,7 @@ export class AllianceService {
       }
 
       return result.data;
-    } catch (error: any) {
-      console.error('Error al actualizar alianza:', error);
+    } catch (error: unknown) {
       throw error;
     }
   }
@@ -127,8 +125,7 @@ export class AllianceService {
       if (!result.success) {
         throw new Error(result.message || 'Error al eliminar alianza');
       }
-    } catch (error: any) {
-      console.error('Error al eliminar alianza:', error);
+    } catch (error: unknown) {
       throw error;
     }
   }
@@ -147,8 +144,7 @@ export class AllianceService {
       }
 
       return result.data;
-    } catch (error: any) {
-      console.error('Error al restaurar alianza:', error);
+    } catch (error: unknown) {
       throw error;
     }
   }

@@ -64,7 +64,7 @@ const Alianza: React.FC = () => {
     return () => {
       window.removeEventListener('resourceDeleted', handleResourceDeleted as EventListener);
     };
-  }, []); // Sin dependencias para evitar loop infinito
+  }, []);
 
   // Escuchar evento de recurso restaurado para actualizar visual
   useEffect(() => {
@@ -85,6 +85,27 @@ const Alianza: React.FC = () => {
     
     return () => {
       window.removeEventListener('resourceRestored', handleResourceRestored as EventListener);
+    };
+  }, []);
+
+  // Escuchar evento de recurso actualizado para actualizar visual
+  useEffect(() => {
+    const handleResourceUpdated = (event: CustomEvent) => {
+      const { oldName, newName } = event.detail;
+      
+      setCards(prevCards => 
+        prevCards.map(card => 
+          card.resourceName === oldName 
+            ? { ...card, title: newName, resourceName: newName }
+            : card
+        )
+      );
+    };
+
+    window.addEventListener('resourceUpdated', handleResourceUpdated as EventListener);
+    
+    return () => {
+      window.removeEventListener('resourceUpdated', handleResourceUpdated as EventListener);
     };
   }, []);
 

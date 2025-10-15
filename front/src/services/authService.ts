@@ -61,11 +61,12 @@ export const validateToken = async (token: string): Promise<User> => {
     // Llamada real al backend para validar token
     const response = await api.get<ValidateTokenResponse>('/users/verifytoken');
     
-    if (!response.data.success || !response.data.data) {
+    // Adaptar al formato real del backend: { message, user }
+    if (!response.data.user) {
       throw new Error(response.data.error || 'Token inválido o expirado');
     }
     
-    const user = response.data.data;
+    const user = response.data.user;
     
     logger.debug('Token validado exitosamente', { 
       userId: user.id, 

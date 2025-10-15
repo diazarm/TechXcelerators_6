@@ -3,25 +3,34 @@ import type { IResource, ResourceResponse, ResourceListResponse } from '../types
 
 // Mapeo de nombres de recursos a IDs (basado en dataResource)
 export const RESOURCE_NAME_TO_ID_MAP: Record<string, string> = {
+  // Recursos de Nuestra Alianza
   'Portafolio y Precios': '68c22af480f85343fb2bf920',
   'Fichas técnicas y Grabaciones de capacitación en producto': '68cae80754f9344f27defc8b',
   'USP': '68cae87f54f9344f27defc8d',
   'Estructura organizacional de equipo de trabajo (Organigrama)': '68cae8c154f9344f27defc8f',
   'Directorio de contactos de la alianza': '68caf0e66e22346e481f8c72',
   'Resumen de Contrato': '68caf1f86e22346e481f8c7c',
-  'Actas de comité de estrategia y crecimiento': '68caf4f56e22346e481f8c9a',
+  
+  // Recursos de Gobernanza
   'Actas de comité de colaboración': '68caf35e6e22346e481f8c86',
   'Actas de comité de dirección': '68caf4586e22346e481f8c90',
-  'Presentaciones de comités': '68caf5fe6e22346e481f8ca7',
+  'Actas de comité de estrategia y crecimiento': '68caf4f56e22346e481f8c9a',
   'Grabación de los comités': '68caf5876e22346e481f8ca4',
+  'Presentaciones de comités': '68caf5fe6e22346e481f8ca7',
+  
+  // Recursos de Gestión
   'Calendario académico de las alianzas': '68cb2547e7461e967e34e0ca',
   'Calendario operacional': '68cb2745e7461e967e34e0cd',
   'Tablero PBI experiencia': '68cb24e5e7461e967e34e0bf',
   'Tablero PBI éxito estudiantil': '68cb238de7461e967e34e0aa',
   'Tablero PBI Ventas': '68cb1a93e7461e967e34e09f',
   'Tablero PBI gestión docente': '68cb2443e7461e967e34e0b5',
+  
+  // Recursos de Iniciativas
   'Masterplan': '68cb27fae7461e967e34e0d8',
   'Plan de excelencia operativa en 360 - 2025': '68cb2880e7461e967e34e0db',
+  
+  // Recursos de Planeación
   'Proyección de crecimiento de la alianza con su portafolio': '68caf7e56e22346e481f8cad',
   'Estudios de viabilidad y factibilidad': '68caf8246e22346e481f8cb0',
   'Budget': '68caf67c6e22346e481f8caa',
@@ -58,7 +67,6 @@ export const getAllResources = async (): Promise<IResource[]> => {
     const response = await api.get<ResourceListResponse>('/resources');
     return response.data.data || [];
   } catch (error) {
-    console.error('Error fetching resources:', error);
     throw error;
   }
 };
@@ -71,7 +79,6 @@ export const getResourceById = async (id: string): Promise<IResource> => {
     const response = await api.get<ResourceResponse>(`/resources/${id}`);
     return response.data.data;
   } catch (error) {
-    console.error('Error fetching resource by ID:', error);
     throw error;
   }
 };
@@ -84,7 +91,6 @@ export const getResourcesBySection = async (sectionId: string): Promise<IResourc
     const response = await api.get<ResourceListResponse>(`/resources/section/${sectionId}`);
     return response.data.data || [];
   } catch (error) {
-    console.error('Error fetching resources by section:', error);
     throw error;
   }
 };
@@ -97,7 +103,6 @@ export const createResource = async (resourceData: CreateResourceData): Promise<
     const response = await api.post<ResourceResponse>('/resources', resourceData);
     return response.data.data;
   } catch (error) {
-    console.error('Error creating resource:', error);
     throw error;
   }
 };
@@ -110,7 +115,6 @@ export const updateResource = async (id: string, resourceData: UpdateResourceDat
     const response = await api.put<ResourceResponse>(`/resources/${id}`, resourceData);
     return response.data.data;
   } catch (error) {
-    console.error('Error updating resource:', error);
     throw error;
   }
 };
@@ -123,7 +127,6 @@ export const softDeleteResource = async (id: string): Promise<IResource> => {
     const response = await api.delete<ResourceResponse>(`/resources/${id}`);
     return response.data.data;
   } catch (error) {
-    console.error('Error soft deleting resource:', error);
     throw error;
   }
 };
@@ -136,7 +139,6 @@ export const restoreResource = async (id: string): Promise<IResource> => {
     const response = await api.patch<ResourceResponse>(`/resources/restore/${id}`);
     return response.data.data;
   } catch (error) {
-    console.error('Error restoring resource:', error);
     throw error;
   }
 };
@@ -155,14 +157,12 @@ export const getResourceByName = async (resourceName: string): Promise<IResource
   try {
     const resourceId = getResourceIdByName(resourceName);
     if (!resourceId) {
-      console.warn(`No se encontró ID para el recurso: ${resourceName}`);
       return null;
     }
     
     const resource = await getResourceById(resourceId);
     return resource;
   } catch (error) {
-    console.error('Error fetching resource by name:', error);
     return null;
   }
 };
@@ -178,7 +178,7 @@ export const getDeletedResources = async (): Promise<IResource[]> => {
     return allResources.filter(resource => 
       resource.isActive === false || resource.deletedAt
     );
-  } catch (error) {
+  } catch {
     return [];
   }
 };

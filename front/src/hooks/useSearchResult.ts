@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { ROUTE_TO_SECTION_MAP } from '../constants';
 import type { SearchResult } from '../types';
 
 /**
@@ -78,68 +79,79 @@ export const useNavbar = () => {
   /**
    * Maneja la selección de un resultado de búsqueda
    */
-  const handleResultSelect = useCallback((
+  const handleResultSelect = useCallback(async (
     result: SearchResult,
     clearSearch: () => void
   ) => {
-    // Usar URL del backend si existe, sino navegar a página interna
+    // Caso 1: Recurso con múltiples links → Mostrar modal de selección
+    if (result.category === 'Recurso' && result.linksCount && result.linksCount > 1) {
+      try {
+        // Obtener el recurso completo desde el backend
+        const { resourceService } = await import('../services/resourceService');
+        const fullResource = await resourceService.getResourceById(result.id);
+        
+        if (!fullResource) {
+          return;
+        }
+
+        // Obtener alianzas y mostrar modal
+        const { getAlliances, filterAlliances, showAllianceSelectionModal } = await import('../services/allianceNavigationService');
+        const alliances = await getAlliances();
+        const filteredAlliances = filterAlliances(alliances);
+        
+        if (filteredAlliances.length > 0) {
+          await showAllianceSelectionModal(filteredAlliances, fullResource);
+        }
+        
+        // Limpiar búsqueda y cerrar modal
+        clearSearch();
+        setSelectedIndex(-1);
+        setShowSearchModal(false);
+        return;
+      } catch (error) {
+        // Si falla, continuar con el flujo normal
+      }
+    }
+
+    // Caso 2: Resultado con URL → Abrir en nueva pestaña
     if (result.url) {
-      // Abrir URL externa en nueva pestaña
       window.open(result.url, '_blank');
-      // Limpiar búsqueda y cerrar modal
       clearSearch();
       setSelectedIndex(-1);
       setShowSearchModal(false);
-    } else {
-      // Navegar a página interna según el tipo
-      let targetPath = '/dashboard'; // Default fallback
+      return;
+    }
+
+    // Caso 3: Navegación interna
+    let targetPath = '/dashboard';
+    
+    switch (result.category) {
+      case 'Alianza':
+        targetPath = '/alianza';
+        break;
       
-      switch (result.category) {
-        case 'Alianza':
-          targetPath = '/alianza';
-          break;
-        
-        case 'Recurso':
-          targetPath = '/dashboard';
-          break;
-        
-        case 'Sección':
-          // Usar title o description para identificar la sección
-          const searchText = ((result.title || '') + ' ' + (result.description || '')).toLowerCase();
-          
-          if (searchText.includes('alianza') || searchText.includes('acuerdo') || searchText.includes('portafolio')) {
-            targetPath = '/alianza';
-          } else if (searchText.includes('gobernanza') || searchText.includes('comité') || searchText.includes('actas') || searchText.includes('organigrama')) {
-            targetPath = '/gobernanza';
-          } else if (searchText.includes('dashboard')) {
-            targetPath = '/dashboard';
-          } else {
-            // Si no se puede determinar, usar el ID de la sección
-            // ID de Alianza: 68c9f2d8d6dbf0c558131e16
-            // ID de Gobernanza: 68cadb4f54f9344f27defc7b
-            if (result.id === '68c9f2d8d6dbf0c558131e16') {
-              targetPath = '/alianza';
-            } else if (result.id === '68cadb4f54f9344f27defc7b') {
-              targetPath = '/gobernanza';
-            } else {
-              targetPath = '/dashboard';
-            }
-          }
-          break;
-        
-        default:
-          targetPath = '/dashboard';
-          break;
+      case 'Recurso':
+        targetPath = '/dashboard';
+        break;
+      
+      case 'Sección': {
+        // Mapeo directo: de sectionId a ruta usando el mapeo centralizado
+        const sectionRoute = Object.entries(ROUTE_TO_SECTION_MAP).find(
+          ([, config]) => config.sectionId === result.id
+        );
+        targetPath = sectionRoute ? sectionRoute[0] : '/dashboard';
+        break;
       }
       
-      // Navegar primero (sin recargar la página)
-      navigate(targetPath);
-      
-      // Luego limpiar búsqueda y cerrar modal
-      clearSearch();
-      setSelectedIndex(-1);
-      setShowSearchModal(false);
+      default:
+        targetPath = '/dashboard';
+        break;
     }
+    
+    navigate(targetPath);
+    clearSearch();
+    setSelectedIndex(-1);
+    setShowSearchModal(false);
   }, [navigate]);
 
   /**

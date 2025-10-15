@@ -57,6 +57,7 @@ export {
   navigateToUrl,
   showNotification,
   findAllianceLink,
+  findAllAllianceLinks,
   showAllianceSelectionModal,
   handleAllianceCardClick
 } from './allianceNavigationService';

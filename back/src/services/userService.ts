@@ -90,7 +90,7 @@ export class UserService {
       }
       const expiresIn: number = typeof jwtExpiration === "string" ? parseInt(jwtExpiration) : jwtExpiration;
       const payload = {
-        uid: user.id.toString(),
+        _id: user.id.toString(),
         name: user.name ?? "",
         email: user.email ?? "",
         isAdmin: Boolean(user.isAdmin),

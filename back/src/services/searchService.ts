@@ -1,18 +1,9 @@
 import Alliance from "../models/Alliance";
 import Resource from "../models/Resource";
 import Section from "../models/Section";
+import { normalizeText, createFlexibleRegex } from "../utils/normalizeText";
 
 export class SearchService {
-  // Función para normalizar texto (quitar tildes y caracteres especiales)
-  private normalizeText(text: string): string {
-    return text
-      .toLowerCase()
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .replace(/[ñÑ]/g, "n")
-      .trim();
-  }
-
   // Extraer términos clave de la consulta
   private extractKeywords(query: string): string[] {
     const stopwords = [
@@ -67,31 +58,12 @@ export class SearchService {
       "porque",
     ];
 
-    const normalizedQuery = this.normalizeText(query);
+    const normalizedQuery = normalizeText(query);
 
     return normalizedQuery
       .split(/\W+/)
       .filter((word) => word.length > 2 && !stopwords.includes(word))
       .slice(0, 10); // Limitar a 10 términos máximo
-  }
-
-  private createFlexibleRegex(term: string): any {
-    const patterns = {
-      a: "[aáàäâ]",
-      e: "[eéèëê]",
-      i: "[iíìïî]",
-      o: "[oóòöô]",
-      u: "[uúùüû]",
-      n: "[nñ]",
-    };
-
-    let flexiblePattern = term;
-
-    Object.entries(patterns).forEach(([base, pattern]) => {
-      flexiblePattern = flexiblePattern.replace(new RegExp(base, "g"), pattern);
-    });
-
-    return { $regex: flexiblePattern, $options: "i" };
   }
 
   async searchAll(query: string, page: number = 1, limit: number = 10) {
@@ -110,7 +82,7 @@ export class SearchService {
       const createSearchConditions = (fields: string[]) => {
         return keywords.flatMap((term) =>
           fields.map((field) => ({
-            [field]: this.createFlexibleRegex(term),
+            [field]: createFlexibleRegex(term),
           }))
         );
       };
@@ -150,8 +122,9 @@ export class SearchService {
 
   async searchExact(query: string, page: number = 1, limit: number = 10) {
     const skip = (page - 1) * limit;
-    const normalizedQuery = this.normalizeText(query);
-    const searchRegex = this.createFlexibleRegex(normalizedQuery);
+    const normalizedQuery = normalizeText(query);
+    const searchRegex = createFlexibleRegex(normalizedQuery);
+    const keywords = [normalizedQuery];
 
     try {
       const alliances = await Alliance.find({
@@ -186,6 +159,7 @@ export class SearchService {
       return {
         query,
         type: "exact",
+        keywords,
         results: { alliances, resources, sections },
         total: alliances.length + resources.length + sections.length,
       };

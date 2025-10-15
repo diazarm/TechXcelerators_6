@@ -10,6 +10,7 @@ export interface IUser extends Document {
   createdAt: Date;
   updatedAt: Date;
   deletedAt?: Date;
+  searchKeywords: string[]; // Palabras clave que el usuario ha buscado
 }
 
 const UserSchema = new Schema<IUser>({
@@ -28,6 +29,7 @@ const UserSchema = new Schema<IUser>({
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
   deletedAt: { type: Date, default: null },
+  searchKeywords: { type: [String], default: [] },
 });
 
 const User = mongoose.model<IUser>("User", UserSchema);

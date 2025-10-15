@@ -26,6 +26,7 @@ import {
   FAQ,
   Changelog,
   Alianza,
+  Gestion,
   Iniciativas,
   Galeria,
 } from "./pages";
@@ -89,6 +90,14 @@ function App() {
                       element={
                         <AuthGuard>
                           <Alianza />
+                        </AuthGuard>
+                      }
+                    />
+                    <Route
+                      path="gestion"
+                      element={
+                        <AuthGuard>
+                          <Gestion />
                         </AuthGuard>
                       }
                     />

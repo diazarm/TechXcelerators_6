@@ -177,7 +177,6 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
 
   /** Se llama cuando hay un error en un componente descendiente */
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.error('ErrorBoundary capturó un error:', error, errorInfo);
     
     this.setState({
       error,

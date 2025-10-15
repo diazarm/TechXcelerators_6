@@ -1,17 +1,114 @@
-import React from 'react';
-import { CardGrid } from '../../components';
-import { useCards, usePageHeader } from '../../hooks';
+import React, { useEffect, useState } from 'react';
+import { CardGrid, ResourceEditModal, ResourceDeleteModal } from '../../components';
+import { useCards, usePageHeader, useResourceManagement } from '../../hooks';
 import { useScreenSize } from '../../context';
-
+import type { CardConfig } from '../../constants';
 
 const Gobernanza: React.FC = () => {
   const { getContainerForScreen, dimensions } = useScreenSize();
-  const { cards, handleCardClick } = useCards({ pageType: 'gobernanza' });
-  usePageHeader(); // Configuración automática del título
+  
+  const { 
+    editModalOpen, deleteModalOpen, selectedResource, closeModals,
+    handleEditClick, handleDeleteClick, handleUpdateResource, handleSoftDeleteResource
+  } = useResourceManagement();
+  
+  const { cards: baseCards, handleCardClick } = useCards({ 
+    pageType: 'gobernanza',
+    onEditClick: handleEditClick,
+    onDeleteClick: handleDeleteClick
+  });
+  
+  const [cards, setCards] = useState<CardConfig[]>(baseCards);
+  
+  usePageHeader();
+
+  // Actualizar cards cuando baseCards cambia (solo al montar)
+  useEffect(() => {
+    setCards(baseCards);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Escuchar evento de recurso eliminado para actualizar visual
+  useEffect(() => {
+    const handleResourceDeleted = (event: CustomEvent) => {
+      const { resource } = event.detail;
+      
+      // Actualizar la card correspondiente marcándola como inactiva
+      setCards(prevCards => 
+        prevCards.map(card => 
+          card.resourceName === resource.name 
+            ? { ...card, isActive: false }
+            : card
+        )
+      );
+    };
+
+    window.addEventListener('resourceDeleted', handleResourceDeleted as EventListener);
+    
+    return () => {
+      window.removeEventListener('resourceDeleted', handleResourceDeleted as EventListener);
+    };
+  }, []);
+
+  // Escuchar evento de recurso restaurado para actualizar visual
+  useEffect(() => {
+    const handleResourceRestored = (event: CustomEvent) => {
+      const { resourceName } = event.detail;
+      
+      // Actualizar la card correspondiente marcándola como activa
+      setCards(prevCards => 
+        prevCards.map(card => 
+          card.resourceName === resourceName 
+            ? { ...card, isActive: true }
+            : card
+        )
+      );
+    };
+
+    window.addEventListener('resourceRestored', handleResourceRestored as EventListener);
+    
+    return () => {
+      window.removeEventListener('resourceRestored', handleResourceRestored as EventListener);
+    };
+  }, []);
+
+  // Escuchar evento de recurso actualizado para actualizar visual
+  useEffect(() => {
+    const handleResourceUpdated = (event: CustomEvent) => {
+      const { oldName, newName } = event.detail;
+      
+      setCards(prevCards => 
+        prevCards.map(card => 
+          card.resourceName === oldName 
+            ? { ...card, title: newName, resourceName: newName }
+            : card
+        )
+      );
+    };
+
+    window.addEventListener('resourceUpdated', handleResourceUpdated as EventListener);
+    
+    return () => {
+      window.removeEventListener('resourceUpdated', handleResourceUpdated as EventListener);
+    };
+  }, []);
 
   return (
     <div className={`${getContainerForScreen()}`}>
-      {/* Grid de Tarjetas - El título ahora viene del Header dinámico */}
+      <ResourceEditModal
+        isOpen={editModalOpen}
+        onClose={closeModals}
+        resource={selectedResource}
+        onSave={handleUpdateResource}
+      />
+      
+      <ResourceDeleteModal
+        isOpen={deleteModalOpen}
+        onClose={closeModals}
+        resource={selectedResource}
+        onConfirm={handleSoftDeleteResource}
+      />
+      
       {cards.length > 0 ? (
         <CardGrid 
           cards={cards} 
@@ -19,7 +116,6 @@ const Gobernanza: React.FC = () => {
           defaultCardSize="medium"
         />
       ) : (
-        /* Estado vacío */
         <div className="text-center py-12">
           <div 
             className="bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4"
@@ -51,7 +147,7 @@ const Gobernanza: React.FC = () => {
             className="text-gray-600"
             style={{ fontSize: dimensions.fontSize.md }}
           >
-            Las tarjetas de gobernanza se cargarán aquí una vez configuradas.
+            No se encontraron recursos de gobernanza.
           </p>
         </div>
       )}

@@ -25,9 +25,7 @@ export * from './Resources';
 export { default as Dashboard } from './Dashboard';
 
 export { default as Alianza } from './Alianza';
-
 export { default as Gobernanza } from './Gobernanza/index';
-
+export { default as Gestion } from './Gestion';
 export { default as Iniciativas } from './iniciativas';
-
 export { default as Galeria } from './Galeria';

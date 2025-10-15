@@ -18,36 +18,22 @@ export const useResourceManagement = (options: UseResourceManagementOptions = {}
   const [selectedResource, setSelectedResource] = useState<IResource | null>(null);
 
   const openEditModal = useCallback(async (resourceName: string) => {
-    try {
-      const resource = isGallery 
-        ? await getGalleryResourceByName(resourceName)
-        : await getResourceByName(resourceName);
-        
-      if (resource) {
-        setSelectedResource(resource);
-        setEditModalOpen(true);
-      } else {
-        console.warn(`No se encontró el recurso: ${resourceName}`);
-      }
-    } catch (error) {
-      console.error('Error al obtener recurso para edición:', error);
+    const resource = isGallery 
+      ? await getGalleryResourceByName(resourceName)
+      : await getResourceByName(resourceName);
+    if (resource) {
+      setSelectedResource(resource);
+      setEditModalOpen(true);
     }
   }, [isGallery]);
 
   const openDeleteModal = useCallback(async (resourceName: string) => {
-    try {
-      const resource = isGallery 
-        ? await getGalleryResourceByName(resourceName)
-        : await getResourceByName(resourceName);
-        
-      if (resource) {
-        setSelectedResource(resource);
-        setDeleteModalOpen(true);
-      } else {
-        console.warn(`No se encontró el recurso: ${resourceName}`);
-      }
-    } catch (error) {
-      console.error('Error al obtener recurso para eliminación:', error);
+    const resource = isGallery 
+      ? await getGalleryResourceByName(resourceName)
+      : await getResourceByName(resourceName);
+    if (resource) {
+      setSelectedResource(resource);
+      setDeleteModalOpen(true);
     }
   }, [isGallery]);
 
@@ -58,15 +44,18 @@ export const useResourceManagement = (options: UseResourceManagementOptions = {}
   }) => {
     if (!selectedResource) return;
     
-    try {
-      if (isGallery) {
-        await updateGalleryResource(selectedResource._id, resourceData);
-      } else {
-        await updateResource(selectedResource._id, resourceData);
-      }
-    } catch (error) {
-      console.error('Error al actualizar recurso:', error);
-      throw error;
+    if (isGallery) {
+      await updateGalleryResource(selectedResource._id, resourceData);
+    } else {
+      const updatedResource = await updateResource(selectedResource._id, resourceData);
+      window.dispatchEvent(new CustomEvent('resourceUpdated', {
+        detail: { 
+          resourceId: selectedResource._id, 
+          oldName: selectedResource.name,
+          newName: resourceData.name,
+          resource: updatedResource
+        }
+      }));
     }
   }, [selectedResource, isGallery]);
 
@@ -79,28 +68,23 @@ export const useResourceManagement = (options: UseResourceManagementOptions = {}
   const handleSoftDeleteResource = useCallback(async () => {
     if (!selectedResource) return;
     
-    try {
-      if (isGallery) {
-        await softDeleteGalleryResource(selectedResource._id);
-      } else {
-        await softDeleteResource(selectedResource._id);
-      }
-      
-      // Emitir evento personalizado para notificar que se eliminó un recurso
-      window.dispatchEvent(new CustomEvent('resourceDeleted', {
-        detail: { 
-          resourceId: selectedResource._id, 
-          resourceName: selectedResource.name,
-          resource: selectedResource
-        }
-      }));
-      
-      // También cerrar el modal de eliminación
-      closeModals();
-    } catch (error) {
-      console.error('Error al desactivar recurso:', error);
-      throw error;
+    if (isGallery) {
+      await softDeleteGalleryResource(selectedResource._id);
+    } else {
+      await softDeleteResource(selectedResource._id);
     }
+    
+    // Emitir evento personalizado para notificar que se eliminó un recurso
+    window.dispatchEvent(new CustomEvent('resourceDeleted', {
+      detail: { 
+        resourceId: selectedResource._id, 
+        resourceName: selectedResource.name,
+        resource: selectedResource
+      }
+    }));
+    
+    // También cerrar el modal de eliminación
+    closeModals();
   }, [selectedResource, closeModals, isGallery]);
 
   const handleEditClick = useCallback((resourceName: string) => {

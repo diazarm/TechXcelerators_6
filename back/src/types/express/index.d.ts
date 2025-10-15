@@ -1,7 +1,9 @@
-import 'express';
+import "express";
 
-declare module 'express-serve-static-core' {
+declare module "express-serve-static-core" {
   interface Request {
-  user?: import('../../models/User').IUser;
+    user?: import("../../models/User").IUser & {
+      _id?: string;
+    };
   }
 }

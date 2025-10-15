@@ -40,9 +40,13 @@ export interface LoginResponseData {
 export type LoginResponse = ApiResponse<LoginResponseData>;
 
 /**
- * Respuesta para validación de token
+ * Respuesta para validación de token (formato real del backend)
  */
-export type ValidateTokenResponse = ApiResponse<User>;
+export type ValidateTokenResponse = {
+  message: string;
+  user: User;
+  error?: string;
+};
 
 // Re-exportar tipos de recursos para conveniencia
 export type { IResource };

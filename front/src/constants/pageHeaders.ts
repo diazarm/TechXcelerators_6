@@ -16,6 +16,10 @@ export const PAGE_HEADERS = {
     title: 'Gobernanzas',
     description: 'Equipo de trabajo, actas, grabaciones y presentaciones de comités.'
   },
+  '/gestion': {
+    title: 'Gestión',
+    description: 'Power BI de resultados + calendario académico'
+  },
   '/planeacion': {
     title: 'PLANEACIÓN'
   },

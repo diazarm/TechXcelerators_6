@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Card, ResourceEditModal, ResourceDeleteModal, LoadingSpinner, Notification } from '../../components';
+import { CardGrid, ResourceEditModal, ResourceDeleteModal } from '../../components';
 import { useCards, usePageHeader, useResourceManagement } from '../../hooks';
 import { useScreenSize } from '../../context';
 import type { CardConfig } from '../../constants';
 
 const Iniciativas: React.FC = () => {
-  const { getContainerForScreen, dimensions, getGapForScreen } = useScreenSize();
+  const { getContainerForScreen, dimensions } = useScreenSize();
   
   // Hook para gestión de recursos
   const { 
@@ -27,9 +27,7 @@ const Iniciativas: React.FC = () => {
   
   // Estado local para las cards con su isActive actualizado
   const [cards, setCards] = useState<CardConfig[]>(baseCards);
-  const [loading] = useState(false);
-  const [error] = useState<string | null>(null);
-
+  
   usePageHeader(); // Configuración automática del título
 
   // Actualizar cards cuando baseCards cambia (solo al montar)
@@ -82,26 +80,26 @@ const Iniciativas: React.FC = () => {
     };
   }, []);
 
-  // Mostrar loading
-  if (loading) {
-    return (
-      <div className={`${getContainerForScreen()} flex items-center justify-center min-h-screen`}>
-        <LoadingSpinner />
-      </div>
-    );
-  }
+  // Escuchar evento de recurso actualizado para actualizar visual
+  useEffect(() => {
+    const handleResourceUpdated = (event: CustomEvent) => {
+      const { oldName, newName } = event.detail;
+      
+      setCards(prevCards => 
+        prevCards.map(card => 
+          card.resourceName === oldName 
+            ? { ...card, title: newName, resourceName: newName }
+            : card
+        )
+      );
+    };
 
-  // Mostrar error
-  if (error) {
-    return (
-      <div className={`${getContainerForScreen()}`}>
-        <Notification 
-          type="error" 
-          message={`Error al cargar iniciativas: ${error}`}
-        />
-      </div>
-    );
-  }
+    window.addEventListener('resourceUpdated', handleResourceUpdated as EventListener);
+    
+    return () => {
+      window.removeEventListener('resourceUpdated', handleResourceUpdated as EventListener);
+    };
+  }, []);
 
   return (
     <div className={`${getContainerForScreen()} pb-32`}>
@@ -120,44 +118,15 @@ const Iniciativas: React.FC = () => {
         onConfirm={handleSoftDeleteResource}
       />
       
-      {/* Subtítulo renderizado dentro de la página */}
-      <div 
-        className="text-center"
-        style={{ 
-          marginBottom: dimensions.spacing.lg,
-          marginTop: `-${dimensions.spacing.md}`
-        }}
-      >
-        <h2 
-          className="font-normal leading-[30px] tracking-[0%]"
-          style={{ 
-            fontSize: '20px',
-            color: '#9795B5',
-            fontFamily: 'DM Sans, sans-serif'
-          }}
-        >
-          Planes de acción con las alianzas internas
-        </h2>
-      </div>
-
-      {/* Grid de Tarjetas */}
+      {/* Grid de Tarjetas - El título ahora viene del Header dinámico */}
       {cards.length > 0 ? (
-        <div 
-          className={`flex flex-col md:flex-row justify-center ${getGapForScreen('medium')}`}
-        >
-          {cards.map((card) => (
-            <Card
-              key={card.id}
-              title={card.title}
-              description={card.description}
-              icon={card.icon}
-              leftHeaderContent={card.leftHeaderContent}
-              rightHeaderContent={card.rightHeaderContent}
-              image={card.image}
-              onButtonClick={() => handleCardClick(card)}
-              className="mx-auto"
-            />
-          ))}
+        <div className="flex justify-center">
+              <CardGrid 
+                cards={cards} 
+                onCardClick={handleCardClick}
+                defaultCardSize="rectangular"
+                columns={2}
+              />
         </div>
       ) : (
         /* Estado vacío */
