@@ -3,54 +3,80 @@ import Resource, { IResource } from "../models/Resource";
 import { createFlexibleRegex, normalizeText } from "../utils/normalizeText";
 
 export class ResourceService {
-    async getAllResources(includeDeleted = false): Promise<IResource[]> {
-        const query = includeDeleted
-            ? Resource.find().setOptions({ includeDeleted: true }) //Incluye soft deleted
-            : Resource.find({ isActive: true }); //Solo activos
-        return query.exec();
-    }
-    async createResource(data: Partial<IResource>): Promise<IResource> {
-        const resource = new Resource(data);
-        return resource.save();
-    }
+  //Obtener todos los recursos
+  async getAllResources(includeDeleted = false, includeInactive = false): Promise<IResource[]> {
+    const filter: any = {};
 
-  async getResourceById(id: string): Promise<IResource | null> {
-    if (!mongoose.Types.ObjectId.isValid(id)) return null;
-    return Resource.findById(id).exec();
+    if (!includeDeleted) filter.deletedAt = null; //Ignora los soft deleted
+    if (!includeInactive) filter.isActive = true; //Ignora los inactivos
+
+    return Resource.find(filter).setOptions({ includeDeleted: true }).sort({ createdAt: -1 }).exec();
   }
 
-    async updateResource(id: string, data: Partial<Omit<IResource, "createdAt" | "updatedAt">>
-    ): Promise<IResource | null> {
-        if (!mongoose.Types.ObjectId.isValid(id)) return null;
+  //Crear un recurso
+  async createResource(data: Partial<IResource>): Promise<IResource> {
+    const resource = new Resource(data);
+    return resource.save();
+  }
 
-        // Buscamos el recurso incluso si está soft deleted
-        const resource = await Resource.findById(id).setOptions({ includeDeleted: true });
-        if (!resource) return null;
+  //Obtener un recurso por ID (incluye soft deleted)
+  async getResourceById(
+    id: string,
+    includeDeleted = false,
+    includeInactive = false
+  ): Promise<IResource | null> {
+    if (!mongoose.Types.ObjectId.isValid(id)) return null;
 
-        Object.assign(resource, data);
-        return resource.save();
-    }
+    // Construimos el filtro base
+    const filter: any = { _id: id };
 
-    async softDeleteResource(id: string): Promise<IResource | null> {
-        if (!mongoose.Types.ObjectId.isValid(id)) return null;
+    if (!includeDeleted) filter.deletedAt = null; // Solo incluir eliminados si se indica explícitamente
+    if (!includeInactive) filter.isActive = true; // Solo incluir inactivos si se indica explícitamente
 
-        const resource = await Resource.findById(id).setOptions({ includeDeleted: true });
-        if (!resource) return null;
+    return Resource.findOne(filter).setOptions({ includeDeleted: true }).exec();
+  }
 
-        //Actualizamos los campos isActive y deletedAt
-        resource.isActive = false;
-        resource.deletedAt = new Date();
-        return resource.save();
-    }
 
-    async getResourcesBySection(sectionId: string, includeDeleted = false): Promise<IResource[]> {
-        const filter = includeDeleted
-            ? { sectionId } // Incluye soft deleted
-            : { sectionId, isActive: true }; // Solo activos
+  //Actualizar un recurso (aunque esté soft deleted o inactivo)
+  async updateResource(
+    id: string,
+    data: Partial<Omit<IResource, "createdAt" | "updatedAt">>
+  ): Promise<IResource | null> {
+    if (!mongoose.Types.ObjectId.isValid(id)) return null;
 
-        const query = Resource.find(filter).setOptions({ includeDeleted: true });
-        return query.exec();
-    }
+    // Buscar incluso los inactivos, pero no los eliminados
+    const resource = await Resource.findOne({ _id: id, deletedAt: null })
+      .setOptions({ includeDeleted: true });
+
+    if (!resource) return null;
+
+    Object.assign(resource, data);
+    return resource.save();
+  }
+
+
+  //Soft delete de un recurso (marca como eliminado sin borrarlo)
+  async softDeleteResource(id: string): Promise<IResource | null> {
+    if (!mongoose.Types.ObjectId.isValid(id)) return null;
+
+    const resource = await Resource.findById(id).setOptions({ includeDeleted: true });
+    if (!resource) return null;
+
+    //Actualizamos los campos isActive y deletedAt
+    resource.isActive = false; //Al eliminarlo también lo desactivamos
+    resource.deletedAt = new Date();
+    return resource.save();
+  }
+
+  //Obtener recursos por sección (opcionalmente incluyendo los soft deleted)
+  async getResourcesBySection(sectionId: string, includeDeleted = false, includeInactive = false): Promise<IResource[]> {
+    const filter: any = { sectionId };
+
+    if (!includeDeleted) filter.deletedAt = null; // Ignora los soft deleted
+    if (!includeInactive) filter.isActive = true; // Ignora los inactivos
+
+    return Resource.find(filter).setOptions({ includeDeleted: true }).sort({ createdAt: -1 }).exec();
+  }
 
   //Método para restaurar un recurso
   async restoreResource(id: string): Promise<IResource | null> {

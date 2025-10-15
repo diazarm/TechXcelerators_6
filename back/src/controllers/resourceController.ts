@@ -4,20 +4,21 @@ import { ResourceService } from "../services/resourceService";
 const resourceService = new ResourceService();
 
 export const getResources = async (req: Request, res: Response, next: NextFunction) => {
-    try {
+  try {
 
-        const includeDeleted = req.query.includeDeleted === 'true';
-        console.log('includeDeleted:', includeDeleted);
-        const resources = await resourceService.getAllResources(includeDeleted);
+    const includeDeleted = req.query.includeDeleted === 'true';
+    const includeInactive = req.query.includeInactive === 'true';
 
-        res.status(200).json({
-            success: true,
-            message: "Recursos obtenidos correctamente",
-            data: resources
-        });
-    } catch (error) {
-        next(error);
-    }
+    const resources = await resourceService.getAllResources(includeDeleted, includeInactive);
+
+    res.status(200).json({
+      success: true,
+      message: "Recursos obtenidos correctamente",
+      data: resources
+    });
+  } catch (error) {
+    next(error);
+  }
 }
 
 export const createResource = async (
@@ -43,32 +44,37 @@ export const getResourceById = async (
   next: NextFunction
 ) => {
   try {
-    const resource = await resourceService.getResourceById(req.params.id);
-    if (!resource) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Recurso no encontrado" });
-    }
-    res.status(200).json({ success: true, data: resource });
+    const { id } = req.params;
+    const includeDeleted = req.query.includeDeleted === 'true';
+    const includeInactive = req.query.includeInactive === 'true';
+
+    const resource = await resourceService.getResourceById(id, includeDeleted, includeInactive);
+
+    if (!resource)
+      return res.status(404).json({ success: false, message: "Recurso no encontrado" });
+
+    return res.status(200).json({ success: true, data: resource });
   } catch (error) {
-    next(error);
+    return res.status(500).json({ success: false, message: "Error al obtener recurso", error });
   }
 };
 
 export const getResourcesBySection = async (req: Request, res: Response, next: NextFunction) => {
-    try {
+  try {
 
-        const sectionId = req.params.sectionId;
-        const includeDeleted = req.query.includeDeleted === 'true';
-        const resources = await resourceService.getResourcesBySection(sectionId, includeDeleted);
-        res.status(200).json({
-            success: true,
-            message: "Recursos obtenidos correctamente",
-            data: resources
-        });
-    } catch (error) {
-        next(error);
-    }
+    const sectionId = req.params.sectionId;
+    const includeDeleted = req.query.includeDeleted === 'true';
+    const includeInactive = req.query.includeInactive === 'true';
+
+    const resources = await resourceService.getResourcesBySection(sectionId, includeDeleted, includeInactive);
+    res.status(200).json({
+      success: true,
+      message: "Recursos obtenidos correctamente",
+      data: resources
+    });
+  } catch (error) {
+    next(error);
+  }
 }
 
 export const updateResource = async (
