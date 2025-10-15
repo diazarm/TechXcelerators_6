@@ -10,16 +10,16 @@ const Galeria: React.FC = () => {
   const { getContainerForScreen, dimensions } = useScreenSize();
   
   // Hook para gestión de recursos
-  const { 
-    editModalOpen, 
-    deleteModalOpen, 
-    selectedResource, 
+  const {
+    editModalOpen,
+    deleteModalOpen,
+    selectedResource,
     closeModals,
-    handleEditClick, 
+    handleEditClick,
     handleDeleteClick,
     handleUpdateResource,
     handleSoftDeleteResource
-  } = useResourceManagement();
+  } = useResourceManagement({ isGallery: true });
   
   const { cards: baseCards, handleCardClick } = useCards({ 
     pageType: 'galeria',

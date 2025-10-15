@@ -3,7 +3,7 @@ import { useAuth } from './useAuth';
 import { useNavigate } from 'react-router-dom';
 import { getCardConfig, createMultipleIcons } from '../constants';
 import { EyeOff, Edit2 } from 'react-feather';
-import { handleAllianceCardClick } from '../services';
+import { handleAllianceCardClick, getGalleryResourceByName } from '../services';
 import { useResponsive } from './useResponsive';
 
 import type { CardConfig } from '../constants';
@@ -64,7 +64,21 @@ export const useCards = ({ pageType, onEditClick, onDeleteClick }: UseCardsProps
     return baseCards;
   }, [pageType, user?.isAdmin, user?.role, onEditClick, onDeleteClick, scale]);
 
-  const handleCardClick = (card: CardConfig) => {
+  const handleCardClick = async (card: CardConfig) => {
+    // En Galería: abrir el link actualizado del recurso desde el mock/localStorage
+    if (pageType === 'galeria' && card.resourceName) {
+      try {
+        const resource = await getGalleryResourceByName(card.resourceName);
+        const url = resource.links?.[0]?.url;
+        if (url) {
+          window.open(url, '_blank', 'noopener,noreferrer');
+          return;
+        }
+      } catch {
+        // Si falla, continuar con el flujo normal (no interrumpe la UI)
+      }
+    }
+
     if (card.href) {
       navigate(card.href);
     } else if (card.onClick) {

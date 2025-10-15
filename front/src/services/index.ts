@@ -74,6 +74,19 @@ export {
   RESOURCE_NAME_TO_ID_MAP
 } from './resourceManagementService';
 
+// Servicio mock para galería
+export {
+  getAllGalleryResources,
+  getGalleryResourceById,
+  getGalleryResourceByName,
+  updateGalleryResource,
+  softDeleteGalleryResource,
+  restoreGalleryResource,
+  getDeletedGalleryResources,
+  createGalleryResource,
+  resetGalleryMockData
+} from './galleryMockService';
+
 // Exportar tipos de servicios
 export type { LoggerConfig } from './types';
 export type { CreateResourceData, UpdateResourceData } from './resourceManagementService';

@@ -1,15 +1,28 @@
 import { useState, useCallback } from 'react';
 import { getResourceByName, updateResource, softDeleteResource } from '../services/resourceManagementService';
+import { 
+  getGalleryResourceByName, 
+  updateGalleryResource, 
+  softDeleteGalleryResource 
+} from '../services/galleryMockService';
 import type { IResource } from '../types/resource';
 
-export const useResourceManagement = () => {
+interface UseResourceManagementOptions {
+  isGallery?: boolean;
+}
+
+export const useResourceManagement = (options: UseResourceManagementOptions = {}) => {
+  const { isGallery = false } = options;
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [selectedResource, setSelectedResource] = useState<IResource | null>(null);
 
   const openEditModal = useCallback(async (resourceName: string) => {
     try {
-      const resource = await getResourceByName(resourceName);
+      const resource = isGallery 
+        ? await getGalleryResourceByName(resourceName)
+        : await getResourceByName(resourceName);
+        
       if (resource) {
         setSelectedResource(resource);
         setEditModalOpen(true);
@@ -19,11 +32,14 @@ export const useResourceManagement = () => {
     } catch (error) {
       console.error('Error al obtener recurso para edición:', error);
     }
-  }, []);
+  }, [isGallery]);
 
   const openDeleteModal = useCallback(async (resourceName: string) => {
     try {
-      const resource = await getResourceByName(resourceName);
+      const resource = isGallery 
+        ? await getGalleryResourceByName(resourceName)
+        : await getResourceByName(resourceName);
+        
       if (resource) {
         setSelectedResource(resource);
         setDeleteModalOpen(true);
@@ -33,7 +49,7 @@ export const useResourceManagement = () => {
     } catch (error) {
       console.error('Error al obtener recurso para eliminación:', error);
     }
-  }, []);
+  }, [isGallery]);
 
   const handleUpdateResource = useCallback(async (resourceData: {
     name: string;
@@ -43,12 +59,16 @@ export const useResourceManagement = () => {
     if (!selectedResource) return;
     
     try {
-      await updateResource(selectedResource._id, resourceData);
+      if (isGallery) {
+        await updateGalleryResource(selectedResource._id, resourceData);
+      } else {
+        await updateResource(selectedResource._id, resourceData);
+      }
     } catch (error) {
       console.error('Error al actualizar recurso:', error);
       throw error;
     }
-  }, [selectedResource]);
+  }, [selectedResource, isGallery]);
 
   const closeModals = useCallback(() => {
     setEditModalOpen(false);
@@ -60,7 +80,11 @@ export const useResourceManagement = () => {
     if (!selectedResource) return;
     
     try {
-      await softDeleteResource(selectedResource._id);
+      if (isGallery) {
+        await softDeleteGalleryResource(selectedResource._id);
+      } else {
+        await softDeleteResource(selectedResource._id);
+      }
       
       // Emitir evento personalizado para notificar que se eliminó un recurso
       window.dispatchEvent(new CustomEvent('resourceDeleted', {
@@ -77,7 +101,7 @@ export const useResourceManagement = () => {
       console.error('Error al desactivar recurso:', error);
       throw error;
     }
-  }, [selectedResource, closeModals]);
+  }, [selectedResource, closeModals, isGallery]);
 
   const handleEditClick = useCallback((resourceName: string) => {
     openEditModal(resourceName);

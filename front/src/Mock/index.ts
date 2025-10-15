@@ -19,4 +19,7 @@
 // Mock data de recursos
 export { mockResources } from './MockResources';
 
+// Mock data de galería
+export { mockGalleryResources, initializeGalleryMockData } from './MockGalleryResources';
+
 
