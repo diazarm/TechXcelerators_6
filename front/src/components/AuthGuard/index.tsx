@@ -58,7 +58,7 @@ export const AuthGuard: React.FC<AuthGuardProps> = ({ children }) => {
     );
   }
 
-  // Si no está autenticado, redirigir a home
+  // Si no está autenticado, redirigir a home (donde puede ver los botones de login)
   if (!isAuthenticated) {
     return <Navigate to="/" replace />;
   }

@@ -38,7 +38,6 @@ export const useAlliances = (): AllianceState & AllianceActions => {
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Error al obtener alianzas';
       setError(errorMessage);
-      console.error('Error en getAlliances:', err);
     } finally {
       setLoading(false);
     }
@@ -60,7 +59,6 @@ export const useAlliances = (): AllianceState & AllianceActions => {
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Error al obtener alianza';
       setError(errorMessage);
-      console.error('Error en getAllianceById:', err);
       return null;
     } finally {
       setLoading(false);
@@ -84,7 +82,6 @@ export const useAlliances = (): AllianceState & AllianceActions => {
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Error al crear alianza';
       setError(errorMessage);
-      console.error('Error en createAlliance:', err);
       throw err; // Re-lanzar para que el componente pueda manejarlo
     } finally {
       setLoading(false);
@@ -117,7 +114,6 @@ export const useAlliances = (): AllianceState & AllianceActions => {
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Error al actualizar alianza';
       setError(errorMessage);
-      console.error('Error en updateAlliance:', err);
       throw err; // Re-lanzar para que el componente pueda manejarlo
     } finally {
       setLoading(false);
@@ -144,7 +140,6 @@ export const useAlliances = (): AllianceState & AllianceActions => {
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Error al eliminar alianza';
       setError(errorMessage);
-      console.error('Error en deleteAlliance:', err);
       throw err; // Re-lanzar para que el componente pueda manejarlo
     } finally {
       setLoading(false);
@@ -168,7 +163,6 @@ export const useAlliances = (): AllianceState & AllianceActions => {
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Error al restaurar alianza';
       setError(errorMessage);
-      console.error('Error en restoreAlliance:', err);
       throw err; // Re-lanzar para que el componente pueda manejarlo
     } finally {
       setLoading(false);

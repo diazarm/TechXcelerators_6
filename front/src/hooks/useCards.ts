@@ -37,7 +37,7 @@ export const useCards = ({ pageType, onEditClick, onDeleteClick }: UseCardsProps
     const baseCards = getCardConfig(pageType);
 
     // Mostrar acciones (iconos de la derecha) solo para admin o director en las páginas con recursos
-    if (pageType === 'alianza' || pageType === 'gestion' || pageType === 'iniciativas') {
+    if (pageType === 'alianza' || pageType === 'gobernanza' || pageType === 'gestion' || pageType === 'iniciativas') {
       const canSeeActions = Boolean(user?.isAdmin || user?.role === 'director');
       return baseCards.map((card) => {
         // Si el usuario puede ver acciones y la card tiene iconos, hacerlos clickeables

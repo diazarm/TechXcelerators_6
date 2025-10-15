@@ -28,7 +28,6 @@ export const useResourceRestoration = (props?: UseResourceRestorationProps) => {
       setAllDeletedResources(resources);
       setHasCheckedResources(true);
     } catch (error) {
-      console.error('Error fetching deleted resources:', error);
       showNotification('error', 'Error', 'No se pudieron cargar los recursos eliminados');
       setAllDeletedResources([]);
       setHasCheckedResources(true);
@@ -74,7 +73,6 @@ export const useResourceRestoration = (props?: UseResourceRestorationProps) => {
         detail: { resourceId, resourceName }
       }));
     } catch (error) {
-      console.error('Error restoring resource:', error);
       showNotification('error', 'Error', 'No se pudo restaurar el recurso');
     } finally {
       setRestoreLoading(null);

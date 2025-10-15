@@ -198,14 +198,11 @@ export const findAllAllianceLinks = (resource: IResource, alliance: Alliance) =>
  */
 export const handleAllianceCardClick = async (sectionType: string, resourceName?: string, showModal?: boolean) => {
   try {
-    console.log(`Clic en sección: ${sectionType}${resourceName ? `, recurso: ${resourceName}` : ''}`);
-    
     try {
       // Obtener todos los recursos de la sección
       const resources = await getResourcesBySection(sectionType);
       
       if (resources.length > 0) {
-        console.log(`Encontrados ${resources.length} recursos para ${sectionType}`);
         
         // Buscar el recurso objetivo
         const searchResult = findResourceByName(resources, resourceName);
@@ -236,7 +233,6 @@ export const handleAllianceCardClick = async (sectionType: string, resourceName?
           } else {
             // Navegación directa al primer link
             const targetLink = targetResource.links[0];
-            console.log(`Navegando a ${targetResource.name}: ${targetLink.url}`);
             
             navigateToUrl(targetLink.url);
           }
@@ -249,12 +245,10 @@ export const handleAllianceCardClick = async (sectionType: string, resourceName?
         showNotification('info', 'Recursos próximamente', 'No hay recursos disponibles para esta sección. Próximamente se implementará esta funcionalidad.');
       }
     } catch (resourceError) {
-      console.log(`No se encontraron recursos para ${sectionType}:`, resourceError);
       showNotification('error', 'Error de conexión', 'No se encontraron recursos para esta sección. Próximamente se implementará esta funcionalidad.');
     }
     
   } catch (error) {
-    console.error('Error al manejar click de card de alianza:', error);
     const errorMessage = error instanceof Error ? error.message : 'Error desconocido';
     showNotification('error', 'Error del sistema', `Error: ${errorMessage}`);
   }
@@ -306,7 +300,6 @@ export const showAllianceSelectionModal = async (alliances: Alliance[], resource
       
       if (allianceLinks.length === 1) {
         // Un solo link → Navegar directo
-        console.log(`Navegando a ${selectedAlliance.siglas}: ${allianceLinks[0].url}`);
         navigateToUrl(allianceLinks[0].url);
         closeModal();
       } else {
@@ -332,7 +325,6 @@ export const showAllianceSelectionModal = async (alliances: Alliance[], resource
         
         const handleProgramSelect = () => {
           const selectedProgram = availablePrograms[selectedProgramIndex];
-          console.log(`Navegando a ${selectedAllianceForPrograms?.siglas} - ${selectedProgram.label}: ${selectedProgram.url}`);
           navigateToUrl(selectedProgram.url);
           closeModal();
         };
@@ -386,7 +378,6 @@ export const showAllianceSelectionModal = async (alliances: Alliance[], resource
     renderInitialModal();
     
   } catch (error) {
-    console.error('Error al mostrar modal:', error);
     showNotification('error', 'Error de modal', 'Error al abrir la selección de alianzas');
   }
 };

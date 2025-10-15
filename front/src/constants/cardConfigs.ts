@@ -182,38 +182,71 @@ export const alianzaPageCards: CardConfig[] = [
 export const gobernanzaPageCards: CardConfig[] = [
   {
     id: 'acta-colaboracion',
-    title: 'Acta de comité de colaboración',
+    title: 'Actas de comité de colaboración',
     description: '',
     leftHeaderContent: createSemiboldIcon(Users, 32, '#1E285F'),
-    href: '/gobernanza/acta-colaboracion'
+    rightHeaderContent: createMultipleIcons([
+      { component: EyeOff, size: 18, color: '#5D5A88', withCircle: true, type: 'delete' },
+      { component: Edit2, size: 18, color: '#5D5A88', withCircle: true, type: 'edit' }
+    ]),
+    sectionType: SECTION_IDS.GOBERNANZA,
+    resourceName: 'Actas de comité de colaboración',
+    showModal: true,
+    isActive: true
   },
   {
     id: 'acta-direccion',
-    title: 'Acta de comité de dirección',
+    title: 'Actas de comité de dirección',
     description: '',
     leftHeaderContent: createSemiboldIcon(FileText, 32, '#1E285F'),
-    href: '/gobernanza/acta-direccion'
+    rightHeaderContent: createMultipleIcons([
+      { component: EyeOff, size: 18, color: '#5D5A88', withCircle: true, type: 'delete' },
+      { component: Edit2, size: 18, color: '#5D5A88', withCircle: true, type: 'edit' }
+    ]),
+    sectionType: SECTION_IDS.GOBERNANZA,
+    resourceName: 'Actas de comité de dirección',
+    showModal: true,
+    isActive: true
   },
   {
     id: 'acta-estrategia',
-    title: 'Acta de comité de estrategia y crecimiento',
+    title: 'Actas de comité de estrategia y crecimiento',
     description: '',
     leftHeaderContent: createSemiboldIcon(Edit, 32, '#1E285F'),
-    href: '/gobernanza/acta-estrategia'
+    rightHeaderContent: createMultipleIcons([
+      { component: EyeOff, size: 18, color: '#5D5A88', withCircle: true, type: 'delete' },
+      { component: Edit2, size: 18, color: '#5D5A88', withCircle: true, type: 'edit' }
+    ]),
+    sectionType: SECTION_IDS.GOBERNANZA,
+    resourceName: 'Actas de comité de estrategia y crecimiento',
+    showModal: true,
+    isActive: true
   },
   {
     id: 'grabaciones',
     title: 'Grabación de los comités',
     description: '',
     leftHeaderContent: createSemiboldIcon(Video, 32, '#1E285F'),
-    href: '/gobernanza/grabaciones'
+    rightHeaderContent: createMultipleIcons([
+      { component: EyeOff, size: 18, color: '#5D5A88', withCircle: true, type: 'delete' },
+      { component: Edit2, size: 18, color: '#5D5A88', withCircle: true, type: 'edit' }
+    ]),
+    sectionType: SECTION_IDS.GOBERNANZA,
+    resourceName: 'Grabación de los comités',
+    isActive: true
   },
   {
     id: 'presentaciones',
     title: 'Presentaciones de comités',
     description: '',
     leftHeaderContent: createSemiboldIcon(Cast, 32, '#1E285F'),
-    href: '/gobernanza/presentaciones'
+    rightHeaderContent: createMultipleIcons([
+      { component: EyeOff, size: 18, color: '#5D5A88', withCircle: true, type: 'delete' },
+      { component: Edit2, size: 18, color: '#5D5A88', withCircle: true, type: 'edit' }
+    ]),
+    sectionType: SECTION_IDS.GOBERNANZA,
+    resourceName: 'Presentaciones de comités',
+    isActive: true
   }
 ];
 

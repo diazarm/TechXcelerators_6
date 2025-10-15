@@ -64,7 +64,7 @@ const Alianza: React.FC = () => {
     return () => {
       window.removeEventListener('resourceDeleted', handleResourceDeleted as EventListener);
     };
-  }, []); // Sin dependencias para evitar loop infinito
+  }, []);
 
   // Escuchar evento de recurso restaurado para actualizar visual
   useEffect(() => {
@@ -81,8 +81,18 @@ const Alianza: React.FC = () => {
       );
     };
 
+    window.addEventListener('resourceRestored', handleResourceRestored as EventListener);
+    
+    return () => {
+      window.removeEventListener('resourceRestored', handleResourceRestored as EventListener);
+    };
+  }, []);
+
+  // Escuchar evento de recurso actualizado para actualizar visual
+  useEffect(() => {
     const handleResourceUpdated = (event: CustomEvent) => {
       const { oldName, newName } = event.detail;
+      
       setCards(prevCards => 
         prevCards.map(card => 
           card.resourceName === oldName 
@@ -92,11 +102,9 @@ const Alianza: React.FC = () => {
       );
     };
 
-    window.addEventListener('resourceRestored', handleResourceRestored as EventListener);
     window.addEventListener('resourceUpdated', handleResourceUpdated as EventListener);
     
     return () => {
-      window.removeEventListener('resourceRestored', handleResourceRestored as EventListener);
       window.removeEventListener('resourceUpdated', handleResourceUpdated as EventListener);
     };
   }, []);

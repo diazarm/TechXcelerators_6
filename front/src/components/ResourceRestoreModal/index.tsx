@@ -117,13 +117,20 @@ export const ResourceRestoreModal: React.FC<ResourceRestoreModalProps> = ({
 
         {/* Content */}
         <div 
-          className="flex-1 overflow-y-auto"
+          className="flex-1 overflow-y-auto overflow-x-hidden"
           style={{ 
-            padding: `${scale(24)}px`
+            padding: `${scale(24)}px`,
+            minWidth: 0
           }}
         >
           {/* Filtro de sección */}
-          <div style={{ marginBottom: `${scale(20)}px` }}>
+          <div 
+            style={{ 
+              marginBottom: `${scale(20)}px`,
+              minWidth: 0,
+              maxWidth: '100%'
+            }}
+          >
             <SectionFilter
               selectedSectionId={selectedSectionId}
               onSectionChange={onSectionChange}
