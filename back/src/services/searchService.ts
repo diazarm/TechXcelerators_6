@@ -124,6 +124,7 @@ export class SearchService {
     const skip = (page - 1) * limit;
     const normalizedQuery = normalizeText(query);
     const searchRegex = createFlexibleRegex(normalizedQuery);
+    const keywords = [normalizedQuery];
 
     try {
       const alliances = await Alliance.find({
@@ -158,6 +159,7 @@ export class SearchService {
       return {
         query,
         type: "exact",
+        keywords,
         results: { alliances, resources, sections },
         total: alliances.length + resources.length + sections.length,
       };

@@ -1,8 +1,17 @@
 import { Request, Response } from "express";
+
 import { searchService } from "../services/searchService";
+import User from "../models/User";
+import { normalizeText } from "../utils/normalizeText";
 
 export const search = async (req: Request, res: Response): Promise<void> => {
   try {
+    if (!req.user) {
+      res.status(401).json({ error: "No autorizado" });
+      return;
+    }
+    const userId = req.user._id;
+
     const { q, page = 1, limit = 10, type = "smart" } = req.query;
 
     if (!q || typeof q !== "string") {
@@ -18,6 +27,16 @@ export const search = async (req: Request, res: Response): Promise<void> => {
       results = await searchService.searchExact(q, pageNum, limitNum);
     } else {
       results = await searchService.searchAll(q, pageNum, limitNum);
+    }
+
+    // Guarda la palabra clave después de obtener results
+    if (results.keywords && results.keywords.length > 0) {
+      const keyword = normalizeText(results.keywords[0]);
+      await User.findByIdAndUpdate(
+        userId,
+        { $addToSet: { searchKeywords: keyword } },
+        { new: true }
+      );
     }
 
     if (
@@ -55,5 +74,26 @@ export const search = async (req: Request, res: Response): Promise<void> => {
     res
       .status(500)
       .json({ error: error.message || "Error interno del servidor" });
+  }
+};
+
+export const getUserSearchKeywords = async (req: Request, res: Response) => {
+  try {
+    if (!req.user) {
+      res.status(401).json({ error: "No autorizado" });
+      return;
+    }
+    const userId = req.user._id;
+    const user = await User.findById(userId).select("searchKeywords");
+    if (!user) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Usuario no encontrado" });
+    }
+    res.json({ success: true, keywords: user.searchKeywords || [] });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ success: false, message: "Error al obtener palabras clave" });
   }
 };
