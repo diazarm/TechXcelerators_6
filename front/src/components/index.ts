@@ -44,6 +44,7 @@ export { ResourceEditModal } from './ResourceEditModal';
 export { ResourceDeleteModal } from './ResourceDeleteModal';
 export { ResourceRestoreModal } from './ResourceRestoreModal';
 
+
 // Componentes de layout
 export { default as MainLayout } from './Layout/MainLayout';
 export { Header } from './Layout/header';

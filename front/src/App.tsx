@@ -23,6 +23,7 @@ import {
   Alianza,
   Gestion,
   Iniciativas,
+  Galeria,
   ManualUsuario,
 } from "./pages";
 
@@ -94,6 +95,14 @@ function App() {
                       element={
                         <AuthGuard>
                           <Iniciativas />
+                        </AuthGuard>
+                      }
+                    />
+                    <Route
+                      path="galeria"
+                      element={
+                        <AuthGuard>
+                          <Galeria />
                         </AuthGuard>
                       }
                     />

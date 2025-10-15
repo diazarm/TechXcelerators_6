@@ -24,16 +24,29 @@ export const ROUTE_TO_SECTION_MAP = {
     sectionId: '68cadccc54f9344f27defc7f',
     title: 'Gestión'
   },
+  '/galeria': {
+    sectionId: '68cadd9354f9344f27defc83',
+    title: 'Galería de fotos e hitos de la alianza'
+  },
+  '/planeacion': {
+    sectionId: '68cadba054f9344f27defc7d',
+    title: 'Planeación'
+  },
   '/iniciativas': {
     sectionId: '68cadd0154f9344f27defc81',
     title: 'Iniciativas'
+  },
+  '/chatIa': {
+    sectionId: '68cade8354f9344f27defc87',
+    title: 'Chat IA'
   }
-  // Agregar nuevas secciones aquí:
-  // '/planeacion': {
-  //   sectionId: '68cadba054f9344f27defc7d',
-  //   title: 'Planeación'
-  // }
 } as const;
+
+/**
+ * IDs de secciones para uso en componentes
+ */
+export type RoutePath = keyof typeof ROUTE_TO_SECTION_MAP;
+export type SectionId = typeof SECTION_IDS[keyof typeof SECTION_IDS];
 
 /**
  * Tipo para las rutas válidas del sistema
@@ -83,12 +96,13 @@ export const getSectionTitleById = (sectionId: string): string | undefined => {
 
 /**
  * IDs de sección centralizados
- * Usar estos en lugar de hardcodear los IDs en otros archivos
  */
 export const SECTION_IDS = {
   ALIANZA: ROUTE_TO_SECTION_MAP['/alianza'].sectionId,
   GOBERNANZA: ROUTE_TO_SECTION_MAP['/gobernanza'].sectionId,
   GESTION: ROUTE_TO_SECTION_MAP['/gestion'].sectionId,
   INICIATIVAS: ROUTE_TO_SECTION_MAP['/iniciativas'].sectionId,
+  GALERIA: ROUTE_TO_SECTION_MAP['/galeria'].sectionId,
+  PLANEACION: ROUTE_TO_SECTION_MAP['/planeacion'].sectionId,
+  CHAT_IA: ROUTE_TO_SECTION_MAP['/chatIa'].sectionId
 } as const;
-
