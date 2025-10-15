@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Menu, X } from "react-feather";
 import { Button, ResourceDropdown, OptimizedImage } from "../../components"; // 👈 limpio desde barrel file
-import { useAuth, useNotification, useResources } from "../../hooks";
+import { useAuth, useNotification } from "../../hooks";
 import { useScreenSize } from "../../context";
 import { COLOR_CLASSES } from "../../constants";
 import type { HeaderProps } from "./types";
@@ -13,7 +13,6 @@ export const Navbar: React.FC<HeaderProps> = ({ className = "" }) => {
   const { logout, isAuthenticated, user } = useAuth();
   const { addNotification } = useNotification();
   const { scale, dimensions, isMobile, getContainerForScreen } = useScreenSize();
-  const { resources, loading } = useResources();
   
   const mobileMenuRef = useRef<HTMLDivElement>(null);
 
@@ -138,8 +137,6 @@ export const Navbar: React.FC<HeaderProps> = ({ className = "" }) => {
                 <ResourceDropdown
                   isOpen={isDropdownOpen}
                   onToggle={handleDropdownToggle}
-                  resources={resources}
-                  loading={loading}
                 />
 
                 <a
@@ -176,8 +173,6 @@ export const Navbar: React.FC<HeaderProps> = ({ className = "" }) => {
               <ResourceDropdown
                 isOpen={isDropdownOpen}
                 onToggle={handleDropdownToggle}
-                resources={resources}
-                loading={loading}
               />
 
               {/* Botón Hamburger Mobile */}

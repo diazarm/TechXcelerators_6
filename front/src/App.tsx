@@ -20,15 +20,10 @@ import {
   ConfirmationPage,
   Dashboard,
   Gobernanza,
-  Instalacion,
-  Manual,
-  Seguridad,
-  Roadmap,
-  FAQ,
-  Changelog,
   Alianza,
   Gestion,
   Iniciativas,
+  ManualUsuario,
 } from "./pages";
 
 import "./App.css";
@@ -56,15 +51,8 @@ function App() {
                   <Route path="/" element={<MainLayout />}>
                     <Route index element={<Home />} />
 
-                    {/* Rutas de resources */}
-                    <Route path="resources">
-                      <Route path="instalacion" element={<Instalacion />} />
-                      <Route path="manual" element={<Manual />} />
-                      <Route path="seguridad" element={<Seguridad />} />
-                      <Route path="roadmap" element={<Roadmap />} />
-                      <Route path="faq" element={<FAQ />} />
-                      <Route path="changelog" element={<Changelog />} />
-                    </Route>
+                    {/* Manual de Usuario - Sin AuthGuard */}
+                    <Route path="manual-usuario" element={<ManualUsuario />} />
 
                     {/* Dashboard protegido */}
                     <Route
