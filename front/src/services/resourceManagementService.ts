@@ -25,7 +25,16 @@ export const RESOURCE_NAME_TO_ID_MAP: Record<string, string> = {
   'Proyección de crecimiento de la alianza con su portafolio': '68caf7e56e22346e481f8cad',
   'Estudios de viabilidad y factibilidad': '68caf8246e22346e481f8cb0',
   'Budget': '68caf67c6e22346e481f8caa',
-  'Aprobación de portafolio por alianza': '68caf83c6e22346e481f8cb3'
+  'Aprobación de portafolio por alianza': '68caf83c6e22346e481f8cb3',
+  'EAFIT': '68cb2978e7461e967e34e0df',
+  'Uninorte': '68cb2986e7461e967e34e0e2',
+  'UNAB': '68cb298de7461e967e34e0e5',
+  'UDD': '68cb2993e7461e967e34e0e8',
+  'Central': '68cb2999e7461e967e34e0eb',
+  'UNIS': '68cb29a0e7461e967e34e0ee',
+  'UP': '68cb29a6e7461e967e34e0f1',
+  'UCSS': '68cb29b5e7461e967e34e0f4',
+  'UAC': '68dda1be69672674383c4b35'
 };
 
 export interface CreateResourceData {

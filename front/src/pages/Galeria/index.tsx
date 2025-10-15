@@ -1,109 +1,185 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { CardGrid, ResourceEditModal, ResourceDeleteModal } from '../../components';
+import { useCards, usePageHeader, useAlliances, useResourceManagement } from '../../hooks';
 import { useScreenSize } from '../../context';
-import { usePageHeader } from '../../hooks';
-import { useGalleryCards } from '../../hooks';
-import { GalleryCardGrid, GalleryEditModal, GalleryDeleteModal } from '../../components';
-import type { GalleryImage } from './types';
+import { LoadingSpinner } from '../../components';
+import { Notification } from '../../components';
+import type { CardConfig } from '../../constants';
 
 const Galeria: React.FC = () => {
-  const { getContainerForScreen } = useScreenSize();
+  const { getContainerForScreen, dimensions } = useScreenSize();
+  
+  // Hook para gestión de recursos
+  const { 
+    editModalOpen, 
+    deleteModalOpen, 
+    selectedResource, 
+    closeModals,
+    handleEditClick, 
+    handleDeleteClick,
+    handleUpdateResource,
+    handleSoftDeleteResource
+  } = useResourceManagement();
+  
+  const { cards: baseCards, handleCardClick } = useCards({ 
+    pageType: 'galeria',
+    onEditClick: handleEditClick,
+    onDeleteClick: handleDeleteClick
+  });
+  
+  // Estado local para las cards con su isActive actualizado
+  const [cards, setCards] = useState<CardConfig[]>(baseCards);
+  
+  const { alliances, loading, error, getAlliances } = useAlliances();
   usePageHeader(); // Configuración automática del título
 
-  // Estados para los modales de galería
-  const [editModalOpen, setEditModalOpen] = useState(false);
-  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-  const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null);
+  // Cargar alianzas al montar el componente
+  useEffect(() => {
+    getAlliances();
+  }, [getAlliances]);
 
-  // Hook para manejar las cards de galería
-  const { cards, handleCardClick } = useGalleryCards({
-    onEditClick: (resourceName: string) => {
-      // Crear un objeto GalleryImage temporal para el modal
-      const card = cards.find(c => c.resourceName === resourceName);
-      if (card) {
-        setSelectedImage({
-          id: card.id,
-          src: card.image || '',
-          alt: card.title,
-          title: card.title,
-          description: card.description,
-          website: card.href || ''
-        });
-        setEditModalOpen(true);
-      }
-    },
-    onDeleteClick: (resourceName: string) => {
-      // Crear un objeto GalleryImage temporal para el modal
-      const card = cards.find(c => c.resourceName === resourceName);
-      if (card) {
-        setSelectedImage({
-          id: card.id,
-          src: card.image || '',
-          alt: card.title,
-          title: card.title,
-          description: card.description,
-          website: card.href || ''
-        });
-        setDeleteModalOpen(true);
-      }
-    }
-  });
+  // Actualizar cards cuando baseCards cambia (solo al montar)
+  useEffect(() => {
+    setCards(baseCards);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
+  // Escuchar evento de recurso eliminado para actualizar visual
+  useEffect(() => {
+    const handleResourceDeleted = (event: CustomEvent) => {
+      const { resource } = event.detail;
+      
+      // Actualizar la card correspondiente marcándola como inactiva
+      setCards(prevCards => 
+        prevCards.map(card => 
+          card.resourceName === resource.name 
+            ? { ...card, isActive: false }
+            : card
+        )
+      );
+    };
 
-  const handleSaveImage = async (imageData: { title: string; description: string; website: string; links: Array<{ label: string; url: string }> }) => {
-    // En una implementación real, aquí se actualizaría la configuración
-    // Por ahora, solo cerramos el modal ya que las cards vienen de la configuración
-    console.log('Guardando imagen:', imageData);
-  };
+    window.addEventListener('resourceDeleted', handleResourceDeleted as EventListener);
+    
+    return () => {
+      window.removeEventListener('resourceDeleted', handleResourceDeleted as EventListener);
+    };
+  }, []); // Sin dependencias para evitar loop infinito
 
-  const handleDeleteImage = () => {
-    // En una implementación real, aquí se eliminaría la card
-    // Por ahora, solo cerramos el modal ya que las cards vienen de la configuración
-    console.log('Eliminando imagen:', selectedImage);
-  };
+  // Escuchar evento de recurso restaurado para actualizar visual
+  useEffect(() => {
+    const handleResourceRestored = (event: CustomEvent) => {
+      const { resourceName } = event.detail;
+      
+      // Actualizar la card correspondiente marcándola como activa
+      setCards(prevCards => 
+        prevCards.map(card => 
+          card.resourceName === resourceName 
+            ? { ...card, isActive: true }
+            : card
+        )
+      );
+    };
 
-  const closeModals = () => {
-    setEditModalOpen(false);
-    setDeleteModalOpen(false);
-    setSelectedImage(null);
-  };
+    window.addEventListener('resourceRestored', handleResourceRestored as EventListener);
+    
+    return () => {
+      window.removeEventListener('resourceRestored', handleResourceRestored as EventListener);
+    };
+  }, []);
+
+  // Mostrar loading
+  if (loading) {
+    return (
+      <div className={`${getContainerForScreen()} flex items-center justify-center min-h-screen`}>
+        <LoadingSpinner />
+      </div>
+    );
+  }
+
+  // Mostrar error
+  if (error) {
+    return (
+      <div className={`${getContainerForScreen()}`}>
+        <Notification 
+          type="error" 
+          message={`Error al cargar alianzas: ${error}`}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className={`${getContainerForScreen()}`}>
-      {/* Subtítulo personalizado - Mismo estilo que Iniciativas */}
-      <div className="text-center mb-8">
-        <h2 
-          className="font-normal leading-[30px] tracking-[0%]"
-          style={{ 
-            fontSize: '20px',
-            color: '#9795B5',
-            fontFamily: 'DM Sans, sans-serif'
-          }}
-        >
-          Galería de fotos e hitos de la alianza.
-        </h2>
-      </div>
-
-      {/* Modales de gestión de galería */}
-      <GalleryEditModal
+      {/* Modales de gestión de recursos */}
+      <ResourceEditModal
         isOpen={editModalOpen}
         onClose={closeModals}
-        image={selectedImage}
-        onSave={handleSaveImage}
+        resource={selectedResource}
+        onSave={handleUpdateResource}
       />
       
-      <GalleryDeleteModal
+      <ResourceDeleteModal
         isOpen={deleteModalOpen}
         onClose={closeModals}
-        image={selectedImage}
-        onConfirm={handleDeleteImage}
+        resource={selectedResource}
+        onConfirm={handleSoftDeleteResource}
       />
-
-      {/* Grid de Cards 3x3 */}
-      <GalleryCardGrid 
+      
+      {/* Grid de Tarjetas - El título ahora viene del Header dinámico */}
+      {cards.length > 0 ? (
+      <CardGrid 
         cards={cards} 
         onCardClick={handleCardClick}
-        columns={3}
+        defaultCardSize="small"
       />
+      ) : (
+        /* Estado vacío */
+        <div className="text-center py-12">
+          <div 
+            className="bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4"
+            style={{
+              width: dimensions.spacing.xl,
+              height: dimensions.spacing.xl
+            }}
+          >
+            <svg 
+              className="text-gray-400" 
+              fill="none" 
+              stroke="currentColor" 
+              viewBox="0 0 24 24"
+              style={{
+                width: dimensions.spacing.md,
+                height: dimensions.spacing.md
+              }}
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+            </svg>
+          </div>
+          <h3 
+            className="text-gray-900 font-semibold mb-2"
+            style={{ fontSize: dimensions.fontSize['2xl'] }}
+          >
+            No hay tarjetas disponibles
+          </h3>
+         
+          {/* Debug: Mostrar información de alianzas */}
+          {alliances.length > 0 && (
+            <div className="mt-4 p-4 bg-blue-50 rounded-lg">
+              <p className="text-sm text-blue-600">
+                Se encontraron {alliances.length} alianzas en el backend
+              </p>
+              <div className="mt-2 text-xs text-blue-500">
+                {alliances.map(alliance => (
+                  <div key={alliance._id}>
+                    {alliance.name} ({alliance.siglas})
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };

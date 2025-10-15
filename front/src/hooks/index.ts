@@ -51,7 +51,6 @@ export { useNotification } from './useNotification';
 
 // Hooks de cards
 export { useCards } from './useCards';
-export { useGalleryCards } from './useGalleryCards';
 
 // Hooks de alianzas
 export { useAlliances } from './useAlliances';

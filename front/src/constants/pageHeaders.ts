@@ -26,7 +26,8 @@ export const PAGE_HEADERS = {
     title: 'ASISTENTE IA'
   },
   '/galeria': {
-    title: 'Galería de fotos'
+    title: 'Galería de fotos e hitos de la alianza',
+    description: 'Exhibición de imágenes y acontecimientos importantes de la alianza'
   }
 } as const;
 
