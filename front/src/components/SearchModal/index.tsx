@@ -66,7 +66,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({
               Resultados de búsqueda
             </h3>
             <p 
-              className="text-[#A4A9C2]"
+              className="text-[#B8BCC8]"
               style={{ fontSize: dimensions.fontSize.sm }}
             >
               {results.length} resultados para '{searchQuery}'
@@ -227,7 +227,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({
                       {result.description && result.description !== result.title && (
                         <p 
                           className={`line-clamp-2 ${
-                            index === selectedIndex ? 'text-[#A4A9C2]' : 'text-[#827896]'
+                            index === selectedIndex ? 'text-[#B8BCC8]' : 'text-[#827896]'
                           }`}
                           style={{ 
                             fontSize: dimensions.fontSize.sm,

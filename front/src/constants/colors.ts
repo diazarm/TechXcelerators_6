@@ -12,7 +12,7 @@ export const COLORS = {
   // Colores de texto
   textPrimary: '#5D5A88',
   textSecondary: '#827896',
-  textLight: '#A4A9C2',
+  textLight: '#7B7FA0', // Ajustado de #A4A9C2 para cumplir WCAG (contraste 4.5:1)
   
   // Colores de fondo
   background: '#FFFFFF',
@@ -44,7 +44,7 @@ export const COLOR_CLASSES = {
   // Colores de texto
   textPrimary: 'text-[#5D5A88]',
   textSecondary: 'text-[#827896]',
-  textLight: 'text-[#A4A9C2]',
+  textLight: 'text-[#7B7FA0]', // Ajustado para accesibilidad
   
   // Colores de fondo
   background: 'bg-white',
