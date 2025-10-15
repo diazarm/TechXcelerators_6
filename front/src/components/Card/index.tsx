@@ -87,6 +87,7 @@ const Card: React.FC<CardProps> = ({
         rounded-2xl shadow-sm hover:shadow-md transition-all duration-300
         flex flex-col h-full
         ${!isActive ? 'opacity-50' : ''}
+        ${size === 'small' && onButtonClick ? 'cursor-pointer' : ''}
         ${className}
       `}
       style={{
@@ -97,6 +98,9 @@ const Card: React.FC<CardProps> = ({
         width: cardDimensions.width,
         height: cardDimensions.height
       }}
+      onClick={size === 'small' && onButtonClick ? onButtonClick : undefined}
+      role={size === 'small' && onButtonClick ? 'button' : undefined}
+      tabIndex={size === 'small' && onButtonClick ? 0 : undefined}
     >
       {/* Overlay con opacidad si hay imagen */}
       {image && (

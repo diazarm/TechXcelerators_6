@@ -8,26 +8,18 @@ export const useResourceManagement = () => {
   const [selectedResource, setSelectedResource] = useState<IResource | null>(null);
 
   const openEditModal = useCallback(async (resourceName: string) => {
-    try {
-      const resource = await getResourceByName(resourceName);
-      if (resource) {
-        setSelectedResource(resource);
-        setEditModalOpen(true);
-      } else {
-      }
-    } catch (error) {
+    const resource = await getResourceByName(resourceName);
+    if (resource) {
+      setSelectedResource(resource);
+      setEditModalOpen(true);
     }
   }, []);
 
   const openDeleteModal = useCallback(async (resourceName: string) => {
-    try {
-      const resource = await getResourceByName(resourceName);
-      if (resource) {
-        setSelectedResource(resource);
-        setDeleteModalOpen(true);
-      } else {
-      }
-    } catch (error) {
+    const resource = await getResourceByName(resourceName);
+    if (resource) {
+      setSelectedResource(resource);
+      setDeleteModalOpen(true);
     }
   }, []);
 
@@ -38,22 +30,15 @@ export const useResourceManagement = () => {
   }) => {
     if (!selectedResource) return;
     
-    try {
-      const updatedResource = await updateResource(selectedResource._id, resourceData);
-      
-      // Emitir evento personalizado para notificar que se actualizó un recurso
-      window.dispatchEvent(new CustomEvent('resourceUpdated', {
-        detail: { 
-          resourceId: selectedResource._id, 
-          oldName: selectedResource.name, // nombre anterior
-          newName: resourceData.name,      // nombre nuevo
-          resource: updatedResource
-        }
-      }));
-      
-    } catch (error) {
-      throw error;
-    }
+    const updatedResource = await updateResource(selectedResource._id, resourceData);
+    window.dispatchEvent(new CustomEvent('resourceUpdated', {
+      detail: { 
+        resourceId: selectedResource._id, 
+        oldName: selectedResource.name,
+        newName: resourceData.name,
+        resource: updatedResource
+      }
+    }));
   }, [selectedResource]);
 
   const closeModals = useCallback(() => {
@@ -65,23 +50,19 @@ export const useResourceManagement = () => {
   const handleSoftDeleteResource = useCallback(async () => {
     if (!selectedResource) return;
     
-    try {
-      await softDeleteResource(selectedResource._id);
-      
-      // Emitir evento personalizado para notificar que se eliminó un recurso
-      window.dispatchEvent(new CustomEvent('resourceDeleted', {
-        detail: { 
-          resourceId: selectedResource._id, 
-          resourceName: selectedResource.name,
-          resource: selectedResource
-        }
-      }));
-      
-      // También cerrar el modal de eliminación
-      closeModals();
-    } catch (error) {
-      throw error;
-    }
+    await softDeleteResource(selectedResource._id);
+    
+    // Emitir evento personalizado para notificar que se eliminó un recurso
+    window.dispatchEvent(new CustomEvent('resourceDeleted', {
+      detail: { 
+        resourceId: selectedResource._id, 
+        resourceName: selectedResource.name,
+        resource: selectedResource
+      }
+    }));
+    
+    // También cerrar el modal de eliminación
+    closeModals();
   }, [selectedResource, closeModals]);
 
   const handleEditClick = useCallback((resourceName: string) => {

@@ -101,6 +101,7 @@ export const dashboardPageCards: CardConfig[] = [
   }
 ];
 
+
 // Cards para la página Alianza (6 cards como en la imagen)
 export const alianzaPageCards: CardConfig[] = [
   {
@@ -362,6 +363,127 @@ export const iniciativasPageCards: CardConfig[] = [
   }
 ];
 
+// Cards para la página Galeria (9 cards de universidades)
+export const galeriaPageCards: CardConfig[] = [
+  {
+    id: 'eafit-gallery',
+    title: 'EAFIT',
+    description: 'Universidad EAFIT',
+    image: '/img/EAFIT_GALERIA.png',
+    rightHeaderContent: createMultipleIcons([
+      { component: EyeOff, size: 18, color: '#5D5A88', withCircle: true, type: 'delete' },
+      { component: Edit2, size: 18, color: '#5D5A88', withCircle: true, type: 'edit' }
+    ]),
+    sectionType: '68cadd9354f9344f27defc83',
+    resourceName: 'EAFIT',
+    showModal: true
+  },
+  {
+    id: 'uninorte-gallery',
+    title: 'Uninorte',
+    description: 'Universidad Del Norte',
+    image: '/img/UniNorte_Galeria.png',
+    rightHeaderContent: createMultipleIcons([
+      { component: EyeOff, size: 18, color: '#5D5A88', withCircle: true, type: 'delete' },
+      { component: Edit2, size: 18, color: '#5D5A88', withCircle: true, type: 'edit' }
+    ]),
+    sectionType: '68cadd9354f9344f27defc83',
+    resourceName: 'Uninorte',
+    showModal: true
+  },
+  {
+    id: 'unab-gallery',
+    title: 'UNAB',
+    description: 'Universidad Andres Bello',
+    image: '/img/UNAB.png',
+    rightHeaderContent: createMultipleIcons([
+      { component: EyeOff, size: 18, color: '#5D5A88', withCircle: true, type: 'delete' },
+      { component: Edit2, size: 18, color: '#5D5A88', withCircle: true, type: 'edit' }
+    ]),
+    sectionType: '68cadd9354f9344f27defc83',
+    resourceName: 'UNAB',
+    showModal: true
+  },
+  {
+    id: 'udd-gallery',
+    title: 'UDD',
+    description: 'Universidad del desarrollo',
+    image: '/img/UDD_GALERIA.png',
+    rightHeaderContent: createMultipleIcons([
+      { component: EyeOff, size: 18, color: '#5D5A88', withCircle: true, type: 'delete' },
+      { component: Edit2, size: 18, color: '#5D5A88', withCircle: true, type: 'edit' }
+    ]),
+    sectionType: '68cadd9354f9344f27defc83',
+    resourceName: 'UDD',
+    showModal: true
+  },
+  {
+    id: 'central-gallery',
+    title: 'Central',
+    description: 'Universidad Central de Chile',
+    image: '/img/UC.png',
+    rightHeaderContent: createMultipleIcons([
+      { component: EyeOff, size: 18, color: '#5D5A88', withCircle: true, type: 'delete' },
+      { component: Edit2, size: 18, color: '#5D5A88', withCircle: true, type: 'edit' }
+    ]),
+    sectionType: '68cadd9354f9344f27defc83',
+    resourceName: 'Central',
+    showModal: true
+  },
+  {
+    id: 'unis-gallery',
+    title: 'UNIS',
+    description: 'Universidad del Istmo',
+    image: '/img/UNIS_GALERIA.png',
+    rightHeaderContent: createMultipleIcons([
+      { component: EyeOff, size: 18, color: '#5D5A88', withCircle: true, type: 'delete' },
+      { component: Edit2, size: 18, color: '#5D5A88', withCircle: true, type: 'edit' }
+    ]),
+    sectionType: '68cadd9354f9344f27defc83',
+    resourceName: 'UNIS',
+    showModal: true
+  },
+  {
+    id: 'up-gallery',
+    title: 'UP',
+    description: 'Universidad Panamericana',
+    image: '/img/UP.png',
+    rightHeaderContent: createMultipleIcons([
+      { component: EyeOff, size: 18, color: '#5D5A88', withCircle: true, type: 'delete' },
+      { component: Edit2, size: 18, color: '#5D5A88', withCircle: true, type: 'edit' }
+    ]),
+    sectionType: '68cadd9354f9344f27defc83',
+    resourceName: 'UP',
+    showModal: true
+  },
+  {
+    id: 'ucss-gallery',
+    title: 'UCSS',
+    description: 'Universidad Católica Sedes Sapientiae',
+    image: '/img/UCSS.png',
+    rightHeaderContent: createMultipleIcons([
+      { component: EyeOff, size: 18, color: '#5D5A88', withCircle: true, type: 'delete' },
+      { component: Edit2, size: 18, color: '#5D5A88', withCircle: true, type: 'edit' }
+    ]),
+    sectionType: '68cadd9354f9344f27defc83',
+    resourceName: 'UCSS',
+    showModal: true
+  },
+  {
+    id: 'uac-gallery',
+    title: 'UAC',
+    description: 'Universidad Andina del Cusco',
+    image: '/img/UAC.png',
+    rightHeaderContent: createMultipleIcons([
+      { component: EyeOff, size: 18, color: '#5D5A88', withCircle: true, type: 'delete' },
+      { component: Edit2, size: 18, color: '#5D5A88', withCircle: true, type: 'edit' }
+    ]),
+    sectionType: '68cadd9354f9344f27defc83',
+    resourceName: 'UAC',
+    showModal: true
+  }
+];
+
 // ========================================
 // CONFIGURACIÓN GENERAL
 // ========================================
@@ -374,7 +496,8 @@ export const cardConfigs = {
   alianza: alianzaPageCards,
   gobernanza: gobernanzaPageCards,
   gestion: gestionPageCards,
-  iniciativas: iniciativasPageCards
+  iniciativas: iniciativasPageCards,
+  galeria: galeriaPageCards
 } as const;
 
 /**

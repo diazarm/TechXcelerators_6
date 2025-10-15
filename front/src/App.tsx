@@ -28,6 +28,7 @@ import {
   Alianza,
   Gestion,
   Iniciativas,
+  Galeria,
 } from "./pages";
 
 import "./App.css";
@@ -108,7 +109,14 @@ function App() {
                         </AuthGuard>
                       }
                     />
-
+                    <Route
+                      path="galeria"
+                      element={
+                        <AuthGuard>
+                          <Galeria />
+                        </AuthGuard>
+                      }
+                    />
                   </Route>
                 </Routes>
 
