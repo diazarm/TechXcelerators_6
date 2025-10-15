@@ -16,6 +16,8 @@ router.use('/users', userRouter);
 router.use('/alliances', allianceRouter);
 router.use('/resources', resourceRouter);
 router.use('/sections', sectionRouter);
+router.use('/documents', documentRouter);
+router.use('/search', searchRouter);
 
 export default router;
 
