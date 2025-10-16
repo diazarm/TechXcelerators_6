@@ -62,6 +62,9 @@ export const ResourceEditModal: React.FC<ResourceEditModalProps> = ({
     }));
   };
 
+  // Detectar si el recurso tiene solo un enlace
+  const isSingleLinkOnly = resource?.links?.length === 1;
+
   const removeLink = (index: number) => {
     setFormData(prev => ({
       ...prev,
@@ -225,26 +228,28 @@ export const ResourceEditModal: React.FC<ResourceEditModalProps> = ({
               >
                 Enlaces
               </label>
-              <button
-                onClick={addLink}
-                className="flex items-center gap-1 px-3 py-1 text-sm rounded-lg transition-colors"
-                style={{ 
-                  fontSize: scale(12),
-                  color: '#5D5A88',
-                  backgroundColor: 'rgba(93, 90, 136, 0.1)'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = 'rgba(93, 90, 136, 0.2)';
-                  e.currentTarget.style.color = '#6B6A9A';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = 'rgba(93, 90, 136, 0.1)';
-                  e.currentTarget.style.color = '#5D5A88';
-                }}
-              >
-                <Link size={scale(14)} />
-                Agregar Enlace
-              </button>
+              {!isSingleLinkOnly && (
+                <button
+                  onClick={addLink}
+                  className="flex items-center gap-1 px-3 py-1 text-sm rounded-lg transition-colors"
+                  style={{ 
+                    fontSize: scale(12),
+                    color: '#5D5A88',
+                    backgroundColor: 'rgba(93, 90, 136, 0.1)'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = 'rgba(93, 90, 136, 0.2)';
+                    e.currentTarget.style.color = '#6B6A9A';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = 'rgba(93, 90, 136, 0.1)';
+                    e.currentTarget.style.color = '#5D5A88';
+                  }}
+                >
+                  <Link size={scale(14)} />
+                  Agregar Enlace
+                </button>
+              )}
             </div>
 
             {formData.links.map((link, index) => (
