@@ -21,7 +21,8 @@ export const PAGE_HEADERS = {
     description: 'Power BI de resultados + calendario académico'
   },
   '/planeacion': {
-    title: 'PLANEACIÓN'
+    title: 'Planeación',
+    description: 'Metas proyectadas + desarrollo de productos.'
   },
   '/iniciativas': {
     title: 'Iniciativas'
