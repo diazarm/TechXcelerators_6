@@ -295,7 +295,6 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({
             disabled={isLoading}
             onClick={() => {}}
             className="w-full font-medium"
-            style={{ opacity: 0.7 }}
           >
             {isLoading ? 'Creando...' : 'Crear'}
           </Button>

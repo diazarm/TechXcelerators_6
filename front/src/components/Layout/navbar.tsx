@@ -159,7 +159,7 @@ export const Navbar: React.FC<HeaderProps> = ({ className = "" }) => {
                 variant="secondary"
                 size="xs"
                 onClick={handleLogout}
-                className="text-xs sm:text-sm"
+                className="text-xs sm:text-sm hover:!bg-[#FF6E00] hover:!text-white"
               >
                 Salir
               </Button>

@@ -89,6 +89,72 @@ export const Notification: React.FC<NotificationProps> = ({
     }
   };
 
+  /**
+   * Resalta palabras clave en el mensaje con bold
+   */
+  const highlightKeywords = (text: string) => {
+    const keywords = [
+      // Palabras de éxito
+      'exitosamente',
+      'éxito',
+      'completado',
+      'creado',
+      'actualizado',
+      'restaurado',
+      'activado',
+      'correcto',
+      'válido',
+      'correctamente',
+      // Palabras de autenticación
+      'bienvenido',
+      'bienvenida',
+      'administrador',
+      'director',
+      'sesión iniciada',
+      'acceso completo',
+      'permisos',
+      'sesión',
+      'cerrado',
+      // Palabras de error
+      'error',
+      'eliminado',
+      'desactivado',
+      'advertencia',
+      'atención',
+      'importante',
+      'obligatorio',
+      'requerido',
+      'incorrecto',
+      'inválido',
+      'denegado',
+      'restringido',
+      'desactivada',
+      'inactivo',
+      'inactiva',
+      // Palabras de acción
+      'verifica',
+      'contacta',
+      'ingresa'
+    ];
+
+    let highlightedText = text;
+    
+    // Ordenar por longitud descendente para que frases largas se procesen primero
+    const sortedKeywords = [...keywords].sort((a, b) => b.length - a.length);
+    
+    sortedKeywords.forEach(keyword => {
+      // Escapar caracteres especiales de regex
+      const escapedKeyword = keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const regex = new RegExp(`(${escapedKeyword})`, 'gi');
+      highlightedText = highlightedText.replace(
+        regex, 
+        match => `<strong>${match}</strong>`
+      );
+    });
+
+    return highlightedText;
+  };
+
   return (
     <div 
       className={`fixed z-[60] ${getBackgroundColor()} border rounded-md shadow-lg transform transition-all duration-300 ease-in-out ${isAnimating ? 'animate-slide-down' : ''}`}
@@ -124,9 +190,8 @@ export const Notification: React.FC<NotificationProps> = ({
                           fontSize: isDesktop ? dimensions.fontSize.sm : dimensions.fontSize.xs,
                           marginTop: title ? '1px' : 0
                         }}
-                      >
-                        {message}
-                      </p>
+                        dangerouslySetInnerHTML={{ __html: highlightKeywords(message) }}
+                      />
                     </div>
           </div>
           <button

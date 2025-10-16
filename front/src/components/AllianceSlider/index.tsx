@@ -3,6 +3,7 @@ import { useScreenSize } from '../../context';
 import { ALLIANCE_DATA } from '../../constants';
 import { OptimizedImage } from '../OptimizedImage';
 import type { AllianceSliderProps, AllianceItemProps } from './types';
+import { scale } from '../../utils';
 
 /**
  * Componente individual de logo de alianza
@@ -115,7 +116,11 @@ export const AllianceSlider: React.FC<AllianceSliderProps> = ({ className = '' }
           paddingBottom: dimensions.spacing.lg,
         }}
       >
-        <div className="relative w-full overflow-hidden">
+        <div className="relative w-full overflow-hidden"
+  style={{
+    paddingTop: `${scale(8)}px`,
+    paddingBottom: `${scale(8)}px`
+  }}>
           <style>
             {`
               @keyframes scroll-logos {

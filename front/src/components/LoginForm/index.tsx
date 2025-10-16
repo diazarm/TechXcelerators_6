@@ -265,7 +265,6 @@ export const LoginForm: React.FC<LoginFormProps> = ({ accessType }) => {
             disabled={isLoading}
             onClick={() => {}}
             className="w-full"
-            style={{ opacity: 0.7 }}
           >
             {isLoading ? 'Ingresando...' : 'Ingresar'}
           </Button>

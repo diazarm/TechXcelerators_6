@@ -151,7 +151,10 @@ const Card: React.FC<CardProps> = ({
         }}
       >
         {/* Contenido izquierdo */}
-        <div className="relative z-10" style={{ transform: `scale(${scale(1)})` }}>
+        <div className="relative z-10" style={{ 
+          transform: `scale(${scale(1)})`,
+          paddingLeft: `${scale(7)}px`
+        }}>
           {leftHeaderContent || (icon && <div style={{ fontSize: getIconSize() }}>{icon}</div>)}
         </div>
         
