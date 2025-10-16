@@ -9,7 +9,7 @@ import { useResponsive } from './useResponsive';
 import type { CardConfig } from '../constants';
 
 
-type PageType = 'dashboard' | 'gobernanza' | 'alianza' | 'gestion' | 'iniciativas' | 'galeria';
+type PageType = 'dashboard' | 'gobernanza' | 'alianza' | 'gestion' | 'planeacion' | 'iniciativas' | 'galeria';
 
 
 interface UseCardsProps {
@@ -37,21 +37,24 @@ export const useCards = ({ pageType, onEditClick, onDeleteClick }: UseCardsProps
     const baseCards = getCardConfig(pageType);
 
     // Mostrar acciones (iconos de la derecha) solo para admin o director en las páginas con recursos
-    if (pageType === 'alianza' || pageType === 'gobernanza' || pageType === 'gestion' || pageType === 'iniciativas' || pageType === 'galeria') {
+    if (pageType === 'alianza' || pageType === 'gobernanza' || pageType === 'gestion' || pageType === 'planeacion' || pageType === 'iniciativas' || pageType === 'galeria') {
       const canSeeActions = Boolean(user?.isAdmin || user?.role === 'director');
       return baseCards.map((card) => {
         // Si el usuario puede ver acciones y la card tiene iconos, hacerlos clickeables
         if (canSeeActions && card.resourceName && card.rightHeaderContent) {
-          return {
-            ...card,
-            rightHeaderContent: createMultipleIcons([
-              { component: EyeOff, size: scale(18), color: '#5D5A88', withCircle: true, type: 'delete' },
-              { component: Edit2, size: scale(18), color: '#5D5A88', withCircle: true, type: 'edit' }
-            ], scale(8), 
-            onEditClick ? () => onEditClick(card.resourceName!) : undefined, 
-            onDeleteClick ? () => onDeleteClick(card.resourceName!) : undefined
-            ),
-          };
+          // Si la card ya tiene rightHeaderContent configurado, mantenerlo pero hacerlo clickeable
+          if (card.rightHeaderContent) {
+            return {
+              ...card,
+              rightHeaderContent: createMultipleIcons([
+                { component: EyeOff, size: scale(18), color: '#5D5A88', withCircle: true, type: 'delete' },
+                { component: Edit2, size: scale(18), color: '#5D5A88', withCircle: true, type: 'edit' }
+              ], scale(8), 
+              onEditClick ? () => onEditClick(card.resourceName!) : undefined, 
+              onDeleteClick ? () => onDeleteClick(card.resourceName!) : undefined
+              ),
+            };
+          }
         }
         
         return {

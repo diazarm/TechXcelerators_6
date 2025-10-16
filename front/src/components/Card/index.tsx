@@ -159,7 +159,7 @@ const Card: React.FC<CardProps> = ({
         </div>
         
         {/* Contenido derecho */}
-        <div className="relative z-10 flex items-center" style={{ gap: `${scale(8)}px`, transform: `scale(${scale(1)})` }}>
+        <div className="relative z-10 flex items-center" style={{ gap: `${scale(8)}px`, transform: `scale(${scale(1)})`, minWidth: size === 'rectangular' ? `${scale(80)}px` : 'auto' }}>
           {rightHeaderContent}
         </div>
       </header>

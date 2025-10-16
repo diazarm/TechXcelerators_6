@@ -22,6 +22,7 @@ import {
   Gobernanza,
   Alianza,
   Gestion,
+  Planeacion,
   Iniciativas,
   Galeria,
   ManualUsuario,
@@ -87,6 +88,14 @@ function App() {
                       element={
                         <AuthGuard>
                           <Gestion />
+                        </AuthGuard>
+                      }
+                    />
+                    <Route
+                      path="planeacion"
+                      element={
+                        <AuthGuard>
+                          <Planeacion />
                         </AuthGuard>
                       }
                     />

@@ -32,7 +32,7 @@ export const Header: React.FC<HeaderProps> = ({ title }) => {
 
   // Determinar qué botones mostrar según la página
   const isDashboard = location.pathname === '/dashboard';
-  const isPageWithResources = location.pathname === '/alianza' || location.pathname === '/gobernanza' || location.pathname === '/gestion' || location.pathname === '/iniciativas' || location.pathname === '/galeria';
+  const isPageWithResources = location.pathname === '/alianza' || location.pathname === '/gobernanza' || location.pathname === '/gestion' || location.pathname === '/planeacion' || location.pathname === '/iniciativas' || location.pathname === '/galeria';
   
   const shouldShowCreateUserButton = canCreateUsers && isDashboard;
   

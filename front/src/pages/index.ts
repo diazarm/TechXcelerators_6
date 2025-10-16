@@ -27,5 +27,6 @@ export { default as ManualUsuario } from './ManualUsuario';
 export { default as Alianza } from './Alianza';
 export { default as Gobernanza } from './Gobernanza/index';
 export { default as Gestion } from './Gestion';
+export { default as Planeacion } from './Planeacion';
 export { default as Iniciativas } from './iniciativas';
 export { default as Galeria } from './Galeria';
