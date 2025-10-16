@@ -17,6 +17,10 @@ import {
   UserPlus,
   Calendar,
   Map,
+  Database,
+  Crosshair,
+  TrendingUp,
+  Briefcase,
 } from 'react-feather';
 import { 
   createSemiboldIcon,
@@ -363,6 +367,58 @@ export const iniciativasPageCards: CardConfig[] = [
   }
 ];
 
+// Cards para la página Planeación (4 cards)
+export const planeacionPageCards: CardConfig[] = [
+  {
+    id: 'budget',
+    title: 'Budget',
+    description: '',
+    leftHeaderContent: createSemiboldIcon(Database, 32, '#1E285F'),
+    rightHeaderContent: createMultipleIcons([
+      { component: EyeOff, size: 18, color: '#5D5A88', withCircle: true, type: 'delete' },
+      { component: Edit2, size: 18, color: '#5D5A88', withCircle: true, type: 'edit' }
+    ]),
+    sectionType: SECTION_IDS.PLANEACION,
+    resourceName: 'Budget'
+  },
+  {
+    id: 'proyeccion-crecimiento',
+    title: 'Proyección de crecimiento de la alianza con su portafolio',
+    description: '',
+    leftHeaderContent: createSemiboldIcon(Crosshair, 32, '#1E285F'),
+    rightHeaderContent: createMultipleIcons([
+      { component: EyeOff, size: 18, color: '#5D5A88', withCircle: true, type: 'delete' },
+      { component: Edit2, size: 18, color: '#5D5A88', withCircle: true, type: 'edit' }
+    ]),
+    sectionType: SECTION_IDS.PLANEACION,
+    resourceName: 'Proyección de crecimiento de la alianza con su portafolio'
+  },
+  {
+    id: 'estudios-viabilidad',
+    title: 'Estudios de viabilidad y factibilidad',
+    description: '',
+    leftHeaderContent: createSemiboldIcon(TrendingUp, 32, '#1E285F'),
+    rightHeaderContent: createMultipleIcons([
+      { component: EyeOff, size: 18, color: '#5D5A88', withCircle: true, type: 'delete' },
+      { component: Edit2, size: 18, color: '#5D5A88', withCircle: true, type: 'edit' }
+    ]),
+    sectionType: SECTION_IDS.PLANEACION,
+    resourceName: 'Estudios de viabilidad y factibilidad'
+  },
+  {
+    id: 'aprobacion-portafolio',
+    title: 'Aprobación de portafolio por alianza',
+    description: '',
+    leftHeaderContent: createSemiboldIcon(Briefcase, 32, '#1E285F'),
+    rightHeaderContent: createMultipleIcons([
+      { component: EyeOff, size: 18, color: '#5D5A88', withCircle: true, type: 'delete' },
+      { component: Edit2, size: 18, color: '#5D5A88', withCircle: true, type: 'edit' }
+    ]),
+    sectionType: SECTION_IDS.PLANEACION,
+    resourceName: 'Aprobación de portafolio por alianza'
+  }
+];
+
 // Cards para la página Galeria (9 cards de universidades)
 export const galeriaPageCards: CardConfig[] = [
   {
@@ -496,6 +552,7 @@ export const cardConfigs = {
   alianza: alianzaPageCards,
   gobernanza: gobernanzaPageCards,
   gestion: gestionPageCards,
+  planeacion: planeacionPageCards,
   iniciativas: iniciativasPageCards,
   galeria: galeriaPageCards
 } as const;

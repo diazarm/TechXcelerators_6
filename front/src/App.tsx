@@ -27,6 +27,7 @@ import {
   Changelog,
   Alianza,
   Gestion,
+  Planeacion,
   Iniciativas,
   Galeria,
 } from "./pages";
@@ -98,6 +99,14 @@ function App() {
                       element={
                         <AuthGuard>
                           <Gestion />
+                        </AuthGuard>
+                      }
+                    />
+                    <Route
+                      path="planeacion"
+                      element={
+                        <AuthGuard>
+                          <Planeacion />
                         </AuthGuard>
                       }
                     />
