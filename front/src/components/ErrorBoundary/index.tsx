@@ -3,6 +3,8 @@ import type { ErrorInfo } from 'react';
 import { AlertCircle } from 'react-feather';
 import type { ErrorBoundaryProps, ErrorBoundaryState } from './types';
 import { useScreenSize } from '../../context';
+import { OptimizedImage } from '../OptimizedImage';
+import { ResponsiveBackground } from '../ResponsiveImage';
 
 // Los tipos se importan desde ../../types
 
@@ -14,9 +16,12 @@ const DefaultErrorFallback: React.FC<{ error?: Error; onReset?: () => void }> = 
   const { dimensions, scale } = useScreenSize();
 
   return (
-    <div 
-      className="min-h-screen w-full relative bg-cover bg-center bg-no-repeat flex items-center justify-center"
-      style={{ backgroundImage: 'url(/img/BgLogin.png)' }}
+    <ResponsiveBackground
+      src="/img/BgLogin.png"
+      type="background-login"
+      aspectRatio="16/9"
+      forceMobileConfig={true}
+      className="min-h-screen w-full relative flex items-center justify-center"
     >
       {/* Overlay con opacidad */}
       <div 
@@ -34,10 +39,11 @@ const DefaultErrorFallback: React.FC<{ error?: Error; onReset?: () => void }> = 
             marginBottom: dimensions.spacing.lg
           }}
         >
-          <img 
+          <OptimizedImage 
             src="/img/Logo3.png" 
             alt="Scala Learning" 
             className="w-full h-full object-contain"
+            loading="eager"
           />
         </div>
 
@@ -156,7 +162,7 @@ const DefaultErrorFallback: React.FC<{ error?: Error; onReset?: () => void }> = 
           )}
         </div>
       </div>
-    </div>
+    </ResponsiveBackground>
   );
 };
 

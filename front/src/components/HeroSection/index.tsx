@@ -8,6 +8,7 @@
 import React from "react";
 import { useScreenSize } from "../../context";
 import { COLOR_CLASSES } from "../../constants";
+import { OptimizedImage } from "../OptimizedImage";
 import type { HeroSectionProps } from "./types";
 
 export const HeroSection: React.FC<HeroSectionProps> = ({ 
@@ -34,11 +35,12 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           {/* Columna Izquierda - Imagen */}
           {showImage && (
             <div className="w-full h-full relative">
-              <img 
+              <OptimizedImage 
                 src="/img/HomeHS.jpg" 
                 alt="Home Hero Section" 
                 className="w-full h-full object-cover"
                 style={{ borderRadius: `${scale(16)}px` }}
+                loading="eager"
               />
               <div 
                 className="absolute inset-0 bg-black/30"

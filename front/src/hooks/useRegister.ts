@@ -91,11 +91,11 @@ export const useRegister = () => {
 
       const response = await api.post<ValidateTokenResponse>('/users/', registerData);
 
-      if (!response.data.success) {
+      if (!response.data.user) {
         throw new Error(response.data.error || 'Error al crear usuario');
       }
 
-      const newUser = response.data.data;
+      const newUser = response.data.user;
       
       logger.debug('Usuario registrado exitosamente', { 
         name: newUser.name,

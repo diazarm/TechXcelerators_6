@@ -9,4 +9,6 @@ export interface ValidationErrorsProps {
   fieldName?: string;
   /** Clases CSS adicionales */
   className?: string;
+  /** ID para aria-describedby */
+  id?: string;
 }

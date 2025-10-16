@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { LoginForm, ResponsiveBackground } from '../../components';
+import { LoginForm, ResponsiveBackground, OptimizedImage } from '../../components';
 import { useAuth } from '../../hooks';
 import { useScreenSize } from '../../context';
 
@@ -47,10 +47,11 @@ const LoginPage: React.FC = () => {
         {/* Logo */}
         <div className="w-[300px] h-[130px] sm:w-[400px] sm:h-[173px] lg:w-[500px] lg:h-[217px]">
           <Link to={getLogoDestination()}>
-            <img 
+            <OptimizedImage 
               src="/img/Logo3.png" 
               alt="Scala Learning" 
               className="w-full h-full object-contain hover:opacity-80 transition-opacity cursor-pointer"
+              loading="eager"
             />
           </Link>
         </div>

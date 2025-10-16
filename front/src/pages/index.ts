@@ -21,8 +21,8 @@ export { default as LoginPage } from './Login';
 export { default as RegisterPage } from './Register';
 export { default as ConfirmationPage } from './Confirmation';
 
-export * from './Resources';
 export { default as Dashboard } from './Dashboard';
+export { default as ManualUsuario } from './ManualUsuario';
 
 export { default as Alianza } from './Alianza';
 export { default as Gobernanza } from './Gobernanza/index';

@@ -1,6 +1,6 @@
 import React from 'react';
 import { X, RotateCcw, Calendar, Folder } from 'react-feather';
-import { useResponsive } from '../../hooks/useResponsive';
+import { useResponsive, useFocusTrap, useEscapeKey } from '../../hooks';
 import { Button } from '../Button';
 import { SectionFilter } from '../SectionFilter';
 import LoadingSpinner from '../LoadingSpinner';
@@ -33,6 +33,10 @@ export const ResourceRestoreModal: React.FC<ResourceRestoreModalProps> = ({
   sectionOptions
 }) => {
   const { scale } = useResponsive();
+  
+  // Hooks de accesibilidad
+  const modalRef = useFocusTrap(isOpen);
+  useEscapeKey(isOpen, onClose);
 
   const handleBackdropClick = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
@@ -62,8 +66,13 @@ export const ResourceRestoreModal: React.FC<ResourceRestoreModalProps> = ({
     <div 
       className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-2 sm:p-4 animate-in fade-in duration-300"
       onClick={handleBackdropClick}
+      role="presentation"
     >
       <div 
+        ref={modalRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="restore-modal-title"
         className="bg-white/95 backdrop-blur-md shadow-2xl border border-white/20 overflow-hidden w-full h-full flex flex-col"
         style={{ 
           borderRadius: `${scale(16)}px`,
@@ -95,6 +104,7 @@ export const ResourceRestoreModal: React.FC<ResourceRestoreModalProps> = ({
               />
             </div>
             <h2 
+              id="restore-modal-title"
               className="font-semibold text-white"
               style={{ fontSize: scale(18) }}
             >
@@ -103,6 +113,7 @@ export const ResourceRestoreModal: React.FC<ResourceRestoreModalProps> = ({
           </div>
           <button
             onClick={onClose}
+            aria-label="Cerrar modal de recursos eliminados"
             className="absolute text-white/90 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full hover:bg-white/20 hover:text-white transition-all duration-200 group cursor-pointer z-50"
             style={{
               top: `${scale(16)}px`,

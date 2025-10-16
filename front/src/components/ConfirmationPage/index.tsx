@@ -2,6 +2,8 @@ import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { CheckCircle } from 'react-feather';
 import { useScreenSize } from '../../context';
+import { OptimizedImage } from '../OptimizedImage';
+import { ResponsiveBackground } from '../ResponsiveImage';
 import type { ConfirmationPageProps } from './types';
 
 /**
@@ -47,11 +49,12 @@ export const ConfirmationPage: React.FC<ConfirmationPageProps> = ({
   };
 
   return (
-    <div 
-      className="min-h-screen w-full relative bg-cover bg-center bg-no-repeat flex items-center justify-center"
-      style={{ 
-        backgroundImage: 'url(/img/Verify.jpg)' // Imagen de fondo especificada
-      }}
+    <ResponsiveBackground
+      src="/img/Verify.jpg"
+      type="background-login"
+      aspectRatio="16/9"
+      forceMobileConfig={true}
+      className="min-h-screen w-full relative flex items-center justify-center"
     >
       {/* Overlay con opacidad #222222 */}
       <div 
@@ -82,10 +85,11 @@ export const ConfirmationPage: React.FC<ConfirmationPageProps> = ({
               height: `${scale(140)}px`
             }}
           >
-            <img 
+            <OptimizedImage 
               src="/img/Logo3.png" 
               alt="Scala Learning" 
               className="w-full h-full object-contain"
+              loading="eager"
             />
           </div>
 
@@ -187,7 +191,7 @@ export const ConfirmationPage: React.FC<ConfirmationPageProps> = ({
           </button>
         </div>
       </div>
-    </div>
+    </ResponsiveBackground>
   );
 };
 

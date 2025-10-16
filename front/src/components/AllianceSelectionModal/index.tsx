@@ -1,7 +1,7 @@
 import React from 'react';
 import { X, ChevronDown } from 'react-feather';
 import type { Alliance } from '../../types/alliance';
-import { useResponsive } from '../../hooks/useResponsive';
+import { useResponsive, useFocusTrap, useEscapeKey } from '../../hooks';
 import { getLogoForAlliance } from '../../services';
 import { Button } from '../Button';
 
@@ -40,6 +40,10 @@ export const AllianceSelectionModal: React.FC<AllianceSelectionModalProps> = ({
 }) => {
   const { scale } = useResponsive();
   
+  // Hooks de accesibilidad
+  const modalRef = useFocusTrap(isOpen);
+  useEscapeKey(isOpen, onClose);
+  
   if (!isOpen) return null;
 
   // Usar el servicio de logos centralizado
@@ -59,8 +63,13 @@ export const AllianceSelectionModal: React.FC<AllianceSelectionModalProps> = ({
     <div 
       className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-2 sm:p-4 animate-in fade-in duration-300"
       onClick={handleBackdropClick}
+      role="presentation"
     >
       <div 
+        ref={modalRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modal-title"
         className="bg-white/95 backdrop-blur-md shadow-2xl border border-white/20 overflow-hidden w-full h-full sm:w-auto sm:h-auto sm:max-w-[768px] sm:max-h-[90vh] flex flex-col"
         style={{ 
           borderRadius: `${scale(16)}px`
@@ -79,6 +88,7 @@ export const AllianceSelectionModal: React.FC<AllianceSelectionModalProps> = ({
         >
           <button
             onClick={onClose}
+            aria-label="Cerrar modal de selección de alianzas"
             className="absolute text-white/90 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full hover:bg-white/20 hover:text-white transition-all duration-200 group cursor-pointer z-50"
             style={{
               top: `${scale(16)}px`,
@@ -95,6 +105,7 @@ export const AllianceSelectionModal: React.FC<AllianceSelectionModalProps> = ({
             style={{ paddingRight: `${scale(48)}px` }}
           >
             <h2 
+              id="modal-title"
               className="font-bold text-white tracking-tight"
               style={{ 
                 fontSize: `${scale(20)}px`,
