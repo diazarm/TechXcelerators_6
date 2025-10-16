@@ -68,6 +68,11 @@ class LoggerService {
    * Log de error de API
    */
   logApiError(url: string, method: string, status: number, response: unknown): void {
+    // No registrar 404 de búsqueda como error (es comportamiento esperado)
+    if (status === 404 && url.includes('/search')) {
+      return;
+    }
+    
     this.error(
       `API Error: ${method} ${url} - ${status}`,
       {

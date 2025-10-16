@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useMemo, useCallback, useRef, useEffect } from 'react';
 import type { SearchResult } from '../types';
 import { searchService } from '../services/searchService';
 
@@ -20,36 +20,75 @@ export const useSearch = () => {
   
   // Estado de error
   const [error, setError] = useState<string | null>(null);
+  
+  // Ref para el timeout del debounce
+  const debounceTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   /**
-   * Función para actualizar el término de búsqueda
+   * Función para realizar la búsqueda real
    */
-  const handleSearchChange = useCallback(async (query: string) => {
-    setSearchQuery(query);
+  const performSearch = useCallback(async (query: string) => {
+    if (!query.trim()) {
+      setBackendResults([]);
+      return;
+    }
+
+    setIsLoading(true);
     setError(null);
     
-    // Si hay query, hacer búsqueda en el backend
-    if (query.trim()) {
-      setIsLoading(true);
-      try {
-        const results = await searchService.search(query);
-        setBackendResults(results);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Error en búsqueda');
-        setBackendResults([]);
-      } finally {
-        setIsLoading(false);
-      }
-    } else {
-      // Si no hay query, limpiar resultados
+    try {
+      const results = await searchService.search(query);
+      setBackendResults(results);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Error en búsqueda');
       setBackendResults([]);
+    } finally {
+      setIsLoading(false);
     }
+  }, []);
+
+  /**
+   * Función para actualizar el término de búsqueda con debounce
+   */
+  const handleSearchChange = useCallback((query: string) => {
+    setSearchQuery(query);
+    
+    // Limpiar timeout anterior
+    if (debounceTimeoutRef.current) {
+      clearTimeout(debounceTimeoutRef.current);
+    }
+    
+    // Si no hay query, limpiar resultados inmediatamente
+    if (!query.trim()) {
+      setBackendResults([]);
+      setError(null);
+      return;
+    }
+    
+    // Configurar nuevo timeout para búsqueda con debounce (500ms)
+    debounceTimeoutRef.current = setTimeout(() => {
+      performSearch(query);
+    }, 500);
+  }, [performSearch]);
+
+  // Limpiar timeout al desmontar
+  useEffect(() => {
+    return () => {
+      if (debounceTimeoutRef.current) {
+        clearTimeout(debounceTimeoutRef.current);
+      }
+    };
   }, []);
 
   /**
    * Función para limpiar la búsqueda
    */
   const clearSearch = useCallback(() => {
+    // Limpiar timeout si existe
+    if (debounceTimeoutRef.current) {
+      clearTimeout(debounceTimeoutRef.current);
+    }
+    
     setSearchQuery('');
     setBackendResults([]);
     setError(null);

@@ -99,7 +99,12 @@ export const searchFromBackend = async (
     });
     
     return transformBackendResponse(response.data as BackendSearchResponse);
-  } catch (error) {
+  } catch (error: any) {
+    // Si es 404 de búsqueda, retornar array vacío silenciosamente
+    if (error?.response?.status === 404) {
+      return [];
+    }
+    // Para otros errores, lanzar
     throw error;
   }
 };

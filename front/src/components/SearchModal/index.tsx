@@ -40,12 +40,12 @@ export const SearchModal: React.FC<SearchModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className="absolute top-full left-0 right-0 z-50 mt-2">
+    <div className="absolute top-full left-0 right-0 z-50 mt-2 overflow-x-hidden">
       <div 
         role="listbox"
         aria-labelledby="search-modal-title"
         className="bg-white rounded-lg shadow-xl w-full overflow-hidden border border-gray-200"
-        style={{ maxHeight: `${scale(60)}vh` }}
+        style={{ maxHeight: `${scale(60)}vh`, maxWidth: '100%' }}
       >
         {/* Header del modal */}
         <div 
@@ -96,7 +96,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({
 
         {/* Contenido del modal */}
         <div 
-          className="overflow-y-auto"
+          className="overflow-y-auto overflow-x-hidden"
           style={{ maxHeight: `calc(${scale(60)}vh - ${scale(80)}px)` }}
         >
           {/* Estado de carga */}
@@ -163,32 +163,39 @@ export const SearchModal: React.FC<SearchModalProps> = ({
 
           {/* Resultados */}
           {!isLoading && !error && results.length > 0 ? (
-            <div style={{ paddingTop: dimensions.spacing.xs, paddingBottom: dimensions.spacing.lg }}>
+            <div 
+              className="overflow-x-hidden"
+              style={{ paddingTop: dimensions.spacing.xs, paddingBottom: dimensions.spacing.lg }}
+            >
               {results.map((result, index) => (
                 <div
                   key={result.id}
                   ref={index === selectedIndex ? selectedResultRef : null}
-                  className={`cursor-pointer border-b border-gray-200 last:border-b-0 ${
+                  className={`group cursor-pointer relative bg-white border-b border-gray-200 last:border-b-0 ${
                     index === selectedIndex 
-                      ? 'bg-[#5D5A88]' 
-                      : 'hover:bg-gray-50'
-                  } transition-colors duration-200`}
+                      ? 'border-[#5D5A88]/50 shadow-lg shadow-[#5D5A88]/5 bg-gradient-to-br from-[#F5F4F8] to-[#E8E6F0]' 
+                      : 'hover:border-[#5D5A88]/50 hover:shadow-lg hover:shadow-[#5D5A88]/5 hover:bg-gradient-to-br hover:from-[#F5F4F8] hover:to-[#E8E6F0]'
+                  } transition-all duration-200 transform ${
+                    index === selectedIndex ? 'scale-[1.01]' : 'hover:scale-[1.01]'
+                  }`}
                   style={{
                     paddingLeft: dimensions.spacing.md,
                     paddingRight: dimensions.spacing.md,
                     paddingTop: dimensions.spacing.sm,
-                    paddingBottom: dimensions.spacing.sm
+                    paddingBottom: dimensions.spacing.sm,
+                    maxWidth: '100%',
+                    overflow: 'hidden'
                   }}
                   onClick={() => onResultSelect(result)}
                 >
                   <div 
-                    className="flex items-start"
+                    className="flex items-start min-w-0"
                     style={{ gap: dimensions.spacing.sm }}
                   >
                     {/* Indicador visual */}
                     <div 
                       className={`rounded-full mt-2 flex-shrink-0 ${
-                        index === selectedIndex ? 'bg-white' : 'bg-[#FF6E00]'
+                        index === selectedIndex ? 'bg-[#5D5A88]' : 'bg-[#5D5A88]'
                       }`}
                       style={{
                         width: dimensions.spacing.xs,
@@ -197,11 +204,11 @@ export const SearchModal: React.FC<SearchModalProps> = ({
                     ></div>
                     
                     {/* Contenido del resultado */}
-                    <div className="flex-1 min-w-0">
+                    <div className="flex-1 min-w-0 overflow-hidden">
                       <h4 
                         className={`font-semibold truncate ${
-                          index === selectedIndex ? 'text-white' : 'text-[#5D5A88]'
-                        }`}
+                          index === selectedIndex ? 'text-[#5D5A88]' : 'text-[#5D5A88]'
+                        } group-hover:text-[#5D5A88] transition-colors duration-200`}
                         style={{ fontSize: dimensions.fontSize.md }}
                         title={result.title}
                       >
@@ -212,8 +219,8 @@ export const SearchModal: React.FC<SearchModalProps> = ({
                       {result.subtitle && (
                         <p 
                           className={`font-medium ${
-                            index === selectedIndex ? 'text-[#B8BCC8]' : 'text-[#6B7280]'
-                          }`}
+                            index === selectedIndex ? 'text-[#5D5A88]' : 'text-[#6B7280]'
+                          } group-hover:text-[#5D5A88] transition-colors duration-200`}
                           style={{ 
                             fontSize: dimensions.fontSize.xs,
                             marginTop: dimensions.spacing.xs
@@ -226,9 +233,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({
                       {/* Descripción solo si es diferente al título */}
                       {result.description && result.description !== result.title && (
                         <p 
-                          className={`line-clamp-2 ${
-                            index === selectedIndex ? 'text-[#B8BCC8]' : 'text-[#827896]'
-                          }`}
+                          className="line-clamp-2 text-[#827896] group-hover:text-[#5D5A88] transition-colors duration-200"
                           style={{ 
                             fontSize: dimensions.fontSize.sm,
                             marginTop: dimensions.spacing.xs
@@ -249,11 +254,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({
                       >
                         <div className="flex items-center gap-2">
                           <span 
-                            className={`rounded-full font-medium ${
-                              index === selectedIndex 
-                                ? 'bg-white text-[#5D5A88]' 
-                                : 'bg-[#FF6E00] text-white'
-                            }`}
+                            className="rounded-full font-medium bg-[#FF6E00] text-white"
                             style={{
                               fontSize: dimensions.fontSize.xs,
                               paddingLeft: dimensions.spacing.md,
@@ -268,9 +269,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({
                           {/* Información específica por tipo */}
                           {result.linksCount !== undefined && result.linksCount > 0 && (
                             <span 
-                              className={`${
-                                index === selectedIndex ? 'text-[#B8BCC8]' : 'text-[#6B7280]'
-                              }`}
+                              className="text-[#6B7280] group-hover:text-[#5D5A88] transition-colors duration-200"
                               style={{ fontSize: dimensions.fontSize.xs }}
                               title={`Este recurso tiene ${result.linksCount} enlaces disponibles`}
                             >
@@ -280,9 +279,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({
                           
                           {result.hasUrl && (
                             <span 
-                              className={`${
-                                index === selectedIndex ? 'text-[#B8BCC8]' : 'text-[#6B7280]'
-                              }`}
+                              className="text-[#6B7280] group-hover:text-[#5D5A88] transition-colors duration-200"
                               style={{ fontSize: dimensions.fontSize.xs }}
                               title="Esta alianza tiene sitio web disponible"
                             >
@@ -295,8 +292,8 @@ export const SearchModal: React.FC<SearchModalProps> = ({
                         {result.actionText && (
                           <span 
                             className={`font-medium ${
-                              index === selectedIndex ? 'text-white' : 'text-[#5D5A88]'
-                            }`}
+                              index === selectedIndex ? 'text-[#5D5A88]' : 'text-[#5D5A88]'
+                            } group-hover:text-[#5D5A88] transition-colors duration-200`}
                             style={{ fontSize: dimensions.fontSize.xs }}
                             title={`Click para ${result.actionText.toLowerCase()}`}
                           >
@@ -306,6 +303,13 @@ export const SearchModal: React.FC<SearchModalProps> = ({
                       </div>
                     </div>
                   </div>
+                  
+                  {/* Gradiente sutil en hover/selected (igual que AllianceModal) */}
+                  <div 
+                    className={`absolute inset-0 bg-gradient-to-br from-[#5D5A88]/5 via-transparent to-[#5D5A88]/8 pointer-events-none transition-opacity duration-200 ${
+                      index === selectedIndex ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
+                    }`}
+                  />
                 </div>
               ))}
             </div>
