@@ -131,7 +131,7 @@ const Planeacion: React.FC = () => {
   }
 
   return (
-    <div className={`${getContainerForScreen()}`}>
+    <div className={`${getContainerForScreen()} w-full`}>
       {/* Modales de gestión de recursos */}
       <ResourceEditModal
         isOpen={editModalOpen}
@@ -147,14 +147,15 @@ const Planeacion: React.FC = () => {
         onConfirm={handleSoftDeleteResource}
       />
       
-      {/* Grid de Tarjetas - El título ahora viene del Header dinámico */}
+      {/* Grid de Tarjetas - Mejorado con contenedor controlado */}
       {cards.length > 0 ? (
-        <div className="flex justify-center">
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"> {/* Contenedor adicional para controlar ancho máximo */}
           <CardGrid 
             cards={cards} 
             onCardClick={handleCardClick}
             defaultCardSize="rectangular"
             columns={2}
+            className="w-full"
           />
         </div>
       ) : (

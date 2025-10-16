@@ -35,24 +35,18 @@ const Card: React.FC<CardProps> = ({
     responsive: true
   });
 
-  // Obtener dimensiones según el tamaño de la card
+  // Obtener dimensiones según el tamaño de la card - MEJORADO
   const getCardDimensions = () => {
     if (size === 'rectangular') {
-      // En móvil: cards rectangulares más pequeñas pero manteniendo proporción
-      if (isMobile) {
-        return {
-          width: `${320}px`, // Fijo en móvil para evitar conflictos
-          height: `${200}px` // Fijo en móvil para evitar conflictos
-        };
-      }
-      // En desktop: cards rectangulares escaladas proporcionalmente
-      // Base: 480x280px (ratio 1.71:1)
+      // Para rectangular, ser más flexible con las dimensiones
       return {
-        width: dimensions.card.rectangular,
-        height: `${scale(280)}px` // Escala proporcionalmente con el ancho
+        width: '100%', // Usar ancho completo del contenedor grid
+        height: 'auto', // Altura automática
+        minHeight: `${scale(280)}px`, // Altura mínima escalada
+        maxWidth: dimensions.card.rectangular // Ancho máximo controlado
       };
     }
-    // Para small y medium
+    // Para small y medium mantener dimensiones fijas
     const dimension = dimensions.card[size];
     return {
       width: dimension,
@@ -60,16 +54,16 @@ const Card: React.FC<CardProps> = ({
     };
   };
 
-  // Obtener tamaño de icono según el tamaño de la card
+  // Obtener tamaño de icono según el tamaño de la card - AHORA RESPONSIVO
   const getIconSize = () => {
     switch (size) {
       case 'small':
-        return `20px`; // Iconos más pequeños para cards small (fijo)
+        return `${scale(20)}px`; // Iconos escalados para small
       case 'rectangular':
-        return `32px`; // Iconos normales para rectangular (fijo)
+        return `${scale(24)}px`; // Iconos escalados para rectangular (reducido de 32px)
       case 'medium':
       default:
-        return `32px`; // Iconos normales para medium (fijo)
+        return `${scale(28)}px`; // Iconos escalados para medium
     }
   };
 
@@ -88,6 +82,7 @@ const Card: React.FC<CardProps> = ({
         flex flex-col h-full
         ${!isActive ? 'opacity-50' : ''}
         ${size === 'small' && onButtonClick ? 'cursor-pointer' : ''}
+        ${size === 'rectangular' ? 'min-h-0' : ''} // Permitir que las rectangulares se reduzcan
         ${className}
       `}
       style={{
@@ -95,8 +90,7 @@ const Card: React.FC<CardProps> = ({
           backgroundImage: `url(${image})`,
           ...backgroundStyles
         } : {}),
-        width: cardDimensions.width,
-        height: cardDimensions.height
+        ...cardDimensions // Esto ahora incluye width, height, minHeight y maxWidth
       }}
       onClick={size === 'small' && onButtonClick ? onButtonClick : undefined}
       role={size === 'small' && onButtonClick ? 'button' : undefined}
@@ -109,37 +103,37 @@ const Card: React.FC<CardProps> = ({
         />
       )}
 
-      {/* HEADER FIJO - Siempre reserva el mismo espacio */}
+      {/* HEADER FIJO - Ahora completamente responsivo */}
       <header 
         className="flex-shrink-0"
         style={{
           padding: `${scale(16)}px`,
           paddingBottom: `${scale(8)}px`,
-          height: size === 'rectangular' && isMobile ? `60px` : `${scale(80)}px`, // Fijo en móvil rectangular
+          height: `${scale(60)}px`, // Altura consistente para todos los tamaños
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between'
         }}
       >
         {/* Contenido izquierdo */}
-        <div className="relative z-10" style={{ transform: `scale(${scale(1)})` }}>
+        <div className="relative z-10 flex items-center" style={{ gap: `${scale(8)}px` }}>
           {leftHeaderContent || (icon && <div style={{ fontSize: getIconSize() }}>{icon}</div>)}
         </div>
         
         {/* Contenido derecho */}
-        <div className="relative z-10 flex items-center" style={{ gap: `${scale(8)}px`, transform: `scale(${scale(1)})`, minWidth: size === 'rectangular' ? `${scale(80)}px` : 'auto' }}>
+        <div className="relative z-10 flex items-center" style={{ gap: `${scale(8)}px` }}>
           {rightHeaderContent}
         </div>
       </header>
 
-      {/* BODY FIJO - Siempre en la misma posición */}
+      {/* BODY FIJO - Ahora completamente responsivo */}
       <main 
         className="flex-grow flex flex-col justify-center"
         style={{
-          padding: `${scale(24)}px`,
+          padding: `${scale(16)}px`,
           paddingTop: `${scale(8)}px`,
           paddingBottom: `${scale(8)}px`,
-          minHeight: size === 'rectangular' && isMobile ? `80px` : `${scale(120)}px` // Fijo en móvil rectangular
+          minHeight: `${scale(100)}px` // Altura mínima consistente
         }}
       >
         <h3 
@@ -148,7 +142,7 @@ const Card: React.FC<CardProps> = ({
             font-bold relative z-10
             ${isMobile ? 'mb-2' : 'mb-3'}
           `}
-          style={{ fontSize: `${scale(20)}px` }}
+          style={{ fontSize: `${scale(18)}px` }} // Tamaño de fuente consistente
         >
           {title}
         </h3>
@@ -159,9 +153,10 @@ const Card: React.FC<CardProps> = ({
               ${image ? 'text-white font-light' : 'font-light'} 
               relative z-10
               ${isMobile ? 'mb-4' : 'mb-6'}
+              line-clamp-3 // Limitar a 3 líneas
             `}
             style={{ 
-              fontSize: `${scale(15)}px`,
+              fontSize: `${scale(14)}px`, // Tamaño de fuente consistente
               color: image ? 'white' : '#9795B5',
               fontFamily: 'DM Sans, sans-serif'
             }}
@@ -171,13 +166,13 @@ const Card: React.FC<CardProps> = ({
         )}
       </main>
 
-      {/* FOOTER FIJO - Siempre reserva el mismo espacio */}
+      {/* FOOTER FIJO - Ahora completamente responsivo */}
       <footer 
         className="flex-shrink-0 relative z-20"
         style={{
           padding: `${scale(16)}px`,
           paddingTop: `${scale(8)}px`,
-          height: size === 'rectangular' && isMobile ? `60px` : `${scale(80)}px`, // Fijo en móvil rectangular
+          height: `${scale(60)}px`, // Altura consistente para todos los tamaños
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between'
@@ -204,7 +199,7 @@ const Card: React.FC<CardProps> = ({
             onClick={onButtonClick}
             iconRight={<ArrowRight className="w-4 h-4" />}
             style={{ 
-              minWidth: `${scale(110)}px`,
+              minWidth: `${scale(100)}px`, // Ancho mínimo consistente
               opacity: 1,
               position: 'relative',
               zIndex: 30
