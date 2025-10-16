@@ -20,17 +20,17 @@ const CardGrid: React.FC<CardGridProps> = ({
   const { getGapForScreen } = useScreenSize();
 
   // Determinar la clase de columnas basada en el parámetro
-  const getGridColumnsClass = () => {
-    switch (columns) {
-      case 2:
-        return 'grid-cols-1 md:grid-cols-2';
-      case 4:
-        return 'grid-cols-1 md:grid-cols-2 lg:grid-cols-4'; // Mantener 4 columnas fijas
-      case 3:
-      default:
-        return 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3'; // Mantener 3 columnas fijas
-    }
-  };
+const getGridColumnsClass = () => {
+  switch (columns) {
+    case 2:
+      return 'grid-cols-1 lg:grid-cols-2'; // Cambiar md: por lg: para mejor responsividad
+    case 4:
+      return 'grid-cols-1 md:grid-cols-2 lg:grid-cols-4';
+    case 3:
+    default:
+      return 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3';
+  }
+};
 
   return (
     <div className={`
