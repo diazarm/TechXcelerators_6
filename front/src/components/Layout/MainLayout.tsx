@@ -39,7 +39,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({
       <main 
         className={`${!isHomePage ? getContainerForScreen() : ''} flex-1`}
         style={{
-          paddingBottom: !isHomePage ? `${scale(24)}px` : '0px',
+          paddingBottom: !isHomePage ? `${scale(150)}px` : '0px',
           paddingTop: !isHomePage ? `${scale(16)}px` : '0px'
         }}
       >

@@ -64,6 +64,10 @@ export { useResources } from './useResources';
 export { useResourceManagement } from './useResourceManagement';
 export { useResourceRestoration } from './useResourceRestoration';
 
+// Hooks de accesibilidad
+export { useFocusTrap } from './useFocusTrap';
+export { useEscapeKey } from './useEscapeKey';
+
 // Exportar tipos de hooks
 export type { 
   UseErrorHandlerOptions, 

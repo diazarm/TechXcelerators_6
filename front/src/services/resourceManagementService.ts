@@ -172,7 +172,7 @@ export const getResourceByName = async (resourceName: string): Promise<IResource
  */
 export const getDeletedResources = async (): Promise<IResource[]> => {
   try {
-    const response = await api.get<ResourceListResponse>('/resources?includeDeleted=true');
+    const response = await api.get<ResourceListResponse>('/resources?includeDeleted=true&includeInactive=true');
     const allResources = response.data.data || [];
     
     return allResources.filter(resource => 

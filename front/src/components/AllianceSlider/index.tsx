@@ -1,7 +1,9 @@
 import React from 'react';
 import { useScreenSize } from '../../context';
 import { ALLIANCE_DATA } from '../../constants';
+import { OptimizedImage } from '../OptimizedImage';
 import type { AllianceSliderProps, AllianceItemProps } from './types';
+import { scale } from '../../utils';
 
 /**
  * Componente individual de logo de alianza
@@ -15,7 +17,7 @@ const AllianceItem: React.FC<AllianceItemProps> = ({ alliance }) => {
   const marginH = scale(24);
 
   const content = (
-    <img
+    <OptimizedImage
       src={alliance.logo}
       alt={alliance.name}
       className="object-contain transition-transform duration-300 hover:scale-110"
@@ -114,7 +116,11 @@ export const AllianceSlider: React.FC<AllianceSliderProps> = ({ className = '' }
           paddingBottom: dimensions.spacing.lg,
         }}
       >
-        <div className="relative w-full overflow-hidden">
+        <div className="relative w-full overflow-hidden"
+  style={{
+    paddingTop: `${scale(8)}px`,
+    paddingBottom: `${scale(8)}px`
+  }}>
           <style>
             {`
               @keyframes scroll-logos {

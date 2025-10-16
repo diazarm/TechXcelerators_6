@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { X, AlertTriangle } from 'react-feather';
-import { useResponsive } from '../../hooks/useResponsive';
+import { useResponsive, useFocusTrap, useEscapeKey } from '../../hooks';
 import { showNotification } from '../../services';
 import { Button } from '../Button';
 import type { IResource } from '../../types/resource';
@@ -20,6 +20,10 @@ export const ResourceDeleteModal: React.FC<ResourceDeleteModalProps> = ({
 }) => {
   const { scale } = useResponsive();
   const [isLoading, setIsLoading] = useState(false);
+  
+  // Hooks de accesibilidad
+  const modalRef = useFocusTrap(isOpen);
+  useEscapeKey(isOpen, onClose);
 
   const handleConfirm = async () => {
     setIsLoading(true);
@@ -46,8 +50,14 @@ export const ResourceDeleteModal: React.FC<ResourceDeleteModalProps> = ({
     <div 
       className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-in fade-in duration-300"
       onClick={handleBackdropClick}
+      role="presentation"
     >
       <div 
+        ref={modalRef}
+        role="alertdialog"
+        aria-modal="true"
+        aria-labelledby="delete-modal-title"
+        aria-describedby="delete-modal-description"
         className="bg-white/95 backdrop-blur-md shadow-2xl border border-white/20 overflow-hidden animate-in zoom-in-95 duration-300"
         style={{ 
           borderRadius: `${scale(16)}px`,
@@ -77,6 +87,7 @@ export const ResourceDeleteModal: React.FC<ResourceDeleteModalProps> = ({
               />
             </div>
             <h2 
+              id="delete-modal-title"
               className="font-semibold text-white"
               style={{ fontSize: scale(18) }}
             >
@@ -85,6 +96,7 @@ export const ResourceDeleteModal: React.FC<ResourceDeleteModalProps> = ({
           </div>
           <button
             onClick={onClose}
+            aria-label="Cerrar modal de desactivar recurso"
             className="absolute text-white/90 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full hover:bg-white/20 hover:text-white transition-all duration-200 group cursor-pointer z-50"
             style={{
               top: `${scale(16)}px`,
@@ -128,6 +140,7 @@ export const ResourceDeleteModal: React.FC<ResourceDeleteModalProps> = ({
                 ¿Estás seguro de que deseas desactivar este recurso?
               </h3>
               <p 
+                id="delete-modal-description"
                 style={{ 
                   fontSize: scale(14), 
                   color: '#5D5A88',

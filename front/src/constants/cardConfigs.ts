@@ -436,7 +436,7 @@ export const galeriaPageCards: CardConfig[] = [
   },
   {
     id: 'uninorte-gallery',
-    title: 'Uninorte',
+    title: 'UNINORTE',
     description: 'Universidad Del Norte',
     image: '/img/UniNorte_Galeria.png',
     rightHeaderContent: createMultipleIcons([
@@ -463,7 +463,7 @@ export const galeriaPageCards: CardConfig[] = [
   {
     id: 'udd-gallery',
     title: 'UDD',
-    description: 'Universidad del desarrollo',
+    description: 'Universidad del Desarrollo',
     image: '/img/UDD_GALERIA.png',
     rightHeaderContent: createMultipleIcons([
       { component: EyeOff, size: 18, color: '#5D5A88', withCircle: true, type: 'delete' },
@@ -475,8 +475,8 @@ export const galeriaPageCards: CardConfig[] = [
   },
   {
     id: 'central-gallery',
-    title: 'Central',
-    description: 'Universidad Central de Chile',
+    title: 'CENTRAL',
+    description: 'Universidad Central',
     image: '/img/UC.png',
     rightHeaderContent: createMultipleIcons([
       { component: EyeOff, size: 18, color: '#5D5A88', withCircle: true, type: 'delete' },

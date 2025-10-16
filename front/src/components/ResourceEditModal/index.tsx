@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { X, Save, Link } from 'react-feather';
-import { useResponsive } from '../../hooks/useResponsive';
+import { useResponsive, useFocusTrap, useEscapeKey } from '../../hooks';
 import { showNotification } from '../../services';
 import { Button } from '../Button';
 import type { IResource } from '../../types/resource';
@@ -25,6 +25,10 @@ export const ResourceEditModal: React.FC<ResourceEditModalProps> = ({
     links: [{ label: '', url: '' }]
   });
   const [isLoading, setIsLoading] = useState(false);
+  
+  // Hooks de accesibilidad
+  const modalRef = useFocusTrap(isOpen);
+  useEscapeKey(isOpen, onClose);
 
   // Cargar datos del recurso cuando se abre el modal
   useEffect(() => {
@@ -106,8 +110,13 @@ export const ResourceEditModal: React.FC<ResourceEditModalProps> = ({
     <div 
       className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-in fade-in duration-300"
       onClick={handleBackdropClick}
+      role="presentation"
     >
       <div 
+        ref={modalRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="edit-modal-title"
         className="bg-white/95 backdrop-blur-md shadow-2xl border border-white/20 overflow-hidden animate-in zoom-in-95 duration-300"
         style={{ 
           borderRadius: `${scale(16)}px`,
@@ -138,6 +147,7 @@ export const ResourceEditModal: React.FC<ResourceEditModalProps> = ({
               />
             </div>
             <h2 
+              id="edit-modal-title"
               className="font-semibold text-white"
               style={{ fontSize: scale(18) }}
             >
@@ -146,6 +156,7 @@ export const ResourceEditModal: React.FC<ResourceEditModalProps> = ({
           </div>
           <button
             onClick={onClose}
+            aria-label="Cerrar modal de editar recurso"
             className="absolute text-white/90 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full hover:bg-white/20 hover:text-white transition-all duration-200 group cursor-pointer z-50"
             style={{
               top: `${scale(16)}px`,

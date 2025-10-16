@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { RegisterForm } from '../../components';
+import { RegisterForm, OptimizedImage } from '../../components';
 import { useAuth } from '../../hooks';
 import { useScreenSize } from '../../context';
 
@@ -50,10 +50,11 @@ const RegisterPage: React.FC = () => {
           }}
         >
           <Link to={getLogoDestination()}>
-            <img 
+            <OptimizedImage 
               src="/img/Logo3.png" 
               alt="Scala Learning" 
               className="w-full h-full object-contain hover:opacity-80 transition-opacity cursor-pointer"
+              loading="eager"
             />
           </Link>
         </div>
