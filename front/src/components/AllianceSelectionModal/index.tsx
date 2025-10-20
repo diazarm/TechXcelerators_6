@@ -39,17 +39,38 @@ export const AllianceSelectionModal: React.FC<AllianceSelectionModalProps> = ({
   onBackToAlliances
 }) => {
   const { scale } = useResponsive();
+  const [isProcessing, setIsProcessing] = React.useState(false);
   
   // Hooks de accesibilidad
   const modalRef = useFocusTrap(isOpen);
   useEscapeKey(isOpen, onClose);
   
+  // Funciones wrapper para manejar loading
+  const handleSelect = async (alliance: Alliance) => {
+    setIsProcessing(true);
+    try {
+      await onSelect(alliance);
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
+  const handleProgramConfirm = async () => {
+    if (!onProgramConfirm) return;
+    setIsProcessing(true);
+    try {
+      await onProgramConfirm();
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
   if (!isOpen) return null;
 
   // Usar el servicio de logos centralizado
 
   const handleAllianceClick = (alliance: Alliance) => {
-    onSelect(alliance);
+    handleSelect(alliance);
     // NO cerrar automáticamente - dejar que handleAllianceSelect decida
   };
 
@@ -312,15 +333,17 @@ export const AllianceSelectionModal: React.FC<AllianceSelectionModalProps> = ({
                   onClick={onBackToAlliances}
                   variant="secondary"
                   size="xs"
+                  disabled={isProcessing}
                 >
                   Volver
                 </Button>
                 <Button
-                  onClick={onProgramConfirm}
+                  onClick={handleProgramConfirm}
                   variant="primary"
                   size="xs"
+                  disabled={isProcessing}
                 >
-                  Continuar
+                  {isProcessing ? 'Procesando...' : 'Continuar'}
                 </Button>
               </div>
             </div>

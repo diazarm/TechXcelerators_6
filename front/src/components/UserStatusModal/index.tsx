@@ -164,7 +164,7 @@ export const UserStatusModal: React.FC<UserStatusModalProps> = ({
             <Button
               variant="primary"
               onClick={onConfirm}
-              loading={loading}
+              disabled={loading}
               style={{
                 fontSize: dimensions.fontSize.sm,
                 paddingLeft: dimensions.spacing.md,
@@ -175,7 +175,7 @@ export const UserStatusModal: React.FC<UserStatusModalProps> = ({
                 borderColor: actionColor
               }}
             >
-              {isActive ? 'Desactivar' : 'Activar'}
+              {loading ? 'Procesando...' : (isActive ? 'Desactivar' : 'Activar')}
             </Button>
           </div>
         </div>

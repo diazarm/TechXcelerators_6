@@ -135,7 +135,7 @@ export const RoleChangeModal: React.FC<RoleChangeModalProps> = ({
               </span>
               <span 
                 className={`px-3 py-1 rounded-full text-xs font-medium ${
-                  currentRole === 'director' 
+                  currentRole === 'Director' 
                     ? 'bg-[#5D5A88] text-white' 
                     : 'bg-gray-200 text-gray-700'
                 }`}
@@ -147,7 +147,7 @@ export const RoleChangeModal: React.FC<RoleChangeModalProps> = ({
                   paddingBottom: dimensions.spacing.xs
                 }}
               >
-                {currentRole === 'director' ? 'Director' : 'Usuario'}
+                {currentRole === 'Director' ? 'Director' : 'Usuario'}
               </span>
             </div>
             <div className="flex items-center justify-between">
@@ -161,7 +161,7 @@ export const RoleChangeModal: React.FC<RoleChangeModalProps> = ({
               </span>
               <span 
                 className={`px-3 py-1 rounded-full text-xs font-medium ${
-                  newRole === 'director' 
+                  newRole === 'Director' 
                     ? 'bg-[#5D5A88] text-white' 
                     : 'bg-gray-200 text-gray-700'
                 }`}
@@ -173,7 +173,7 @@ export const RoleChangeModal: React.FC<RoleChangeModalProps> = ({
                   paddingBottom: dimensions.spacing.xs
                 }}
               >
-                {newRole === 'director' ? 'Director' : 'Usuario'}
+                {newRole === 'Director' ? 'Director' : 'Usuario'}
               </span>
             </div>
           </div>

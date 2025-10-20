@@ -23,7 +23,7 @@ const ManualUsuario: React.FC = () => {
     <div className={`${getContainerForScreen()}`}>
       {/* Header con banner */}
       <div 
-        className="text-center bg-gradient-to-r from-[#5D5A88]/5 via-[#FF6E00]/5 to-[#5D5A88]/5 rounded-2xl shadow-sm border border-gray-100"
+        className="text-center bg-white rounded-2xl shadow-sm border border-gray-100"
         style={{
           paddingTop: dimensions.spacing['3xl'],
           paddingBottom: dimensions.spacing['3xl'],
@@ -38,7 +38,7 @@ const ManualUsuario: React.FC = () => {
           {/* Ícono */}
           <div 
             className="rounded-full bg-gradient-to-br from-[#FF6E00] to-[#FF8C3A] shadow-lg flex items-center justify-center flex-shrink-0"
-            style={{ 
+        style={{
               width: scale(28), 
               height: scale(28)
             }}
@@ -87,16 +87,8 @@ const ManualUsuario: React.FC = () => {
         }}
       >
         <div className="flex items-center" style={{ gap: dimensions.spacing.sm, marginBottom: dimensions.spacing.lg }}>
-            <div 
-              className="rounded-full bg-[#FF6E00] bg-opacity-10 flex items-center justify-center"
-              style={{
-                width: dimensions.spacing.xl,
-                height: dimensions.spacing.xl
-              }}
-            >
-            <LogIn size={scale(24)} className={COLOR_CLASSES.primary} />
-            </div>
-            <h2 
+          <LogIn size={scale(24)} className={COLOR_CLASSES.primary} />
+          <h2 
             className={`${COLOR_CLASSES.textPrimary} font-semibold`}
             style={{ fontSize: dimensions.fontSize['2xl'] }}
           >
@@ -142,7 +134,7 @@ const ManualUsuario: React.FC = () => {
             </h3>
           <p 
             className={COLOR_CLASSES.textSecondary}
-            style={{ 
+        style={{ 
               fontSize: dimensions.fontSize.sm,
                 lineHeight: '1.6',
                 marginBottom: dimensions.spacing.md
@@ -172,17 +164,9 @@ const ManualUsuario: React.FC = () => {
         }}
       >
         <div className="flex items-center" style={{ gap: dimensions.spacing.sm, marginBottom: dimensions.spacing.lg }}>
-            <div 
-              className="rounded-full bg-[#FF6E00] bg-opacity-10 flex items-center justify-center"
-              style={{
-                width: dimensions.spacing.xl,
-                height: dimensions.spacing.xl
-              }}
-            >
-            <Home size={scale(24)} className={COLOR_CLASSES.primary} />
-            </div>
-            <h2 
-              className={`${COLOR_CLASSES.textPrimary} font-semibold`}
+          <Home size={scale(24)} className={COLOR_CLASSES.primary} />
+          <h2 
+            className={`${COLOR_CLASSES.textPrimary} font-semibold`}
             style={{ fontSize: dimensions.fontSize['2xl'] }}
           >
             Navegación Principal
@@ -190,7 +174,7 @@ const ManualUsuario: React.FC = () => {
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3" style={{ gap: dimensions.spacing.lg }}>
-          <div className="rounded-lg bg-gradient-to-br from-gray-50 to-white border border-gray-100 hover:border-[#FF6E00]/30 transition-all duration-200" style={{ padding: dimensions.spacing.md }}>
+          <div className="rounded-lg bg-white border border-gray-100 hover:border-gray-200 shadow-sm hover:shadow-md transition-all duration-300" style={{ padding: dimensions.spacing.md }}>
             <div className="flex items-center" style={{ gap: dimensions.spacing.xs, marginBottom: dimensions.spacing.sm }}>
               <div className="rounded-full bg-[#FF6E00]" style={{ width: scale(8), height: scale(8) }}></div>
               <h3 
@@ -211,7 +195,7 @@ const ManualUsuario: React.FC = () => {
             </p>
           </div>
           
-          <div className="rounded-lg bg-gradient-to-br from-gray-50 to-white border border-gray-100 hover:border-[#5D5A88]/30 transition-all duration-200" style={{ padding: dimensions.spacing.md }}>
+          <div className="rounded-lg bg-white border border-gray-100 hover:border-gray-200 shadow-sm hover:shadow-md transition-all duration-300" style={{ padding: dimensions.spacing.md }}>
             <div className="flex items-center" style={{ gap: dimensions.spacing.xs, marginBottom: dimensions.spacing.sm }}>
               <div className="rounded-full bg-[#FF6E00]" style={{ width: scale(8), height: scale(8) }}></div>
               <h3 
@@ -220,19 +204,19 @@ const ManualUsuario: React.FC = () => {
               >
                 Búsqueda Global
               </h3>
-            </div>
-            <p 
-              className={COLOR_CLASSES.textSecondary}
-              style={{ 
-                fontSize: dimensions.fontSize.sm,
-                lineHeight: '1.6'
-              }}
-            >
-              Busca en todas las secciones desde la barra de búsqueda en la parte superior.
-            </p>
           </div>
-          
-          <div className="rounded-lg bg-gradient-to-br from-gray-50 to-white border border-gray-100 hover:border-[#FF6E00]/30 transition-all duration-200" style={{ padding: dimensions.spacing.md }}>
+          <p 
+            className={COLOR_CLASSES.textSecondary}
+            style={{ 
+              fontSize: dimensions.fontSize.sm,
+              lineHeight: '1.6'
+            }}
+          >
+              Busca en todas las secciones desde la barra de búsqueda en la parte superior.
+          </p>
+        </div>
+
+          <div className="rounded-lg bg-white border border-gray-100 hover:border-gray-200 shadow-sm hover:shadow-md transition-all duration-300" style={{ padding: dimensions.spacing.md }}>
             <div className="flex items-center" style={{ gap: dimensions.spacing.xs, marginBottom: dimensions.spacing.sm }}>
               <div className="rounded-full bg-[#FF6E00]" style={{ width: scale(8), height: scale(8) }}></div>
               <h3 
@@ -264,15 +248,7 @@ const ManualUsuario: React.FC = () => {
         }}
       >
         <div className="flex items-center" style={{ gap: dimensions.spacing.sm, marginBottom: dimensions.spacing.lg }}>
-            <div 
-              className="rounded-full bg-[#FF6E00] bg-opacity-10 flex items-center justify-center"
-              style={{
-                width: dimensions.spacing.xl,
-                height: dimensions.spacing.xl
-              }}
-            >
-            <Settings size={scale(24)} className={COLOR_CLASSES.primary} />
-          </div>
+          <Settings size={scale(24)} className={COLOR_CLASSES.primary} />
           <h2 
             className={`${COLOR_CLASSES.textPrimary} font-semibold`}
             style={{ fontSize: dimensions.fontSize['2xl'] }}
@@ -367,15 +343,7 @@ const ManualUsuario: React.FC = () => {
         }}
       >
         <div className="flex items-center" style={{ gap: dimensions.spacing.sm, marginBottom: dimensions.spacing.lg }}>
-          <div 
-            className="rounded-full bg-[#FF6E00] bg-opacity-10 flex items-center justify-center"
-            style={{
-              width: dimensions.spacing.xl,
-              height: dimensions.spacing.xl
-            }}
-          >
-            <Shield size={scale(24)} className={COLOR_CLASSES.primary} />
-          </div>
+          <Shield size={scale(24)} className={COLOR_CLASSES.primary} />
           <h2 
             className={`${COLOR_CLASSES.textPrimary} font-semibold`}
             style={{ fontSize: dimensions.fontSize['2xl'] }}
@@ -385,7 +353,7 @@ const ManualUsuario: React.FC = () => {
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-3" style={{ gap: dimensions.spacing.lg }}>
-          <div className="rounded-lg bg-gradient-to-br from-blue-50 to-white border border-blue-100 hover:border-blue-300 transition-all duration-200" style={{ padding: dimensions.spacing.md }}>
+          <div className="rounded-lg bg-white border border-gray-100 hover:border-gray-200 shadow-sm hover:shadow-md transition-all duration-300" style={{ padding: dimensions.spacing.md }}>
             <div className="flex items-center" style={{ gap: dimensions.spacing.xs, marginBottom: dimensions.spacing.sm }}>
               <div className="rounded-full bg-[#FF6E00]" style={{ width: scale(8), height: scale(8) }}></div>
               <h3 
@@ -405,7 +373,7 @@ const ManualUsuario: React.FC = () => {
             </ul>
           </div>
           
-          <div className="rounded-lg bg-gradient-to-br from-purple-50 to-white border border-purple-100 hover:border-purple-300 transition-all duration-200" style={{ padding: dimensions.spacing.md }}>
+          <div className="rounded-lg bg-white border border-gray-100 hover:border-gray-200 shadow-sm hover:shadow-md transition-all duration-300" style={{ padding: dimensions.spacing.md }}>
             <div className="flex items-center" style={{ gap: dimensions.spacing.xs, marginBottom: dimensions.spacing.sm }}>
               <div className="rounded-full bg-[#FF6E00]" style={{ width: scale(8), height: scale(8) }}></div>
               <h3 
@@ -426,7 +394,7 @@ const ManualUsuario: React.FC = () => {
             </ul>
           </div>
           
-          <div className="rounded-lg bg-gradient-to-br from-orange-50 to-white border border-orange-100 hover:border-[#FF6E00] transition-all duration-200" style={{ padding: dimensions.spacing.md }}>
+          <div className="rounded-lg bg-white border border-gray-100 hover:border-gray-200 shadow-sm hover:shadow-md transition-all duration-300" style={{ padding: dimensions.spacing.md }}>
             <div className="flex items-center" style={{ gap: dimensions.spacing.xs, marginBottom: dimensions.spacing.sm }}>
               <div className="rounded-full bg-[#FF6E00]" style={{ width: scale(8), height: scale(8) }}></div>
               <h3 
@@ -458,15 +426,7 @@ const ManualUsuario: React.FC = () => {
         }}
       >
         <div className="flex items-center" style={{ gap: dimensions.spacing.sm, marginBottom: dimensions.spacing.lg }}>
-          <div 
-            className="rounded-full bg-[#FF6E00] bg-opacity-10 flex items-center justify-center"
-            style={{
-              width: dimensions.spacing.xl,
-              height: dimensions.spacing.xl
-            }}
-          >
-            <FileText size={scale(24)} className={COLOR_CLASSES.primary} />
-          </div>
+          <FileText size={scale(24)} className={COLOR_CLASSES.primary} />
           <h2 
             className={`${COLOR_CLASSES.textPrimary} font-semibold`}
             style={{ fontSize: dimensions.fontSize['2xl'] }}
@@ -476,7 +436,7 @@ const ManualUsuario: React.FC = () => {
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3" style={{ gap: dimensions.spacing.lg }}>
-          <div className="rounded-lg bg-gradient-to-br from-gray-50 to-white border border-gray-100 hover:border-[#FF6E00]/30 hover:shadow-sm transition-all duration-200" style={{ padding: dimensions.spacing.md }}>
+          <div className="rounded-lg bg-white border border-gray-100 hover:border-gray-200 shadow-sm hover:shadow-md transition-all duration-300" style={{ padding: dimensions.spacing.md }}>
             <div className="flex items-center" style={{ gap: dimensions.spacing.xs, marginBottom: dimensions.spacing.sm }}>
               <div className="rounded-full bg-[#FF6E00]" style={{ width: scale(8), height: scale(8) }}></div>
               <h3 
@@ -497,7 +457,7 @@ const ManualUsuario: React.FC = () => {
             </p>
           </div>
           
-          <div className="rounded-lg bg-gradient-to-br from-gray-50 to-white border border-gray-100 hover:border-[#5D5A88]/30 hover:shadow-sm transition-all duration-200" style={{ padding: dimensions.spacing.md }}>
+          <div className="rounded-lg bg-white border border-gray-100 hover:border-gray-200 shadow-sm hover:shadow-md transition-all duration-300" style={{ padding: dimensions.spacing.md }}>
             <div className="flex items-center" style={{ gap: dimensions.spacing.xs, marginBottom: dimensions.spacing.sm }}>
               <div className="rounded-full bg-[#FF6E00]" style={{ width: scale(8), height: scale(8) }}></div>
               <h3 
@@ -518,7 +478,7 @@ const ManualUsuario: React.FC = () => {
             </p>
           </div>
           
-          <div className="rounded-lg bg-gradient-to-br from-gray-50 to-white border border-gray-100 hover:border-[#FF6E00]/30 hover:shadow-sm transition-all duration-200" style={{ padding: dimensions.spacing.md }}>
+          <div className="rounded-lg bg-white border border-gray-100 hover:border-gray-200 shadow-sm hover:shadow-md transition-all duration-300" style={{ padding: dimensions.spacing.md }}>
             <div className="flex items-center" style={{ gap: dimensions.spacing.xs, marginBottom: dimensions.spacing.sm }}>
               <div className="rounded-full bg-[#FF6E00]" style={{ width: scale(8), height: scale(8) }}></div>
               <h3 
@@ -539,7 +499,7 @@ const ManualUsuario: React.FC = () => {
             </p>
           </div>
           
-          <div className="rounded-lg bg-gradient-to-br from-gray-50 to-white border border-gray-100 hover:border-[#5D5A88]/30 hover:shadow-sm transition-all duration-200" style={{ padding: dimensions.spacing.md }}>
+          <div className="rounded-lg bg-white border border-gray-100 hover:border-gray-200 shadow-sm hover:shadow-md transition-all duration-300" style={{ padding: dimensions.spacing.md }}>
             <div className="flex items-center" style={{ gap: dimensions.spacing.xs, marginBottom: dimensions.spacing.sm }}>
               <div className="rounded-full bg-[#FF6E00]" style={{ width: scale(8), height: scale(8) }}></div>
               <h3 
@@ -548,19 +508,19 @@ const ManualUsuario: React.FC = () => {
               >
                 Gestión
               </h3>
-            </div>
-            <p 
-              className={COLOR_CLASSES.textSecondary}
-              style={{ 
-                fontSize: dimensions.fontSize.sm,
-                lineHeight: '1.6'
-              }}
-            >
-              Herramientas y recursos para la gestión administrativa.
-            </p>
           </div>
-          
-          <div className="rounded-lg bg-gradient-to-br from-gray-50 to-white border border-gray-100 hover:border-[#FF6E00]/30 hover:shadow-sm transition-all duration-200" style={{ padding: dimensions.spacing.md }}>
+          <p 
+            className={COLOR_CLASSES.textSecondary}
+            style={{ 
+              fontSize: dimensions.fontSize.sm,
+              lineHeight: '1.6'
+            }}
+          >
+              Herramientas y recursos para la gestión administrativa.
+          </p>
+        </div>
+
+          <div className="rounded-lg bg-white border border-gray-100 hover:border-gray-200 shadow-sm hover:shadow-md transition-all duration-300" style={{ padding: dimensions.spacing.md }}>
             <div className="flex items-center" style={{ gap: dimensions.spacing.xs, marginBottom: dimensions.spacing.sm }}>
               <div className="rounded-full bg-[#FF6E00]" style={{ width: scale(8), height: scale(8) }}></div>
         <h3 
@@ -572,56 +532,48 @@ const ManualUsuario: React.FC = () => {
             </div>
             <p 
               className={COLOR_CLASSES.textSecondary}
-          style={{ 
+              style={{
                 fontSize: dimensions.fontSize.sm,
                 lineHeight: '1.6'
               }}
             >
               Proyectos e iniciativas en desarrollo y ejecución.
             </p>
-          </div>
+            </div>
           
-          <div className="rounded-lg bg-gradient-to-br from-gray-50 to-white border border-gray-100 hover:border-[#5D5A88]/30 hover:shadow-sm transition-all duration-200" style={{ padding: dimensions.spacing.md }}>
+          <div className="rounded-lg bg-white border border-gray-100 hover:border-gray-200 shadow-sm hover:shadow-md transition-all duration-300" style={{ padding: dimensions.spacing.md }}>
             <div className="flex items-center" style={{ gap: dimensions.spacing.xs, marginBottom: dimensions.spacing.sm }}>
               <div className="rounded-full bg-[#FF6E00]" style={{ width: scale(8), height: scale(8) }}></div>
               <h3 
-                className={`${COLOR_CLASSES.textPrimary} font-semibold`}
+              className={`${COLOR_CLASSES.textPrimary} font-semibold`}
                 style={{ fontSize: dimensions.fontSize.lg }}
-              >
+            >
                 Galería
         </h3>
-            </div>
-        <p 
-          className={COLOR_CLASSES.textSecondary}
-          style={{ 
-                fontSize: dimensions.fontSize.sm,
-                lineHeight: '1.6'
-              }}
-            >
+          </div>
+          <p 
+            className={COLOR_CLASSES.textSecondary}
+            style={{ 
+              fontSize: dimensions.fontSize.sm,
+              lineHeight: '1.6'
+            }}
+          >
               Colección de imágenes, documentos y recursos multimedia.
-            </p>
+          </p>
           </div>
         </div>
       </div>
 
       {/* Sección: Consejos y Mejores Prácticas */}
       <div 
-        className="bg-gradient-to-r from-[#FF6E00]/5 to-[#5D5A88]/5 rounded-lg"
+        className="bg-white rounded-lg shadow-sm border border-gray-100 hover:shadow-md hover:border-[#FF6E00]/20 transition-all duration-300"
         style={{
           padding: dimensions.spacing.xl,
           marginBottom: dimensions.spacing['2xl']
         }}
       >
         <div className="flex items-center" style={{ gap: dimensions.spacing.sm, marginBottom: dimensions.spacing.lg }}>
-          <div 
-            className="rounded-full bg-[#FF6E00] bg-opacity-20 flex items-center justify-center"
-            style={{
-              width: dimensions.spacing.xl,
-              height: dimensions.spacing.xl
-            }}
-          >
-            <HelpCircle size={scale(24)} className={COLOR_CLASSES.primary} />
-          </div>
+          <HelpCircle size={scale(24)} className={COLOR_CLASSES.primary} />
           <h2 
             className={`${COLOR_CLASSES.textPrimary} font-semibold`}
             style={{ fontSize: dimensions.fontSize['2xl'] }}
@@ -657,7 +609,7 @@ const ManualUsuario: React.FC = () => {
             >
               <Lock size={scale(20)} className="text-[#5D5A88]" />
               Seguridad
-            </h3>
+        </h3>
             <ul 
               className="space-y-2"
               style={{ fontSize: dimensions.fontSize.sm, color: '#6B7280' }}
@@ -685,13 +637,13 @@ const ManualUsuario: React.FC = () => {
           </div>
           <p 
             className="text-[#6B7280] mt-2"
-            style={{ 
+          style={{ 
               fontSize: dimensions.fontSize.sm,
               lineHeight: '1.6'
-            }}
-          >
+          }}
+        >
             Si tienes preguntas específicas o necesitas asistencia técnica, contacta al administrador del sistema o revisa la documentación adicional disponible en tu organización.
-          </p>
+        </p>
         </div>
       </div>
     </div>

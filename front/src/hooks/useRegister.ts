@@ -101,7 +101,7 @@ export const useRegister = () => {
         name: newUser.name,
         email: newUser.email,
         role: newUser.role,
-        id: newUser.id
+        id: newUser._id
       }, 'useRegister');
 
       logger.info('Usuario registrado exitosamente', { 

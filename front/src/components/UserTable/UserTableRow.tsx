@@ -20,7 +20,7 @@ export const UserTableRow: React.FC<UserTableRowProps> = ({
   onRoleChange,
   onStatusChange
 }) => {
-  const { dimensions, scale, isMobile } = useScreenSize();
+  const { scale, isMobile } = useScreenSize();
 
   return (
     <tr 

@@ -20,7 +20,7 @@ const Utilidades: React.FC = () => {
     <div className={`${getContainerForScreen()}`}>
       {/* Header con banner */}
       <div 
-        className="text-center bg-gradient-to-r from-[#5D5A88]/5 via-[#FF6E00]/5 to-[#5D5A88]/5 shadow-sm rounded-2xl border border-gray-100"
+        className="text-center bg-white shadow-sm rounded-2xl border border-gray-100"
         style={{
           paddingTop: dimensions.spacing['3xl'],
           paddingBottom: dimensions.spacing['3xl'],

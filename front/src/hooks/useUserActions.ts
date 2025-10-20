@@ -24,7 +24,7 @@ export const useUserActions = () => {
     setShowRoleModal(true);
   };
 
-  const confirmRoleChange = async (users: IUser[], setUsers: React.Dispatch<React.SetStateAction<IUser[]>>) => {
+  const confirmRoleChange = async (_users: IUser[], setUsers: React.Dispatch<React.SetStateAction<IUser[]>>) => {
     if (!selectedUser) return;
     
     try {
@@ -69,7 +69,7 @@ export const useUserActions = () => {
     setShowStatusModal(true);
   };
 
-  const confirmStatusChange = async (users: IUser[], setUsers: React.Dispatch<React.SetStateAction<IUser[]>>) => {
+  const confirmStatusChange = async (_users: IUser[], setUsers: React.Dispatch<React.SetStateAction<IUser[]>>) => {
     if (!selectedUser) return;
     
     try {
