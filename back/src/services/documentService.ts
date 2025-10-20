@@ -9,19 +9,82 @@ export const createDocument = async (data: Partial<DocumentType>) => {
 };
 
 // ===== Listar documentos =====
-export const listDocuments = async (filters: Partial<DocumentType> = {}) => {
-  const query: any = { isDeleted: false }; // ✅ Ignora eliminados
-  
+export const listDocuments = async (filters: Partial<DocumentType> = {}, userRole?: string, isAdmin?: boolean) => {
+  const query: any = {};
+
+  // Determinar estado (activo o eliminado)
+  const status = (filters as any).status || 'active';
+  if (status === 'active') query.isDeleted = false;
+  else if (status === 'deleted') query.isDeleted = true;
+
   if (filters.category) query.category = filters.category;
-  if(filters.name) query.name = new RegExp(filters.name, 'i');
+  if (filters.name) query.name = new RegExp(filters.name, 'i');
+
+  // Solo admin puede ver archivos eliminados
+  if (!isAdmin) {
+    query.isDeleted = false;
+    if (userRole) query.visibleTo = { $in: [userRole] };
+  }
 
   return await DocumentModel.find(query).sort({ uploadDate: -1 });
-  
 };
 
 // ===== Obtener documento por ID =====
-export const getDocumentById = async (id: string) => {
-  return await DocumentModel.findOne({ _id: id, isDeleted: false });
+export const getDocumentById = async (id: string, userRole?: string, isAdmin?: boolean) => {
+  const query: any = { _id: id, isDeleted: false };
+  //Si no es admin, solo mostrar documentos visibles para su rol
+  if (!isAdmin && userRole) {
+    query.visibleTo = { $in: [userRole] };
+  }
+  return await DocumentModel.findOne(query);
+};
+
+// ===== Actualizar visibilidad =====
+export const updateDocumentVisibility = async (id: string, visibleTo: string[]) => {
+  const allowedRoles = ['admin', 'director', 'user'];
+  // Validar roles
+  const invalidRoles = visibleTo.filter(role => !allowedRoles.includes(role));
+  if (invalidRoles.length > 0) {
+    throw new Error(`Roles inválidos en visibleTo: ${invalidRoles.join(', ')}`);
+  }
+
+  //Buscar y actualizar documento
+  const doc = await DocumentModel.findOneAndUpdate(
+    { _id: id, isDeleted: false },
+    { visibleTo },
+    { new: true }
+  );
+  return doc;
+};
+
+// ===== Actualizar documento =====
+export const updateDocument = async (id: string, data: Partial<DocumentType>, newFile?: Express.Multer.File) => {
+  const doc = await DocumentModel.findById(id);
+  if (!doc || doc.isDeleted) return null;
+
+  // Si hay archivo nuevo, eliminar el anterior
+  if (newFile) {
+    try {
+      await fs.unlink(doc.filePath);
+    } catch (err) {
+      console.warn(`No se pudo eliminar archivo antiguo: ${doc.filePath}`);
+    }
+
+    doc.type = newFile.mimetype;
+    doc.url = `/uploads/${newFile.filename}`;
+    doc.filePath = `uploads/${newFile.filename}`;
+    doc.size = newFile.size;
+    doc.originalName = newFile.originalname;
+  }
+
+  // Actualiza los demás campos
+  if (data.name) doc.name = data.name;
+  if (data.description) doc.description = data.description;
+  if (data.category) doc.category = data.category;
+  if (data.visibleTo) doc.visibleTo = data.visibleTo;
+
+  await doc.save();
+  return doc;
 };
 
 // ===== Soft delete =====

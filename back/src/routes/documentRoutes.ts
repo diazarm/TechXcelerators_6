@@ -9,6 +9,8 @@ import {
   removeDocument,
   downloadDocument,
   restoreDocuments,
+  updateVisibility,
+  editDocument,
 } from '../controllers/documentController';
 import { authMiddleware } from '../middlewares/auth.middleware';
 import { verifyAdmin } from '../middlewares/verifyAdmin.middleware';
@@ -49,15 +51,16 @@ const upload = multer({
 });
 
 // === Endpoints ===
-// ✅ Solo ADMIN puede subir o eliminar
+// ✅ Solo ADMIN puede subir, eliminar y restaurar archivos y cambiar visibilidad
 documentRouter.post('/upload', authMiddleware, verifyAdmin, upload.single('file'), uploadDocument);
+documentRouter.put('/:id', authMiddleware, verifyAdmin, upload.single('file'), editDocument);
 documentRouter.delete('/:id', authMiddleware, verifyAdmin, removeDocument);
 documentRouter.patch('/restore/:id', authMiddleware, verifyAdmin, restoreDocuments);
+documentRouter.patch('/:id/visibility', authMiddleware, verifyAdmin, updateVisibility);
 
 // ✅ Usuarios autenticados (user, director) pueden ver y descargar
 documentRouter.get('/', authMiddleware, listAllDocuments);
 documentRouter.get('/:id', authMiddleware, getOneDocument);
-
 documentRouter.get('/download/:id', authMiddleware, downloadDocument);
 
 export default documentRouter;
