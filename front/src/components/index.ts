@@ -80,6 +80,7 @@ export type { ResourceDropdownProps } from './ResourceDropdown/types';
 export { default as AuthGuard } from './AuthGuard';
 
 // Componentes de gestión
-export { UserManagement } from './UserManagement';
+export { PaginationControls } from './PaginationControls';
 export { RoleChangeModal } from './RoleChangeModal';
+export { UserManagement } from './UserManagement';
 

@@ -20,98 +20,138 @@ export const UserTableRow: React.FC<UserTableRowProps> = ({
   onRoleChange,
   onStatusChange
 }) => {
-  const { dimensions, scale } = useScreenSize();
+  const { dimensions, scale, isMobile } = useScreenSize();
 
   return (
     <tr 
       key={user._id} 
-      className="border-b border-gray-100 hover:bg-gray-50 transition-colors"
+      className="hover:bg-gray-50 transition-colors"
+      style={{
+        borderBottomWidth: scale(1),
+        borderBottomColor: '#F3F4F6'
+      }}
     >
       <td 
-        className="py-4 px-6"
         style={{
-          paddingTop: dimensions.spacing.md,
-          paddingBottom: dimensions.spacing.md,
-          paddingLeft: dimensions.spacing.lg,
-          paddingRight: dimensions.spacing.lg
+          paddingTop: isMobile ? scale(6) : scale(8),
+          paddingBottom: isMobile ? scale(6) : scale(8),
+          paddingLeft: isMobile ? scale(8) : scale(12),
+          paddingRight: isMobile ? scale(8) : scale(12)
         }}
       >
-        <div className="flex items-center gap-3">
+        <div 
+          className="flex items-center"
+          style={{ gap: scale(3) }}
+        >
           <div 
-            className="bg-[#5D5A88] rounded-full p-2"
+            className="bg-[#5D5A88] rounded-full flex items-center justify-center"
             style={{
-              padding: dimensions.spacing.sm
+              width: scale(12),
+              height: scale(12),
+              minWidth: scale(12),
+              minHeight: scale(12)
             }}
           >
             <span 
               className="text-white font-semibold"
               style={{
-                fontSize: dimensions.fontSize.xs
+                fontSize: scale(8)
               }}
             >
               {user.name.charAt(0).toUpperCase()}
             </span>
           </div>
           <div>
-            <div className="flex items-center gap-2">
-              <span className="font-medium text-gray-900">{user.name}</span>
+            <div className="flex items-center" style={{ gap: scale(8) }}>
+              <span 
+                className="font-medium text-gray-900"
+                style={{ fontSize: scale(14) }}
+              >
+                {user.name}
+              </span>
             </div>
           </div>
         </div>
       </td>
       <td 
-        className="py-4 px-6"
         style={{
-          paddingTop: dimensions.spacing.md,
-          paddingBottom: dimensions.spacing.md,
-          paddingLeft: dimensions.spacing.lg,
-          paddingRight: dimensions.spacing.lg
+          paddingTop: isMobile ? scale(6) : scale(8),
+          paddingBottom: isMobile ? scale(6) : scale(8),
+          paddingLeft: isMobile ? scale(8) : scale(12),
+          paddingRight: isMobile ? scale(8) : scale(12)
         }}
       >
-        <p className="text-gray-600">{user.email}</p>
+        <p 
+          className="text-gray-600"
+          style={{ fontSize: scale(14) }}
+        >
+          {user.email}
+        </p>
       </td>
       <td 
-        className="py-4 px-6"
         style={{
-          paddingTop: dimensions.spacing.md,
-          paddingBottom: dimensions.spacing.md,
-          paddingLeft: dimensions.spacing.lg,
-          paddingRight: dimensions.spacing.lg
+          paddingTop: isMobile ? scale(6) : scale(8),
+          paddingBottom: isMobile ? scale(6) : scale(8),
+          paddingLeft: isMobile ? scale(8) : scale(12),
+          paddingRight: isMobile ? scale(8) : scale(12)
         }}
       >
-        <div className="flex items-center gap-2">
+        <div 
+          className="flex items-center"
+          style={{ gap: scale(8) }}
+        >
           <button
             onClick={() => onRoleChange(user._id)}
             disabled={actionLoading === user._id}
-            className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[#5D5A88] focus:ring-offset-2 ${
+            className={`relative inline-flex items-center rounded-full transition-colors duration-200 focus:outline-none ${
               user.role === 'director' ? 'bg-[#5D5A88]' : 'bg-gray-300'
             } ${actionLoading === user._id ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
+            style={{
+              height: scale(20),
+              width: scale(36)
+            }}
             title={`Cambiar rol a ${user.role === 'director' ? 'Usuario' : 'Director'}`}
           >
             <span
-              className={`absolute left-1 top-1 h-4 w-4 rounded-full bg-white transition-transform duration-200 ${
-                user.role === 'director' ? 'translate-x-5' : 'translate-x-0'
+              className={`rounded-full bg-white transition-transform duration-200 ${
+                user.role === 'director' ? 'translate-x-4' : 'translate-x-0'
               }`}
+              style={{
+                position: 'absolute',
+                left: scale(2),
+                top: scale(2),
+                height: scale(16),
+                width: scale(16)
+              }}
             />
           </button>
-          <span className="text-gray-600 text-xs">
+          <span 
+            className="text-gray-600 whitespace-nowrap"
+            style={{ fontSize: scale(12) }}
+          >
             {user.role === 'director' ? 'Director' : 'Usuario'}
           </span>
         </div>
       </td>
       <td 
-        className="py-4 px-6"
         style={{
-          paddingTop: dimensions.spacing.md,
-          paddingBottom: dimensions.spacing.md,
-          paddingLeft: dimensions.spacing.lg,
-          paddingRight: dimensions.spacing.lg
+          paddingTop: isMobile ? scale(6) : scale(8),
+          paddingBottom: isMobile ? scale(6) : scale(8),
+          paddingLeft: isMobile ? scale(8) : scale(12),
+          paddingRight: isMobile ? scale(8) : scale(12)
         }}
       >
         <span 
-          className={`px-2 py-1 rounded-full text-xs font-medium ${
+          className={`rounded-full font-medium whitespace-nowrap ${
             user.isActive ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
           }`}
+          style={{ 
+                fontSize: scale(10),
+            paddingLeft: scale(8),
+            paddingRight: scale(8),
+            paddingTop: scale(4),
+            paddingBottom: scale(4)
+          }}
         >
           {user.isActive ? 'Activo' : 'Inactivo'}
         </span>
@@ -119,30 +159,40 @@ export const UserTableRow: React.FC<UserTableRowProps> = ({
       <td 
         className="py-4 px-6 text-center"
         style={{
-          paddingTop: dimensions.spacing.md,
-          paddingBottom: dimensions.spacing.md,
-          paddingLeft: dimensions.spacing.lg,
-          paddingRight: dimensions.spacing.lg
+          paddingTop: isMobile ? scale(6) : scale(8),
+          paddingBottom: isMobile ? scale(6) : scale(8),
+          paddingLeft: isMobile ? scale(8) : scale(12),
+          paddingRight: isMobile ? scale(8) : scale(12)
         }}
       >
-        <div className="flex items-center justify-center gap-2">
+        <div 
+          className="flex items-center justify-center"
+          style={{ gap: scale(8) }}
+        >
           <div 
             onClick={() => onStatusChange(user._id)}
-            className="cursor-pointer flex items-center gap-2 hover:bg-gray-100 rounded-lg p-2 transition-colors"
+            className="cursor-pointer flex items-center hover:bg-gray-100 rounded-lg transition-colors"
+            style={{
+              padding: scale(4),
+              gap: scale(6)
+            }}
             title={user.isActive ? 'Desactivar usuario' : 'Activar usuario'}
           >
             {user.isActive ? (
               <EyeOff 
-                size={scale(16)} 
+                size={scale(14)} 
                 className="text-[#5D5A88] hover:text-red-600 transition-colors" 
               />
             ) : (
               <RotateCcw 
-                size={scale(16)} 
+                size={scale(14)} 
                 className="text-[#5D5A88] hover:text-green-600 transition-colors" 
               />
             )}
-            <span className="text-gray-500 text-xs">
+            <span 
+              className="text-gray-500 whitespace-nowrap"
+              style={{ fontSize: scale(12) }}
+            >
               {user.isActive ? 'Desactivar' : 'Activar'}
             </span>
           </div>

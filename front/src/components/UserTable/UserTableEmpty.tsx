@@ -11,18 +11,33 @@ export const UserTableEmpty: React.FC = () => {
 
   return (
     <div 
-      className="text-center py-8 text-gray-500"
+      className="flex flex-col items-center justify-center text-gray-500 bg-white rounded-lg shadow-sm border border-gray-100"
       style={{
-        paddingTop: scale(32),
-        paddingBottom: scale(32)
+        paddingTop: scale(48),
+        paddingBottom: scale(48),
+        borderRadius: scale(8),
+        borderWidth: scale(1)
       }}
     >
       <Users 
         size={scale(48)} 
-        className="mx-auto mb-4 text-gray-400" 
+        className="text-gray-400"
+        style={{ marginBottom: scale(16) }}
       />
-      <p style={{ fontSize: scale(16) }}>
+      <p 
+        className="font-medium"
+        style={{ fontSize: scale(16) }}
+      >
         No hay usuarios registrados
+      </p>
+      <p 
+        className="text-sm"
+        style={{ 
+          fontSize: scale(14),
+          marginTop: scale(8)
+        }}
+      >
+        Asegúrate de que haya usuarios registrados en el sistema.
       </p>
     </div>
   );

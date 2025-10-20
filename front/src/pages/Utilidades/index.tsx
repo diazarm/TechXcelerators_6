@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Users, Settings, UserCheck } from 'react-feather';
 import { useScreenSize } from '../../context';
 import { COLOR_CLASSES } from '../../constants';
-import { UserManagement } from '../../components';
+import { UserManagement } from '../../components/';
 
 /**
  * Página de Utilidades - Gestión de usuarios y documentos
@@ -20,7 +20,7 @@ const Utilidades: React.FC = () => {
     <div className={`${getContainerForScreen()}`}>
       {/* Header con banner */}
       <div 
-        className="text-center bg-gradient-to-r from-[#5D5A88]/5 via-[#FF6E00]/5 to-[#5D5A88]/5 rounded-2xl shadow-sm border border-gray-100"
+        className="text-center bg-gradient-to-r from-[#5D5A88]/5 via-[#FF6E00]/5 to-[#5D5A88]/5 shadow-sm rounded-2xl border border-gray-100"
         style={{
           paddingTop: dimensions.spacing['3xl'],
           paddingBottom: dimensions.spacing['3xl'],
@@ -84,26 +84,18 @@ const Utilidades: React.FC = () => {
         }}
       >
         <div className="flex items-center" style={{ gap: dimensions.spacing.sm, marginBottom: dimensions.spacing.lg }}>
-          <div 
-            className="rounded-full bg-blue-100 flex items-center justify-center"
-            style={{
-              width: dimensions.spacing.xl,
-              height: dimensions.spacing.xl
-            }}
-          >
-            <UserCheck size={scale(24)} className="text-blue-600" />
-          </div>
+          <UserCheck size={scale(24)} className="text-[#5D5A88]" />
           <h2 
             className={`${COLOR_CLASSES.textPrimary} font-semibold`}
-            style={{ fontSize: dimensions.fontSize.xl }}
+            style={{ fontSize: dimensions.fontSize['2xl'] }}
           >
             Permisos de Administrador
           </h2>
         </div>
         <p 
-          className="text-blue-700"
+          className="text-[#5D5A88]"
           style={{ 
-            fontSize: dimensions.fontSize.md,
+            fontSize: dimensions.fontSize.sm,
             lineHeight: '1.6'
           }}
         >
@@ -120,18 +112,10 @@ const Utilidades: React.FC = () => {
         }}
       >
         <div className="flex items-center" style={{ gap: dimensions.spacing.sm, marginBottom: dimensions.spacing.lg }}>
-          <div 
-            className="rounded-full bg-[#FF6E00] bg-opacity-10 flex items-center justify-center"
-            style={{
-              width: dimensions.spacing.xl,
-              height: dimensions.spacing.xl
-            }}
-          >
-            <Users size={scale(24)} className={COLOR_CLASSES.primary} />
-          </div>
+          <Users size={scale(24)} className={COLOR_CLASSES.primary} />
           <h2 
             className={`${COLOR_CLASSES.textPrimary} font-semibold`}
-            style={{ fontSize: dimensions.fontSize.xl }}
+            style={{ fontSize: dimensions.fontSize['2xl'] }}
           >
             Gestión de Usuarios
           </h2>
@@ -139,7 +123,7 @@ const Utilidades: React.FC = () => {
         <p 
           className={COLOR_CLASSES.textSecondary}
           style={{ 
-            fontSize: dimensions.fontSize.md,
+            fontSize: dimensions.fontSize.sm,
             marginBottom: dimensions.spacing.lg,
             lineHeight: '1.6'
           }}

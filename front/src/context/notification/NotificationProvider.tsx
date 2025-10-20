@@ -56,7 +56,7 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({ chil
         type,
         title,
         message,
-        duration: type === 'error' ? 7000 : 5000 // Errores duran más
+        duration: 5000 // Todas las notificaciones duran 5 segundos
       });
     };
 
