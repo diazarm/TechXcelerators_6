@@ -29,6 +29,15 @@ export const login = async (credentials: LoginCredentials): Promise<{ user: User
     
     const { user, token } = response.data.data;
     
+    // Validar que el usuario esté activo (validación adicional del frontend)
+    if (!user.isActive) {
+      logger.warn('Usuario desactivado intentó hacer login', { 
+        userId: user.id, 
+        email: user.email 
+      }, 'AuthService');
+      throw new Error('Usuario desactivado. Contacta al administrador.');
+    }
+    
     logger.info('Login exitoso', { 
       userId: user.id, 
       email: user.email, 
@@ -37,14 +46,28 @@ export const login = async (credentials: LoginCredentials): Promise<{ user: User
     }, 'AuthService');
     
     return { user, token };
-  } catch (error) {
+  } catch (error: any) {
     logger.error('Error en login', { 
       email: credentials.email, 
       error: error instanceof Error ? error.message : (error as Error)?.message || 'Unknown error',
-      errorType: error instanceof Error ? error.constructor.name : typeof error
+      errorType: error instanceof Error ? error.constructor.name : typeof error,
+      status: error?.response?.status
     }, 'AuthService');
     
-    // Re-lanzar el error para que sea manejado por el LoginForm
+    // Manejar errores específicos del backend
+    if (error?.response?.status === 403) {
+      throw new Error('Usuario desactivado. Contacta al administrador.');
+    }
+    
+    if (error?.response?.status === 404) {
+      throw new Error('Usuario no encontrado. Verifica tu email.');
+    }
+    
+    if (error?.response?.status === 401) {
+      throw new Error('Credenciales incorrectas.');
+    }
+    
+    // Re-lanzar el error original si no es un error HTTP conocido
     throw error;
   }
 };

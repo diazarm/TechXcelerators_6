@@ -41,8 +41,16 @@ export class UserService {
    */
   async getUsers(): Promise<IUser[]> {
     try {
-      const response = await api.get<UserListResponse>('/users');
-      return response.data.data || [];
+      // Obtener usuarios activos
+      const activeResponse = await api.get<UserListResponse>('/users');
+      const activeUsers = activeResponse.data.data || [];
+      
+      // Obtener usuarios eliminados (inactivos)
+      const deletedResponse = await api.get<UserListResponse>('/users/deleted');
+      const deletedUsers = deletedResponse.data.data || [];
+      
+      // Combinar ambos arrays
+      return [...activeUsers, ...deletedUsers];
     } catch (error) {
       console.error('Error fetching users:', error);
       throw error;
@@ -92,8 +100,19 @@ export class UserService {
    */
   async toggleUserStatus(userId: string): Promise<IUser> {
     try {
-      const response = await api.patch<UserResponse>(`/users/${userId}/toggle-status`);
-      return response.data.data;
+      // Primero obtenemos el usuario para ver su estado actual
+      const userResponse = await api.get<UserResponse>(`/users/${userId}`);
+      const user = userResponse.data.data;
+      
+      if (user.isActive) {
+        // Si está activo, lo desactivamos (soft delete)
+        await api.delete(`/users/${userId}`);
+        return { ...user, isActive: false, deletedAt: new Date().toISOString() };
+      } else {
+        // Si está inactivo, lo restauramos
+        const response = await api.patch<UserResponse>(`/users/restore/${userId}`);
+        return response.data.data;
+      }
     } catch (error) {
       console.error('Error toggling user status:', error);
       throw error;
