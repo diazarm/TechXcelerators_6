@@ -15,7 +15,7 @@ const LOGO_MAP: Record<string, string> = {
   'UP': '/img/panamericana.png',
   'UCSS': '/img/ucatolica.png', // Universidad Católica Sedes Sapientiae
   'UAC': '/img/ucusco.png', // Universidad Andina del Cusco
-  'UNINORTE': '/img/UniNorte.png' // Universidad del Norte
+  'UNINORTE': '/img/uninorte.png' // Universidad del Norte
 };
 
 /**

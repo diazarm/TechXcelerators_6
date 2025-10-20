@@ -22,7 +22,7 @@ export const useSearch = () => {
   const [error, setError] = useState<string | null>(null);
   
   // Ref para el timeout del debounce
-  const debounceTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const debounceTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   /**
    * Función para realizar la búsqueda real

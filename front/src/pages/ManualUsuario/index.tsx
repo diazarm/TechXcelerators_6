@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { BookOpen, FileText, HelpCircle, Users, Search, Settings, Shield, Home, LogIn, UserPlus, Edit3, EyeOff, RotateCcw, Info, Lock, AlertCircle } from 'react-feather';
+import { BookOpen, FileText, HelpCircle, Settings, Shield, Home, LogIn, Edit3, EyeOff, RotateCcw, Info, Lock, AlertCircle } from 'react-feather';
 import { useScreenSize } from '../../context';
 import { COLOR_CLASSES } from '../../constants';
 
