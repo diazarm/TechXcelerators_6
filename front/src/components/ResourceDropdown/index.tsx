@@ -90,6 +90,21 @@ const ResourceDropdown: React.FC<ResourceDropdownProps> = ({
             >
               Manual de Usuario
             </Link>
+            <Link
+              to="/utilidades"
+              role="menuitem"
+              className={`${COLOR_CLASSES.textPrimary} hover:bg-gray-100 transition-colors block`}
+              style={{
+                paddingLeft: dimensions.spacing.md,
+                paddingRight: dimensions.spacing.md,
+                paddingTop: dimensions.spacing.sm,
+                paddingBottom: dimensions.spacing.sm,
+                fontSize: dimensions.fontSize.sm
+              }}
+              onClick={onToggle}
+            >
+              Utilidades
+            </Link>
           </div>
         </div>
       )}

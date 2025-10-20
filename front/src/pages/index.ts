@@ -30,3 +30,4 @@ export { default as Gestion } from './Gestion';
 export { default as Planeacion } from './Planeacion';
 export { default as Iniciativas } from './iniciativas';
 export { default as Galeria } from './Galeria';
+export { default as Utilidades } from './Utilidades';

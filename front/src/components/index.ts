@@ -79,3 +79,7 @@ export type { ResourceDropdownProps } from './ResourceDropdown/types';
 // Componentes de protección de rutas
 export { default as AuthGuard } from './AuthGuard';
 
+// Componentes de gestión
+export { UserManagement } from './UserManagement';
+export { RoleChangeModal } from './RoleChangeModal';
+

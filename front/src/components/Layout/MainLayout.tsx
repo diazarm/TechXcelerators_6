@@ -14,7 +14,8 @@ const MainLayout: React.FC<MainLayoutProps> = ({
   const isHomePage = location.pathname === "/";
   const isLoginPage = location.pathname === "/login";
   const isManualPage = location.pathname === "/manual-usuario";
-  const shouldShowHeader = !isHomePage && !isLoginPage && !isManualPage;
+  const isUtilidadesPage = location.pathname === "/utilidades";
+  const shouldShowHeader = !isHomePage && !isLoginPage && !isManualPage && !isUtilidadesPage;
 
   // Scroll to top en cada cambio de ruta
   useEffect(() => {
