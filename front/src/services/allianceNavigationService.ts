@@ -52,12 +52,28 @@ export const getAlliances = async (): Promise<Alliance[]> => {
 };
 
 /**
- * Busca un recurso específico por nombre dentro de una sección
+ * Busca un recurso específico por ID primero, luego por nombre como fallback
  * @param resources - Array de recursos
- * @param resourceName - Nombre del recurso a buscar
+ * @param resourceName - Nombre del recurso a buscar (fallback)
+ * @param resourceId - ID del recurso a buscar (prioritario)
  * @returns Resultado de la búsqueda
  */
-export const findResourceByName = (resources: IResource[], resourceName?: string): ResourceSearchResult => {
+export const findResourceByName = (resources: IResource[], resourceName?: string, resourceId?: string): ResourceSearchResult => {
+  // 1. Buscar por ID primero (más confiable)
+  if (resourceId) {
+    const targetResource = resources.find(resource => resource._id === resourceId);
+    if (targetResource) {
+      if (!targetResource.isActive) {
+        return {
+          success: false,
+          error: `El recurso "${targetResource.name}" está temporalmente deshabilitado. Contacte al administrador.`
+        };
+      }
+      return { success: true, resource: targetResource };
+    }
+  }
+  
+  // 2. Fallback: buscar por nombre
   if (!resourceName) {
     return {
       success: true,
@@ -196,7 +212,7 @@ export const findAllAllianceLinks = (resource: IResource, alliance: Alliance) =>
  * Maneja clicks en cards de alianza
  * Función principal que coordina toda la lógica de navegación
  */
-export const handleAllianceCardClick = async (sectionType: string, resourceName?: string, showModal?: boolean) => {
+export const handleAllianceCardClick = async (sectionType: string, resourceName?: string, showModal?: boolean, resourceId?: string) => {
   try {
     try {
       // Obtener todos los recursos de la sección
@@ -204,8 +220,8 @@ export const handleAllianceCardClick = async (sectionType: string, resourceName?
       
       if (resources.length > 0) {
         
-        // Buscar el recurso objetivo
-        const searchResult = findResourceByName(resources, resourceName);
+        // Buscar el recurso objetivo por ID primero, luego por nombre como fallback
+        const searchResult = findResourceByName(resources, resourceName, resourceId);
         
         if (!searchResult.success) {
           showNotification('error', 'Recurso no encontrado', searchResult.error || 'Error desconocido');

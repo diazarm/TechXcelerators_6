@@ -30,12 +30,14 @@ export const useResourceManagement = () => {
   }) => {
     if (!selectedResource) return;
     
+    // 1. Actualizar en backend
     const updatedResource = await updateResource(selectedResource._id, resourceData);
+    
+    // 2. Disparar evento para refresh automático
     window.dispatchEvent(new CustomEvent('resourceUpdated', {
       detail: { 
-        resourceId: selectedResource._id, 
-        oldName: selectedResource.name,
-        newName: resourceData.name,
+        resourceId: selectedResource._id,
+        shouldRefresh: true, // ← Nueva bandera
         resource: updatedResource
       }
     }));

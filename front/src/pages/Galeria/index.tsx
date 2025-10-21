@@ -38,9 +38,36 @@ const Galeria: React.FC = () => {
     getAlliances();
   }, [getAlliances]);
 
-  // Actualizar cards cuando baseCards cambia (solo al montar)
+  // Cargar cards frescas del backend al montar
   useEffect(() => {
-    setCards(baseCards);
+    const loadFreshCards = async () => {
+      try {
+        const { resourceService } = await import('../../services/resourceService');
+        const freshResources = await resourceService.getResourcesBySection('68cadd9354f9344f27defc83');
+        
+        // Actualizar cards con datos frescos del backend
+        setCards(prevCards => {
+          const updatedCards = prevCards.map(card => {
+            const freshResource = freshResources.find(r => r._id === card.resourceId);
+            if (freshResource) {
+              return {
+                ...card,
+                title: freshResource.name,
+                resourceName: freshResource.name
+              };
+            }
+            return card;
+          });
+          return updatedCards;
+        });
+      } catch (error) {
+        console.error('Error al cargar cards frescas al montar:', error);
+        // Fallback a baseCards si hay error
+        setCards(baseCards);
+      }
+    };
+
+    loadFreshCards();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -85,6 +112,47 @@ const Galeria: React.FC = () => {
     
     return () => {
       window.removeEventListener('resourceRestored', handleResourceRestored as EventListener);
+    };
+  }, []);
+
+  // Escuchar evento de recurso actualizado para refresh automático
+  useEffect(() => {
+    const handleResourceUpdated = async (event: any) => {
+      const { shouldRefresh } = event.detail;
+      
+      if (shouldRefresh) {
+        try {
+          // Importar servicio dinámicamente
+          const { resourceService } = await import('../../services/resourceService');
+          
+          // Hacer nueva consulta al backend para obtener datos frescos
+          const freshResources = await resourceService.getResourcesBySection('68cadd9354f9344f27defc83');
+          
+          // Actualizar cards con datos frescos del backend
+          setCards(prevCards => {
+            const updatedCards = prevCards.map(card => {
+              const freshResource = freshResources.find(r => r._id === card.resourceId);
+              if (freshResource) {
+                return {
+                  ...card,
+                  title: freshResource.name,
+                  resourceName: freshResource.name
+                };
+              }
+              return card;
+            });
+            return updatedCards;
+          });
+        } catch (error) {
+          console.error('Error al refrescar recursos:', error);
+        }
+      }
+    };
+
+    window.addEventListener('resourceUpdated', handleResourceUpdated as EventListener);
+    
+    return () => {
+      window.removeEventListener('resourceUpdated', handleResourceUpdated as EventListener);
     };
   }, []);
 
