@@ -29,6 +29,7 @@ const Alianza: React.FC = () => {
   
   // Estado local para las cards con su isActive actualizado
   const [cards, setCards] = useState<CardConfig[]>(baseCards);
+  const [cardsLoading, setCardsLoading] = useState(true);
   
   const { alliances, loading, error, getAlliances } = useAlliances();
   usePageHeader(); // Configuración automática del título
@@ -42,6 +43,7 @@ const Alianza: React.FC = () => {
   useEffect(() => {
     const loadFreshCards = async () => {
       try {
+        setCardsLoading(true);
         const { resourceService } = await import('../../services/resourceService');
         const freshResources = await resourceService.getResourcesBySection('68c9f2d8d6dbf0c558131e16');
         
@@ -64,6 +66,8 @@ const Alianza: React.FC = () => {
         console.error('Error al cargar cards frescas al montar:', error);
         // Fallback a baseCards si hay error
         setCards(baseCards);
+      } finally {
+        setCardsLoading(false);
       }
     };
 
@@ -191,7 +195,14 @@ const Alianza: React.FC = () => {
       />
       
       {/* Grid de Tarjetas - El título ahora viene del Header dinámico */}
-      {cards.length > 0 ? (
+      {cardsLoading ? (
+        <LoadingSpinner 
+          type="default" 
+          size="large" 
+          message="Cargando recursos..."
+          fullScreen={false}
+        />
+      ) : cards.length > 0 ? (
       <CardGrid 
         cards={cards} 
         onCardClick={handleCardClick}

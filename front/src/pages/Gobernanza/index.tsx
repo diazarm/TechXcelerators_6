@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { CardGrid, ResourceEditModal, ResourceDeleteModal } from '../../components';
+import { CardGrid, ResourceEditModal, ResourceDeleteModal, LoadingSpinner } from '../../components';
 import { useCards, usePageHeader, useResourceManagement } from '../../hooks';
 import { useScreenSize } from '../../context';
 import type { CardConfig } from '../../constants';
@@ -19,6 +19,7 @@ const Gobernanza: React.FC = () => {
   });
   
   const [cards, setCards] = useState<CardConfig[]>(baseCards);
+  const [cardsLoading, setCardsLoading] = useState(true);
   
   usePageHeader();
 
@@ -26,6 +27,7 @@ const Gobernanza: React.FC = () => {
   useEffect(() => {
     const loadFreshCards = async () => {
       try {
+        setCardsLoading(true);
         const { resourceService } = await import('../../services/resourceService');
         const freshResources = await resourceService.getResourcesBySection('68cadb4f54f9344f27defc7b');
         
@@ -48,6 +50,8 @@ const Gobernanza: React.FC = () => {
         console.error('Error al cargar cards frescas al montar:', error);
         // Fallback a baseCards si hay error
         setCards(baseCards);
+      } finally {
+        setCardsLoading(false);
       }
     };
 
@@ -152,7 +156,14 @@ const Gobernanza: React.FC = () => {
         onConfirm={handleSoftDeleteResource}
       />
       
-      {cards.length > 0 ? (
+      {cardsLoading ? (
+        <LoadingSpinner 
+          type="default" 
+          size="large" 
+          message="Cargando recursos..."
+          fullScreen={false}
+        />
+      ) : cards.length > 0 ? (
         <CardGrid 
           cards={cards} 
           onCardClick={handleCardClick}

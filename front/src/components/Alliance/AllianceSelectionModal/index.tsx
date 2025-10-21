@@ -211,8 +211,8 @@ export const AllianceSelectionModal: React.FC<AllianceSelectionModalProps> = ({
                       <div 
                         className="rounded-xl bg-gradient-to-br from-gray-50 to-gray-100 border border-gray-200/50 group-hover:border-[#FF6E00]/40 group-hover:from-[#FFF5F0] group-hover:to-[#FFE5D6] flex items-center justify-center overflow-hidden transition-all duration-200 shadow-sm group-hover:shadow-md"
                         style={{
-                          width: `${scale(64)}px`,
-                          height: `${scale(64)}px`,
+                          width: `${scale(alliance.siglas === 'UNINORTE' ? 96 : 64)}px`,
+                          height: `${scale(alliance.siglas === 'UNINORTE' ? 96 : 64)}px`,
                           borderRadius: `${scale(12)}px`
                         }}
                       >
@@ -221,8 +221,8 @@ export const AllianceSelectionModal: React.FC<AllianceSelectionModalProps> = ({
                           alt={`Logo ${alliance.siglas}`}
                           className="object-contain filter group-hover:brightness-105 transition-all duration-200"
                           style={{
-                            width: `${scale(48)}px`,
-                            height: `${scale(48)}px`
+                            width: `${scale(alliance.siglas === 'UNINORTE' ? 80 : 48)}px`,
+                            height: `${scale(alliance.siglas === 'UNINORTE' ? 80 : 48)}px`
                           }}
                           onError={(e) => {
                             (e.target as HTMLImageElement).src = '/img/Logo3.png';

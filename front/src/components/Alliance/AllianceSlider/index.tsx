@@ -11,9 +11,11 @@ import { scale } from '../../../utils';
 const AllianceItem: React.FC<AllianceItemProps> = ({ alliance }) => {
   const { scale } = useScreenSize();
   
-  // Tamaño base de 80px escalado según pantalla
-  const logoSize = scale(80);
-  const containerWidth = scale(144); // 80 * 1.8
+  // Tamaño base de 80px escalado según pantalla, más grande para Uninorte
+  const baseSize = alliance.id === 'uninorte' ? 100 : 80;
+  const logoSize = scale(baseSize);
+  const containerWidth = scale(baseSize * 1.8);
+  const containerHeight = scale(80); // Altura fija para todos los logos
   const marginH = scale(24);
 
   const content = (
@@ -36,7 +38,7 @@ const AllianceItem: React.FC<AllianceItemProps> = ({ alliance }) => {
       className="flex items-center justify-center flex-shrink-0"
       style={{
         width: `${containerWidth}px`,
-        height: `${logoSize}px`,
+        height: `${containerHeight}px`,
         marginLeft: `${marginH}px`,
         marginRight: `${marginH}px`,
       }}

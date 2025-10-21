@@ -29,6 +29,7 @@ const Galeria: React.FC = () => {
   
   // Estado local para las cards con su isActive actualizado
   const [cards, setCards] = useState<CardConfig[]>(baseCards);
+  const [cardsLoading, setCardsLoading] = useState(true);
   
   const { alliances, loading, error, getAlliances } = useAlliances();
   usePageHeader(); // Configuración automática del título
@@ -42,6 +43,7 @@ const Galeria: React.FC = () => {
   useEffect(() => {
     const loadFreshCards = async () => {
       try {
+        setCardsLoading(true);
         const { resourceService } = await import('../../services/resourceService');
         const freshResources = await resourceService.getResourcesBySection('68cadd9354f9344f27defc83');
         
@@ -64,6 +66,8 @@ const Galeria: React.FC = () => {
         console.error('Error al cargar cards frescas al montar:', error);
         // Fallback a baseCards si hay error
         setCards(baseCards);
+      } finally {
+        setCardsLoading(false);
       }
     };
 
@@ -195,7 +199,14 @@ const Galeria: React.FC = () => {
       />
       
       {/* Grid de Tarjetas - El título ahora viene del Header dinámico */}
-      {cards.length > 0 ? (
+      {cardsLoading ? (
+        <LoadingSpinner 
+          type="default" 
+          size="large" 
+          message="Cargando recursos..."
+          fullScreen={false}
+        />
+      ) : cards.length > 0 ? (
       <CardGrid 
         cards={cards} 
         onCardClick={handleCardClick}

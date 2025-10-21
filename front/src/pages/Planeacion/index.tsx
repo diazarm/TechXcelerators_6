@@ -29,6 +29,7 @@ const Planeacion: React.FC = () => {
   
   // Estado local para las cards con su isActive actualizado
   const [cards, setCards] = useState<CardConfig[]>(baseCards);
+  const [cardsLoading, setCardsLoading] = useState(true);
   
   const { alliances, loading, error, getAlliances } = useAlliances();
   usePageHeader(); // Configuración automática del título
@@ -42,6 +43,7 @@ const Planeacion: React.FC = () => {
   useEffect(() => {
     const loadFreshCards = async () => {
       try {
+        setCardsLoading(true);
         const { resourceService } = await import('../../services/resourceService');
         const freshResources = await resourceService.getResourcesBySection('68cadba054f9344f27defc7d');
         
@@ -64,6 +66,8 @@ const Planeacion: React.FC = () => {
         console.error('Error al cargar cards frescas al montar:', error);
         // Fallback a baseCards si hay error
         setCards(baseCards);
+      } finally {
+        setCardsLoading(false);
       }
     };
 
@@ -191,7 +195,14 @@ const Planeacion: React.FC = () => {
       />
       
       {/* Grid de Tarjetas - Mejorado con contenedor controlado */}
-      {cards.length > 0 ? (
+      {cardsLoading ? (
+        <LoadingSpinner 
+          type="default" 
+          size="large" 
+          message="Cargando recursos..."
+          fullScreen={false}
+        />
+      ) : cards.length > 0 ? (
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"> {/* Contenedor adicional para controlar ancho máximo */}
           <CardGrid 
             cards={cards} 

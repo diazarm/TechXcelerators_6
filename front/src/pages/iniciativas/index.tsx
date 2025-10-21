@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { CardGrid, ResourceEditModal, ResourceDeleteModal } from '../../components';
+import { CardGrid, ResourceEditModal, ResourceDeleteModal, LoadingSpinner } from '../../components';
 import { useCards, usePageHeader, useResourceManagement } from '../../hooks';
 import { useScreenSize } from '../../context';
 import type { CardConfig } from '../../constants';
@@ -27,6 +27,7 @@ const Iniciativas: React.FC = () => {
   
   // Estado local para las cards con su isActive actualizado
   const [cards, setCards] = useState<CardConfig[]>(baseCards);
+  const [cardsLoading, setCardsLoading] = useState(true);
   
   usePageHeader(); // Configuración automática del título
 
@@ -34,6 +35,7 @@ const Iniciativas: React.FC = () => {
   useEffect(() => {
     const loadFreshCards = async () => {
       try {
+        setCardsLoading(true);
         const { resourceService } = await import('../../services/resourceService');
         const freshResources = await resourceService.getResourcesBySection('68cadd0154f9344f27defc81');
         
@@ -56,6 +58,8 @@ const Iniciativas: React.FC = () => {
         console.error('Error al cargar cards frescas al montar:', error);
         // Fallback a baseCards si hay error
         setCards(baseCards);
+      } finally {
+        setCardsLoading(false);
       }
     };
 
@@ -166,7 +170,14 @@ const Iniciativas: React.FC = () => {
       />
       
       {/* Grid de Tarjetas - El título ahora viene del Header dinámico */}
-      {cards.length > 0 ? (
+      {cardsLoading ? (
+        <LoadingSpinner 
+          type="default" 
+          size="large" 
+          message="Cargando recursos..."
+          fullScreen={false}
+        />
+      ) : cards.length > 0 ? (
         <div className="flex justify-center">
               <CardGrid 
                 cards={cards} 
