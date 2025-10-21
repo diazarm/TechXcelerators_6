@@ -45,10 +45,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         setUser(validatedUser);
         // Actualizar localStorage con datos validados del backend
         localStorage.setItem('user', JSON.stringify(validatedUser));
-      } catch (validationError) {
+      } catch {
         logoutUser();
       }
-    } catch (err) {
+    } catch {
       logoutUser();
     } finally {
       setIsLoading(false);

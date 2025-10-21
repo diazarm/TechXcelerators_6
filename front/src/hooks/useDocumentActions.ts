@@ -41,9 +41,9 @@ export const useDocumentActions = (): UseDocumentActionsReturn => {
       await uploadDocument(data);
       showNotification('Documento subido exitosamente', 'success');
       return true;
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('[useDocumentActions] Error uploading document:', error);
-      const errorMessage = error?.response?.data?.message || 'Error al subir documento';
+      const errorMessage = (error as { response?: { data?: { message?: string } } })?.response?.data?.message || 'Error al subir documento';
       showNotification(errorMessage, 'error');
       return false;
     } finally {
@@ -63,9 +63,9 @@ export const useDocumentActions = (): UseDocumentActionsReturn => {
       await updateDocument(id, data);
       showNotification('Documento actualizado exitosamente', 'success');
       return true;
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('[useDocumentActions] Error updating document:', error);
-      const errorMessage = error?.response?.data?.message || 'Error al actualizar documento';
+      const errorMessage = (error as { response?: { data?: { message?: string } } })?.response?.data?.message || 'Error al actualizar documento';
       showNotification(errorMessage, 'error');
       return false;
     } finally {
@@ -82,9 +82,9 @@ export const useDocumentActions = (): UseDocumentActionsReturn => {
       await deleteDocument(id);
       showNotification(`Documento "${name}" desactivado exitosamente`, 'success');
       return true;
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('[useDocumentActions] Error deleting document:', error);
-      const errorMessage = error?.response?.data?.message || 'Error al desactivar documento';
+      const errorMessage = (error as { response?: { data?: { message?: string } } })?.response?.data?.message || 'Error al desactivar documento';
       showNotification(errorMessage, 'error');
       return false;
     } finally {
@@ -101,9 +101,9 @@ export const useDocumentActions = (): UseDocumentActionsReturn => {
       await restoreDocument(id);
       showNotification(`Documento "${name}" restaurado exitosamente`, 'success');
       return true;
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('[useDocumentActions] Error restoring document:', error);
-      const errorMessage = error?.response?.data?.message || 'Error al restaurar documento';
+      const errorMessage = (error as { response?: { data?: { message?: string } } })?.response?.data?.message || 'Error al restaurar documento';
       showNotification(errorMessage, 'error');
       return false;
     } finally {

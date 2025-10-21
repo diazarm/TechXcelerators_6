@@ -10,18 +10,14 @@ export class ResourceService {
    * GET /resources
    */
   async getAllResources(): Promise<IResource[]> {
-    try {
-      const response = await api.get<ResourceListResponse>(BASE_URL);
-      const data = response.data;
-      
-      if (!data.success) {
-        throw new Error(data.message || 'Error al obtener recursos');
-      }
-
-      return data.data;
-    } catch (error) {
-      throw error;
+    const response = await api.get<ResourceListResponse>(BASE_URL);
+    const data = response.data;
+    
+    if (!data.success) {
+      throw new Error(data.message || 'Error al obtener recursos');
     }
+
+    return data.data;
   }
 
   /**
@@ -29,18 +25,14 @@ export class ResourceService {
    * GET /resources/section/:sectionId
    */
   async getResourcesBySection(sectionId: string): Promise<IResource[]> {
-    try {
-      const response = await api.get<ResourceListResponse>(`${BASE_URL}/section/${sectionId}`);
-      const data = response.data;
-      
-      if (!data.success) {
-        throw new Error(data.message || 'Error al obtener recursos por sección');
-      }
-
-      return data.data;
-    } catch (error) {
-      throw error;
+    const response = await api.get<ResourceListResponse>(`${BASE_URL}/section/${sectionId}`);
+    const data = response.data;
+    
+    if (!data.success) {
+      throw new Error(data.message || 'Error al obtener recursos por sección');
     }
+
+    return data.data;
   }
 
   /**

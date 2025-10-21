@@ -57,7 +57,7 @@ export const useDocuments = (
       if (resetToFirstPage) {
         setCurrentPage(1);
       }
-    } catch (err) {
+    } catch {
       setError('Error al cargar documentos');
       showNotificationRef.current('Error al cargar documentos', 'error');
       setAllDocuments([]);

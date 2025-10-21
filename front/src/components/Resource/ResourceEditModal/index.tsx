@@ -117,7 +117,7 @@ export const ResourceEditModal: React.FC<ResourceEditModalProps> = ({
         role="dialog"
         aria-modal="true"
         aria-labelledby="edit-modal-title"
-        className="bg-white/95 backdrop-blur-md shadow-2xl border border-white/20 overflow-hidden animate-in zoom-in-95 duration-300"
+        className="bg-white/95 backdrop-blur-md shadow-2xl border border-white/20 overflow-hidden animate-in zoom-in-95 duration-300 flex flex-col"
         style={{ 
           borderRadius: `${scale(16)}px`,
           maxWidth: `${scale(600)}px`,
@@ -171,10 +171,10 @@ export const ResourceEditModal: React.FC<ResourceEditModalProps> = ({
 
         {/* Content */}
         <div 
-          className="overflow-y-auto"
+          className="overflow-y-auto flex-1"
           style={{ 
             padding: `${scale(24)}px`,
-            maxHeight: 'calc(90vh - 120px)'
+            maxHeight: 'calc(90vh - 200px)'
           }}
         >
           {/* Nombre */}
@@ -320,9 +320,9 @@ export const ResourceEditModal: React.FC<ResourceEditModalProps> = ({
           </div>
         </div>
 
-        {/* Footer */}
+        {/* Footer - Sticky */}
         <div 
-          className="flex items-center justify-end border-t border-gray-200/50"
+          className="flex items-center justify-end border-t border-gray-200/50 flex-shrink-0"
           style={{ 
             backgroundColor: 'rgba(93, 90, 136, 0.02)',
             padding: `${scale(24)}px`,

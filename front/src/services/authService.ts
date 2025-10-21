@@ -46,24 +46,25 @@ export const login = async (credentials: LoginCredentials): Promise<{ user: User
     }, 'AuthService');
     
     return { user, token };
-  } catch (error: any) {
+  } catch (error: unknown) {
     logger.error('Error en login', { 
       email: credentials.email, 
       error: error instanceof Error ? error.message : (error as Error)?.message || 'Unknown error',
       errorType: error instanceof Error ? error.constructor.name : typeof error,
-      status: error?.response?.status
+      status: (error as { response?: { status?: number } })?.response?.status
     }, 'AuthService');
     
     // Manejar errores específicos del backend
-    if (error?.response?.status === 403) {
+    const errorResponse = (error as { response?: { status?: number } })?.response;
+    if (errorResponse?.status === 403) {
       throw new Error('Usuario desactivado. Contacta al administrador.');
     }
     
-    if (error?.response?.status === 404) {
+    if (errorResponse?.status === 404) {
       throw new Error('Usuario no encontrado. Verifica tu email.');
     }
     
-    if (error?.response?.status === 401) {
+    if (errorResponse?.status === 401) {
       throw new Error('Credenciales incorrectas.');
     }
     

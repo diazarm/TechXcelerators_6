@@ -88,7 +88,7 @@ export const useAllianceNavigation = () => {
         )
       );
       
-    } catch (error) {
+    } catch {
       showNotification('error', 'Error de modal', 'Error al abrir la selección de alianzas');
     }
   }, []);
@@ -149,7 +149,7 @@ export const useAllianceNavigation = () => {
           // No hay recursos específicos para esta sección
           showNotification('info', 'Recursos próximamente', 'No hay recursos disponibles para esta sección. Próximamente se implementará esta funcionalidad.');
         }
-      } catch (resourceError) {
+      } catch {
         showNotification('error', 'Error de conexión', 'No se encontraron recursos para esta sección. Próximamente se implementará esta funcionalidad.');
       }
       

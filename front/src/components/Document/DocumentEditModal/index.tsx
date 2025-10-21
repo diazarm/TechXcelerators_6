@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 import { X, Edit3, FileText, FileMinus, File, AlertTriangle } from 'react-feather';
 import { useScreenSize } from '../../../context';
 import { useResponsive, useFocusTrap, useEscapeKey } from '../../../hooks';
@@ -159,9 +160,10 @@ export const DocumentEditModal: React.FC<DocumentEditModalProps> = ({
     return <File size={scale(24)} className="text-gray-500" />;
   };
 
-  return (
+  const modalContent = (
     <div 
-      className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-in fade-in duration-300"
+      className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in duration-300"
+      style={{ zIndex: 9999 }}
       onClick={handleBackdropClick}
       role="presentation"
     >
@@ -359,30 +361,31 @@ export const DocumentEditModal: React.FC<DocumentEditModalProps> = ({
             </select>
           </div>
 
+          {/* Footer */}
+          <div className="flex items-center justify-end gap-3 border-t border-gray-200 bg-gray-50" style={{ padding: scale(16) }}>
+            <Button
+              type="button"
+              variant="secondary"
+              size="sm"
+              onClick={handleCloseModal}
+              disabled={updateLoading}
+            >
+              Cancelar
+            </Button>
+            <Button
+              type="submit"
+              variant="primary"
+              size="sm"
+              disabled={updateLoading}
+            >
+              {updateLoading ? 'Guardando...' : 'Guardar Cambios'}
+            </Button>
+          </div>
           </form>
-        </div>
-
-        {/* Footer */}
-        <div className="flex items-center justify-end gap-3 border-t border-gray-200 bg-gray-50" style={{ padding: scale(16) }}>
-          <Button
-            type="button"
-            variant="secondary"
-            size="sm"
-            onClick={handleCloseModal}
-            disabled={updateLoading}
-          >
-            Cancelar
-          </Button>
-          <Button
-            type="submit"
-            variant="primary"
-            size="sm"
-            disabled={updateLoading}
-          >
-            {updateLoading ? 'Guardando...' : 'Guardar Cambios'}
-          </Button>
         </div>
       </div>
     </div>
   );
+
+  return isOpen ? createPortal(modalContent, window.document.body) : null;
 };

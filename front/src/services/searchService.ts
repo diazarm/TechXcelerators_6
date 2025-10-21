@@ -99,9 +99,9 @@ export const searchFromBackend = async (
     });
     
     return transformBackendResponse(response.data as BackendSearchResponse);
-  } catch (error: any) {
+  } catch (error: unknown) {
     // Si es 404 de búsqueda, retornar array vacío silenciosamente
-    if (error?.response?.status === 404) {
+    if ((error as { response?: { status?: number } })?.response?.status === 404) {
       return [];
     }
     // Para otros errores, lanzar

@@ -29,26 +29,22 @@ export class AllianceService {
    * GET /alliances
    */
   async getAlliances(filters?: AllianceFilters): Promise<Alliance[]> {
-    try {
-      const params = new URLSearchParams();
-      if (filters?.isActive !== undefined) {
-        params.append('isActive', filters.isActive.toString());
-      }
-      if (filters?.includeDeleted) {
-        params.append('includeDeleted', 'true');
-      }
-
-      const response = await api.get<AllianceListApiResponse>(`${BASE_URL}?${params.toString()}`);
-      const data = response.data;
-      
-      if (!data.success) {
-        throw new Error(data.message || 'Error al obtener alianzas');
-      }
-
-      return data.data;
-    } catch (error: unknown) {
-      throw error;
+    const params = new URLSearchParams();
+    if (filters?.isActive !== undefined) {
+      params.append('isActive', filters.isActive.toString());
     }
+    if (filters?.includeDeleted) {
+      params.append('includeDeleted', 'true');
+    }
+
+    const response = await api.get<AllianceListApiResponse>(`${BASE_URL}?${params.toString()}`);
+    const data = response.data;
+    
+    if (!data.success) {
+      throw new Error(data.message || 'Error al obtener alianzas');
+    }
+
+    return data.data;
   }
 
   /**
@@ -80,18 +76,14 @@ export class AllianceService {
    * POST /alliances
    */
   async createAlliance(data: CreateAllianceRequest): Promise<Alliance> {
-    try {
-      const response = await api.post<AllianceApiResponse>(BASE_URL, data);
-      const result = response.data;
-      
-      if (!result.success) {
-        throw new Error(result.message || 'Error al crear alianza');
-      }
-
-      return result.data;
-    } catch (error: unknown) {
-      throw error;
+    const response = await api.post<AllianceApiResponse>(BASE_URL, data);
+    const result = response.data;
+    
+    if (!result.success) {
+      throw new Error(result.message || 'Error al crear alianza');
     }
+
+    return result.data;
   }
 
   /**
@@ -99,18 +91,14 @@ export class AllianceService {
    * PUT /alliances/:id
    */
   async updateAlliance(id: string, data: UpdateAllianceRequest): Promise<Alliance> {
-    try {
-      const response = await api.put<AllianceApiResponse>(`${BASE_URL}/${id}`, data);
-      const result = response.data;
-      
-      if (!result.success) {
-        throw new Error(result.message || 'Error al actualizar alianza');
-      }
-
-      return result.data;
-    } catch (error: unknown) {
-      throw error;
+    const response = await api.put<AllianceApiResponse>(`${BASE_URL}/${id}`, data);
+    const result = response.data;
+    
+    if (!result.success) {
+      throw new Error(result.message || 'Error al actualizar alianza');
     }
+
+    return result.data;
   }
 
   /**
@@ -118,15 +106,11 @@ export class AllianceService {
    * DELETE /alliances/:id
    */
   async deleteAlliance(id: string): Promise<void> {
-    try {
-      const response = await api.delete<AllianceApiResponse>(`${BASE_URL}/${id}`);
-      const result = response.data;
-      
-      if (!result.success) {
-        throw new Error(result.message || 'Error al eliminar alianza');
-      }
-    } catch (error: unknown) {
-      throw error;
+    const response = await api.delete<AllianceApiResponse>(`${BASE_URL}/${id}`);
+    const result = response.data;
+    
+    if (!result.success) {
+      throw new Error(result.message || 'Error al eliminar alianza');
     }
   }
 
@@ -135,18 +119,14 @@ export class AllianceService {
    * PATCH /alliances/restore/:id
    */
   async restoreAlliance(id: string): Promise<Alliance> {
-    try {
-      const response = await api.patch<AllianceApiResponse>(`${BASE_URL}/restore/${id}`);
-      const result = response.data;
-      
-      if (!result.success) {
-        throw new Error(result.message || 'Error al restaurar alianza');
-      }
-
-      return result.data;
-    } catch (error: unknown) {
-      throw error;
+    const response = await api.patch<AllianceApiResponse>(`${BASE_URL}/restore/${id}`);
+    const result = response.data;
+    
+    if (!result.success) {
+      throw new Error(result.message || 'Error al restaurar alianza');
     }
+
+    return result.data;
   }
 }
 
