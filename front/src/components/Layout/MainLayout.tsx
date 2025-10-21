@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useLocation, Outlet } from "react-router-dom";
 import { useScreenSize } from "../../context";
 import type { MainLayoutProps } from "./types";
-import { Navbar, Footer, Header } from "../../components";
+import { Navbar, Footer, Header } from "../index";
 
 const MainLayout: React.FC<MainLayoutProps> = ({
   className = "",

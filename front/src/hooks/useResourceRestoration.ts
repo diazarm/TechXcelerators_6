@@ -3,7 +3,7 @@ import { getDeletedResources, restoreResource } from '../services/resourceManage
 import { showNotification } from '../services';
 import { getAllSections } from '../constants';
 import type { IResource } from '../types/resource';
-import type { SectionOption } from '../components/SectionFilter/types';
+import type { SectionOption } from '../components/Search/SectionFilter/types';
 
 interface UseResourceRestorationProps {
   /** ID de la sección actual (opcional) */

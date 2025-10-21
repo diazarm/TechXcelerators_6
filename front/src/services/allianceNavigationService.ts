@@ -262,7 +262,7 @@ export const handleAllianceCardClick = async (sectionType: string, resourceName?
 export const showAllianceSelectionModal = async (alliances: Alliance[], resource: IResource): Promise<void> => {
   try {
     // Importar modal dinámicamente
-    const { AllianceSelectionModal } = await import('../components/AllianceSelectionModal');
+    const { AllianceSelectionModal } = await import('../components/Alliance/AllianceSelectionModal');
     const React = await import('react');
     const { createRoot } = await import('react-dom/client');
     const { ScreenSizeProvider } = await import('../context/screenSize/ScreenSizeProvider');

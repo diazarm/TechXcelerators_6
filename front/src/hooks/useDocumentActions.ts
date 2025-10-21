@@ -11,7 +11,7 @@ import {
   downloadDocument as downloadDocumentService,
 } from '../services';
 import { useNotification } from './useNotification';
-import type { IDocument, DocumentUploadData, DocumentUpdateData } from '../types/document';
+import type { DocumentUploadData, DocumentUpdateData } from '../types/document';
 
 interface UseDocumentActionsReturn {
   uploadLoading: boolean;

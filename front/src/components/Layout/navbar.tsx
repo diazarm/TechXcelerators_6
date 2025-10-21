@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X } from "react-feather";
-import { Button, ResourceDropdown, OptimizedImage } from "../../components"; // 👈 limpio desde barrel file
+import { Button, ResourceDropdown, OptimizedImage } from "../index"; // 👈 limpio desde barrel file
 import { useAuth, useNotification } from "../../hooks";
 import { useScreenSize } from "../../context";
 import { COLOR_CLASSES } from "../../constants";

@@ -136,7 +136,7 @@ export const downloadDocument = async (id: string, mimeType: string, filename?: 
     });
 
     // Crear URL del blob con el tipo MIME correcto
-    const blob = new Blob([response.data], { type: mimeType });
+    const blob = new Blob([response.data as BlobPart], { type: mimeType });
     const url = window.URL.createObjectURL(blob);
     
     // Si es PDF, abrir en nueva pestaña

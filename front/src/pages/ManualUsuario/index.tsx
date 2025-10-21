@@ -642,7 +642,7 @@ const ManualUsuario: React.FC = () => {
               lineHeight: '1.6'
           }}
         >
-            Si tienes preguntas específicas o necesitas asistencia técnica, contacta al administrador del sistema o revisa la documentación adicional disponible en tu organización.
+            Si tienes preguntas específicas o necesitas asistencia técnica, contacta al administrador del sistema o revisa la documentación adicional disponible en utilidades.
         </p>
         </div>
       </div>

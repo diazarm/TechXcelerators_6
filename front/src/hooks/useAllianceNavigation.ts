@@ -30,7 +30,7 @@ export const useAllianceNavigation = () => {
   const showAllianceSelectionModal = useCallback(async (alliances: Alliance[], resource: IResource) => {
     try {
       // Importar modal dinámicamente
-      const { AllianceSelectionModal } = await import('../components/AllianceSelectionModal');
+      const { AllianceSelectionModal } = await import('../components/Alliance/AllianceSelectionModal');
       const React = await import('react');
       const { createRoot } = await import('react-dom/client');
       const { ScreenSizeProvider } = await import('../context/screenSize/ScreenSizeProvider');

@@ -3,11 +3,11 @@ import { Link, useLocation } from "react-router-dom";
 import { Plus, UserPlus, RotateCcw } from "react-feather";
 import { useHeader, useAuth } from "../../hooks";
 import { useScreenSize } from "../../context";
-import { SearchBar, Button } from "../../components";
+import { SearchBar, Button } from "../index";
 import { getUserPermissions } from "../../utils";
 import { getSectionByRoute } from "../../constants";
 import { useResourceRestoration } from "../../hooks/useResourceRestoration";
-import { ResourceRestoreModal } from "../ResourceRestoreModal";
+import { ResourceRestoreModal } from "../Resource/ResourceRestoreModal";
 import type { HeaderProps } from "./types";
 
 
@@ -162,7 +162,7 @@ export const Header: React.FC<HeaderProps> = ({ title }) => {
                 marginTop: dimensions.spacing.sm
               }}
             >
-              {header.description.split('\n').map((line, index) => (
+              {header.description.split('\n').map((line: string, index: number) => (
                 <React.Fragment key={index}>
                   {line}
                   {index < header.description!.split('\n').length - 1 && <br />}

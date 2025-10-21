@@ -10,7 +10,7 @@ import { CollapsibleSection, UserManagement, DocumentManagement } from '../../co
  * Diseño consistente con Manual de Usuario pero con autenticación requerida
  */
 const Utilidades: React.FC = () => {
-  const { scale, getContainerForScreen, getResponsivePadding, getResponsiveMargin, getResponsiveText } = useScreenSize();
+  const { dimensions, scale, getContainerForScreen, getResponsivePadding, getResponsiveMargin, getResponsiveText } = useScreenSize();
   const { user } = useAuth();
   const isAdmin = user?.isAdmin || false;
   const mainRef = useRef<HTMLDivElement>(null);
@@ -87,13 +87,19 @@ const Utilidades: React.FC = () => {
     >
       {/* Header con banner - Dinámico según rol */}
       <header 
-        className={`text-center bg-white shadow-sm rounded-2xl border border-gray-100 ${getResponsivePadding('large')} ${getResponsiveMargin('medium')}`}
+        className="text-center bg-white rounded-2xl shadow-sm border border-gray-100"
+        style={{
+          paddingTop: dimensions.spacing['3xl'],
+          paddingBottom: dimensions.spacing['3xl'],
+          marginBottom: dimensions.spacing['2xl']
+        }}
         role="banner"
         aria-labelledby="utilidades-title"
       >
         {/* Ícono y título siempre juntos, centrados */}
         <div 
-          className="flex items-center justify-center gap-2 mb-4"
+          className="flex items-center justify-center"
+          style={{ gap: dimensions.spacing.sm, marginBottom: dimensions.spacing.lg }}
         >
           {/* Ícono */}
           <div 
@@ -113,14 +119,20 @@ const Utilidades: React.FC = () => {
           {/* Título responsivo según rol */}
           <h1 
             id="utilidades-title"
-            className={`${COLOR_CLASSES.textPrimary} font-bold ${getResponsiveText('large')}`}
+            className={`${COLOR_CLASSES.textPrimary} font-bold`}
+            style={{ fontSize: dimensions.fontSize['2xl'] }}
           >
             {isAdmin ? 'Utilidades' : 'Documentos Disponibles'}
           </h1>
         </div>
         <p 
-          className={`${COLOR_CLASSES.textSecondary} mx-auto max-w-2xl ${getResponsiveText('medium')} px-4`}
-          style={{ lineHeight: '1.6' }}
+          className={COLOR_CLASSES.textSecondary}
+          style={{ 
+            fontSize: dimensions.fontSize.xl,
+            maxWidth: `${scale(700)}px`,
+            margin: '0 auto',
+            lineHeight: '1.6'
+          }}
         >
           {isAdmin 
             ? 'Gestión administrativa del sistema'
@@ -128,7 +140,13 @@ const Utilidades: React.FC = () => {
           }
         </p>
         <p 
-          className={`text-[#6B7280] mx-auto max-w-xl ${getResponsiveText('small')} px-4 mt-2`}
+          className="text-[#6B7280]"
+          style={{ 
+            fontSize: dimensions.fontSize.sm,
+            maxWidth: `${scale(600)}px`,
+            margin: '0 auto',
+            marginTop: dimensions.spacing.sm
+          }}
         >
           {isAdmin 
             ? 'Administra usuarios, roles y configuraciones del sistema'

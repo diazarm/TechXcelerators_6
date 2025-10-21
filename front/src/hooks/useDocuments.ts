@@ -4,7 +4,7 @@
 
 import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { getDocuments } from '../services';
-import type { IDocument, DocumentFilters } from '../types/document';
+import type { IDocument } from '../types/document';
 import { useNotification } from './useNotification';
 import { useAuth } from './useAuth';
 
