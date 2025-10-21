@@ -68,6 +68,34 @@ export const ScreenSizeProvider = ({ children }: ScreenSizeProviderProps) => {
     }
   };
 
+  // NUEVO: Clases responsive para secciones complejas (tablas, formularios)
+  const getResponsivePadding = (size: 'small' | 'medium' | 'large' = 'medium'): string => {
+    const sizes = {
+      small: 'p-3 sm:p-4 lg:p-5',
+      medium: 'p-4 sm:p-6 lg:p-8',
+      large: 'p-6 sm:p-8 lg:p-10'
+    };
+    return sizes[size];
+  };
+
+  const getResponsiveMargin = (size: 'small' | 'medium' | 'large' = 'medium'): string => {
+    const sizes = {
+      small: 'mb-3 sm:mb-4 lg:mb-5',
+      medium: 'mb-4 sm:mb-6 lg:mb-8',
+      large: 'mb-6 sm:mb-8 lg:mb-10'
+    };
+    return sizes[size];
+  };
+
+  const getResponsiveText = (size: 'small' | 'medium' | 'large' = 'medium'): string => {
+    const sizes = {
+      small: 'text-sm sm:text-base',
+      medium: 'text-base sm:text-lg lg:text-xl',
+      large: 'text-lg sm:text-xl lg:text-2xl'
+    };
+    return sizes[size];
+  };
+
   // Valor del contexto: TODO lo actual + LO NUEVO
   const contextValue: ScreenSizeContextType = {
     // TODO LO ACTUAL (sin tocar)
@@ -79,6 +107,9 @@ export const ScreenSizeProvider = ({ children }: ScreenSizeProviderProps) => {
     getContainerForScreen,
     getGridForScreen,
     getGapForScreen,
+    getResponsivePadding,
+    getResponsiveMargin,
+    getResponsiveText,
   };
 
   return (

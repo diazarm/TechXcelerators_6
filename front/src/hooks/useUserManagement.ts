@@ -14,6 +14,8 @@ export const useUserManagement = () => {
   const [users, setUsers] = useState<IUser[]>([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
+  const [roleFilter, setRoleFilter] = useState('all');
+  const [statusFilter, setStatusFilter] = useState('all');
 
   // Límites diferentes para móvil y desktop
   const itemsPerPage = isMobile ? 5 : 10;
@@ -38,24 +40,44 @@ export const useUserManagement = () => {
     }
   };
 
+  // Aplicar filtros
+  const filteredUsers = users.filter(user => {
+    const roleMatch = roleFilter === 'all' || user.role === roleFilter;
+    const statusMatch = statusFilter === 'all' || 
+      (statusFilter === 'active' && user.isActive) || 
+      (statusFilter === 'inactive' && !user.isActive);
+    return roleMatch && statusMatch;
+  });
+
   // Calcular usuarios paginados
-  const totalPages = Math.ceil(users.length / itemsPerPage);
+  const totalPages = Math.ceil(filteredUsers.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const paginatedUsers = users.slice(startIndex, endIndex);
+  const paginatedUsers = filteredUsers.slice(startIndex, endIndex);
 
   // Cambiar página
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
 
-  // Actualizar usuarios cuando cambie el breakpoint
+  // Cambiar filtros y resetear página
+  const handleRoleFilterChange = (value: string) => {
+    setRoleFilter(value);
+    setCurrentPage(1);
+  };
+
+  const handleStatusFilterChange = (value: string) => {
+    setStatusFilter(value);
+    setCurrentPage(1);
+  };
+
+  // Actualizar usuarios cuando cambie el breakpoint o filtros
   useEffect(() => {
-    const newTotalPages = Math.ceil(users.length / itemsPerPage);
+    const newTotalPages = Math.ceil(filteredUsers.length / itemsPerPage);
     if (currentPage > newTotalPages && newTotalPages > 0) {
       setCurrentPage(newTotalPages);
     }
-  }, [isMobile, users.length, itemsPerPage, currentPage]);
+  }, [isMobile, filteredUsers.length, itemsPerPage, currentPage]);
 
   useEffect(() => {
     loadUsers();
@@ -70,7 +92,11 @@ export const useUserManagement = () => {
     currentPage,
     totalPages,
     itemsPerPage,
-    totalItems: users.length,
-    handlePageChange
+    totalItems: filteredUsers.length,
+    handlePageChange,
+    roleFilter,
+    statusFilter,
+    handleRoleFilterChange,
+    handleStatusFilterChange
   };
 };

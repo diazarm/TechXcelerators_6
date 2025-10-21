@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { useScreenSize } from "../../context";
-import { useEscapeKey } from "../../hooks";
+import { useEscapeKey, useAuth } from "../../hooks";
 import type { ResourceDropdownProps } from "./types";
 import { COLOR_CLASSES } from "../../constants";
 
@@ -10,6 +10,7 @@ const ResourceDropdown: React.FC<ResourceDropdownProps> = ({
   onToggle,
 }) => {
   const { dimensions, scale } = useScreenSize();
+  const { isAuthenticated } = useAuth();
   const dropdownRef = useRef<HTMLDivElement>(null);
   
   // Hook de accesibilidad - Cerrar con Escape
@@ -90,21 +91,23 @@ const ResourceDropdown: React.FC<ResourceDropdownProps> = ({
             >
               Manual de Usuario
             </Link>
-            <Link
-              to="/utilidades"
-              role="menuitem"
-              className={`${COLOR_CLASSES.textPrimary} hover:bg-gray-100 transition-colors block`}
-              style={{
-                paddingLeft: dimensions.spacing.md,
-                paddingRight: dimensions.spacing.md,
-                paddingTop: dimensions.spacing.sm,
-                paddingBottom: dimensions.spacing.sm,
-                fontSize: dimensions.fontSize.sm
-              }}
-              onClick={onToggle}
-            >
-              Utilidades
-            </Link>
+            {isAuthenticated && (
+              <Link
+                to="/utilidades"
+                role="menuitem"
+                className={`${COLOR_CLASSES.textPrimary} hover:bg-gray-100 transition-colors block`}
+                style={{
+                  paddingLeft: dimensions.spacing.md,
+                  paddingRight: dimensions.spacing.md,
+                  paddingTop: dimensions.spacing.sm,
+                  paddingBottom: dimensions.spacing.sm,
+                  fontSize: dimensions.fontSize.sm
+                }}
+                onClick={onToggle}
+              >
+                Utilidades
+              </Link>
+            )}
           </div>
         </div>
       )}

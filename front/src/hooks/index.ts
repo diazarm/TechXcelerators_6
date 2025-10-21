@@ -64,6 +64,14 @@ export { useResources } from './useResources';
 export { useResourceManagement } from './useResourceManagement';
 export { useResourceRestoration } from './useResourceRestoration';
 
+// Hooks de gestión de usuarios
+export { useUserManagement } from './useUserManagement';
+export { useUserActions } from './useUserActions';
+
+// Hooks de gestión de documentos
+export { useDocuments } from './useDocuments';
+export { useDocumentActions } from './useDocumentActions';
+
 // Hooks de accesibilidad
 export { useFocusTrap } from './useFocusTrap';
 export { useEscapeKey } from './useEscapeKey';

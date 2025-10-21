@@ -8,6 +8,7 @@ interface PaginationControlsProps {
   onPageChange: (page: number) => void;
   totalItems: number;
   itemsPerPage: number;
+  itemLabel?: string; // Ej: "usuarios", "documentos"
   className?: string;
 }
 
@@ -17,9 +18,11 @@ export const PaginationControls: React.FC<PaginationControlsProps> = ({
   onPageChange,
   totalItems,
   itemsPerPage,
+  itemLabel = 'elementos',
   className = ''
 }) => {
-  const { scale, isMobile } = useScreenSize();
+  const { scale, isMobile, isTablet } = useScreenSize();
+  const showMobileView = isMobile || isTablet;
 
   if (totalPages <= 1) return null;
 
@@ -27,48 +30,32 @@ export const PaginationControls: React.FC<PaginationControlsProps> = ({
   const endItem = Math.min(currentPage * itemsPerPage, totalItems);
 
   return (
-    <div 
-      className={`flex items-center justify-between ${className}`}
-      style={{
-        paddingTop: isMobile ? scale(12) : scale(16),
-        paddingBottom: isMobile ? scale(8) : scale(12)
-      }}
-    >
+    <div className={`flex flex-col gap-3 py-3 ${className}`}>
       {/* Información de elementos */}
-      <div 
-        className="text-gray-600"
-        style={{ fontSize: isMobile ? scale(10) : scale(12) }}
-      >
-        Mostrando {startItem}-{endItem} de {totalItems} usuarios
+      <div className={`text-gray-600 text-center ${showMobileView ? 'text-xs' : 'text-sm'}`}>
+        Mostrando {startItem}-{endItem} de {totalItems} {itemLabel}
       </div>
 
       {/* Controles de paginación */}
-      <div className="flex items-center" style={{ gap: isMobile ? scale(4) : scale(8) }}>
+      <div className={`flex items-center justify-center ${showMobileView ? 'gap-1' : 'gap-2'}`}>
         {/* Botón Anterior */}
         <button
           onClick={() => onPageChange(currentPage - 1)}
           disabled={currentPage === 1}
-          className={`flex items-center rounded-lg transition-colors ${
+          className={`flex items-center justify-center rounded-lg transition-colors ${showMobileView ? 'px-1.5 py-1' : 'px-2 py-1.5'} ${
             currentPage === 1 
               ? 'text-gray-400 cursor-not-allowed bg-gray-100' 
               : 'text-[#5D5A88] hover:bg-[#5D5A88]/10 bg-white'
           }`}
-          style={{
-            padding: isMobile ? scale(6) : scale(8),
-            gap: isMobile ? scale(2) : scale(4)
-          }}
         >
-          <ChevronLeft size={isMobile ? scale(14) : scale(16)} />
-          <span style={{ fontSize: isMobile ? scale(10) : scale(12) }}>
-            Anterior
-          </span>
+          <ChevronLeft size={showMobileView ? scale(14) : scale(16)} />
         </button>
 
         {/* Números de página */}
-        <div className="flex items-center" style={{ gap: isMobile ? scale(2) : scale(4) }}>
-          {Array.from({ length: Math.min(totalPages, isMobile ? 3 : 5) }, (_, i) => {
+        <div className={`flex items-center ${showMobileView ? 'gap-1' : 'gap-1.5'}`}>
+          {Array.from({ length: Math.min(totalPages, showMobileView ? 3 : 5) }, (_, i) => {
             let pageNumber;
-            if (isMobile) {
+            if (showMobileView) {
               // En móvil mostrar máximo 3 páginas
               if (totalPages <= 3) {
                 pageNumber = i + 1;
@@ -96,16 +83,11 @@ export const PaginationControls: React.FC<PaginationControlsProps> = ({
               <button
                 key={pageNumber}
                 onClick={() => onPageChange(pageNumber)}
-                className={`rounded-lg transition-colors ${
+                className={`rounded-lg transition-colors ${showMobileView ? 'px-2 py-1 text-xs min-w-[28px]' : 'px-3 py-2 text-sm min-w-[36px]'} ${
                   currentPage === pageNumber
                     ? 'bg-[#5D5A88] text-white'
                     : 'text-[#5D5A88] hover:bg-[#5D5A88]/10 bg-white'
                 }`}
-                style={{
-                  padding: isMobile ? scale(6) : scale(8),
-                  fontSize: isMobile ? scale(10) : scale(12),
-                  minWidth: isMobile ? scale(24) : scale(32)
-                }}
               >
                 {pageNumber}
               </button>
@@ -117,20 +99,13 @@ export const PaginationControls: React.FC<PaginationControlsProps> = ({
         <button
           onClick={() => onPageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
-          className={`flex items-center rounded-lg transition-colors ${
+          className={`flex items-center justify-center rounded-lg transition-colors ${showMobileView ? 'px-1.5 py-1' : 'px-2 py-1.5'} ${
             currentPage === totalPages 
               ? 'text-gray-400 cursor-not-allowed bg-gray-100' 
               : 'text-[#5D5A88] hover:bg-[#5D5A88]/10 bg-white'
           }`}
-          style={{
-            padding: isMobile ? scale(6) : scale(8),
-            gap: isMobile ? scale(2) : scale(4)
-          }}
         >
-          <span style={{ fontSize: isMobile ? scale(10) : scale(12) }}>
-            Siguiente
-          </span>
-          <ChevronRight size={isMobile ? scale(14) : scale(16)} />
+          <ChevronRight size={showMobileView ? scale(14) : scale(16)} />
         </button>
       </div>
     </div>

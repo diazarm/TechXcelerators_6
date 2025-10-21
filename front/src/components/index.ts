@@ -43,7 +43,11 @@ export { AllianceSelectionModal } from './AllianceSelectionModal';
 export { ResourceEditModal } from './ResourceEditModal';
 export { ResourceDeleteModal } from './ResourceDeleteModal';
 export { ResourceRestoreModal } from './ResourceRestoreModal';
-
+export { DocumentUploadModal } from './DocumentUploadModal';
+export { DocumentEditModal } from './DocumentEditModal';
+export { DocumentDeleteModal } from './DocumentDeleteModal';
+export { DocumentRestoreModal } from './DocumentRestoreModal';
+export { FilterDropdown } from './FilterDropdown';
 
 // Componentes de layout
 export { default as MainLayout } from './Layout/MainLayout';
@@ -83,4 +87,6 @@ export { default as AuthGuard } from './AuthGuard';
 export { PaginationControls } from './PaginationControls';
 export { RoleChangeModal } from './RoleChangeModal';
 export { UserManagement } from './UserManagement';
+export { CollapsibleSection } from './CollapsibleSection';
+export { DocumentManagement } from './DocumentManagement';
 
