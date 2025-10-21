@@ -41,6 +41,19 @@ Variable	Valor inicial (Initial Value)	           Nota
 baseUrl	    http://localhost:3000/api	               Cambiar si deployan a la nube
 token	    (vacío, se autogenera al hacer login)	   Se llena desde el script de login
 
+## 🌍 Entornos disponibles
+
+| Entorno     | Base URL                                      |
+| ------------ | --------------------------------------------- |
+| Desarrollo   | http://localhost:3000/api                     |
+| Producción   | https://scala-learning-backend.onrender.com/api | (Por ejemplo)
+
+Para usar el entorno de producción en Postman:
+1. Abre la pestaña **Environments**.
+2. Actualiza la variable `{{baseUrl}}` con la URL de Render.
+3. Ejecuta las mismas rutas (login, recursos, etc.) normalmente.
+
+
 ## 🔑 Flujo recomendado
 
 1. Ejecuta la request Login_user dentro de la carpeta Auth.
