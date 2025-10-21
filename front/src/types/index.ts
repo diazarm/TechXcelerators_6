@@ -14,7 +14,7 @@
  * } from '../../types';
  * 
  * // Importar tipos co-locados directamente desde su módulo
- * import type { ButtonProps } from '../components/Button/types';
+ * import type { ButtonProps } from '../components/Form/Button/types';
  * ```
  */
 

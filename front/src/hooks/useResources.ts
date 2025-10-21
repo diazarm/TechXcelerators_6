@@ -17,7 +17,7 @@ export const useResources = () => {
     try {
       const data = await resourceService.getAllResources();
       setResources(data);
-    } catch (error) {
+    } catch {
       // Si hay error, mantener array vacío
       setResources([]);
     } finally {

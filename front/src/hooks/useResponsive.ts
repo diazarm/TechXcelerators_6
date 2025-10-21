@@ -24,9 +24,21 @@ export const useResponsive = () => {
     };
 
     updateScaleFactor();
-    window.addEventListener('resize', updateScaleFactor);
     
-    return () => window.removeEventListener('resize', updateScaleFactor);
+    let timeoutId: number;
+    const handleResize = () => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(updateScaleFactor, 100);
+    };
+
+    window.addEventListener('resize', handleResize);
+    window.addEventListener('orientationchange', updateScaleFactor);
+    
+    return () => {
+      clearTimeout(timeoutId);
+      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('orientationchange', updateScaleFactor);
+    };
   }, []);
 
   // Función para escalar valores numéricos
@@ -195,11 +207,23 @@ export const useBreakpoints = () => {
     // Establecer breakpoints iniciales
     updateBreakpoints();
 
+    let timeoutId: number;
+    const handleResize = () => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(updateBreakpoints, 100);
+    };
+
     // Escuchar cambios de tamaño de ventana
-    window.addEventListener('resize', updateBreakpoints);
+    window.addEventListener('resize', handleResize);
+    // También escuchar orientationchange para dispositivos móviles
+    window.addEventListener('orientationchange', updateBreakpoints);
 
     // Cleanup
-    return () => window.removeEventListener('resize', updateBreakpoints);
+    return () => {
+      clearTimeout(timeoutId);
+      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('orientationchange', updateBreakpoints);
+    };
   }, []);
 
   return breakpoints;

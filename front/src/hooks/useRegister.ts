@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useNotification, useErrorHandler } from './index';
 import { logger, api } from '../services';
-import type { ValidateTokenResponse } from '../types/api';
+import type { UserResponse } from '../services/userService';
 
 export interface RegisterFormData {
   name: string;
@@ -73,7 +73,7 @@ export const useRegister = () => {
         role: userData.role,
         isAdmin: false, // Solo admin puede crear usuarios, pero los usuarios creados no son admin
         isActive: true,
-        // No se incluye password - solo admin tiene password
+        password: '' // Enviar password vacío para usuarios no-admin
       };
 
       logger.debug('Datos de registro preparados', { 
@@ -89,19 +89,19 @@ export const useRegister = () => {
         role: registerData.role 
       }, 'useRegister');
 
-      const response = await api.post<ValidateTokenResponse>('/users/', registerData);
+      const response = await api.post<UserResponse>('/users/', registerData);
 
-      if (!response.data.user) {
-        throw new Error(response.data.error || 'Error al crear usuario');
+      if (!response.data.success || !response.data.data) {
+        throw new Error(response.data.message || 'Error al crear usuario');
       }
 
-      const newUser = response.data.user;
+      const newUser = response.data.data;
       
       logger.debug('Usuario registrado exitosamente', { 
         name: newUser.name,
         email: newUser.email,
         role: newUser.role,
-        id: newUser.id
+        id: newUser._id
       }, 'useRegister');
 
       logger.info('Usuario registrado exitosamente', { 

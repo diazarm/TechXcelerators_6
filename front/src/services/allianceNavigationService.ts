@@ -244,7 +244,7 @@ export const handleAllianceCardClick = async (sectionType: string, resourceName?
         // No hay recursos específicos para esta sección
         showNotification('info', 'Recursos próximamente', 'No hay recursos disponibles para esta sección. Próximamente se implementará esta funcionalidad.');
       }
-    } catch (resourceError) {
+    } catch {
       showNotification('error', 'Error de conexión', 'No se encontraron recursos para esta sección. Próximamente se implementará esta funcionalidad.');
     }
     
@@ -262,7 +262,7 @@ export const handleAllianceCardClick = async (sectionType: string, resourceName?
 export const showAllianceSelectionModal = async (alliances: Alliance[], resource: IResource): Promise<void> => {
   try {
     // Importar modal dinámicamente
-    const { AllianceSelectionModal } = await import('../components/AllianceSelectionModal');
+    const { AllianceSelectionModal } = await import('../components/Alliance/AllianceSelectionModal');
     const React = await import('react');
     const { createRoot } = await import('react-dom/client');
     const { ScreenSizeProvider } = await import('../context/screenSize/ScreenSizeProvider');
@@ -377,7 +377,7 @@ export const showAllianceSelectionModal = async (alliances: Alliance[], resource
     // Renderizar modal inicial
     renderInitialModal();
     
-  } catch (error) {
+  } catch {
     showNotification('error', 'Error de modal', 'Error al abrir la selección de alianzas');
   }
 };

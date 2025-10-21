@@ -26,6 +26,7 @@ import {
   Iniciativas,
   Galeria,
   ManualUsuario,
+  Utilidades,
 } from "./pages";
 
 import "./App.css";
@@ -112,6 +113,14 @@ function App() {
                       element={
                         <AuthGuard>
                           <Galeria />
+                        </AuthGuard>
+                      }
+                    />
+                    <Route
+                      path="utilidades"
+                      element={
+                        <AuthGuard>
+                          <Utilidades />
                         </AuthGuard>
                       }
                     />

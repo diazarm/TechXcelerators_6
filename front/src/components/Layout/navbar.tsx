@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Menu, X } from "react-feather";
-import { Button, ResourceDropdown, OptimizedImage } from "../../components"; // 👈 limpio desde barrel file
+import { Button, ResourceDropdown, OptimizedImage } from "../index"; // 👈 limpio desde barrel file
 import { useAuth, useNotification } from "../../hooks";
 import { useScreenSize } from "../../context";
 import { COLOR_CLASSES } from "../../constants";
@@ -13,10 +13,14 @@ export const Navbar: React.FC<HeaderProps> = ({ className = "" }) => {
   const { logout, isAuthenticated, user } = useAuth();
   const { addNotification } = useNotification();
   const { scale, dimensions, isMobile, getContainerForScreen } = useScreenSize();
+  const location = useLocation();
+  
+  // Detectar páginas públicas
+  const isPublicPage = location.pathname === "/" || location.pathname === "/manual-usuario";
   
   const mobileMenuRef = useRef<HTMLDivElement>(null);
 
-  // Determinar la ruta del logo según el estado de autenticación y rol
+  // Determinar la ruta del logo según el estado de autenticación
   const getLogoDestination = () => {
     if (isAuthenticated && user) {
       // Si está autenticado, redirigir al dashboard
@@ -27,7 +31,8 @@ export const Navbar: React.FC<HeaderProps> = ({ className = "" }) => {
   };
 
   const handleLogoClick = (e: React.MouseEvent) => {
-    if (!isAuthenticated) {
+    // Si no está autenticado y está intentando ir al dashboard, mostrar notificación
+    if (!isAuthenticated && getLogoDestination() === '/dashboard') {
       e.preventDefault();
       addNotification({
         type: "info",
@@ -36,6 +41,7 @@ export const Navbar: React.FC<HeaderProps> = ({ className = "" }) => {
         duration: 5000
       });
     }
+    // Si está autenticado o va al home, permitir navegación normal
   };
 
   const handleDropdownToggle = () => {
@@ -262,7 +268,17 @@ export const Navbar: React.FC<HeaderProps> = ({ className = "" }) => {
               className="space-y-6"
               style={{ gap: dimensions.spacing.md }}
             >
-              {/* Enlaces de navegación */}
+              {/* Enlace Inicio - inteligente según autenticación */}
+              <Link
+                to={isAuthenticated ? "/dashboard" : "/"}
+                className="block text-gray-700 hover:text-[#4A476F] transition-colors font-medium py-2"
+                style={{ fontSize: dimensions.fontSize.md }}
+                onClick={closeMobileMenu}
+              >
+                Inicio
+              </Link>
+
+              {/* Enlaces públicos (siempre visibles) */}
               <a
                 href="#footer"
                 className="block text-gray-700 hover:text-[#4A476F] transition-colors font-medium py-2"
@@ -271,60 +287,6 @@ export const Navbar: React.FC<HeaderProps> = ({ className = "" }) => {
               >
                 Acerca de
               </a>
-
-              <Link
-                to="/alianza"
-                className="block text-gray-700 hover:text-[#4A476F] transition-colors font-medium py-2"
-                style={{ fontSize: dimensions.fontSize.md }}
-                onClick={closeMobileMenu}
-              >
-                Nuestra Alianza
-              </Link>
-
-              <Link
-                to="/gobernanza"
-                className="block text-gray-700 hover:text-[#4A476F] transition-colors font-medium py-2"
-                style={{ fontSize: dimensions.fontSize.md }}
-                onClick={closeMobileMenu}
-              >
-                Gobernanza
-              </Link>
-
-              <Link
-                to="#"
-                className="block text-gray-700 hover:text-[#4A476F] transition-colors font-medium py-2"
-                style={{ fontSize: dimensions.fontSize.md }}
-                onClick={closeMobileMenu}
-              >
-                Planeación
-              </Link>
-
-              <Link
-                to="/gestion"
-                className="block text-gray-700 hover:text-[#4A476F] transition-colors font-medium py-2"
-                style={{ fontSize: dimensions.fontSize.md }}
-                onClick={closeMobileMenu}
-              >
-                Gestión
-              </Link>
-
-              <Link
-                to="/iniciativas"
-                className="block text-gray-700 hover:text-[#4A476F] transition-colors font-medium py-2"
-                style={{ fontSize: dimensions.fontSize.md }}
-                onClick={closeMobileMenu}
-              >
-                Iniciativas
-              </Link>
-
-              <Link
-                to="#"
-                className="block text-gray-700 hover:text-[#4A476F] transition-colors font-medium py-2"
-                style={{ fontSize: dimensions.fontSize.md }}
-                onClick={closeMobileMenu}
-              >
-                Galería
-              </Link>
 
               <a
                 href="https://scalalearning.com/contactanos/"
@@ -337,8 +299,67 @@ export const Navbar: React.FC<HeaderProps> = ({ className = "" }) => {
                 Contacto
               </a>
 
-              {/* Botón Salir en móvil */}
-              {isAuthenticated && (
+              {/* Enlaces privados (solo si NO estamos en páginas públicas) */}
+              {!isPublicPage && (
+                <>
+                  <Link
+                    to="/alianza"
+                    className="block text-gray-700 hover:text-[#4A476F] transition-colors font-medium py-2"
+                    style={{ fontSize: dimensions.fontSize.md }}
+                    onClick={closeMobileMenu}
+                  >
+                    Nuestra Alianza
+                  </Link>
+
+                  <Link
+                    to="/gobernanza"
+                    className="block text-gray-700 hover:text-[#4A476F] transition-colors font-medium py-2"
+                    style={{ fontSize: dimensions.fontSize.md }}
+                    onClick={closeMobileMenu}
+                  >
+                    Gobernanza
+                  </Link>
+
+                  <Link
+                    to="/planeacion"
+                    className="block text-gray-700 hover:text-[#4A476F] transition-colors font-medium py-2"
+                    style={{ fontSize: dimensions.fontSize.md }}
+                    onClick={closeMobileMenu}
+                  >
+                    Planeación
+                  </Link>
+
+                  <Link
+                    to="/gestion"
+                    className="block text-gray-700 hover:text-[#4A476F] transition-colors font-medium py-2"
+                    style={{ fontSize: dimensions.fontSize.md }}
+                    onClick={closeMobileMenu}
+                  >
+                    Gestión
+                  </Link>
+
+                  <Link
+                    to="/iniciativas"
+                    className="block text-gray-700 hover:text-[#4A476F] transition-colors font-medium py-2"
+                    style={{ fontSize: dimensions.fontSize.md }}
+                    onClick={closeMobileMenu}
+                  >
+                    Iniciativas
+                  </Link>
+
+                  <Link
+                    to="/galeria"
+                    className="block text-gray-700 hover:text-[#4A476F] transition-colors font-medium py-2"
+                    style={{ fontSize: dimensions.fontSize.md }}
+                    onClick={closeMobileMenu}
+                  >
+                    Galería
+                  </Link>
+                </>
+              )}
+
+              {/* Botón Salir en móvil (solo si está autenticado y NO en páginas públicas) */}
+              {isAuthenticated && !isPublicPage && (
                 <div 
                   className="border-t border-gray-200 pt-6 mt-6"
                   style={{ 

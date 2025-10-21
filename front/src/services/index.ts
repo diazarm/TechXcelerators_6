@@ -75,6 +75,22 @@ export {
   RESOURCE_NAME_TO_ID_MAP
 } from './resourceManagementService';
 
+// Exportaciones del servicio de usuarios
+export { userService, UserService } from './userService';
+export type { IUser, UserListResponse, UserResponse, RoleChangeResponse } from './userService';
+
+// Exportaciones del servicio de documentos
+export {
+  uploadDocument,
+  getDocuments,
+  getDocumentById,
+  updateDocument,
+  updateDocumentVisibility,
+  deleteDocument,
+  restoreDocument,
+  getDocumentDownloadUrl,
+  downloadDocument
+} from './documentService';
 
 // Exportar tipos de servicios
 export type { LoggerConfig } from './types';

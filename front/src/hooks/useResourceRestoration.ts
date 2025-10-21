@@ -3,7 +3,7 @@ import { getDeletedResources, restoreResource } from '../services/resourceManage
 import { showNotification } from '../services';
 import { getAllSections } from '../constants';
 import type { IResource } from '../types/resource';
-import type { SectionOption } from '../components/SectionFilter/types';
+import type { SectionOption } from '../components/Search/SectionFilter/types';
 
 interface UseResourceRestorationProps {
   /** ID de la sección actual (opcional) */
@@ -27,7 +27,7 @@ export const useResourceRestoration = (props?: UseResourceRestorationProps) => {
       const resources = await getDeletedResources();
       setAllDeletedResources(resources);
       setHasCheckedResources(true);
-    } catch (error) {
+    } catch {
       showNotification('error', 'Error', 'No se pudieron cargar los recursos eliminados');
       setAllDeletedResources([]);
       setHasCheckedResources(true);
@@ -72,7 +72,7 @@ export const useResourceRestoration = (props?: UseResourceRestorationProps) => {
       window.dispatchEvent(new CustomEvent('resourceRestored', {
         detail: { resourceId, resourceName }
       }));
-    } catch (error) {
+    } catch {
       showNotification('error', 'Error', 'No se pudo restaurar el recurso');
     } finally {
       setRestoreLoading(null);

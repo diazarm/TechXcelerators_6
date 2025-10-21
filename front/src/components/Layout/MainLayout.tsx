@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useLocation, Outlet } from "react-router-dom";
 import { useScreenSize } from "../../context";
 import type { MainLayoutProps } from "./types";
-import { Navbar, Footer, Header } from "../../components";
+import { Navbar, Footer, Header } from "../index";
 
 const MainLayout: React.FC<MainLayoutProps> = ({
   className = "",
@@ -13,7 +13,9 @@ const MainLayout: React.FC<MainLayoutProps> = ({
 
   const isHomePage = location.pathname === "/";
   const isLoginPage = location.pathname === "/login";
-  const shouldShowHeader = !isHomePage && !isLoginPage;
+  const isManualPage = location.pathname === "/manual-usuario";
+  const isUtilidadesPage = location.pathname === "/utilidades";
+  const shouldShowHeader = !isHomePage && !isLoginPage && !isManualPage && !isUtilidadesPage;
 
   // Scroll to top en cada cambio de ruta
   useEffect(() => {

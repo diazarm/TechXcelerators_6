@@ -4,6 +4,19 @@
  * Este archivo centraliza todas las exportaciones relacionadas con componentes
  * para facilitar los imports en otros archivos.
  * 
+ * Organización por dominio:
+ * - Document: Gestión de documentos
+ * - Resource: Gestión de recursos
+ * - User: Gestión de usuarios
+ * - Alliance: Alianzas
+ * - Search: Búsqueda
+ * - Auth: Autenticación
+ * - Form: Elementos de formularios
+ * - Notification: Notificaciones
+ * - Layout: Layout y navegación
+ * - UI: Componentes UI reutilizables
+ * - Shared: Componentes compartidos/globales
+ * 
  * @example
  * ```tsx
  * // Importar componentes desde un solo lugar
@@ -11,71 +24,72 @@
  *   LoadingSpinner,
  *   Button,
  *   ErrorBoundary,
- *   Navigation
+ *   UserManagement
  * } from '../components';
  * ```
  */
 
-// Componentes de UI básicos
-export { Button } from './Button';
-export { default as Card } from './Card';
+// ==================== DOCUMENT ====================
+export { DocumentManagement } from './Document/DocumentManagement';
+export { DocumentUploadModal } from './Document/DocumentUploadModal';
+export { DocumentEditModal } from './Document/DocumentEditModal';
+export { DocumentDeleteModal } from './Document/DocumentDeleteModal';
+export { DocumentRestoreModal } from './Document/DocumentRestoreModal';
+export { DocumentTableHeader, DocumentTableRow, DocumentTableEmpty } from './Document/DocumentTable';
 
-// Componentes de formularios
-export { LoginForm } from './LoginForm';
-export { default as RegisterForm } from './RegisterForm';
-export { default as ConfirmationPage } from './ConfirmationPage';
+// ==================== RESOURCE ====================
+export { default as ResourceDropdown } from './Resource/ResourceDropdown';
+export { ResourceEditModal } from './Resource/ResourceEditModal';
+export { ResourceDeleteModal } from './Resource/ResourceDeleteModal';
+export { ResourceRestoreModal } from './Resource/ResourceRestoreModal';
+export type { ResourceDropdownProps } from './Resource/ResourceDropdown/types';
 
-// Componentes de loading
-export { default as LoadingSpinner } from './LoadingSpinner';
+// ==================== USER ====================
+export { UserManagement } from './User/UserManagement';
+export { UserTableHeader, UserTableRow, UserTableEmpty } from './User/UserTable';
+export { RoleChangeModal } from './User/RoleChangeModal';
+export { UserStatusModal } from './User/UserStatusModal';
 
-// Componentes de sistema
-export { default as ErrorBoundary } from './ErrorBoundary';
+// ==================== ALLIANCE ====================
+export { AllianceSelectionModal } from './Alliance/AllianceSelectionModal';
+export { AllianceSlider } from './Alliance/AllianceSlider';
 
-// Componentes de error y validación
-export { default as ValidationErrors } from './ValidationErrors';
+// ==================== SEARCH ====================
+export { default as SearchBar } from './Search/SearchBar';
+export { SearchModal } from './Search/SearchModal';
+export { SectionFilter } from './Search/SectionFilter';
+export type { SectionFilterProps, SectionOption } from './Search/SectionFilter/types';
 
-// Componentes de notificaciones
+// ==================== AUTH ====================
+export { default as AuthGuard } from './Auth/AuthGuard';
+export { LoginForm } from './Auth/LoginForm';
+export { default as RegisterForm } from './Auth/RegisterForm';
+
+// ==================== FORM ====================
+export { Button } from './Form/Button';
+export { FilterDropdown } from './Form/FilterDropdown';
+export { default as ValidationErrors } from './Form/ValidationErrors';
+
+// ==================== NOTIFICATION ====================
 export { Notification } from './Notification';
-export { NotificationContainer } from './NotificationContainer';
+export { NotificationContainer } from './Notification/NotificationContainer';
 
-// Componentes de modales
-export { AllianceSelectionModal } from './AllianceSelectionModal';
-export { ResourceEditModal } from './ResourceEditModal';
-export { ResourceDeleteModal } from './ResourceDeleteModal';
-export { ResourceRestoreModal } from './ResourceRestoreModal';
-
-
-// Componentes de layout
+// ==================== LAYOUT ====================
 export { default as MainLayout } from './Layout/MainLayout';
 export { Header } from './Layout/header';
 export { Navbar } from './Layout/navbar';
 export { Footer } from './Layout/footer';
-export { default as ResourceDropdown } from './ResourceDropdown';
 
-// Componentes de hero section
-export { default as HeroSection } from './HeroSection';
+// ==================== UI ====================
+export { default as Card } from './UI/Card';
+export { default as CardGrid } from './UI/CardGrid';
+export { CollapsibleSection } from './UI/CollapsibleSection';
+export { default as ConfirmationPage } from './UI/ConfirmationPage';
+export { default as HeroSection } from './UI/HeroSection';
+export { default as LoadingSpinner } from './UI/LoadingSpinner';
+export { PaginationControls } from './UI/PaginationControls';
+export { OptimizedImage } from './UI/OptimizedImage';
+export { ResponsiveImage, ResponsiveBackground } from './UI/ResponsiveImage';
 
-// Componentes de búsqueda
-export { SearchModal } from './SearchModal';
-export { default as SearchBar } from './SearchBar';
-
-// Componentes de cards
-export { default as CardGrid } from './CardGrid';
-
-// Componentes de imágenes responsivas
-export { ResponsiveImage, ResponsiveBackground } from './ResponsiveImage';
-export { OptimizedImage } from './OptimizedImage';
-
-// Componentes de alianzas
-export { AllianceSlider } from './AllianceSlider';
-
-// Componentes de filtrado
-export { SectionFilter } from './SectionFilter';
-export type { SectionFilterProps, SectionOption } from './SectionFilter/types';
-
-// Tipos de componentes
-export type { ResourceDropdownProps } from './ResourceDropdown/types';
-
-// Componentes de protección de rutas
-export { default as AuthGuard } from './AuthGuard';
-
+// ==================== SHARED ====================
+export { default as ErrorBoundary } from './Shared/ErrorBoundary';

@@ -155,6 +155,9 @@ export interface ScreenSizeContextType {
   getContainerForScreen: () => string;
   getGridForScreen: (type: 'auto' | 'two' | 'three' | 'four') => string;
   getGapForScreen: (type: 'small' | 'medium' | 'large') => string;
+  getResponsivePadding: (size?: 'small' | 'medium' | 'large') => string;
+  getResponsiveMargin: (size?: 'small' | 'medium' | 'large') => string;
+  getResponsiveText: (size?: 'small' | 'medium' | 'large') => string;
 }
 
 /**

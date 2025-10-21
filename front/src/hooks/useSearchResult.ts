@@ -108,7 +108,7 @@ export const useNavbar = () => {
         setSelectedIndex(-1);
         setShowSearchModal(false);
         return;
-      } catch (error) {
+      } catch {
         // Si falla, continuar con el flujo normal
       }
     }

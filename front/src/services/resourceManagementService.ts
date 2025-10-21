@@ -63,84 +63,56 @@ export interface UpdateResourceData {
  * Obtener todos los recursos
  */
 export const getAllResources = async (): Promise<IResource[]> => {
-  try {
-    const response = await api.get<ResourceListResponse>('/resources');
-    return response.data.data || [];
-  } catch (error) {
-    throw error;
-  }
+  const response = await api.get<ResourceListResponse>('/resources');
+  return response.data.data || [];
 };
 
 /**
  * Obtener un recurso por ID
  */
 export const getResourceById = async (id: string): Promise<IResource> => {
-  try {
-    const response = await api.get<ResourceResponse>(`/resources/${id}`);
-    return response.data.data;
-  } catch (error) {
-    throw error;
-  }
+  const response = await api.get<ResourceResponse>(`/resources/${id}`);
+  return response.data.data;
 };
 
 /**
  * Obtener recursos por sección
  */
 export const getResourcesBySection = async (sectionId: string): Promise<IResource[]> => {
-  try {
-    const response = await api.get<ResourceListResponse>(`/resources/section/${sectionId}`);
-    return response.data.data || [];
-  } catch (error) {
-    throw error;
-  }
+  const response = await api.get<ResourceListResponse>(`/resources/section/${sectionId}`);
+  return response.data.data || [];
 };
 
 /**
  * Crear un nuevo recurso
  */
 export const createResource = async (resourceData: CreateResourceData): Promise<IResource> => {
-  try {
-    const response = await api.post<ResourceResponse>('/resources', resourceData);
-    return response.data.data;
-  } catch (error) {
-    throw error;
-  }
+  const response = await api.post<ResourceResponse>('/resources', resourceData);
+  return response.data.data;
 };
 
 /**
  * Actualizar un recurso existente
  */
 export const updateResource = async (id: string, resourceData: UpdateResourceData): Promise<IResource> => {
-  try {
-    const response = await api.put<ResourceResponse>(`/resources/${id}`, resourceData);
-    return response.data.data;
-  } catch (error) {
-    throw error;
-  }
+  const response = await api.put<ResourceResponse>(`/resources/${id}`, resourceData);
+  return response.data.data;
 };
 
 /**
  * Soft delete de un recurso (desactivar)
  */
 export const softDeleteResource = async (id: string): Promise<IResource> => {
-  try {
-    const response = await api.delete<ResourceResponse>(`/resources/${id}`);
-    return response.data.data;
-  } catch (error) {
-    throw error;
-  }
+  const response = await api.delete<ResourceResponse>(`/resources/${id}`);
+  return response.data.data;
 };
 
 /**
  * Restaurar un recurso desactivado
  */
 export const restoreResource = async (id: string): Promise<IResource> => {
-  try {
-    const response = await api.patch<ResourceResponse>(`/resources/restore/${id}`);
-    return response.data.data;
-  } catch (error) {
-    throw error;
-  }
+  const response = await api.patch<ResourceResponse>(`/resources/restore/${id}`);
+  return response.data.data;
 };
 
 /**
@@ -162,7 +134,7 @@ export const getResourceByName = async (resourceName: string): Promise<IResource
     
     const resource = await getResourceById(resourceId);
     return resource;
-  } catch (error) {
+  } catch {
     return null;
   }
 };

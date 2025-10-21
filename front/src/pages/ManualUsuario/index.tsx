@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { BookOpen, Video, FileText, HelpCircle } from 'react-feather';
+import { BookOpen, FileText, HelpCircle, Settings, Shield, Home, LogIn, Edit3, EyeOff, RotateCcw, Info, Lock, AlertCircle } from 'react-feather';
 import { useScreenSize } from '../../context';
 import { COLOR_CLASSES } from '../../constants';
 
@@ -21,22 +21,35 @@ const ManualUsuario: React.FC = () => {
 
   return (
     <div className={`${getContainerForScreen()}`}>
-      {/* Header */}
+      {/* Header con banner */}
       <div 
-        className="text-center"
+        className="text-center bg-white rounded-2xl shadow-sm border border-gray-100"
         style={{
-          paddingTop: dimensions.spacing['2xl'],
-          paddingBottom: dimensions.spacing.xl
+          paddingTop: dimensions.spacing['3xl'],
+          paddingBottom: dimensions.spacing['3xl'],
+          marginBottom: dimensions.spacing['2xl']
         }}
       >
-        <div className="flex items-center justify-center" style={{ gap: dimensions.spacing.sm, marginBottom: dimensions.spacing.md }}>
-          <BookOpen 
-            size={scale(32)} 
-            className={COLOR_CLASSES.primary}
-          />
+        {/* Ícono y título siempre juntos, centrados */}
+        <div 
+          className="flex items-center justify-center"
+          style={{ gap: dimensions.spacing.sm, marginBottom: dimensions.spacing.lg }}
+        >
+          {/* Ícono */}
+          <div 
+            className="rounded-full bg-gradient-to-br from-[#FF6E00] to-[#FF8C3A] shadow-lg flex items-center justify-center flex-shrink-0"
+        style={{
+              width: scale(28), 
+              height: scale(28)
+            }}
+          >
+            <BookOpen size={scale(16)} className="text-white" />
+          </div>
+
+          {/* Título responsivo */}
           <h1 
             className={`${COLOR_CLASSES.textPrimary} font-bold`}
-            style={{ fontSize: dimensions.fontSize['3xl'] }}
+            style={{ fontSize: dimensions.fontSize['2xl'] }}
           >
             Manual de Usuario
           </h1>
@@ -44,44 +57,153 @@ const ManualUsuario: React.FC = () => {
         <p 
           className={COLOR_CLASSES.textSecondary}
           style={{ 
-            fontSize: dimensions.fontSize.lg,
-            maxWidth: `${scale(600)}px`,
-            margin: '0 auto'
+            fontSize: dimensions.fontSize.xl,
+            maxWidth: `${scale(700)}px`,
+            margin: '0 auto',
+            lineHeight: '1.6'
           }}
         >
           Guía completa para utilizar la plataforma Scala Learning
         </p>
+        <p 
+          className="text-[#6B7280] mt-2"
+          style={{ 
+            fontSize: dimensions.fontSize.sm,
+            maxWidth: `${scale(600)}px`,
+            margin: '0 auto',
+            marginTop: dimensions.spacing.sm
+          }}
+        >
+          Aprende a navegar, gestionar recursos y aprovechar todas las funcionalidades
+        </p>
       </div>
 
-      {/* Cards de contenido */}
+      {/* Sección: Acceso a la Plataforma */}
       <div 
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+        className="bg-white rounded-lg shadow-sm border border-gray-100 hover:shadow-md hover:border-[#FF6E00]/20 transition-all duration-300"
         style={{ 
-          gap: dimensions.spacing.xl,
-          paddingBottom: dimensions.spacing['3xl']
+          padding: dimensions.spacing.xl,
+          marginBottom: dimensions.spacing.xl
         }}
       >
-        {/* Card 1: Introducción */}
-        <div 
-          className="bg-white rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition-all"
-          style={{ padding: dimensions.spacing.lg }}
-        >
-          <div className="flex items-center" style={{ gap: dimensions.spacing.sm, marginBottom: dimensions.spacing.md }}>
-            <div 
-              className="rounded-full bg-[#FF6E00] bg-opacity-10 flex items-center justify-center"
-              style={{
-                width: dimensions.spacing.xl,
-                height: dimensions.spacing.xl
+        <div className="flex items-center" style={{ gap: dimensions.spacing.sm, marginBottom: dimensions.spacing.lg }}>
+          <LogIn size={scale(24)} className={COLOR_CLASSES.primary} />
+          <h2 
+            className={`${COLOR_CLASSES.textPrimary} font-semibold`}
+            style={{ fontSize: dimensions.fontSize['2xl'] }}
+          >
+            Acceso a la Plataforma
+          </h2>
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2" style={{ gap: dimensions.spacing.lg }}>
+          <div>
+            <h3 
+              className={`${COLOR_CLASSES.textPrimary} font-semibold`}
+              style={{ fontSize: dimensions.fontSize.lg, marginBottom: dimensions.spacing.sm }}
+            >
+              Para Usuarios Staff
+            </h3>
+            <p 
+              className={COLOR_CLASSES.textSecondary}
+              style={{ 
+                fontSize: dimensions.fontSize.sm,
+                lineHeight: '1.6',
+                marginBottom: dimensions.spacing.md
               }}
             >
-              <HelpCircle size={scale(24)} className={COLOR_CLASSES.primary} />
-            </div>
-            <h2 
-              className={`${COLOR_CLASSES.textPrimary} font-semibold`}
-              style={{ fontSize: dimensions.fontSize.xl }}
+              Si eres parte del equipo de trabajo, usa el botón "Acceso Staff" en la página principal.
+            </p>
+            <ul 
+              className="space-y-2"
+              style={{ fontSize: dimensions.fontSize.sm, color: '#6B7280' }}
             >
-              Introducción
-            </h2>
+              <li>• Solo necesitas ingresar tu email</li>
+              <li>• No se requiere contraseña</li>
+              <li>• Accede directamente al Dashboard</li>
+              <li>• Navega por las secciones disponibles</li>
+            </ul>
+          </div>
+          
+          <div>
+            <h3 
+              className={`${COLOR_CLASSES.textPrimary} font-semibold`}
+              style={{ fontSize: dimensions.fontSize.lg, marginBottom: dimensions.spacing.sm }}
+            >
+              Para Administradores
+            </h3>
+          <p 
+            className={COLOR_CLASSES.textSecondary}
+        style={{ 
+              fontSize: dimensions.fontSize.sm,
+                lineHeight: '1.6',
+                marginBottom: dimensions.spacing.md
+              }}
+            >
+              Los administradores usan el botón "Acceso Administración" y requieren email y contraseña.
+            </p>
+            <ul 
+              className="space-y-2"
+              style={{ fontSize: dimensions.fontSize.sm, color: '#6B7280' }}
+            >
+              <li>• Ingresa con email y contraseña</li>
+              <li>• Gestión completa de usuarios</li>
+              <li>• Administración de recursos</li>
+              <li>• Acceso a todas las secciones</li>
+            </ul>
+          </div>
+        </div>
+        </div>
+
+      {/* Sección: Navegación Principal */}
+      <div 
+        className="bg-white rounded-lg shadow-sm border border-gray-100 hover:shadow-md hover:border-[#5D5A88]/20 transition-all duration-300"
+        style={{ 
+          padding: dimensions.spacing.xl,
+          marginBottom: dimensions.spacing.xl
+        }}
+      >
+        <div className="flex items-center" style={{ gap: dimensions.spacing.sm, marginBottom: dimensions.spacing.lg }}>
+          <Home size={scale(24)} className={COLOR_CLASSES.primary} />
+          <h2 
+            className={`${COLOR_CLASSES.textPrimary} font-semibold`}
+            style={{ fontSize: dimensions.fontSize['2xl'] }}
+          >
+            Navegación Principal
+          </h2>
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3" style={{ gap: dimensions.spacing.lg }}>
+          <div className="rounded-lg bg-white border border-gray-100 hover:border-gray-200 shadow-sm hover:shadow-md transition-all duration-300" style={{ padding: dimensions.spacing.md }}>
+            <div className="flex items-center" style={{ gap: dimensions.spacing.xs, marginBottom: dimensions.spacing.sm }}>
+              <div className="rounded-full bg-[#FF6E00]" style={{ width: scale(8), height: scale(8) }}></div>
+              <h3 
+                className={`${COLOR_CLASSES.textPrimary} font-semibold`}
+                style={{ fontSize: dimensions.fontSize.lg }}
+              >
+                Dashboard
+              </h3>
+            </div>
+            <p 
+              className={COLOR_CLASSES.textSecondary}
+              style={{ 
+                fontSize: dimensions.fontSize.sm,
+                lineHeight: '1.6'
+              }}
+            >
+              Tu página principal con acceso rápido a todas las secciones de la plataforma.
+            </p>
+          </div>
+          
+          <div className="rounded-lg bg-white border border-gray-100 hover:border-gray-200 shadow-sm hover:shadow-md transition-all duration-300" style={{ padding: dimensions.spacing.md }}>
+            <div className="flex items-center" style={{ gap: dimensions.spacing.xs, marginBottom: dimensions.spacing.sm }}>
+              <div className="rounded-full bg-[#FF6E00]" style={{ width: scale(8), height: scale(8) }}></div>
+              <h3 
+                className={`${COLOR_CLASSES.textPrimary} font-semibold`}
+                style={{ fontSize: dimensions.fontSize.lg }}
+              >
+                Búsqueda Global
+              </h3>
           </div>
           <p 
             className={COLOR_CLASSES.textSecondary}
@@ -90,31 +212,19 @@ const ManualUsuario: React.FC = () => {
               lineHeight: '1.6'
             }}
           >
-            Aprende los conceptos básicos de la plataforma, cómo navegar por las diferentes secciones y cómo aprovechar al máximo todas las funcionalidades disponibles.
+              Busca en todas las secciones desde la barra de búsqueda en la parte superior.
           </p>
         </div>
 
-        {/* Card 2: Guía de Inicio */}
-        <div 
-          className="bg-white rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition-all"
-          style={{ padding: dimensions.spacing.lg }}
-        >
-          <div className="flex items-center" style={{ gap: dimensions.spacing.sm, marginBottom: dimensions.spacing.md }}>
-            <div 
-              className="rounded-full bg-[#FF6E00] bg-opacity-10 flex items-center justify-center"
-              style={{
-                width: dimensions.spacing.xl,
-                height: dimensions.spacing.xl
-              }}
-            >
-              <FileText size={scale(24)} className={COLOR_CLASSES.primary} />
-            </div>
-            <h2 
-              className={`${COLOR_CLASSES.textPrimary} font-semibold`}
-              style={{ fontSize: dimensions.fontSize.xl }}
-            >
-              Guía de Inicio
-            </h2>
+          <div className="rounded-lg bg-white border border-gray-100 hover:border-gray-200 shadow-sm hover:shadow-md transition-all duration-300" style={{ padding: dimensions.spacing.md }}>
+            <div className="flex items-center" style={{ gap: dimensions.spacing.xs, marginBottom: dimensions.spacing.sm }}>
+              <div className="rounded-full bg-[#FF6E00]" style={{ width: scale(8), height: scale(8) }}></div>
+              <h3 
+                className={`${COLOR_CLASSES.textPrimary} font-semibold`}
+                style={{ fontSize: dimensions.fontSize.lg }}
+              >
+                Menú de Navegación
+              </h3>
           </div>
           <p 
             className={COLOR_CLASSES.textSecondary}
@@ -123,76 +233,418 @@ const ManualUsuario: React.FC = () => {
               lineHeight: '1.6'
             }}
           >
-            Pasos detallados para comenzar a usar la plataforma. Desde tu primer inicio de sesión hasta la gestión de recursos y colaboración con tu equipo.
+              Accede a todas las secciones desde el menú hamburguesa en móvil o la barra superior en desktop.
           </p>
+          </div>
+        </div>
         </div>
 
-        {/* Card 3: Tutoriales en Video */}
-        <div 
-          className="bg-white rounded-lg shadow-sm border border-gray-100 hover:shadow-md transition-all"
-          style={{ padding: dimensions.spacing.lg }}
-        >
-          <div className="flex items-center" style={{ gap: dimensions.spacing.sm, marginBottom: dimensions.spacing.md }}>
-            <div 
-              className="rounded-full bg-[#FF6E00] bg-opacity-10 flex items-center justify-center"
-              style={{
-                width: dimensions.spacing.xl,
-                height: dimensions.spacing.xl
+      {/* Sección: Gestión de Recursos */}
+      <div 
+        className="bg-white rounded-lg shadow-sm border border-gray-100 hover:shadow-md hover:border-[#FF6E00]/20 transition-all duration-300"
+        style={{ 
+          padding: dimensions.spacing.xl,
+          marginBottom: dimensions.spacing.xl
+        }}
+      >
+        <div className="flex items-center" style={{ gap: dimensions.spacing.sm, marginBottom: dimensions.spacing.lg }}>
+          <Settings size={scale(24)} className={COLOR_CLASSES.primary} />
+          <h2 
+            className={`${COLOR_CLASSES.textPrimary} font-semibold`}
+            style={{ fontSize: dimensions.fontSize['2xl'] }}
+          >
+            Gestión de Recursos
+          </h2>
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2" style={{ gap: dimensions.spacing.lg }}>
+          <div>
+            <h3 
+              className={`${COLOR_CLASSES.textPrimary} font-semibold`}
+              style={{ fontSize: dimensions.fontSize.lg, marginBottom: dimensions.spacing.sm }}
+            >
+              Editar Recursos
+            </h3>
+            <p 
+              className={COLOR_CLASSES.textSecondary}
+              style={{ 
+                fontSize: dimensions.fontSize.sm,
+                lineHeight: '1.6',
+                marginBottom: dimensions.spacing.md
               }}
             >
-              <Video size={scale(24)} className={COLOR_CLASSES.primary} />
+              Haz clic en el ícono de edición (lápiz) en cualquier tarjeta de recurso para modificarlo.
+            </p>
+            <div className="flex items-center" style={{ gap: dimensions.spacing.sm }}>
+              <Edit3 size={scale(16)} className="text-[#5D5A88]" />
+              <span style={{ fontSize: dimensions.fontSize.sm, color: '#6B7280' }}>
+                Ícono de edición en las tarjetas
+              </span>
             </div>
-            <h2 
+          </div>
+          
+          <div>
+            <h3 
               className={`${COLOR_CLASSES.textPrimary} font-semibold`}
-              style={{ fontSize: dimensions.fontSize.xl }}
+              style={{ fontSize: dimensions.fontSize.lg, marginBottom: dimensions.spacing.sm }}
             >
-              Tutoriales en Video
-            </h2>
+              Eliminar Recursos
+            </h3>
+            <p 
+              className={COLOR_CLASSES.textSecondary}
+              style={{ 
+                fontSize: dimensions.fontSize.sm,
+                lineHeight: '1.6',
+                marginBottom: dimensions.spacing.md
+              }}
+            >
+              Usa el ícono de ocultar (ojo tachado) para eliminar recursos de forma temporal. Los recursos se pueden restaurar después.
+            </p>
+            <div className="flex items-center" style={{ gap: dimensions.spacing.sm }}>
+              <EyeOff size={scale(16)} className="text-[#5D5A88]" />
+              <span style={{ fontSize: dimensions.fontSize.sm, color: '#6B7280' }}>
+                Ícono de ocultar/eliminar en las tarjetas
+              </span>
+            </div>
+          </div>
+        </div>
+        
+        <div 
+          className="mt-6 p-4 bg-blue-50 rounded-lg"
+          style={{ marginTop: dimensions.spacing.md }}
+        >
+          <div className="flex items-center" style={{ gap: dimensions.spacing.sm, marginBottom: dimensions.spacing.sm }}>
+            <RotateCcw size={scale(16)} className="text-blue-600" />
+            <span 
+              className="font-semibold text-blue-800"
+              style={{ fontSize: dimensions.fontSize.sm }}
+            >
+              Restaurar Recursos Eliminados
+            </span>
           </div>
           <p 
-            className={COLOR_CLASSES.textSecondary}
+            className="text-blue-700"
             style={{ 
               fontSize: dimensions.fontSize.sm,
               lineHeight: '1.6'
             }}
           >
-            Aprende de forma visual con tutoriales paso a paso en video que te guiarán por las principales funcionalidades de la plataforma.
+            Los administradores y directores pueden restaurar recursos eliminados usando el botón "Restaurar" en la barra superior.
           </p>
         </div>
       </div>
 
-      {/* Sección de próximamente */}
+      {/* Sección: Roles y Permisos */}
       <div 
-        className="bg-gray-50 rounded-lg text-center"
+        className="bg-white rounded-lg shadow-sm border border-gray-100 hover:shadow-md hover:border-[#5D5A88]/20 transition-all duration-300"
+        style={{ 
+          padding: dimensions.spacing.xl,
+          marginBottom: dimensions.spacing.xl
+        }}
+      >
+        <div className="flex items-center" style={{ gap: dimensions.spacing.sm, marginBottom: dimensions.spacing.lg }}>
+          <Shield size={scale(24)} className={COLOR_CLASSES.primary} />
+          <h2 
+            className={`${COLOR_CLASSES.textPrimary} font-semibold`}
+            style={{ fontSize: dimensions.fontSize['2xl'] }}
+          >
+            Roles y Permisos
+          </h2>
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-3" style={{ gap: dimensions.spacing.lg }}>
+          <div className="rounded-lg bg-white border border-gray-100 hover:border-gray-200 shadow-sm hover:shadow-md transition-all duration-300" style={{ padding: dimensions.spacing.md }}>
+            <div className="flex items-center" style={{ gap: dimensions.spacing.xs, marginBottom: dimensions.spacing.sm }}>
+              <div className="rounded-full bg-[#FF6E00]" style={{ width: scale(8), height: scale(8) }}></div>
+              <h3 
+                className={`${COLOR_CLASSES.textPrimary} font-semibold`}
+                style={{ fontSize: dimensions.fontSize.lg }}
+              >
+                Usuario
+              </h3>
+            </div>
+            <ul 
+              className="space-y-1"
+              style={{ fontSize: dimensions.fontSize.sm, color: '#6B7280' }}
+            >
+              <li>• Ver recursos</li>
+              <li>• Navegar por secciones</li>
+              <li>• Usar búsqueda</li>
+            </ul>
+          </div>
+          
+          <div className="rounded-lg bg-white border border-gray-100 hover:border-gray-200 shadow-sm hover:shadow-md transition-all duration-300" style={{ padding: dimensions.spacing.md }}>
+            <div className="flex items-center" style={{ gap: dimensions.spacing.xs, marginBottom: dimensions.spacing.sm }}>
+              <div className="rounded-full bg-[#FF6E00]" style={{ width: scale(8), height: scale(8) }}></div>
+              <h3 
+                className={`${COLOR_CLASSES.textPrimary} font-semibold`}
+                style={{ fontSize: dimensions.fontSize.lg }}
+              >
+                Director
+              </h3>
+            </div>
+            <ul 
+              className="space-y-1"
+              style={{ fontSize: dimensions.fontSize.sm, color: '#6B7280' }}
+            >
+              <li>• Todas las funciones de Usuario</li>
+              <li>• Editar recursos</li>
+              <li>• Eliminar recursos</li>
+              <li>• Restaurar recursos</li>
+            </ul>
+          </div>
+          
+          <div className="rounded-lg bg-white border border-gray-100 hover:border-gray-200 shadow-sm hover:shadow-md transition-all duration-300" style={{ padding: dimensions.spacing.md }}>
+            <div className="flex items-center" style={{ gap: dimensions.spacing.xs, marginBottom: dimensions.spacing.sm }}>
+              <div className="rounded-full bg-[#FF6E00]" style={{ width: scale(8), height: scale(8) }}></div>
+              <h3 
+                className={`${COLOR_CLASSES.textPrimary} font-semibold`}
+                style={{ fontSize: dimensions.fontSize.lg }}
+              >
+                Administrador
+              </h3>
+            </div>
+            <ul 
+              className="space-y-1"
+              style={{ fontSize: dimensions.fontSize.sm, color: '#6B7280' }}
+            >
+              <li>• Todas las funciones de Director</li>
+              <li>• Crear usuarios</li>
+              <li>• Gestionar roles</li>
+              <li>• Acceso completo al sistema</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      {/* Sección: Secciones de la Plataforma */}
+      <div 
+        className="bg-white rounded-lg shadow-sm border border-gray-100 hover:shadow-md hover:border-[#FF6E00]/20 transition-all duration-300"
         style={{
-          padding: dimensions.spacing['2xl'],
+          padding: dimensions.spacing.xl,
+          marginBottom: dimensions.spacing.xl
+        }}
+      >
+        <div className="flex items-center" style={{ gap: dimensions.spacing.sm, marginBottom: dimensions.spacing.lg }}>
+          <FileText size={scale(24)} className={COLOR_CLASSES.primary} />
+          <h2 
+            className={`${COLOR_CLASSES.textPrimary} font-semibold`}
+            style={{ fontSize: dimensions.fontSize['2xl'] }}
+          >
+            Secciones de la Plataforma
+          </h2>
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3" style={{ gap: dimensions.spacing.lg }}>
+          <div className="rounded-lg bg-white border border-gray-100 hover:border-gray-200 shadow-sm hover:shadow-md transition-all duration-300" style={{ padding: dimensions.spacing.md }}>
+            <div className="flex items-center" style={{ gap: dimensions.spacing.xs, marginBottom: dimensions.spacing.sm }}>
+              <div className="rounded-full bg-[#FF6E00]" style={{ width: scale(8), height: scale(8) }}></div>
+              <h3 
+                className={`${COLOR_CLASSES.textPrimary} font-semibold`}
+                style={{ fontSize: dimensions.fontSize.lg }}
+              >
+                Nuestra Alianza
+              </h3>
+            </div>
+            <p 
+              className={COLOR_CLASSES.textSecondary}
+              style={{ 
+                fontSize: dimensions.fontSize.sm,
+                lineHeight: '1.6'
+              }}
+            >
+              Información sobre las alianzas y colaboraciones de la plataforma.
+            </p>
+          </div>
+          
+          <div className="rounded-lg bg-white border border-gray-100 hover:border-gray-200 shadow-sm hover:shadow-md transition-all duration-300" style={{ padding: dimensions.spacing.md }}>
+            <div className="flex items-center" style={{ gap: dimensions.spacing.xs, marginBottom: dimensions.spacing.sm }}>
+              <div className="rounded-full bg-[#FF6E00]" style={{ width: scale(8), height: scale(8) }}></div>
+              <h3 
+                className={`${COLOR_CLASSES.textPrimary} font-semibold`}
+                style={{ fontSize: dimensions.fontSize.lg }}
+              >
+                Gobernanza
+              </h3>
+            </div>
+            <p 
+              className={COLOR_CLASSES.textSecondary}
+              style={{ 
+                fontSize: dimensions.fontSize.sm,
+                lineHeight: '1.6'
+              }}
+            >
+              Documentos y recursos relacionados con la gobernanza institucional.
+            </p>
+          </div>
+          
+          <div className="rounded-lg bg-white border border-gray-100 hover:border-gray-200 shadow-sm hover:shadow-md transition-all duration-300" style={{ padding: dimensions.spacing.md }}>
+            <div className="flex items-center" style={{ gap: dimensions.spacing.xs, marginBottom: dimensions.spacing.sm }}>
+              <div className="rounded-full bg-[#FF6E00]" style={{ width: scale(8), height: scale(8) }}></div>
+              <h3 
+                className={`${COLOR_CLASSES.textPrimary} font-semibold`}
+                style={{ fontSize: dimensions.fontSize.lg }}
+              >
+                Planeación
+              </h3>
+            </div>
+            <p 
+              className={COLOR_CLASSES.textSecondary}
+              style={{ 
+                fontSize: dimensions.fontSize.sm,
+                lineHeight: '1.6'
+              }}
+            >
+              Recursos y herramientas para la planificación estratégica y operativa.
+            </p>
+          </div>
+          
+          <div className="rounded-lg bg-white border border-gray-100 hover:border-gray-200 shadow-sm hover:shadow-md transition-all duration-300" style={{ padding: dimensions.spacing.md }}>
+            <div className="flex items-center" style={{ gap: dimensions.spacing.xs, marginBottom: dimensions.spacing.sm }}>
+              <div className="rounded-full bg-[#FF6E00]" style={{ width: scale(8), height: scale(8) }}></div>
+              <h3 
+                className={`${COLOR_CLASSES.textPrimary} font-semibold`}
+                style={{ fontSize: dimensions.fontSize.lg }}
+              >
+                Gestión
+              </h3>
+          </div>
+          <p 
+            className={COLOR_CLASSES.textSecondary}
+            style={{ 
+              fontSize: dimensions.fontSize.sm,
+              lineHeight: '1.6'
+            }}
+          >
+              Herramientas y recursos para la gestión administrativa.
+          </p>
+        </div>
+
+          <div className="rounded-lg bg-white border border-gray-100 hover:border-gray-200 shadow-sm hover:shadow-md transition-all duration-300" style={{ padding: dimensions.spacing.md }}>
+            <div className="flex items-center" style={{ gap: dimensions.spacing.xs, marginBottom: dimensions.spacing.sm }}>
+              <div className="rounded-full bg-[#FF6E00]" style={{ width: scale(8), height: scale(8) }}></div>
+        <h3 
+          className={`${COLOR_CLASSES.textPrimary} font-semibold`}
+                style={{ fontSize: dimensions.fontSize.lg }}
+              >
+                Iniciativas
+              </h3>
+            </div>
+            <p 
+              className={COLOR_CLASSES.textSecondary}
+              style={{
+                fontSize: dimensions.fontSize.sm,
+                lineHeight: '1.6'
+              }}
+            >
+              Proyectos e iniciativas en desarrollo y ejecución.
+            </p>
+            </div>
+          
+          <div className="rounded-lg bg-white border border-gray-100 hover:border-gray-200 shadow-sm hover:shadow-md transition-all duration-300" style={{ padding: dimensions.spacing.md }}>
+            <div className="flex items-center" style={{ gap: dimensions.spacing.xs, marginBottom: dimensions.spacing.sm }}>
+              <div className="rounded-full bg-[#FF6E00]" style={{ width: scale(8), height: scale(8) }}></div>
+              <h3 
+              className={`${COLOR_CLASSES.textPrimary} font-semibold`}
+                style={{ fontSize: dimensions.fontSize.lg }}
+            >
+                Galería
+        </h3>
+          </div>
+          <p 
+            className={COLOR_CLASSES.textSecondary}
+            style={{ 
+              fontSize: dimensions.fontSize.sm,
+              lineHeight: '1.6'
+            }}
+          >
+              Colección de imágenes, documentos y recursos multimedia.
+          </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Sección: Consejos y Mejores Prácticas */}
+      <div 
+        className="bg-white rounded-lg shadow-sm border border-gray-100 hover:shadow-md hover:border-[#FF6E00]/20 transition-all duration-300"
+        style={{
+          padding: dimensions.spacing.xl,
           marginBottom: dimensions.spacing['2xl']
         }}
       >
-        <BookOpen 
-          size={scale(48)} 
-          className={`${COLOR_CLASSES.textSecondary} mx-auto`}
-          style={{ marginBottom: dimensions.spacing.md }}
-        />
-        <h3 
-          className={`${COLOR_CLASSES.textPrimary} font-semibold`}
-          style={{ 
-            fontSize: dimensions.fontSize['2xl'],
-            marginBottom: dimensions.spacing.sm
-          }}
-        >
-          Contenido en Desarrollo
+        <div className="flex items-center" style={{ gap: dimensions.spacing.sm, marginBottom: dimensions.spacing.lg }}>
+          <HelpCircle size={scale(24)} className={COLOR_CLASSES.primary} />
+          <h2 
+            className={`${COLOR_CLASSES.textPrimary} font-semibold`}
+            style={{ fontSize: dimensions.fontSize['2xl'] }}
+          >
+            Consejos y Mejores Prácticas
+          </h2>
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2" style={{ gap: dimensions.spacing.lg }}>
+          <div>
+            <h3 
+              className={`${COLOR_CLASSES.textPrimary} font-semibold flex items-center`}
+              style={{ fontSize: dimensions.fontSize.lg, marginBottom: dimensions.spacing.sm, gap: dimensions.spacing.sm }}
+            >
+              <Info size={scale(20)} className="text-[#FF6E00]" />
+              Consejos de Navegación
+            </h3>
+            <ul 
+              className="space-y-2"
+              style={{ fontSize: dimensions.fontSize.sm, color: '#6B7280' }}
+            >
+              <li>• Usa la búsqueda global para encontrar contenido rápidamente</li>
+              <li>• Los íconos de edición y eliminación solo aparecen si tienes permisos</li>
+              <li>• El menú hamburguesa en móvil muestra enlaces públicos en páginas públicas</li>
+              <li>• Siempre puedes volver al inicio desde el logo o menú</li>
+            </ul>
+          </div>
+          
+          <div>
+            <h3 
+              className={`${COLOR_CLASSES.textPrimary} font-semibold flex items-center`}
+              style={{ fontSize: dimensions.fontSize.lg, marginBottom: dimensions.spacing.sm, gap: dimensions.spacing.sm }}
+            >
+              <Lock size={scale(20)} className="text-[#5D5A88]" />
+              Seguridad
         </h3>
-        <p 
-          className={COLOR_CLASSES.textSecondary}
+            <ul 
+              className="space-y-2"
+              style={{ fontSize: dimensions.fontSize.sm, color: '#6B7280' }}
+            >
+              <li>• Cierra sesión cuando termines de usar la plataforma</li>
+              <li>• No compartas tus credenciales de acceso</li>
+              <li>• Los recursos eliminados se pueden restaurar si es necesario</li>
+              <li>• Contacta al administrador si tienes problemas de acceso</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div 
+          className="mt-6 p-4 bg-white rounded-lg border border-[#FF6E00]/20"
+          style={{ marginTop: dimensions.spacing.md }}
+        >
+          <div className="flex items-center" style={{ gap: dimensions.spacing.sm }}>
+            <AlertCircle size={scale(20)} className="text-[#FF6E00]" />
+            <span 
+              className="font-semibold text-[#5D5A88]"
+              style={{ fontSize: dimensions.fontSize.sm }}
+            >
+              ¿Necesitas más ayuda?
+            </span>
+          </div>
+          <p 
+            className="text-[#6B7280] mt-2"
           style={{ 
-            fontSize: dimensions.fontSize.md,
-            maxWidth: `${scale(500)}px`,
-            margin: '0 auto'
+              fontSize: dimensions.fontSize.sm,
+              lineHeight: '1.6'
           }}
         >
-          Estamos trabajando en crear documentación completa y detallada para ayudarte a aprovechar al máximo la plataforma. Próximamente encontrarás aquí guías paso a paso, tutoriales en video y recursos descargables.
+            Si tienes preguntas específicas o necesitas asistencia técnica, contacta al administrador del sistema o revisa la documentación adicional disponible en utilidades.
         </p>
+        </div>
       </div>
     </div>
   );
