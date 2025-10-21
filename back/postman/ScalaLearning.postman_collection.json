@@ -27,7 +27,8 @@
 									""
 								],
 								"type": "text/javascript",
-								"packages": {}
+								"packages": {},
+								"requests": {}
 							}
 						}
 					],
@@ -417,12 +418,18 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/resources",
+							"raw": "{{baseUrl}}/resources?includeInactive=true",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"resources"
+							],
+							"query": [
+								{
+									"key": "includeInactive",
+									"value": "true"
+								}
 							]
 						}
 					},
@@ -451,13 +458,13 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "{{baseUrl}}/resources/68c22af480f85343fb2bf920",
+							"raw": "{{baseUrl}}/resources/68cb29b5e7461e967e34e0f4",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"resources",
-								"68c22af480f85343fb2bf920"
+								"68cb29b5e7461e967e34e0f4"
 							]
 						}
 					},
@@ -515,14 +522,14 @@
 						"method": "PATCH",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/resources/restore/68b72fe4ff0cf9cd6dbc2ecf",
+							"raw": "{{baseUrl}}/resources/restore/68e577b8034dc8fe77a7234d",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"resources",
 								"restore",
-								"68b72fe4ff0cf9cd6dbc2ecf"
+								"68e577b8034dc8fe77a7234d"
 							]
 						}
 					},
@@ -530,9 +537,6 @@
 				},
 				{
 					"name": "GET_resources/section/id",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -546,19 +550,15 @@
 						},
 						"method": "GET",
 						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"sectionId\": \"66d5c2a9f3f1c1a9b25c12e5\",\r\n    \"name\": \"Productos y Precios\",\r\n    \"description\": \"Probando recursos con auth\",\r\n    \"link\": \"https://drive.google.com/file/xxxxxx/view?usp=sharin\"\r\n}"
-						},
 						"url": {
-							"raw": "{{baseUrl}}/resources/section/68c9f2d8d6dbf0c558131e16",
+							"raw": "{{baseUrl}}/resources/section/68cadd9354f9344f27defc83",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"resources",
 								"section",
-								"68c9f2d8d6dbf0c558131e16"
+								"68cadd9354f9344f27defc83"
 							]
 						}
 					},
@@ -581,7 +581,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"sectionId\": \"68c9f2d8d6dbf0c558131e16\",\r\n    \"links\": [\r\n        { \"label\": \" \", \"url\": \"https://docs.google.com/spreadsheets/d/1yNV6InDnRNSPjraCT2JDK0jkEZXyISHe6sZK8cmyug4/edit?gid=0#gid=0\" }\r\n\r\n  ],\r\n  \"isActive\": false\r\n}",
+							"raw": "{\r\n    \"description\": \"Página de la alianza EAFIT\",\r\n    \"links\": [\r\n        { \"label\": \"Universidad - EAFIT\", \r\n        \"url\": \"https://www.eafit.edu.co/\" \r\n        }\r\n  ],\r\n  \"isActive\": true\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -589,13 +589,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseUrl}}/resources/68cae8c154f9344f27defc8f",
+							"raw": "{{baseUrl}}/resources/68eea3f196a20c91c569dbd2",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"resources",
-								"68cae8c154f9344f27defc8f"
+								"68eea3f196a20c91c569dbd2"
 							]
 						}
 					},
@@ -617,13 +617,42 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/resources/68b72fe4ff0cf9cd6dbc2ecf",
+							"raw": "{{baseUrl}}/resources/68e577b8034dc8fe77a7234d",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"resources",
-								"68b72fe4ff0cf9cd6dbc2ecf"
+								"68e577b8034dc8fe77a7234d"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET_resources/alliance/name",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/resources/alliance/UDD",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"resources",
+								"alliance",
+								"UDD"
 							]
 						}
 					},
@@ -677,13 +706,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/alliances/68c22bdb80f85343fb2bf923",
+							"raw": "{{baseUrl}}/alliances/68dd8f9669672674383c4aaa",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"alliances",
-								"68c22bdb80f85343fb2bf923"
+								"68dd8f9669672674383c4aaa"
 							]
 						}
 					},
@@ -706,7 +735,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"name\": \"Universidad del Desarrollo\",\r\n  \"siglas\": \"UDD\",\r\n  \"url\": \"https://www.udd.cl/\"\r\n}",
+							"raw": "{\r\n  \"name\": \"Universidad Andina del Cusco\",\r\n  \"siglas\": \"UAC\",\r\n  \"url\": \"https://www.uandina.edu.pe/\",\r\n  \"logos\": [\r\n    {\r\n        \"label\": \"UAC\",\r\n        \"url\": \"https://drive.google.com/file/d/1eMTydxj0EiJWIrGJdXTIBvZAHPobWmcI/view?usp=drive_link\"\r\n    }\r\n  ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -742,7 +771,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"url\": \"https://udd.com\"\r\n}",
+							"raw": "{\r\n   \"logos\": [\r\n    {\r\n      \"label\": \"UCSS - Logo UCSS Online Blanco\",\r\n      \"url\": \"https://drive.google.com/uc?id=1XwxxbeSQZUI7Px1pr3HHfm28brAyl5FO\"\r\n    }\r\n  ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -750,13 +779,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseUrl}}/alliances/68bf8efcd5e22cf935a01bcd",
+							"raw": "{{baseUrl}}/alliances/68dd8f9669672674383c4aaa",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"alliances",
-								"68bf8efcd5e22cf935a01bcd"
+								"68dd8f9669672674383c4aaa"
 							]
 						}
 					},
@@ -1040,6 +1069,317 @@
 							""
 						]
 					}
+				}
+			]
+		},
+		{
+			"name": "Search",
+			"item": [
+				{
+					"name": "GET_search",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/search?q=alianzas&page=1&limit=5",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"search"
+							],
+							"query": [
+								{
+									"key": "q",
+									"value": "alianzas"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Documents",
+			"item": [
+				{
+					"name": "GET_documents",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/documents",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"documents"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "POST_documents/upload",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"contentType": "",
+									"type": "file",
+									"src": "postman-cloud:///1f0a93f7-8b44-4800-b0a4-7e6f74c39b69"
+								},
+								{
+									"key": "name",
+									"value": "Informe Avances Backend 2",
+									"contentType": "",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Prueba informe avance",
+									"type": "text"
+								},
+								{
+									"key": "category",
+									"value": "otros",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/documents/upload",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"documents",
+								"upload"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE_documents/id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/documents/68eeba3b7f6de9c9c0e82e47",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"documents",
+								"68eeba3b7f6de9c9c0e82e47"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET_documents/id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/documents/68eeba3b7f6de9c9c0e82e47",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"documents",
+								"68eeba3b7f6de9c9c0e82e47"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PATCH_documents/restore/id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/documents/restore/68eeba3b7f6de9c9c0e82e47",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"documents",
+								"restore",
+								"68eeba3b7f6de9c9c0e82e47"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PATCH_:id/visibility",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"visibleTo\": [\"admin\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/documents/68eeb80e4853e17d736e3004/visibility",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"documents",
+								"68eeb80e4853e17d736e3004",
+								"visibility"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT_documents/:id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"category\": \"informe\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/documents/68eeb80e4853e17d736e3004",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"documents",
+								"68eeb80e4853e17d736e3004"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		}
