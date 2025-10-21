@@ -51,6 +51,7 @@ export interface CardConfig {
   // Identificadores para lógica de alianzas
   sectionType?: string;
   resourceName?: string;
+  resourceId?: string; // ID fijo del recurso (nunca cambia)
   showModal?: boolean;
   isActive?: boolean;
 }
@@ -118,7 +119,8 @@ export const alianzaPageCards: CardConfig[] = [
       { component: Edit2, size: 18, color: '#5D5A88', withCircle: true, type: 'edit' }
     ]),
     sectionType: SECTION_IDS.ALIANZA,
-    resourceName: 'Portafolio y Precios'
+    resourceName: 'Portafolio y Precios',
+    resourceId: '68c22af480f85343fb2bf920'
   },
   {
     id: 'fichas-tecnicas',
@@ -130,7 +132,8 @@ export const alianzaPageCards: CardConfig[] = [
       { component: Edit2, size: 18, color: '#5D5A88', withCircle: true, type: 'edit' }
     ]),
     sectionType: SECTION_IDS.ALIANZA,
-    resourceName: 'Fichas técnicas y Grabaciones de capacitación en producto'
+    resourceName: 'Fichas técnicas y Grabaciones de capacitación en producto',
+    resourceId: '68cae80754f9344f27defc8b'
   },
   {
     id: 'usp',
@@ -142,7 +145,8 @@ export const alianzaPageCards: CardConfig[] = [
       { component: Edit2, size: 18, color: '#5D5A88', withCircle: true, type: 'edit' }
     ]),
     sectionType: SECTION_IDS.ALIANZA,
-    resourceName: 'USP'
+    resourceName: 'USP',
+    resourceId: '68cae87f54f9344f27defc8d'
   },
   {
     id: 'organigrama',
@@ -154,7 +158,8 @@ export const alianzaPageCards: CardConfig[] = [
       { component: Edit2, size: 18, color: '#5D5A88', withCircle: true, type: 'edit' }
     ]),
     sectionType: SECTION_IDS.ALIANZA,
-    resourceName: 'Estructura organizacional de equipo de trabajo (Organigrama)'
+    resourceName: 'Estructura organizacional de equipo de trabajo (Organigrama)',
+    resourceId: '68cae8c154f9344f27defc8f'
   },
   {
     id: 'directorio-contactos',
@@ -167,6 +172,7 @@ export const alianzaPageCards: CardConfig[] = [
     ]),
     sectionType: SECTION_IDS.ALIANZA,
     resourceName: 'Directorio de contactos de la alianza',
+    resourceId: '68caf0e66e22346e481f8c72',
     showModal: true
   },
   {
@@ -180,6 +186,7 @@ export const alianzaPageCards: CardConfig[] = [
     ]),
     sectionType: SECTION_IDS.ALIANZA,
     resourceName: 'Resumen de Contrato',
+    resourceId: '68caf1f86e22346e481f8c7c',
     showModal: true
   }
 ];
@@ -196,6 +203,7 @@ export const gobernanzaPageCards: CardConfig[] = [
     ]),
     sectionType: SECTION_IDS.GOBERNANZA,
     resourceName: 'Actas de comité de colaboración',
+    resourceId: '68caf35e6e22346e481f8c86',
     showModal: true,
     isActive: true
   },
@@ -210,6 +218,7 @@ export const gobernanzaPageCards: CardConfig[] = [
     ]),
     sectionType: SECTION_IDS.GOBERNANZA,
     resourceName: 'Actas de comité de dirección',
+    resourceId: '68caf4586e22346e481f8c90',
     showModal: true,
     isActive: true
   },
@@ -224,6 +233,7 @@ export const gobernanzaPageCards: CardConfig[] = [
     ]),
     sectionType: SECTION_IDS.GOBERNANZA,
     resourceName: 'Actas de comité de estrategia y crecimiento',
+    resourceId: '68caf4f56e22346e481f8c9a',
     showModal: true,
     isActive: true
   },
@@ -238,6 +248,7 @@ export const gobernanzaPageCards: CardConfig[] = [
     ]),
     sectionType: SECTION_IDS.GOBERNANZA,
     resourceName: 'Grabación de los comités',
+    resourceId: '68caf5876e22346e481f8ca4',
     isActive: true
   },
   {
@@ -251,6 +262,7 @@ export const gobernanzaPageCards: CardConfig[] = [
     ]),
     sectionType: SECTION_IDS.GOBERNANZA,
     resourceName: 'Presentaciones de comités',
+    resourceId: '68caf5fe6e22346e481f8ca7',
     isActive: true
   }
 ];
@@ -268,6 +280,7 @@ export const gestionPageCards: CardConfig[] = [
     ]),
     sectionType: SECTION_IDS.GESTION,
     resourceName: 'Tablero PBI Ventas',
+    resourceId: '68cb1a93e7461e967e34e09f',
     showModal: true
   },
   {
@@ -281,6 +294,7 @@ export const gestionPageCards: CardConfig[] = [
     ]),
     sectionType: SECTION_IDS.GESTION,
     resourceName: 'Tablero PBI éxito estudiantil',
+    resourceId: '68cb238de7461e967e34e0aa',
     showModal: true
   },
   {
@@ -293,7 +307,8 @@ export const gestionPageCards: CardConfig[] = [
       { component: Edit2, size: 18, color: '#5D5A88', withCircle: true, type: 'edit' }
     ]),
     sectionType: SECTION_IDS.GESTION,
-    resourceName: 'Calendario académico de las alianzas'
+    resourceName: 'Calendario académico de las alianzas',
+    resourceId: '68cb2547e7461e967e34e0ca'
     // NO tiene showModal: true porque solo tiene 1 link
   },
   {
@@ -307,6 +322,7 @@ export const gestionPageCards: CardConfig[] = [
     ]),
     sectionType: SECTION_IDS.GESTION,
     resourceName: 'Tablero PBI gestión docente',
+    resourceId: '68cb2443e7461e967e34e0b5',
     showModal: true
   },
   {
@@ -320,6 +336,7 @@ export const gestionPageCards: CardConfig[] = [
     ]),
     sectionType: SECTION_IDS.GESTION,
     resourceName: 'Tablero PBI experiencia',
+    resourceId: '68cb24e5e7461e967e34e0bf',
     showModal: true
   },
   {
@@ -333,6 +350,7 @@ export const gestionPageCards: CardConfig[] = [
     ]),
     sectionType: SECTION_IDS.GESTION,
     resourceName: 'Calendario operacional',
+    resourceId: '68cb2745e7461e967e34e0cd',
     showModal: true
   }
 ];
@@ -350,6 +368,7 @@ export const iniciativasPageCards: CardConfig[] = [
     ]),
     sectionType: SECTION_IDS.INICIATIVAS,
     resourceName: 'Masterplan',
+    resourceId: '68cb27fae7461e967e34e0d8',
     showModal: true
   },
   {
@@ -363,6 +382,7 @@ export const iniciativasPageCards: CardConfig[] = [
     ]),
     sectionType: SECTION_IDS.INICIATIVAS,
     resourceName: 'Plan de excelencia operativa en 360 - 2025',
+    resourceId: '68cb2880e7461e967e34e0db',
     showModal: true
   }
 ];
@@ -379,7 +399,8 @@ export const planeacionPageCards: CardConfig[] = [
       { component: Edit2, size: 18, color: '#5D5A88', withCircle: true, type: 'edit' }
     ]),
     sectionType: SECTION_IDS.PLANEACION,
-    resourceName: 'Budget'
+    resourceName: 'Budget',
+    resourceId: '68caf67c6e22346e481f8caa'
   },
   {
     id: 'proyeccion-crecimiento',
@@ -391,7 +412,8 @@ export const planeacionPageCards: CardConfig[] = [
       { component: Edit2, size: 18, color: '#5D5A88', withCircle: true, type: 'edit' }
     ]),
     sectionType: SECTION_IDS.PLANEACION,
-    resourceName: 'Proyección de crecimiento de la alianza con su portafolio'
+    resourceName: 'Proyección de crecimiento de la alianza con su portafolio',
+    resourceId: '68caf7e56e22346e481f8cad'
   },
   {
     id: 'estudios-viabilidad',
@@ -403,7 +425,8 @@ export const planeacionPageCards: CardConfig[] = [
       { component: Edit2, size: 18, color: '#5D5A88', withCircle: true, type: 'edit' }
     ]),
     sectionType: SECTION_IDS.PLANEACION,
-    resourceName: 'Estudios de viabilidad y factibilidad'
+    resourceName: 'Estudios de viabilidad y factibilidad',
+    resourceId: '68caf8246e22346e481f8cb0'
   },
   {
     id: 'aprobacion-portafolio',
@@ -415,7 +438,8 @@ export const planeacionPageCards: CardConfig[] = [
       { component: Edit2, size: 18, color: '#5D5A88', withCircle: true, type: 'edit' }
     ]),
     sectionType: SECTION_IDS.PLANEACION,
-    resourceName: 'Aprobación de portafolio por alianza'
+    resourceName: 'Aprobación de portafolio por alianza',
+    resourceId: '68caf83c6e22346e481f8cb3'
   }
 ];
 
@@ -432,6 +456,7 @@ export const galeriaPageCards: CardConfig[] = [
     ]),
     sectionType: '68cadd9354f9344f27defc83',
     resourceName: 'EAFIT',
+    resourceId: '68cb2978e7461e967e34e0df',
     showModal: true
   },
   {
@@ -445,6 +470,7 @@ export const galeriaPageCards: CardConfig[] = [
     ]),
     sectionType: '68cadd9354f9344f27defc83',
     resourceName: 'Uninorte',
+    resourceId: '68cb2986e7461e967e34e0e2',
     showModal: true
   },
   {
