@@ -74,7 +74,8 @@ export const useCards = ({ pageType, onEditClick, onDeleteClick }: UseCardsProps
       card.onClick();
     } else if (card.sectionType) {
       // Manejar clicks de cards de alianza usando el servicio
-      handleAllianceCardClick(card.sectionType, card.resourceName, card.showModal);
+      // Usar resourceId primero, luego resourceName como fallback
+      handleAllianceCardClick(card.sectionType, card.resourceName, card.showModal, card.resourceId);
     }
   };
 

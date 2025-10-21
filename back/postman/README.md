@@ -15,7 +15,7 @@ En la carpeta /postman encontrarás:
 
 * _ScalaLearning.postman_collection.json_ → contiene todas las rutas de la API.
 
-* _ScalaLearning.postman_environment.json_ → contiene las variables necesarias como {{baseUrl}} y {{token}}.
+* _.ENV.postman_environment.json_ → contiene las variables necesarias como {{baseUrl}} y {{token}}.
 
 ## 🚀 Pasos para importar en Postman
 
