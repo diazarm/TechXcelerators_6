@@ -30,7 +30,7 @@ const DefaultErrorFallback: React.FC<{ error?: Error; onReset?: () => void }> = 
       />
       
       {/* Contenedor del error centrado */}
-      <div className="relative z-10 flex flex-col items-center justify-center px-4 sm:px-6 lg:px-8" style={{ minHeight: '100vh', paddingTop: dimensions.spacing['2xl'], paddingBottom: dimensions.spacing['2xl'] }}>
+      <div className="relative z-10 flex flex-col items-center justify-center" style={{ minHeight: '100vh', paddingTop: dimensions.spacing['2xl'], paddingBottom: dimensions.spacing['2xl'], paddingLeft: dimensions.spacing.md, paddingRight: dimensions.spacing.md }}>
         {/* Logo */}
         <div 
           style={{

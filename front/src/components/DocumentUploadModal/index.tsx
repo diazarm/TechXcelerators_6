@@ -1,4 +1,5 @@
 import React, { useState, useCallback, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { X, Upload, FileText, FileMinus, File, AlertTriangle } from 'react-feather';
 import { useScreenSize } from '../../context';
 import { useResponsive, useFocusTrap, useEscapeKey } from '../../hooks';
@@ -178,7 +179,7 @@ export const DocumentUploadModal: React.FC<DocumentUploadModalProps> = ({
     return <File size={scale(24)} className="text-gray-500" />;
   };
 
-  return (
+  const modalContent = (
     <div 
       className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-in fade-in duration-300"
       onClick={handleBackdropClick}
@@ -209,7 +210,7 @@ export const DocumentUploadModal: React.FC<DocumentUploadModalProps> = ({
           <div className="flex items-center justify-between">
             <div className="flex items-center" style={{ gap: scale(8) }}>
               <div 
-                className="bg-white/20 rounded-full p-2"
+                className="bg-white/20 rounded-full"
                 style={{ padding: scale(8) }}
               >
                 <Upload size={scale(20)} className="text-white" />
@@ -244,7 +245,7 @@ export const DocumentUploadModal: React.FC<DocumentUploadModalProps> = ({
           <form onSubmit={handleSubmit} style={{ padding: scale(24) }}>
           {/* Drag & Drop Area */}
           <div
-            className={`mt-1 flex justify-center items-center border-2 border-dashed rounded-md p-6 text-center
+            className={`mt-1 flex justify-center items-center border-2 border-dashed rounded-md text-center
               ${isDragging ? 'border-[#5D5A88] bg-blue-50' : 'border-gray-300 bg-gray-50'}
               ${uploadLoading ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer'}
             `}
@@ -422,4 +423,6 @@ export const DocumentUploadModal: React.FC<DocumentUploadModalProps> = ({
       </div>
     </div>
   );
+
+  return isOpen ? createPortal(modalContent, document.body) : null;
 };

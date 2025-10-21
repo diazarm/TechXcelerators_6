@@ -3,9 +3,11 @@
  * Siguiendo el diseño de ResourceRestoreModal
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { X, RotateCcw } from 'react-feather';
 import { useScreenSize } from '../../context';
+import { useFocusTrap, useEscapeKey } from '../../hooks';
 import { useDocumentActions } from '../../hooks/useDocumentActions';
 import { getDocuments } from '../../services';
 import { Button } from '../Button';
@@ -27,6 +29,10 @@ export const DocumentRestoreModal: React.FC<DocumentRestoreModalProps> = ({
   const { restoreLoading, handleRestore } = useDocumentActions();
   const [deletedDocuments, setDeletedDocuments] = useState<IDocument[]>([]);
   const [loading, setLoading] = useState(true);
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  useFocusTrap(modalRef, isOpen);
+  useEscapeKey(isOpen, onClose);
 
   useEffect(() => {
     if (isOpen) {
@@ -59,7 +65,7 @@ export const DocumentRestoreModal: React.FC<DocumentRestoreModalProps> = ({
 
   if (!isOpen) return null;
 
-  return (
+  const modalContent = (
     <div
       style={{
         position: 'fixed',
@@ -77,6 +83,10 @@ export const DocumentRestoreModal: React.FC<DocumentRestoreModalProps> = ({
       onClick={onClose}
     >
       <div
+        ref={modalRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="document-restore-modal-title"
         style={{
           backgroundColor: 'white',
           borderRadius: scale(12),
@@ -104,6 +114,7 @@ export const DocumentRestoreModal: React.FC<DocumentRestoreModalProps> = ({
           <div style={{ display: 'flex', alignItems: 'center', gap: dimensions.spacing.sm }}>
             <RotateCcw size={scale(24)} color="white" />
             <h2
+              id="document-restore-modal-title"
               style={{
                 margin: 0,
                 fontSize: dimensions.fontSize.xl,
@@ -259,5 +270,7 @@ export const DocumentRestoreModal: React.FC<DocumentRestoreModalProps> = ({
       </div>
     </div>
   );
+
+  return createPortal(modalContent, document.body);
 };
 
