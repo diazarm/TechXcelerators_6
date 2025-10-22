@@ -21,7 +21,7 @@ app.use(express.json());
 setupSwagger(app);
 
 app.get('/', (_req, res) => {
-  res.send('Bienvenido al backend de Scala!');
+  res.redirect('/api-docs');
 });
 
 
