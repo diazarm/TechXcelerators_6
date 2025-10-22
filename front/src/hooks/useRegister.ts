@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useNotification, useErrorHandler } from './index';
+import { useNotification } from './useNotification';
+import { useErrorHandler } from './useErrorHandler';
 import { logger, api } from '../services';
 import type { UserResponse } from '../services/userService';
 
@@ -140,7 +141,7 @@ export const useRegister = () => {
         type: 'error',
         title: 'Error al crear usuario',
         message: errorMessage,
-        duration: 0
+        duration: 5000
       });
 
       handleError(err, 'useRegister');

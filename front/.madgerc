@@ -1,0 +1,22 @@
+{
+  "fontSize": "10px",
+  "detectiveOptions": {
+    "ts": {
+      "skipTypeImports": true
+    }
+  },
+  "fileExtensions": ["ts", "tsx"],
+  "excludeRegExp": [
+    "node_modules",
+    "dist",
+    ".test.",
+    ".spec.",
+    "index\\.(ts|tsx)$"
+  ],
+  "backgroundColor": "#ffffff",
+  "nodeColor": "#5D5A88",
+  "noDependencyColor": "#10B981",
+  "cyclicNodeColor": "#EF4444",
+  "edgeColor": "#CBD5E1"
+}
+

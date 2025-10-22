@@ -1,7 +1,7 @@
 import type { User, LoginCredentials } from '../types';
 import type { LoginResponse, ValidateTokenResponse } from '../types/api';
 import { api } from './api';
-import { logger } from './index';
+import { logger } from './loggerService';
 
 /** Servicio de autenticación con backend real */
 

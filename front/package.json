@@ -7,7 +7,11 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "analyze:circular": "madge --circular --extensions ts,tsx src/",
+    "analyze:deps": "madge --extensions ts,tsx src/",
+    "analyze:graph": "madge --image dependency-graph.svg --extensions ts,tsx src/",
+    "analyze:bundle": "vite build --mode analyze"
   },
   "dependencies": {
     "@types/axios": "^0.9.36",
@@ -28,7 +32,9 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.20",
     "globals": "^16.3.0",
+    "madge": "^8.0.0",
     "postcss": "^8.4.31",
+    "rollup-plugin-visualizer": "^5.12.0",
     "sharp-cli": "^5.2.0",
     "tailwindcss": "^3.4.0",
     "typescript": "~5.8.3",

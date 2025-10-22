@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import type { AuthContextType, User, LoginCredentials, AuthProviderProps } from '../../types';
-import { AuthContext } from './../index';
+import { AuthContext } from './auth-context';
 import { login, logout, validateToken } from '../../services';
 
 /** Proveedor del contexto de autenticación */
