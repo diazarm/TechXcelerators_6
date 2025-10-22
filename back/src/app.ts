@@ -12,7 +12,10 @@ const app = express();
 connectDB();
 
 app.use(cors({
-  origin: 'https://scalalearning.vercel.app/' // Declaramos el puerto que usa el frontend
+  origin: [
+    'http://localhost:5173/',
+    'https://scalalearning.vercel.app/'
+  ]// Declaramos el puerto que usa el frontend tanto local como en producción
 }));
 
 app.use(express.json());
