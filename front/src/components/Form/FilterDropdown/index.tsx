@@ -33,7 +33,7 @@ export const FilterDropdown: React.FC<FilterDropdownProps> = ({
   const buttonRef = useRef<HTMLButtonElement>(null);
 
 
-  // Cerrar dropdown al hacer click fuera o scroll
+  // Cerrar dropdown al hacer click fuera o scroll externo
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -41,8 +41,11 @@ export const FilterDropdown: React.FC<FilterDropdownProps> = ({
       }
     };
 
-    const handleScroll = () => {
-      setIsOpen(false);
+    const handleScroll = (event: Event) => {
+      // Solo cerrar si el scroll no es dentro del dropdown
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
     };
 
     if (isOpen) {

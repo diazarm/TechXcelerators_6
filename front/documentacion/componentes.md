@@ -28,7 +28,7 @@ src/components/
 
 **Características**:
 - Animación continua de logos
-- Sistema de escalado para logos específicos (ej: Uninorte más grande)
+- Sistema de escalado para logos específicos 
 - Enlaces a sitios web de universidades
 - Responsive design
 
@@ -46,7 +46,7 @@ interface AllianceSliderProps {
 - Grid de alianzas con logos
 - Búsqueda y filtrado
 - Selección múltiple
-- Logos escalados (Uninorte más grande)
+- Logos escalados 
 
 **Props**:
 ```typescript
@@ -136,20 +136,23 @@ interface AllianceSelectionModalProps {
 **Propósito**: Componente de botón reutilizable
 
 **Variantes**:
-- `primary`: Botón principal (azul)
-- `secondary`: Botón secundario (gris)
-- `danger`: Botón de peligro (rojo)
-- `success`: Botón de éxito (verde)
+- `primary`: Botón principal (naranja #FF6E00, fondo sólido)
+- `secondary`: Botón secundario (naranja #FF6E00, borde con fondo blanco)
+- `outline`: Botón outline (naranja #FF6E00, borde que cambia a fondo al hover)
 
 **Props**:
 ```typescript
 interface ButtonProps {
-  variant?: 'primary' | 'secondary' | 'danger' | 'success';
-  size?: 'sm' | 'md' | 'lg';
-  loading?: boolean;
+  variant?: 'primary' | 'secondary' | 'outline';
+  size?: 'xs' | 'sm' | 'md' | 'lg';
+  type?: 'button' | 'submit' | 'reset';
   disabled?: boolean;
   children: React.ReactNode;
   onClick?: () => void;
+  className?: string;
+  style?: React.CSSProperties;
+  iconLeft?: React.ReactNode;
+  iconRight?: React.ReactNode;
 }
 ```
 
@@ -264,19 +267,19 @@ interface ButtonProps {
 **Propósito**: Barra de búsqueda global
 
 **Características**:
-- Búsqueda en tiempo real
-- Debounce
-- Autocompletado
-- Historial de búsquedas
+- Búsqueda en tiempo real con debounce
+- Integración con SearchModal
+- Navegación por teclado en resultados
+- Click outside para cerrar
 
 ### SearchModal
-**Propósito**: Modal de búsqueda avanzada
+**Propósito**: Modal flotante de resultados de búsqueda
 
 **Características**:
-- Filtros múltiples
-- Resultados paginados
-- Vista previa
-- Acciones rápidas
+- Lista de resultados con categorías
+- Navegación por teclado (flechas arriba/abajo)
+- Scroll automático al resultado seleccionado
+- Cierre con Escape o click en X
 
 ### SectionFilter
 **Propósito**: Filtro por secciones
