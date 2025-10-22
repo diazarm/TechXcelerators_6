@@ -6,7 +6,7 @@
  */
 
 import type { AppError, RetryConfig, ApiError, NetworkError, BusinessError, ValidationError } from '../types/error';
-import { logger } from './index';
+import { logger } from './loggerService';
 
 class ErrorService {
   private retryConfig: RetryConfig = {

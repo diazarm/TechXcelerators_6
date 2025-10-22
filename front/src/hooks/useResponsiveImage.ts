@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
-import { useComponentDimensions, useBreakpoints } from './index';
+import { useComponentDimensions } from './useScaledDimensions';
+import { useBreakpoints } from './useResponsive';
 
 export type ImageType = 'background' | 'background-login' | 'background-login-full' | 'card' | 'content' | 'hero';
 export type AspectRatio = '16/9' | '4/3' | '3/2' | '1/1' | 'auto';

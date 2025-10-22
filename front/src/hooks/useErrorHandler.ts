@@ -103,7 +103,7 @@ export function useErrorHandler(options: UseErrorHandlerOptions = {}): UseErrorH
       let notificationType: 'error' | 'warning' | 'info' = 'error';
       let title = 'Error del sistema';
       let message = error.message;
-      let duration = 0; // Por defecto no auto-hide
+      let duration = 5000; // Auto-hide en 5 segundos
 
       if (error.code.startsWith('VALIDATION_')) {
         notificationType = 'warning';
@@ -114,17 +114,17 @@ export function useErrorHandler(options: UseErrorHandlerOptions = {}): UseErrorH
         notificationType = 'error';
         title = 'Sin conexión';
         message = 'No se pudo conectar con el servidor. Verifica tu conexión a internet.';
-        duration = 0;
+        duration = 5000;
       } else if (error.code.startsWith('API_5')) {
         notificationType = 'error';
         title = 'Error del servidor';
         message = 'El servidor está experimentando problemas. Intenta nuevamente en unos minutos.';
-        duration = 0;
+        duration = 5000;
       } else if (error.code.startsWith('BUSINESS_AUTH')) {
         notificationType = 'error';
         title = 'Acceso denegado';
         message = 'No tienes permisos para realizar esta acción.';
-        duration = 0;
+        duration = 5000;
       }
 
       addNotification({

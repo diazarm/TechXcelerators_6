@@ -137,7 +137,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ accessType }) => {
                     type: 'error',
                     title,
                     message,
-                    duration: 0 // No auto-hide para errores críticos
+                    duration: 5000 // Auto-hide en 5 segundos
                   });
                   
                   // No llamar handleError aquí para evitar notificaciones duplicadas

@@ -13,7 +13,7 @@ import type {
   ValidationState,
 } from '../types/validation';
 import { ValidationRules } from '../types/validation';
-import { logger } from './index';
+import { logger } from './loggerService';
 
 class ValidationService {
   /**

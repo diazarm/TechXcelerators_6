@@ -91,11 +91,20 @@ Las cards combinan configuración estática (iconos, layout) con datos dinámico
 ## 📦 Scripts Disponibles
 
 ```bash
+# Desarrollo
 npm run dev          # Desarrollo (puerto 5173)
 npm run build        # Producción (tsc -b && vite build)
 npm run lint         # Linting con ESLint
 npm run preview      # Preview del build local
+
+# Análisis de Proyecto
+npm run analyze:circular  # Detectar dependencias circulares
+npm run analyze:deps      # Ver todas las dependencias
+npm run analyze:graph     # Generar gráfico visual (SVG)
+npm run analyze:bundle    # Analizar tamaño del bundle
 ```
+
+Ver [ANALISIS.md](../ANALISIS.md) para guía completa de análisis.
 
 ## 📚 Documentación Detallada
 
