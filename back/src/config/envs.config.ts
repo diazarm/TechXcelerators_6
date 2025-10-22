@@ -4,7 +4,7 @@ dotenv.config();
 
 export const envs = {
   port: process.env.PORT || 3000,
-  frontendUrl: process.env.FRONTEND_URL || "http://localhost:5173",
+  frontendUrl: process.env.FRONTEND_URL || "https://scalalearning.vercel.app",
   auth: {
     saltRounds: Number(process.env.SALT_ROUNDS) || 10,
     secretKey: process.env.SECRET_KEY,

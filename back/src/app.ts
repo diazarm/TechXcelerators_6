@@ -13,7 +13,7 @@ connectDB();
 
 const allowedOrigins = [
   "http://localhost:5173", // frontend local
-  "https://tu-frontend.vercel.app" // URL del frontend desplegado en Vercel
+  "https://scalalearning.vercel.app/" // URL del frontend desplegado en Vercel
 ];
 
 app.use(cors({
