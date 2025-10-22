@@ -11,11 +11,20 @@ dotenv.config();
 const app = express();
 connectDB();
 
+const allowedOrigins = [
+  "http://localhost:5173", // frontend local
+  "https://tu-frontend.vercel.app" // URL del frontend desplegado en Vercel
+];
+
 app.use(cors({
-  origin: [
-    'http://localhost:5173/',
-    'https://scalalearning.vercel.app/'
-  ]// Declaramos el puerto que usa el frontend tanto local como en producción
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true,
 }));
 
 app.use(express.json());
