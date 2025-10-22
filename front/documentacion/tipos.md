@@ -71,9 +71,9 @@ import type { User, IResource, Alliance } from '../../types';
 
 ### Importación de Tipos Co-locados
 ```typescript
-// ✅ Correcto: Importar tipos específicos de componentes directamente
-import type { ButtonProps } from '../components/Form/Button/types';
-import type { CardProps } from '../components/UI/Card/types';
+// ✅ Correcto: Importar tipos co-locados desde archivos barrel
+import type { ButtonProps } from '../components';
+import type { CardConfig } from '../constants';
 ```
 
 ## 📚 Convenciones

@@ -147,7 +147,7 @@ export const DocumentManagement: React.FC<DocumentManagementProps> = ({
               aria-label="Subir Documento"
               className={showMobileView ? 'flex-1 text-xs px-2' : ''}
             >
-              {showMobileView ? 'Subir' : 'Subir Documento'}
+              Subir
             </Button>
             <Button
               variant="secondary"
@@ -157,7 +157,7 @@ export const DocumentManagement: React.FC<DocumentManagementProps> = ({
               aria-label="Restaurar Documentos"
               className={showMobileView ? 'flex-1 text-xs px-2' : ''}
             >
-              {showMobileView ? 'Restaurar' : 'Restaurar Documentos'}
+              Restaurar
             </Button>
           </div>
         )}

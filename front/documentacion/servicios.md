@@ -2,25 +2,25 @@
 
 ## 📋 Descripción General
 
-Servicios que manejan toda la comunicación con el backend, proporcionando una capa de abstracción entre la UI y la API REST. Organizados por funcionalidad siguiendo patrones consistentes.
+Servicios que manejan toda la comunicación con el backend, proporcionando una capa de abstracción entre la UI y la API REST. Mezcla de clases singleton y funciones según el caso de uso.
 
 ## 🏗️ Estructura de Servicios
 
 ```
 src/services/
-├── api.ts                      # Configuración base de API
-├── authService.ts              # Autenticación y autorización
-├── resourceService.ts          # Gestión de recursos
-├── documentService.ts          # Gestión de documentos
-├── userService.ts              # Gestión de usuarios
-├── allianceService.ts          # Gestión de alianzas
-├── searchService.ts            # Búsqueda global
-├── resourceManagementService.ts # Gestión avanzada de recursos
-├── allianceNavigationService.ts # Navegación de alianzas
-├── logoService.ts              # Gestión de logos
-├── errorService.ts             # Manejo de errores
-├── loggerService.ts            # Logging
-├── validationService.ts        # Validaciones
+├── api.ts                      # Configuración base de API (Axios)
+├── authService.ts              # Funciones de autenticación
+├── resourceService.ts          # Clase ResourceService
+├── resourceManagementService.ts # Funciones de gestión de recursos
+├── documentService.ts          # Funciones de gestión de documentos
+├── userService.ts              # Clase UserService
+├── allianceService.ts          # Clase AllianceService
+├── allianceNavigationService.ts # Funciones de navegación de alianzas
+├── searchService.ts            # Objeto con métodos de búsqueda
+├── logoService.ts              # Funciones de gestión de logos
+├── errorService.ts             # Clase ErrorService
+├── loggerService.ts            # Clase LoggerService
+├── validationService.ts        # Clase ValidationService
 ├── types.ts                    # Tipos de servicios
 └── index.ts                    # Exportaciones centralizadas
 ```
@@ -31,10 +31,10 @@ src/services/
 **Propósito**: Configuración centralizada de Axios
 
 **Características**:
-- Configuración base de Axios
+- Instancia de Axios configurada
 - Interceptors para requests/responses
-- Manejo de tokens JWT
-- Manejo de errores globales
+- Manejo automático de tokens JWT
+- Manejo de errores globales (401 → logout)
 
 ```typescript
 const api = axios.create({
@@ -45,7 +45,7 @@ const api = axios.create({
   },
 });
 
-// Interceptor para requests
+// Interceptor para requests (agrega token)
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem('token');
   if (token) {
@@ -54,7 +54,7 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-// Interceptor para responses
+// Interceptor para responses (maneja 401)
 api.interceptors.response.use(
   (response) => response,
   (error) => {
@@ -74,26 +74,28 @@ api.interceptors.response.use(
 
 **API**:
 ```typescript
-class AuthService {
-  async login(email: string, password: string): Promise<LoginResponse>;
-  async register(userData: RegisterData): Promise<RegisterResponse>;
-  async logout(): Promise<void>;
-  async verifyToken(): Promise<User>;
-  async refreshToken(): Promise<TokenResponse>;
-  async changePassword(data: ChangePasswordData): Promise<void>;
-}
+// Funciones exportadas (no es una clase)
+async function login(credentials: LoginCredentials): Promise<{ user: User; token: string }>;
+async function validateToken(token: string): Promise<User>;
+async function logout(): Promise<void>;
+async function getCurrentUser(): Promise<User | null>;
 ```
 
 **Uso**:
 ```typescript
-import { authService } from '../services/authService';
+import { login, validateToken, logout } from '../services';
 
-const response = await authService.login('user@example.com', 'password');
-const newUser = await authService.register({
-  name: 'Juan Pérez',
-  email: 'juan@example.com',
-  password: 'password123'
+// Login
+const { user, token } = await login({ 
+  email: 'user@example.com', 
+  password: 'password' 
 });
+
+// Validar token
+const user = await validateToken(token);
+
+// Logout
+await logout();
 ```
 
 ## 📚 Gestión de Recursos
@@ -101,55 +103,62 @@ const newUser = await authService.register({
 ### resourceService.ts
 **Propósito**: CRUD completo de recursos educativos
 
+**Patrón**: Clase singleton exportada como `resourceService`
+
 **API**:
 ```typescript
 class ResourceService {
   async getAllResources(): Promise<IResource[]>;
   async getResourcesBySection(sectionId: string): Promise<IResource[]>;
-  async getResourceById(id: string): Promise<IResource>;
-  async createResource(data: CreateResourceData): Promise<IResource>;
-  async updateResource(id: string, data: UpdateResourceData): Promise<IResource>;
-  async deleteResource(id: string): Promise<void>;
-  async restoreResource(id: string): Promise<IResource>;
-  async searchResources(query: string, filters?: SearchFilters): Promise<IResource[]>;
+  async getResourceById(id: string): Promise<IResource | null>;
 }
+
+export const resourceService = new ResourceService();
 ```
 
-**Tipos**:
+**Uso**:
 ```typescript
-interface CreateResourceData {
-  name: string;
-  description: string;
-  sectionId: string;
-  links: Array<{
-    label: string;
-    url: string;
-  }>;
-}
+import { resourceService } from '../services';
 
-interface UpdateResourceData {
-  name?: string;
-  description?: string;
-  links?: Array<{
-    label: string;
-    url: string;
-  }>;
-}
+const allResources = await resourceService.getAllResources();
+const sectionResources = await resourceService.getResourcesBySection('68c9f2d8...');
+const resource = await resourceService.getResourceById('68c22af4...');
 ```
 
 ### resourceManagementService.ts
-**Propósito**: Gestión avanzada de recursos con funcionalidades adicionales
+**Propósito**: Funciones adicionales para gestión de recursos
+
+**Patrón**: Funciones exportadas individualmente
 
 **API**:
 ```typescript
-class ResourceManagementService {
-  async getResourceByName(name: string): Promise<IResource>;
-  async updateResource(id: string, data: UpdateResourceData): Promise<IResource>;
-  async softDeleteResource(id: string): Promise<void>;
-  async restoreResource(id: string): Promise<IResource>;
-  async getDeletedResources(): Promise<IResource[]>;
-  async duplicateResource(id: string): Promise<IResource>;
-}
+async function createResource(data: CreateResourceData): Promise<IResource>;
+async function updateResource(id: string, data: UpdateResourceData): Promise<IResource>;
+async function softDeleteResource(id: string): Promise<IResource>;
+async function restoreResource(id: string): Promise<IResource>;
+async function getResourceByName(name: string): Promise<IResource | null>;
+async function getDeletedResources(): Promise<IResource[]>;
+
+const RESOURCE_NAME_TO_ID_MAP: Record<string, string>; // Mapeo de nombres a IDs
+function getResourceIdByName(name: string): string | null;
+```
+
+**Uso**:
+```typescript
+import { 
+  createResource, 
+  updateResource, 
+  getResourceByName 
+} from '../services';
+
+const newResource = await createResource({
+  name: 'Nuevo Recurso',
+  description: 'Descripción',
+  sectionId: '68c9f2d8...',
+  links: [{ label: 'Link', url: 'https://...' }]
+});
+
+const resource = await getResourceByName('Portafolio y Precios');
 ```
 
 ## 📄 Gestión de Documentos
@@ -157,35 +166,42 @@ class ResourceManagementService {
 ### documentService.ts
 **Propósito**: CRUD completo de documentos
 
+**Patrón**: Funciones exportadas individualmente
+
 **API**:
 ```typescript
-class DocumentService {
-  async getAllDocuments(): Promise<IDocument[]>;
-  async getDocumentsBySection(sectionId: string): Promise<IDocument[]>;
-  async getDocumentById(id: string): Promise<IDocument>;
-  async uploadDocument(data: UploadDocumentData): Promise<IDocument>;
-  async updateDocument(id: string, data: UpdateDocumentData): Promise<IDocument>;
-  async deleteDocument(id: string): Promise<void>;
-  async restoreDocument(id: string): Promise<IDocument>;
-  async downloadDocument(id: string): Promise<Blob>;
-}
+async function uploadDocument(data: DocumentUploadData): Promise<IDocument>;
+async function getDocuments(filters?: DocumentFilters): Promise<IDocument[]>;
+async function getDocumentById(id: string): Promise<IDocument>;
+async function updateDocument(id: string, data: DocumentUpdateData): Promise<IDocument>;
+async function updateDocumentVisibility(id: string, role: 'director' | 'user', isVisible: boolean): Promise<IDocument>;
+async function deleteDocument(id: string): Promise<string>;
+async function restoreDocument(id: string): Promise<string>;
+function getDocumentDownloadUrl(id: string): string;
+async function downloadDocument(id: string, mimeType: string, filename?: string): Promise<void>;
 ```
 
-**Tipos**:
+**Uso**:
 ```typescript
-interface UploadDocumentData {
-  name: string;
-  description?: string;
-  sectionId: string;
-  file: File;
-  isVisible?: boolean;
-}
+import { 
+  uploadDocument, 
+  getDocuments, 
+  downloadDocument 
+} from '../services';
 
-interface UpdateDocumentData {
-  name?: string;
-  description?: string;
-  isVisible?: boolean;
-}
+// Upload
+const doc = await uploadDocument({
+  name: 'Manual',
+  file: fileObject,
+  category: 'manual',
+  visibleTo: ['director', 'user']
+});
+
+// Get
+const documents = await getDocuments();
+
+// Download
+await downloadDocument(docId, 'application/pdf', 'manual.pdf');
 ```
 
 ## 👥 Gestión de Usuarios
@@ -193,36 +209,30 @@ interface UpdateDocumentData {
 ### userService.ts
 **Propósito**: CRUD completo de usuarios
 
+**Patrón**: Clase singleton exportada como `userService`
+
 **API**:
 ```typescript
 class UserService {
-  async getAllUsers(): Promise<IUser[]>;
+  async getUsers(): Promise<IUser[]>;
   async getUserById(id: string): Promise<IUser>;
   async createUser(data: CreateUserData): Promise<IUser>;
-  async updateUser(id: string, data: UpdateUserData): Promise<IUser>;
-  async deleteUser(id: string): Promise<void>;
+  async updateUser(id: string, data: Partial<IUser>): Promise<IUser>;
   async changeUserRole(id: string, role: UserRole): Promise<IUser>;
   async toggleUserStatus(id: string): Promise<IUser>;
+  async deleteUser(id: string): Promise<void>;
 }
+
+export const userService = new UserService();
 ```
 
-**Tipos**:
+**Uso**:
 ```typescript
-interface CreateUserData {
-  name: string;
-  email: string;
-  password: string;
-  role: 'user' | 'director' | 'admin';
-}
+import { userService } from '../services';
 
-interface UpdateUserData {
-  name?: string;
-  email?: string;
-  role?: UserRole;
-  isActive?: boolean;
-}
-
-type UserRole = 'user' | 'director' | 'admin';
+const users = await userService.getUsers();
+await userService.changeUserRole(userId, 'director');
+await userService.toggleUserStatus(userId);
 ```
 
 ## 🏛️ Gestión de Alianzas
@@ -230,27 +240,38 @@ type UserRole = 'user' | 'director' | 'admin';
 ### allianceService.ts
 **Propósito**: Gestión de alianzas universitarias
 
+**Patrón**: Clase singleton exportada como `allianceService`
+
 **API**:
 ```typescript
 class AllianceService {
-  async getAlliances(): Promise<IAlliance[]>;
-  async getAllianceById(id: string): Promise<IAlliance>;
-  async createAlliance(data: CreateAllianceData): Promise<IAlliance>;
-  async updateAlliance(id: string, data: UpdateAllianceData): Promise<IAlliance>;
+  async getAlliances(): Promise<Alliance[]>;
+  async getAllianceById(id: string): Promise<Alliance>;
+  async createAlliance(data: CreateAllianceRequest): Promise<Alliance>;
+  async updateAlliance(id: string, data: UpdateAllianceRequest): Promise<Alliance>;
   async deleteAlliance(id: string): Promise<void>;
 }
+
+export const allianceService = new AllianceService();
 ```
 
 ### allianceNavigationService.ts
-**Propósito**: Navegación y gestión de alianzas
+**Propósito**: Navegación y gestión de clicks en alianzas
+
+**Patrón**: Funciones exportadas individualmente
 
 **API**:
 ```typescript
-class AllianceNavigationService {
-  async handleAllianceClick(sectionType: string, resourceName?: string): Promise<void>;
-  async getAllianceBySiglas(siglas: string): Promise<IAlliance>;
-  async navigateToAlliance(allianceId: string): Promise<void>;
-}
+async function getResourcesBySection(sectionType: string): Promise<IResource[]>;
+async function getAlliances(): Promise<Alliance[]>;
+function findResourceByName(resources: IResource[], name?: string, id?: string): ResourceSearchResult;
+function filterAlliances(alliances: Alliance[]): Alliance[]; // Actualmente retorna todas sin filtrar
+function shouldShowModal(resource: IResource, showModal?: boolean): boolean;
+function navigateToUrl(url: string): void;
+function showNotification(type, title, message): void;
+function findAllianceLink(resource: IResource, alliance: Alliance): Link | null;
+async function handleAllianceCardClick(sectionType, resourceName?, showModal?, resourceId?): Promise<void>;
+async function showAllianceSelectionModal(alliances: Alliance[], resource: IResource): Promise<void>;
 ```
 
 ## 🔍 Sistema de Búsqueda
@@ -258,34 +279,23 @@ class AllianceNavigationService {
 ### searchService.ts
 **Propósito**: Búsqueda global en recursos y documentos
 
+**Patrón**: Objeto con métodos
+
 **API**:
 ```typescript
-class SearchService {
-  async globalSearch(query: string, filters?: SearchFilters): Promise<SearchResults>;
-  async searchResources(query: string, filters?: ResourceSearchFilters): Promise<IResource[]>;
-  async searchDocuments(query: string, filters?: DocumentSearchFilters): Promise<IDocument[]>;
-  async searchUsers(query: string, filters?: UserSearchFilters): Promise<IUser[]>;
-  async getSearchSuggestions(query: string): Promise<string[]>;
-}
+const searchService = {
+  search: async (query: string): Promise<SearchResult[]>
+};
+
+function transformBackendResponse(response: BackendSearchResponse): SearchResult[];
+async function searchFromBackend(query: string): Promise<BackendSearchResponse>;
 ```
 
-**Tipos**:
+**Uso**:
 ```typescript
-interface SearchResults {
-  resources: IResource[];
-  documents: IDocument[];
-  users: IUser[];
-  totalResults: number;
-}
+import { searchService } from '../services';
 
-interface SearchFilters {
-  sectionId?: string;
-  type?: 'resource' | 'document' | 'user';
-  dateRange?: {
-    start: Date;
-    end: Date;
-  };
-}
+const results = await searchService.search('portafolio');
 ```
 
 ## 🎨 Gestión de Logos
@@ -293,18 +303,14 @@ interface SearchFilters {
 ### logoService.ts
 **Propósito**: Gestión de logos de alianzas
 
+**Patrón**: Funciones exportadas + constante LOGO_MAP
+
 **API**:
 ```typescript
-// Obtener logo por siglas de alianza
 function getLogoForAlliance(siglas: string): string;
-
-// Verificar si existe logo personalizado
 function hasCustomLogo(siglas: string): boolean;
-
-// Obtener logos disponibles
 function getAvailableLogos(): string[];
 
-// Mapeo de logos
 const LOGO_MAP: Record<string, string> = {
   'EAFIT': '/img/eafit.png',
   'UNAB': '/img/andresbello.png',
@@ -321,33 +327,42 @@ const LOGO_MAP: Record<string, string> = {
 ## 🛠️ Servicios de Utilidad
 
 ### errorService.ts
-**Propósito**: Manejo centralizado de errores
+**Propósito**: Manejo centralizado de errores con clasificación y retry
+
+**Patrón**: Clase singleton exportada como `errorService`
 
 **API**:
 ```typescript
 class ErrorService {
-  handleApiError(error: any): ApiError;
-  getErrorMessage(error: any): string;
-  logError(error: any, context?: string): void;
-  reportError(error: any): Promise<void>;
+  handleError(error: unknown, context?: string): AppError;
+  async executeWithRetry(operation: () => Promise<void>, context?: string): Promise<void>;
+  // ... métodos internos de clasificación
 }
+
+export const errorService = new ErrorService();
 ```
 
 ### loggerService.ts
-**Propósito**: Sistema de logging
+**Propósito**: Sistema de logging con niveles y contexto
+
+**Patrón**: Clase singleton exportada como `logger`
 
 **API**:
 ```typescript
 class LoggerService {
-  info(message: string, data?: any): void;
-  warn(message: string, data?: any): void;
-  error(message: string, error?: any): void;
-  debug(message: string, data?: any): void;
+  info(message: string, data?: any, context?: string): void;
+  warn(message: string, data?: any, context?: string): void;
+  error(message: string, data?: any, context?: string): void;
+  debug(message: string, data?: any, context?: string): void;
 }
+
+export const logger = new LoggerService(config);
 ```
 
 ### validationService.ts
 **Propósito**: Validaciones de datos
+
+**Patrón**: Clase singleton exportada como `validationService`
 
 **API**:
 ```typescript
@@ -357,126 +372,68 @@ class ValidationService {
   validateUrl(url: string): boolean;
   validateFile(file: File, allowedTypes: string[]): ValidationResult;
 }
+
+export const validationService = new ValidationService();
 ```
 
 ## 🔄 Patrones de Implementación
 
-### 1. Service Class Pattern
+### 1. Clase Singleton
 ```typescript
-class BaseService {
-  protected api = api;
-  
-  protected async handleRequest<T>(
-    request: () => Promise<AxiosResponse<T>>
-  ): Promise<T> {
-    try {
-      const response = await request();
-      return response.data;
-    } catch (error) {
-      throw this.handleError(error);
-    }
-  }
-  
-  private handleError(error: any): Error {
-    return new Error(error.message || 'Error desconocido');
+class MyService {
+  async getData(): Promise<Data[]> {
+    const response = await api.get('/endpoint');
+    return response.data.data;
   }
 }
+
+export const myService = new MyService();
 ```
 
-### 2. Request/Response Pattern
+### 2. Funciones Exportadas
 ```typescript
-interface ApiResponse<T> {
-  data: T;
-  message?: string;
-  success: boolean;
-  timestamp: string;
-}
-
-interface ApiRequest<T> {
-  data: T;
-  metadata?: {
-    source: string;
-    version: string;
-  };
-}
+export const myFunction = async (param: string): Promise<Result> => {
+  const response = await api.post('/endpoint', { param });
+  return response.data.data;
+};
 ```
 
-### 3. Error Handling Pattern
+### 3. Objeto con Métodos
 ```typescript
-const handleServiceError = (error: any) => {
-  if (error.response) {
-    const { status, data } = error.response;
-    throw new ApiError(data.message, status);
-  } else if (error.request) {
-    throw new NetworkError('Error de conexión');
-  } else {
-    throw new ConfigurationError(error.message);
+export const myService = {
+  search: async (query: string) => {
+    // Implementación
   }
 };
 ```
 
 ## 🚀 Mejores Prácticas
 
-### 1. TypeScript
+### 1. Manejo de Errores
 ```typescript
-interface ServiceConfig {
-  baseURL: string;
-  timeout: number;
-  retries: number;
-}
-
-class TypedService {
-  constructor(private config: ServiceConfig) {}
-  
-  async getData<T>(): Promise<T> {
-    // Implementación tipada
-  }
+try {
+  const result = await service.getData();
+  return { success: true, data: result };
+} catch (error) {
+  logger.error('Error en API call', error);
+  throw error; // Re-lanzar para que el caller maneje
 }
 ```
 
-### 2. Error Handling
+### 2. Validación de Respuestas
 ```typescript
-const apiCall = async () => {
-  try {
-    const result = await service.getData();
-    return { success: true, data: result };
-  } catch (error) {
-    logger.error('Error en API call', error);
-    return { success: false, error: error.message };
-  }
-};
-```
-
-### 3. Caching
-```typescript
-class CachedService {
-  private cache = new Map<string, any>();
-  
-  async getData(key: string): Promise<any> {
-    if (this.cache.has(key)) {
-      return this.cache.get(key);
-    }
-    
-    const data = await this.fetchData();
-    this.cache.set(key, data);
-    return data;
-  }
+const response = await api.get<ResourceListResponse>('/resources');
+if (!response.data.success) {
+  throw new Error(response.data.message || 'Error desconocido');
 }
+return response.data.data;
 ```
 
-### 4. Retry Logic
+### 3. Logging Consistente
 ```typescript
-const retryRequest = async (fn: () => Promise<any>, retries = 3): Promise<any> => {
-  try {
-    return await fn();
-  } catch (error) {
-    if (retries > 0) {
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      return retryRequest(fn, retries - 1);
-    }
-    throw error;
-  }
-};
+logger.info('Operación iniciada', { param }, 'ServiceName');
+// ... operación
+logger.debug('Resultado obtenido', { data }, 'ServiceName');
 ```
 
 ---

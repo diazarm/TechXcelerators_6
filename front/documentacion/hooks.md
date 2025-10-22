@@ -38,23 +38,25 @@ src/hooks/
 ## 🔐 Gestión de Estado
 
 ### useAuth
-**Propósito**: Manejo de autenticación y autorización
+**Propósito**: Acceso al contexto de autenticación
 
 **Funcionalidades**:
 - Login/logout de usuarios
-- Verificación de tokens JWT
+- Verificación de autenticación (checkAuth)
 - Datos del usuario actual
-- Manejo de roles y permisos
+- Manejo de errores de auth
 
 **API**:
 ```typescript
 const {
-  user,                    // Usuario actual
+  user,                    // Usuario actual o null
   isAuthenticated,         // Estado de autenticación
   isLoading,              // Estado de carga
+  error,                  // Error de autenticación
   login,                  // Función de login
   logout,                 // Función de logout
-  register                // Función de registro
+  checkAuth,              // Verificar autenticación
+  clearError              // Limpiar errores
 } = useAuth();
 ```
 
@@ -80,71 +82,85 @@ const {
 ```
 
 **Características especiales**:
-- **Role-based actions**: Iconos según permisos
+- **Role-based actions**: Iconos según permisos (admin/director)
 - **Responsive scaling**: Escalado automático de iconos
+- **Event-driven updates**: Actualización automática vía eventos personalizados
 
 ### useResources
-**Propósito**: Gestión de recursos educativos
+**Propósito**: Obtener todos los recursos educativos
 
 **Funcionalidades**:
-- CRUD completo de recursos
-- Filtrado por sección
-- Estados de loading
+- Fetch de todos los recursos
+- Estado de autenticación para fetch automático
+- Estado de loading
 
 **API**:
 ```typescript
 const {
-  resources,              // Lista de recursos
-  loading,               // Estado de carga
-  error,                 // Errores
-  createResource,        // Crear recurso
-  updateResource,        // Actualizar recurso
-  deleteResource,        // Eliminar recurso
-  searchResources        // Buscar recursos
+  resources,              // Lista de todos los recursos
+  loading                // Estado de carga
 } = useResources();
 ```
 
+**Nota**: Para CRUD de recursos específicos, ver `useResourceManagement`.
+
 ### useDocuments
-**Propósito**: Gestión de documentos
+**Propósito**: Listar y filtrar documentos con paginación
 
 **Funcionalidades**:
-- Upload de documentos
-- Gestión de archivos
-- Control de visibilidad
-- Restauración de eliminados
+- Fetch de documentos del backend
+- Filtrado por categoría
+- Paginación automática
+- Refetch manual
 
 **API**:
 ```typescript
 const {
-  documents,             // Lista de documentos
+  documents,             // Lista paginada de documentos
+  allDocuments,         // Lista completa sin paginar
   loading,              // Estado de carga
-  uploadDocument,       // Subir documento
-  updateDocument,       // Actualizar documento
-  deleteDocument,       // Eliminar documento
-  restoreDocument       // Restaurar documento
-} = useDocuments();
+  error,                // Error si existe
+  refetch,              // Función para recargar
+  currentPage,          // Página actual
+  totalPages,           // Total de páginas
+  itemsPerPage,         // Items por página
+  totalItems,           // Total de items
+  handlePageChange,     // Cambiar de página
+  isAdmin,              // Si el usuario es admin
+  categoryFilter,       // Filtro de categoría actual
+  handleCategoryFilterChange // Cambiar filtro de categoría
+} = useDocuments(itemsPerPage);
 ```
+
+**Nota**: Para acciones de documentos (upload, edit, delete), ver `useDocumentActions`.
 
 ### useUserManagement
-**Propósito**: Gestión de usuarios y roles
+**Propósito**: Gestión de usuarios con paginación y filtros
 
 **Funcionalidades**:
-- CRUD de usuarios
-- Cambio de roles
-- Gestión de permisos
-- Activación/desactivación
+- Fetch de usuarios (excluye admins)
+- Paginación automática
+- Filtros por rol y estado
+- Refetch manual
 
 **API**:
 ```typescript
 const {
-  users,                 // Lista de usuarios
+  users,                 // Lista paginada de usuarios
   loading,              // Estado de carga
-  createUser,           // Crear usuario
-  updateUser,           // Actualizar usuario
-  changeUserRole,       // Cambiar rol
-  toggleUserStatus      // Activar/desactivar
+  currentPage,          // Página actual
+  totalPages,           // Total de páginas
+  itemsPerPage,         // Items por página
+  handlePageChange,     // Cambiar de página
+  roleFilter,           // Filtro de rol actual
+  statusFilter,         // Filtro de estado actual
+  handleRoleFilterChange, // Cambiar filtro de rol
+  handleStatusFilterChange, // Cambiar filtro de estado
+  refetch               // Recargar usuarios
 } = useUserManagement();
 ```
+
+**Nota**: Para acciones de usuarios (cambio de rol, toggle status), ver `useUserActions`.
 
 ## 🎨 UI/UX Hooks
 
@@ -228,42 +244,43 @@ const {
 ## 🔍 Funcionalidad Hooks
 
 ### useSearch
-**Propósito**: Sistema de búsqueda global
+**Propósito**: Sistema de búsqueda global con debounce
 
 **Funcionalidades**:
-- Búsqueda en tiempo real
-- Debounce para optimización
-- Filtros múltiples
-- Resultados paginados
+- Búsqueda en backend con debounce (500ms)
+- Resultados en tiempo real
+- Estadísticas de búsqueda
+- Limpieza de resultados
 
 **API**:
 ```typescript
 const {
-  searchQuery,          // Query de búsqueda
-  searchResults,        // Resultados
+  searchQuery,          // Query de búsqueda actual
   isLoading,           // Estado de carga
-  search,              // Función de búsqueda
+  results,             // Resultados de búsqueda
+  error,               // Error si existe
+  handleSearchChange,  // Actualizar búsqueda con debounce
   clearSearch,         // Limpiar búsqueda
-  setFilters           // Establecer filtros
+  hasResults,          // Booleano si hay resultados
+  isSearchActive,      // Booleano si búsqueda está activa
+  searchStats          // Estadísticas (totalItems, etc.)
 } = useSearch();
 ```
 
 ### useAllianceNavigation
-**Propósito**: Navegación entre alianzas
+**Propósito**: Navegación entre alianzas y recursos
 
 **Funcionalidades**:
-- Manejo de clicks en alianzas
-- Navegación a modales
-- Gestión de estado de selección
-- Integración con backend
+- Manejo de clicks en cards de alianza
+- Muestra modal de selección de alianzas
+- Navegación directa o condicional según `showModal`
+- Busca enlaces por alianza en recursos
 
 **API**:
 ```typescript
 const {
-  handleAllianceClick,  // Manejar click en alianza
-  selectedAlliance,     // Alianza seleccionada
-  navigateToAlliance,   // Navegar a alianza
-  resetSelection        // Resetear selección
+  handleAllianceCardClick,     // Manejar click en card de alianza
+  showAllianceSelectionModal   // Mostrar modal de selección
 } = useAllianceNavigation();
 ```
 
@@ -271,10 +288,10 @@ const {
 **Propósito**: Gestión avanzada de recursos
 
 **Funcionalidades**:
-- CRUD con optimistic updates
-- Manejo de modales
-- Validación de datos
-- Sincronización en tiempo real
+- CRUD de recursos con eventos personalizados
+- Manejo de modales (edit, delete)
+- Consulta de recursos por nombre
+- Sincronización en tiempo real vía eventos
 
 **API**:
 ```typescript
@@ -314,40 +331,44 @@ const {
 ```
 
 ### useErrorHandler
-**Propósito**: Manejo centralizado de errores
+**Propósito**: Manejo centralizado de errores con logging y notificaciones
 
 **Funcionalidades**:
-- Captura de errores
-- Logging de errores
-- Notificaciones de error
-- Recovery automático
+- Clasificación de errores (validación, red, API, negocio)
+- Notificaciones automáticas según tipo de error
+- Retry automático con estrategia configurable
+- Logging centralizado
 
 **API**:
 ```typescript
 const {
-  handleError,          // Manejar error
-  clearError,          // Limpiar error
-  error,               // Error actual
-  isError              // Hay error
-} = useErrorHandler();
+  errorState,           // Estado completo de errores
+  hasErrors,           // Booleano si hay errores
+  criticalError,       // Error crítico actual
+  addError,            // Agregar error manualmente
+  removeError,         // Remover error por código
+  clearErrors,         // Limpiar todos los errores
+  handleError,         // Manejar error genérico
+  retryOperation       // Reintentar operación fallida
+} = useErrorHandler(options);
 ```
 
 ### useEscapeKey
-**Propósito**: Manejo de tecla Escape
+**Propósito**: Cerrar modales con tecla Escape
 
 **Funcionalidades**:
-- Cerrar modales con Escape
-- Limpiar selecciones
-- Resetear estados
-- Navegación de teclado
+- Event listener para tecla Escape
+- Cierre automático de modales
+- Cleanup automático al desmontar
 
 **API**:
 ```typescript
-const {
-  isEscapePressed,      // Escape presionado
-  resetEscapeState,     // Resetear estado
-  onEscape              // Callback para Escape
-} = useEscapeKey(callback);
+// No retorna nada, es un hook de efecto
+useEscapeKey(isOpen, onClose);
+
+// Parámetros:
+// - isOpen: boolean (estado del modal)
+// - onClose: () => void (función de cierre)
 ```
 
 ## 🎯 Patrones de Implementación

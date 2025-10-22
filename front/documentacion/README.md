@@ -19,25 +19,35 @@ src/
 ├── pages/         # Páginas principales
 ├── types/         # Tipos TypeScript
 ├── context/       # Context providers
-└── constants/     # Configuraciones
+├── constants/     # Configuraciones
+└── utils/         # Utilidades
 ```
 
-## 🔧 Componentes Clave
+## 🔧 Sistema de Tarjetas (Cards)
 
-### Sistema de Tarjetas
-- **useCards**: Hook para configuración de tarjetas
-- **getCardConfig**: Configuración estática de tarjetas
-- **createMultipleIcons**: Creación de iconos de acción
+### **Fusión Backend + Frontend:**
+Las cards combinan configuración estática (iconos, layout) con datos dinámicos (título, descripción) del backend.
+
+**Componentes:**
+- **useCards**: Hook que gestiona configuración y comportamiento
+- **getCardConfig**: Obtiene configuración estática de `cardConfigs.ts`
+- **createMultipleIcons**: Crea iconos de acción (edit/delete)
+
+**Flujo de Actualización:**
+1. `cardConfigs.ts` define estructura base (iconos, resourceId)
+2. Al montar, páginas consultan backend por `sectionId`
+3. Se fusionan: iconos estáticos + título/descripción dinámicos
+4. Eventos en tiempo real actualizan las cards automáticamente
 
 ### Gestión de Recursos
-- **ResourceEditModal**: Edición con footer sticky
-- **ResourceDeleteModal**: Confirmación de eliminación
-- **ResourceRestoreModal**: Restauración de eliminados
+- **ResourceEditModal**: Modal de edición con footer sticky
+- **ResourceDeleteModal**: Modal de confirmación para soft delete
+- **ResourceRestoreModal**: Modal para restaurar recursos eliminados
 
 ### Sistema de Alianzas
-- **AllianceSlider**: Slider infinito de logos
-- **AllianceSelectionModal**: Selección de alianzas
-- **logoService**: Gestión centralizada de logos
+- **AllianceSlider**: Slider infinito de logos con sistema de escalado
+- **AllianceSelectionModal**: Modal para seleccionar alianzas
+- **logoService**: Mapeo centralizado de logos por siglas
 
 ## 🌐 Servicios API
 
@@ -47,42 +57,53 @@ src/
 - **userService**: Gestión de usuarios
 - **allianceService**: Gestión de alianzas
 
-### Patrones
-- **Event-driven**: Actualizaciones en tiempo real
-- **Optimistic updates**: UI inmediata
-- **Error handling**: Centralizado
+### Patrones Implementados
+- **Event-driven**: Actualizaciones en tiempo real vía eventos personalizados
+  - `resourceUpdated`: Cuando se edita un recurso
+  - `resourceDeleted`: Cuando se elimina (soft delete)
+  - `resourceRestored`: Cuando se restaura
+  - `userRoleChanged`: Cuando cambia el rol de un usuario
+- **Error handling**: Manejo centralizado con `errorService`
+- **Request/Response**: Interceptors de Axios para tokens JWT
 
 ## 🎨 Responsive Design
 
-- **useResponsive**: Escalado proporcional
-- **useScreenSize**: Context para dimensiones (en context/screenSize)
-- **Tailwind CSS**: Clases responsivas
+- **useResponsive**: Hook con función `scale()` para escalado proporcional
+- **useScreenSize**: Context en `context/screenSize` para dimensiones globales
+- **Tailwind CSS**: Framework de utilidades con clases responsivas
 
-## 🚀 Características
+### Breakpoints:
+- **Mobile**: < 768px
+- **Tablet**: 768px - 1024px
+- **Desktop**: > 1024px
 
-### Implementadas
+## 🚀 Características Implementadas
+
 - ✅ Gestión completa de recursos y documentos
-- ✅ Sistema de usuarios con roles
-- ✅ Búsqueda global
-- ✅ Autenticación JWT
-- ✅ Responsive design
+- ✅ Sistema de usuarios con roles (user, director, admin)
+- ✅ Búsqueda global con filtros
+- ✅ Autenticación JWT con refresh en tiempo real
+- ✅ Responsive design con escalado automático
 - ✅ Notificaciones toast
+- ✅ Soft delete con restauración
+- ✅ Actualizaciones en tiempo real vía eventos
 
-### Scripts
+## 📦 Scripts Disponibles
+
 ```bash
-npm run dev          # Desarrollo
-npm run build        # Producción (tsc + vite build)
-npm run lint         # Linting
-npm run preview      # Preview del build
+npm run dev          # Desarrollo (puerto 5173)
+npm run build        # Producción (tsc -b && vite build)
+npm run lint         # Linting con ESLint
+npm run preview      # Preview del build local
 ```
 
-## 📚 Documentación
+## 📚 Documentación Detallada
 
-- **[Componentes](componentes.md)**: Componentes y props
-- **[Hooks](hooks.md)**: Custom hooks
-- **[Servicios](servicios.md)**: API services
-- **[Desarrollo](desarrollo.md)**: Guía de desarrollo
-- **[Tipos](tipos.md)**: Definiciones TypeScript
+- **[Componentes](componentes.md)**: Componentes, props y patrones
+- **[Hooks](hooks.md)**: Custom hooks y su funcionalidad
+- **[Servicios](servicios.md)**: API services y comunicación con backend
+- **[Desarrollo](desarrollo.md)**: Guía para desarrolladores
+- **[Tipos](tipos.md)**: Definiciones TypeScript y barrel exports
 
 ---
 

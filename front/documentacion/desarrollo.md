@@ -20,19 +20,17 @@ cd TechXcelerators_6/front
 
 # Instalar dependencias
 npm install
-
-# Configurar variables de entorno
-cp .env.example .env.local
 ```
 
 ### Variables de Entorno
+El proyecto utiliza un archivo `.env` (ignorado por git) para configuración local:
+
 ```env
-# .env.local
-VITE_API_URL=http://localhost:3001/api
-VITE_APP_NAME=Scala Learning
-VITE_APP_VERSION=1.0.0
-VITE_APP_ENVIRONMENT=development
+# .env (crear en front/)
+VITE_API_URL=http://localhost:3000/api
 ```
+
+**Nota**: El archivo `.env` no está en el repositorio por seguridad. Créalo localmente con las variables necesarias.
 
 ### Scripts Disponibles
 ```bash
@@ -153,17 +151,19 @@ export default ComponentName;
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-// 2. Imports internos (componentes, hooks, servicios)
-import { Button } from '../../components/UI/Button';
-import { useAuth } from '../../hooks/useAuth';
-import { userService } from '../../services/userService';
+// 2. Imports internos usando archivos barrel (index.ts)
+import { Button } from '../../components';
+import { useAuth } from '../../hooks';
+import { userService } from '../../services';
 
-// 3. Tipos e interfaces
-import type { User, UserProps } from '../../types/user';
+// 3. Tipos e interfaces usando barrel
+import type { User } from '../../types';
 
-// 4. Estilos (si es necesario)
-import './ComponentName.css';
+// 4. Context usando barrel
+import { useScreenSize } from '../../context';
 ```
+
+**Convención del Proyecto**: Siempre usar archivos barrel (`index.ts`) para imports, nunca rutas directas a archivos internos.
 
 ## 🎨 Sistema de Diseño
 
@@ -193,40 +193,50 @@ module.exports = {
 
 #### Uso de Clases
 ```typescript
-// Clases de utilidad
-<div className="flex items-center justify-center p-4 bg-primary text-white">
+// Usar constantes de colores del proyecto
+import { COLORS, COLOR_CLASSES } from '../constants';
+
+// Clases de utilidad con colores del proyecto
+<div className={`flex items-center justify-center p-4 ${COLOR_CLASSES.primaryBg} text-white`}>
   <span className="text-lg font-semibold">Contenido</span>
 </div>
 
-// Clases responsivas
-<div className="w-full md:w-1/2 lg:w-1/3">
-  <p className="text-sm md:text-base lg:text-lg">Texto responsivo</p>
+// Clases responsivas desde useResponsive
+const { text, grid, flex } = useResponsive();
+
+<div className={grid.columns.three}>
+  <p className={text.body}>Texto responsivo</p>
 </div>
 
-// Estados hover y focus
-<button className="bg-blue-500 hover:bg-blue-600 focus:ring-2 focus:ring-blue-300">
+// Estados hover
+<button className={`${COLOR_CLASSES.primaryBg} ${COLOR_CLASSES.primaryHover}`}>
   Botón
 </button>
 ```
 
 ### Sistema de Escalado Responsivo
 ```typescript
-// Hook useResponsive para escalado automático
-const { scale, dimensions } = useResponsive();
+// useResponsive: Escalado automático y clases responsivas
+const { scale, text, grid, flex, container } = useResponsive();
 
-// Uso en componentes
-const logoSize = scale(80); // Escala proporcionalmente según pantalla
-const fontSize = dimensions.fontSize.lg;
+// Escalado proporcional
+const logoSize = scale(80); // Escala según pantalla (base: 1440px)
 
-// Aplicación en estilos
-<div style={{ 
-  width: `${logoSize}px`, 
-  height: `${logoSize}px`,
-  fontSize: `${fontSize}px`
-}}>
+// Aplicación de escalado
+<div style={{ width: `${logoSize}px`, height: `${logoSize}px` }}>
   Logo
 </div>
+
+// Uso de clases responsivas predefinidas
+<div className={container}>
+  <h1 className={text.h1}>Título</h1>
+  <div className={grid.columns.three}>
+    {/* Grid de 3 columnas responsive */}
+  </div>
+</div>
 ```
+
+**Nota**: Para `dimensions` (fontSize, spacing detallado), usar `useScreenSize` del context.
 
 ## 🔧 Desarrollo de Componentes
 
@@ -399,149 +409,55 @@ export class MyService extends BaseService {
 }
 ```
 
-## 🧪 Testing (Futuro)
+## 🧪 Testing
 
-### Configuración de Testing
-```bash
-# Instalar dependencias de testing (cuando se implemente)
-npm install --save-dev @testing-library/react @testing-library/jest-dom vitest
-```
+**Estado**: El proyecto actualmente **NO tiene** testing implementado. Es una mejora futura pendiente.
 
-### Estructura de Tests
-```
-src/
-├── components/
-│   └── MyComponent/
-│       ├── index.tsx
-│       ├── types.ts
-│       └── __tests__/
-│           └── MyComponent.test.tsx
-├── hooks/
-│   └── __tests__/
-│       └── useCustomHook.test.ts
-└── services/
-    └── __tests__/
-        └── myService.test.ts
-```
-
-### Ejemplo de Test
-```typescript
-// MyComponent.test.tsx
-import { render, screen, fireEvent } from '@testing-library/react';
-import { describe, it, expect, vi } from 'vitest';
-import MyComponent from '../index';
-
-describe('MyComponent', () => {
-  it('renders correctly', () => {
-    render(<MyComponent title="Test Title" />);
-    expect(screen.getByText('Test Title')).toBeInTheDocument();
-  });
-  
-  it('calls onAction when button is clicked', () => {
-    const mockAction = vi.fn();
-    render(<MyComponent title="Test" onAction={mockAction} />);
-    
-    fireEvent.click(screen.getByRole('button'));
-    expect(mockAction).toHaveBeenCalled();
-  });
-});
-```
-
-## 🚀 Optimizaciones
+## 🚀 Optimizaciones Implementadas
 
 ### Performance
+El proyecto implementa memoización en hooks críticos:
+
 ```typescript
-// Memoización de componentes
-const MyComponent = React.memo(({ data }: { data: any[] }) => {
-  return <div>{/* Render data */}</div>;
-});
+// useResponsive: Memoización en hooks
+const breakpoints = useMemo(() => {
+  // Cálculos costosos
+}, [dependencies]);
 
-// Memoización de valores calculados
-const expensiveValue = useMemo(() => {
-  return calculateExpensiveValue(data);
-}, [data]);
-
-// Memoización de funciones
-const handleClick = useCallback((id: string) => {
-  onItemClick(id);
-}, [onItemClick]);
+// Ejemplo de useCallback en hooks
+const handleUpdate = useCallback((value: string) => {
+  // Lógica de actualización
+}, [dependencies]);
 ```
 
-### Lazy Loading
-```typescript
-// Lazy loading de componentes
-const LazyComponent = React.lazy(() => import('./LazyComponent'));
-
-const App = () => {
-  return (
-    <Suspense fallback={<LoadingSpinner />}>
-      <LazyComponent />
-    </Suspense>
-  );
-};
-```
-
-### Code Splitting
-```typescript
-// Code splitting por rutas
-const HomePage = lazy(() => import('../pages/Home'));
-const AboutPage = lazy(() => import('../pages/About'));
-
-const App = () => {
-  return (
-    <Router>
-      <Suspense fallback={<LoadingSpinner />}>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/about" element={<AboutPage />} />
-        </Routes>
-      </Suspense>
-    </Router>
-  );
-};
-```
+### Build Optimization
+- **Minificación**: esbuild para bundling rápido
+- **Code Splitting**: Separación de vendor chunk (react, react-dom)
+- **Source Maps**: Deshabilitados en producción
 
 ## 🐛 Debugging
 
 ### Herramientas de Desarrollo
-```typescript
-// React Developer Tools
-// Instalar extensión del navegador
-
-// Console logging
-console.log('Debug info:', { data, state });
-
-// Breakpoints en VS Code
-// Usar F9 para agregar breakpoints
-
-// Network debugging
-// Usar DevTools Network tab
-```
+- **React Developer Tools**: Extensión de navegador para inspeccionar componentes
+- **Console Logging**: El proyecto usa `loggerService` para logging estructurado
+- **Network Tab**: Para debugging de peticiones API
+- **Breakpoints en VS Code**: F9 para agregar breakpoints
 
 ### Error Boundaries
+El proyecto tiene un `ErrorBoundary` implementado en `components/Shared/ErrorBoundary`:
+
+**Características**:
+- Captura errores de React
+- Fallback UI personalizado con logo y diseño
+- Botones de "Intentar de nuevo" e "Ir al inicio"
+- Información técnica en desarrollo (toggle)
+- Integrado en `App.tsx`
+
+**Uso**:
 ```typescript
-class ErrorBoundary extends React.Component {
-  constructor(props: any) {
-    super(props);
-    this.state = { hasError: false };
-  }
-  
-  static getDerivedStateFromError(error: Error) {
-    return { hasError: true };
-  }
-  
-  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-    console.error('Error caught by boundary:', error, errorInfo);
-  }
-  
-  render() {
-    if (this.state.hasError) {
-      return <h1>Algo salió mal.</h1>;
-    }
-    
-    return this.props.children;
-  }
-}
+<ErrorBoundary>
+  <App />
+</ErrorBoundary>
 ```
 
 ## 📦 Build y Deployment
@@ -553,21 +469,20 @@ npm run build
 
 # Verificar build
 npm run preview
-
-# Análisis de bundle
-npm run build:analyze
 ```
 
 ### Optimizaciones de Build
 ```typescript
 // vite.config.ts
 export default defineConfig({
+  plugins: [react()],
   build: {
+    minify: 'esbuild',
+    sourcemap: false,
     rollupOptions: {
       output: {
         manualChunks: {
           vendor: ['react', 'react-dom'],
-          ui: ['@headlessui/react', 'lucide-react'],
         },
       },
     },
