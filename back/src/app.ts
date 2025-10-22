@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import connectDB from './config/database';
 import { errorHandler } from './utils/errorHandler';
 import cors from 'cors';
+import { setupSwagger } from './config/swagger.config';
 
 dotenv.config();
 
@@ -15,6 +16,14 @@ app.use(cors({
 }));
 
 app.use(express.json());
+
+// Configurar Swagger
+setupSwagger(app);
+
+app.get('/', (_req, res) => {
+  res.send('Bienvenido al backend de Scala!');
+});
+
 
 app.use('/api', router);
 app.use(errorHandler)
