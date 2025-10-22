@@ -18,7 +18,7 @@ import type { RetryConfig } from './types';
 
 // Crear instancia de Axios
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:3000/api',
+  baseURL: import.meta.env.VITE_API_URL || 'https://scala-backend-42as.onrender.com/api',
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
