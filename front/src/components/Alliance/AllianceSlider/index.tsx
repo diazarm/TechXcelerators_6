@@ -118,7 +118,7 @@ export const AllianceSlider: React.FC<AllianceSliderProps> = ({ className = '' }
           paddingBottom: dimensions.spacing.lg,
         }}
       >
-        <div className="relative w-full overflow-hidden"
+        <div className="relative w-full overflow-visible"
   style={{
     paddingTop: `${scale(8)}px`,
     paddingBottom: `${scale(8)}px`
