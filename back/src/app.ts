@@ -12,7 +12,7 @@ const app = express();
 connectDB();
 
 app.use(cors({
-  origin: 'http://localhost:5173' // Declaramos el puerto que usa el frontend
+  origin: 'https://scalalearning.vercel.app/' // Declaramos el puerto que usa el frontend
 }));
 
 app.use(express.json());
@@ -21,7 +21,7 @@ app.use(express.json());
 setupSwagger(app);
 
 app.get('/', (_req, res) => {
-  res.send('Bienvenido al backend de Scala!');
+  res.redirect('/api-docs');
 });
 
 
@@ -29,7 +29,8 @@ app.use('/api', router);
 app.use(errorHandler)
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {    
-  console.log(`Servidor corriendo en http://localhost:${PORT}`);
+const ENV = process.env.NODE_ENV || 'development';
+app.listen(PORT, () => {
+  console.log(`🚀 Servidor corriendo en ${ENV === 'production' ? 'Render' : 'local'} → http://localhost:${PORT}`);
 });
 
