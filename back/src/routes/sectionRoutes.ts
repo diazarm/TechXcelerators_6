@@ -51,17 +51,21 @@ const sectionRouter = Router();
  *           schema:
  *             type: object
  *             required:
- *               - name
+ *               - title
  *               - description
  *             properties:
- *               name:
+ *               title:
  *                 type: string
- *                 description: Nombre de la sección
- *                 example: "Matemáticas"
+ *                 description: Título de la sección
+ *                 example: "Gobernanza"
  *               description:
  *                 type: string
  *                 description: Descripción de la sección
- *                 example: "Sección dedicada a recursos de matemáticas"
+ *                 example: "Sección dedicada a recursos de gobernanza"
+ *               resourcesId:
+ *                 type: string
+ *                 description: ID de los recursos asociados a esta sección
+ *                 example: "6716b52c43f33bf9f92e0850"
  *     responses:
  *       201:
  *         description: Sección creada exitosamente
@@ -125,14 +129,18 @@ sectionRouter.get("/", authMiddleware, getSections);
  *           schema:
  *             type: object
  *             properties:
- *               name:
+ *               title:
  *                 type: string
- *                 description: Nuevo nombre de la sección
- *                 example: "Matemáticas Avanzadas"
+ *                 description: Nuevo título de la sección
+ *                 example: "Gobernanza Avanzada"
  *               description:
  *                 type: string
  *                 description: Nueva descripción de la sección
- *                 example: "Sección actualizada para matemáticas avanzadas"
+ *                 example: "Sección actualizada para gobernanza corporativa avanzada"
+ *               resourcesId:
+ *                 type: string
+ *                 description: ID de los recursos asociados a esta sección
+ *                 example: "6716b52c43f33bf9f92e0850"
  *     responses:
  *       200:
  *         description: Sección actualizada exitosamente

@@ -21,9 +21,9 @@ const options: swaggerJSDoc.Options = {
 ## 👤 Usuarios de prueba:
 
 **Tipos de autenticación:**
-- **Admin**: Requiere email + contraseña → admin@scala.com / Admin1234
-- **Director**: Solo email → director@scala.com  
-- **User**: Solo email → andrea@scala.com
+- **Admin**: Requiere email + contraseña → administrador@scalalearning.com / 123456
+- **Director**: Solo email → director@scalalearning.com
+- **User**: Solo email → user@scalalearning.com
 
 **Nota**: Directores y usuarios no necesitan contraseña, solo email
 
@@ -91,16 +91,16 @@ Para usar endpoints protegidos:
               description: 'Email del usuario',
               example: 'admin@scalalearning.com'
             },
+            password: {
+              type: 'string',
+              description: 'Contraseña del usuario (solo para admin)',
+              example: '123456'
+            },
             role: {
               type: 'string',
               enum: ['admin', 'director', 'user'],
               description: 'Rol del usuario en el sistema',
               example: 'admin'
-            },
-            alliance: {
-              type: 'string',
-              description: 'ID de la alianza asociada',
-              example: '6716b52c43f33bf9f92e0851'
             }
           }
         },
@@ -120,10 +120,9 @@ Para usar endpoints protegidos:
             token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzE2YjUyYzQzZjMzYmY5ZjkyZTA4NTAiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3Mjk1Mzg2MjAsImV4cCI6MTcyOTU0MjIyMH0.example',
             user: {
               _id: '6716b52c43f33bf9f92e0850',
-              name: 'Administrador',
+              name: 'Juan Pérez',
               email: 'admin@scalalearning.com',
-              role: 'admin',
-              alliance: '6716b52c43f33bf9f92e0851'
+              role: 'admin'
             }
           }
         },
@@ -138,14 +137,29 @@ Para usar endpoints protegidos:
               type: 'string',
               description: 'Nombre de la alianza'
             },
-            description: {
+            siglas: {
               type: 'string',
-              description: 'Descripción de la alianza'
+              description: 'Siglas de la alianza'
             },
-            image: {
+            url: {
               type: 'string',
-              description: 'URL de la imagen de la alianza'
-            }
+              description: 'URL de la alianza'
+            },
+            logos: [
+              {
+                type: 'object',
+                properties: {
+                  label: {
+                    type: 'string',
+                    description: 'Descripción del logo'
+                  },
+                  url: {
+                    type: 'string',
+                    description: 'URL de la imagen del logo'
+                  }
+                }
+              }
+            ]
           }
         },
         Resource: {
@@ -155,34 +169,33 @@ Para usar endpoints protegidos:
               type: 'string',
               description: 'ID único del recurso'
             },
-            title: {
+            name: {
               type: 'string',
-              description: 'Título del recurso'
+              description: 'Nombre del recurso'
             },
             description: {
               type: 'string',
               description: 'Descripción del recurso'
             },
-            section: {
+            sectionId: {
               type: 'string',
-              description: 'Sección a la que pertenece'
+              description: 'ID de la sección a la que pertenece'
             },
-            alliance: {
-              type: 'string',
-              description: 'ID de la alianza'
-            },
-            image: {
-              type: 'string',
-              description: 'URL de la imagen del recurso'
-            },
-            link: {
-              type: 'string',
-              description: 'Enlace al recurso'
-            },
-            isDeleted: {
-              type: 'boolean',
-              description: 'Estado de eliminación lógica'
-            }
+            links: [
+              {
+                type: 'object',
+                properties: {
+                  label: {
+                    type: 'string',
+                    description: 'Texto del enlace'
+                  },
+                  url: {
+                    type: 'string',
+                    description: 'URL del recurso'
+                  }
+                }
+              }
+            ]
           }
         },
         Section: {
@@ -193,15 +206,20 @@ Para usar endpoints protegidos:
               description: 'ID único de la sección',
               example: '6716b52c43f33bf9f92e0850'
             },
-            name: {
+            title: {
               type: 'string',
-              description: 'Nombre de la sección',
-              example: 'Matemáticas'
+              description: 'Título de la sección',
+              example: 'Gobernanza'
             },
             description: {
               type: 'string',
               description: 'Descripción de la sección',
-              example: 'Sección dedicada a recursos de matemáticas'
+              example: 'Sección dedicada a recursos de gobernanza.'
+            },
+            resourcesId: {
+              type: 'string',
+              description: 'ID de los recursos asociados a esta sección',
+              example: '6716b52c43f33bf9f92e0850'
             }
           }
         },
@@ -213,36 +231,49 @@ Para usar endpoints protegidos:
               description: 'ID único del documento',
               example: '6716b52c43f33bf9f92e0850'
             },
-            filename: {
+            name: {
               type: 'string',
               description: 'Nombre del archivo',
-              example: '1729538620_documento.pdf'
+              example: 'Documento.pdf'
             },
-            originalname: {
+            description: {
               type: 'string',
-              description: 'Nombre original del archivo',
-              example: 'documento.pdf'
+              description: 'Descripción del documento',
+              example: 'Manual de usuario para la plataforma Scala Learning'
             },
-            path: {
+            category: {
               type: 'string',
-              description: 'Ruta del archivo en el servidor',
-              example: 'uploads/1729538620_documento.pdf'
+              description: 'Categoría del documento',
+              example: 'manual'
+            },
+            type: {
+              type: 'string',
+              description: 'Tipo MIME del documento',
+              example: 'application/pdf'
+            },
+            url: {
+              type: 'string',
+              description: 'URL para acceder al documento',
+              example: 'http://localhost:3000/uploads/1729538620_documento.pdf'
+            },
+            filepath: {
+              type: 'string',
+              description: 'Ruta real del archivo',
+              example: 'c:/uploads/1729538620_documento.pdf'
             },
             size: {
               type: 'number',
               description: 'Tamaño del archivo en bytes',
               example: 1024000
             },
-            mimetype: {
-              type: 'string',
-              description: 'Tipo MIME del archivo',
-              example: 'application/pdf'
-            },
-            isVisible: {
-              type: 'boolean',
-              description: 'Si el documento es visible para usuarios',
-              example: true
-            },
+            isVisible: [
+              {
+                type: 'string',
+                enum: ['admin', 'director', 'user'],
+                description: 'Roles que pueden ver el documento',
+                example: 'user'
+              }
+            ],
             isDeleted: {
               type: 'boolean',
               description: 'Estado de eliminación lógica',
@@ -250,8 +281,8 @@ Para usar endpoints protegidos:
             },
             uploadedBy: {
               type: 'string',
-              description: 'ID del usuario que subió el archivo',
-              example: '6716b52c43f33bf9f92e0851'
+              description: 'Usuario que subió el archivo',
+              example: 'admin'
             },
             createdAt: {
               type: 'string',
@@ -326,7 +357,7 @@ export const setupSwagger = (app: Express): void => {
     res.send(specs);
   });
 
-  console.log('📚 Swagger documentation available at: http://localhost:3000/api-docs');
+console.log('📚 Swagger documentation available at: http://localhost:3000/api-docs || https://scala-backend-42as.onrender.com/api-docs');
 };
 
 export { specs };
