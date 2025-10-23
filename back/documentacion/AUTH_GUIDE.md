@@ -50,9 +50,9 @@ Una vez autenticado, verás:
 
 | Rol | Email | Password | Autenticación | Permisos |
 |-----|-------|----------|---------------|-----------|
-| **Admin** | admin@scala.com | Admin1234 | Email + Contraseña | Todos los endpoints |
-| **Director** | director@scala.com | N/A | Solo Email | Gestión de recursos |
-| **User** | andrea@scala.com | N/A | Solo Email | Solo lectura |
+| **Admin** | administrador@scalalearning.com | 123456 | Email + Contraseña | Todos los endpoints |
+| **Director** | director@scalalearning.com | N/A | Solo Email | Gestión de recursos |
+| **User** | user@scalalearning.com | N/A | Solo Email | Solo lectura |
 
 **Nota importante**: 
 - **Admin** necesita email + contraseña
@@ -100,7 +100,7 @@ Si prefieres usar cURL en lugar de Swagger UI:
 # 1. Obtener token
 curl -X POST http://localhost:3000/api/users/login \
   -H "Content-Type: application/json" \
-  -d '{"email":"admin@scalalearning.com","password":"admin123"}'
+  -d '{"email":"administrador@scalalearning.com","password":"123456"}'
 
 # 2. Usar token en endpoint protegido
 curl -X GET http://localhost:3000/api/users \

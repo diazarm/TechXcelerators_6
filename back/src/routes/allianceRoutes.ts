@@ -51,20 +51,37 @@ const allianceRouter = Router();
  *             type: object
  *             required:
  *               - name
- *               - description
  *             properties:
  *               name:
  *                 type: string
  *                 description: Nombre de la alianza
  *                 example: "Alianza TechXcelerators"
- *               description:
+ *               siglas:
  *                 type: string
- *                 description: Descripción de la alianza
- *                 example: "Alianza enfocada en tecnología y innovación"
- *               image:
+ *                 description: Siglas de la alianza
+ *                 example: "ATX"
+ *               url:
  *                 type: string
- *                 description: URL de la imagen de la alianza
- *                 example: "https://example.com/alianza-imagen.jpg"
+ *                 description: URL oficial de la alianza
+ *                 example: "https://techxcelerators.com"
+ *               logos:
+ *                 type: array
+ *                 items:
+ *                   type: object
+ *                   properties:
+ *                     label:
+ *                       type: string
+ *                       description: Descripción del logo
+ *                       example: "Logo principal"
+ *                     url:
+ *                       type: string
+ *                       description: URL de la imagen del logo
+ *                       example: "https://example.com/logo.png"
+ *                 example:
+ *                   - label: "Logo principal"
+ *                     url: "https://example.com/logo-principal.png"
+ *                   - label: "Logo alternativo"
+ *                     url: "https://example.com/logo-alt.png"
  *     responses:
  *       201:
  *         description: Alianza creada exitosamente
@@ -132,14 +149,30 @@ allianceRouter.get('/', authMiddleware, getAlliances);
  *                 type: string
  *                 description: Nuevo nombre de la alianza
  *                 example: "Alianza TechXcelerators Actualizada"
- *               description:
+ *               siglas:
  *                 type: string
- *                 description: Nueva descripción de la alianza
- *                 example: "Descripción actualizada de la alianza"
- *               image:
+ *                 description: Nuevas siglas de la alianza
+ *                 example: "ATXA"
+ *               url:
  *                 type: string
- *                 description: Nueva URL de la imagen
- *                 example: "https://example.com/nueva-imagen-alianza.jpg"
+ *                 description: Nueva URL oficial de la alianza
+ *                 example: "https://techxcelerators-updated.com"
+ *               logos:
+ *                 type: array
+ *                 items:
+ *                   type: object
+ *                   properties:
+ *                     label:
+ *                       type: string
+ *                       description: Descripción del logo
+ *                       example: "Logo actualizado"
+ *                     url:
+ *                       type: string
+ *                       description: URL de la imagen del logo
+ *                       example: "https://example.com/logo-nuevo.png"
+ *                 example:
+ *                   - label: "Logo principal actualizado"
+ *                     url: "https://example.com/logo-principal-v2.png"
  *     responses:
  *       200:
  *         description: Alianza actualizada exitosamente

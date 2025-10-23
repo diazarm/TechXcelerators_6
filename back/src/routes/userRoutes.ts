@@ -48,16 +48,16 @@ const userRouter = Router();
  *             admin:
  *               summary: Login de Admin (requiere email + contraseña)
  *               value:
- *                 email: "admin@scala.com"
- *                 password: "Admin1234"
+ *                 email: "administrador@scalalearning.com"
+ *                 password: "123456"
  *             user:
  *               summary: Login de User (solo email)
  *               value:
- *                 email: "andrea@scala.com"
+ *                 email: "user@scalalearning.com"
  *             director:
  *               summary: Login de Director (solo email)
  *               value:
- *                 email: "juan@scala.com"
+ *                 email: "director@scalalearning.com"
  *     responses:
  *       200:
  *         description: Login exitoso - Copia el token de la respuesta y úsalo en el botón "Authorize" 🔒
