@@ -101,9 +101,9 @@ Todos los endpoints de tu API ahora están completamente documentados en Swagger
 ### 📱 Testing rápido:
 
 **Credenciales de prueba:**
-- Admin: `admin@scala.com` / `Admin1234` (requiere email + contraseña)
-- Director: `juan@scala.com` (solo requiere email)
-- User: `andrea@scala.com` (solo requiere email)
+- Admin: `administrador@scalalearning.com` / `123456` (requiere email + contraseña)
+- Director: `director@scalalearning.com` (solo requiere email)
+- User: `user@scalalearning.com` (solo requiere email)
 
 **Endpoints más importantes para probar:**
 1. `POST /api/users/login` (obtener token)

@@ -47,29 +47,40 @@ const resourceRouter = Router();
  *           schema:
  *             type: object
  *             required:
- *               - title
+ *               - name
  *               - description
- *               - section
- *               - alliance
+ *               - sectionId
  *             properties:
- *               title:
+ *               name:
  *                 type: string
- *                 description: Título del recurso
+ *                 description: Nombre del recurso
+ *                 example: "Recurso de Gobernanza"
  *               description:
  *                 type: string
  *                 description: Descripción del recurso
- *               section:
+ *                 example: "Recurso educativo sobre gobernanza corporativa"
+ *               sectionId:
  *                 type: string
  *                 description: ID de la sección
- *               alliance:
- *                 type: string
- *                 description: ID de la alianza
- *               image:
- *                 type: string
- *                 description: URL de la imagen
- *               link:
- *                 type: string
- *                 description: Enlace al recurso
+ *                 example: "6716b52c43f33bf9f92e0851"
+ *               links:
+ *                 type: array
+ *                 items:
+ *                   type: object
+ *                   properties:
+ *                     label:
+ *                       type: string
+ *                       description: Texto del enlace
+ *                       example: "Documento PDF"
+ *                     url:
+ *                       type: string
+ *                       description: URL del recurso
+ *                       example: "https://example.com/documento.pdf"
+ *                 example:
+ *                   - label: "Manual PDF"
+ *                     url: "https://example.com/manual.pdf"
+ *                   - label: "Video explicativo"
+ *                     url: "https://youtube.com/watch?v=example"
  *     responses:
  *       201:
  *         description: Recurso creado exitosamente
@@ -167,30 +178,34 @@ resourceRouter.get('/alliance/:name', authMiddleware, getResourcesByAlliance);
  *           schema:
  *             type: object
  *             properties:
- *               title:
+ *               name:
  *                 type: string
- *                 description: Nuevo título del recurso
+ *                 description: Nuevo nombre del recurso
  *                 example: "Recurso Actualizado"
  *               description:
  *                 type: string
  *                 description: Nueva descripción del recurso
  *                 example: "Descripción actualizada del recurso"
- *               section:
+ *               sectionId:
  *                 type: string
  *                 description: ID de la nueva sección
  *                 example: "6716b52c43f33bf9f92e0851"
- *               alliance:
- *                 type: string
- *                 description: ID de la nueva alianza
- *                 example: "6716b52c43f33bf9f92e0852"
- *               image:
- *                 type: string
- *                 description: Nueva URL de la imagen
- *                 example: "https://example.com/nueva-imagen.jpg"
- *               link:
- *                 type: string
- *                 description: Nuevo enlace al recurso
- *                 example: "https://example.com/nuevo-recurso"
+ *               links:
+ *                 type: array
+ *                 items:
+ *                   type: object
+ *                   properties:
+ *                     label:
+ *                       type: string
+ *                       description: Texto del enlace
+ *                       example: "Documento actualizado"
+ *                     url:
+ *                       type: string
+ *                       description: URL del recurso actualizado
+ *                       example: "https://example.com/documento-actualizado.pdf"
+ *                 example:
+ *                   - label: "Manual actualizado"
+ *                     url: "https://example.com/manual-v2.pdf"
  *     responses:
  *       200:
  *         description: Recurso actualizado exitosamente
