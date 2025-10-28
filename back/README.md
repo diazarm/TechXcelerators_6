@@ -49,7 +49,7 @@ Incluye autenticación con JWT, control de roles (admin, director, usuario), y g
    JWT_EXPIRATION=3600
    ```
 - Conexión a MongoDB Atlas:
-```MONGO_URI=mongodb+srv://scala_user:Bu08LmbOy7NTkfaZ@scalalearning.uaqqtk.mongodb.net/scalaDB?retryWrites=true&w=majority&appName=ScalaLearning``` 
+```MONGO_URI=mongodb+srv://<db_username>:<db_password>@scalalearning.uaqqtk.mongodb.net/?appName=ScalaLearning``` 
 
 4. Ejecutar en modo desarrollo:
 
