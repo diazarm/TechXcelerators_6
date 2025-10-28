@@ -121,22 +121,25 @@ export const getDocumentFile = async (id: string, res: Response) => {
   if (!doc) return res.status(404).json({ message: 'Documento no encontrado' });
 
   try {
-    // Hacer la petición a Cloudinary (resource_type: 'raw') y obtener el archivo como binario
+    // ✅ Si es un PDF, devolvemos la URL pública directamente
+    if (doc.type === 'application/pdf' && doc.url) {
+      return res.status(200).json({
+        success: true,
+        publicUrl: doc.url,
+      });
+    }
+
+    // 🔁 Si no es PDF, el backend actúa como proxy
     const fileResponse = await axios.get(doc.url, {
       responseType: 'arraybuffer',
-      timeout: 10000
+      timeout: 10000,
     });
 
     // Reenviar el archivo al cliente con el tipo MIME correcto
     res.setHeader('Content-Type', doc.type || 'application/octet-stream');
 
-    // Si es PDF -> mostrar en navegador
-    if (doc.type === 'application/pdf') {
-      res.setHeader('Content-Disposition', `inline; filename="${doc.originalName}"`);
-    } else {
-      // Otros archivos -> forzar descarga
-      res.setHeader('Content-Disposition', `attachment; filename="${doc.originalName}"`);
-    }
+    // Otros archivos -> forzar descarga
+    res.setHeader('Content-Disposition', `attachment; filename="${doc.originalName}"`);
 
     // Enviar el contenido binario
     return res.send(fileResponse.data);
@@ -146,3 +149,4 @@ export const getDocumentFile = async (id: string, res: Response) => {
     return res.status(500).json({ message: 'Error al obtener archivo desde Cloudinary' });
   }
 };
+

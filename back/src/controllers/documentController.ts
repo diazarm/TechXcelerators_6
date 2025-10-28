@@ -10,7 +10,6 @@ import {
   updateDocument,
 } from '../services/documentService';
 import cloudinary from '../config/cloudinary.config';
-import axios from 'axios';
 
 // ===== Subir documento =====
 export const uploadDocument = async (req: Request, res: Response) => {
