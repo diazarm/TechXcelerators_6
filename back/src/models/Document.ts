@@ -10,8 +10,7 @@ const DocumentSchema = new mongoose.Schema(
       required: true
     },
     type: { type: String, required: true }, // MIME (e.g., application/pdf)
-    url: { type: String, required: true },  // /uploads/<file>
-    filePath: { type: String, required: true }, // ruta real
+    url: { type: String, required: true },  // ✅ URL pública de Cloudinary
     uploadDate: { type: Date, default: Date.now },
     uploadedBy: { type: String },
     size: { type: Number },

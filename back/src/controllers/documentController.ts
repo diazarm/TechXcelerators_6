@@ -13,10 +13,8 @@ import {
 // ===== Subir documento =====
 export const uploadDocument = async (req: Request, res: Response) => {
   try {
-    console.log('req.file:', req.file);
-    console.log('req.body:', req.body);
-    
-    const file = req.file as Express.Multer.File | undefined;
+
+    const file = req.file as any;
     const { name, description, category, visibleTo } = req.body;
 
     if (!file)
@@ -36,8 +34,7 @@ export const uploadDocument = async (req: Request, res: Response) => {
       description,
       category,
       type: file.mimetype,
-      url: `/uploads/${file.filename}`,
-      filePath: `uploads/${file.filename}`,
+      url: file.path, // Cloudinary URL
       uploadedBy: (req as any)?.user?.id || 'admin',
       size: file.size,
       originalName: file.originalname,
@@ -167,7 +164,6 @@ export const restoreDocuments = async (req: Request, res: Response) => {
       data: restored,
     });
   } catch (err) {
-    console.error('[restoreDocument]', err);
     return res.status(500).json({ message: 'Error al restaurar documento' });
   }
 };
@@ -181,13 +177,10 @@ export const downloadDocument = async (req: Request, res: Response) => {
     if (!result)
       return res.status(404).json({ message: 'Documento o archivo no encontrado' });
 
-    const { doc, absolutePath } = result;
-    return res.download(absolutePath, doc.originalName || 'documento.pdf', (err) => {
-      if (err) {
-        console.error('[downloadDocument]', err);
-        res.status(500).json({ message: 'Error al descargar el archivo' });
-      }
-    });
+    const { doc, cloudUrl } = result;
+
+    // 👉 Redirigir a la URL pública de Cloudinary (descarga o visualización)
+    return res.redirect(cloudUrl);
   } catch (err) {
     return res.status(500).json({ message: 'Error interno al descargar documento' });
   }

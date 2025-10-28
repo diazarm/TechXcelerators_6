@@ -1,6 +1,6 @@
-import path from 'path';
-import fs from 'fs/promises';
 import DocumentModel, { DocumentType } from '../models/Document';
+import cloudinary from '../config/cloudinary.config';
+
 
 // ===== Crear documento =====
 export const createDocument = async (data: Partial<DocumentType>) => {
@@ -14,8 +14,7 @@ export const listDocuments = async (filters: Partial<DocumentType> = {}, userRol
 
   // Determinar estado (activo o eliminado)
   const status = (filters as any).status || 'active';
-  if (status === 'active') query.isDeleted = false;
-  else if (status === 'deleted') query.isDeleted = true;
+  query.isDeleted = status === 'deleted' ? true : false;
 
   if (filters.category) query.category = filters.category;
   if (filters.name) query.name = new RegExp(filters.name, 'i');
@@ -62,19 +61,24 @@ export const updateDocument = async (id: string, data: Partial<DocumentType>, ne
   const doc = await DocumentModel.findById(id);
   if (!doc || doc.isDeleted) return null;
 
-  // Si hay archivo nuevo, eliminar el anterior
+  // ✅ Si hay un nuevo archivo, eliminar el anterior (opcional)
   if (newFile) {
     try {
-      await fs.unlink(doc.filePath);
+      if (doc.url) {
+        // Extraer el public_id del archivo anterior para eliminarlo
+        const publicIdMatch = doc.url.match(/\/scala_documents\/([^/.]+)/);
+        if (publicIdMatch) {
+          await cloudinary.uploader.destroy(`scala_documents/${publicIdMatch[1]}`, { resource_type: 'raw' });
+        }
+      }
+    // Actualizar con el nuevo archivo subido
+      doc.type = newFile.mimetype;
+      doc.url = (newFile as any).path; // Cloudinary asigna .path con la URL pública
+      doc.size = newFile.size;
+      doc.originalName = newFile.originalname;
     } catch (err) {
-      console.warn(`No se pudo eliminar archivo antiguo: ${doc.filePath}`);
+      console.warn(`No se pudo eliminar archivo antiguo: ${doc.url}`);
     }
-
-    doc.type = newFile.mimetype;
-    doc.url = `/uploads/${newFile.filename}`;
-    doc.filePath = `uploads/${newFile.filename}`;
-    doc.size = newFile.size;
-    doc.originalName = newFile.originalname;
   }
 
   // Actualiza los demás campos
@@ -111,11 +115,6 @@ export const getDocumentFile = async (id: string) => {
   const doc = await DocumentModel.findOne({ _id: id, isDeleted: false });
   if (!doc) return null;
 
-  const absolutePath = path.join(process.cwd(), doc.filePath);
-  try {
-    await fs.access(absolutePath); // Verifica que el archivo existe
-    return { doc, absolutePath };
-  } catch {
-    return null; // Archivo no encontrado en el sistema
-  }
+ // Cloudinary provee la URL directamente, ya no se necesita acceso local
+  return { doc, cloudUrl: doc.url };
 };

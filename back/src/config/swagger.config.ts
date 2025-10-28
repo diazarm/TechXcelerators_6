@@ -254,12 +254,7 @@ Para usar endpoints protegidos:
             url: {
               type: 'string',
               description: 'URL para acceder al documento',
-              example: 'http://localhost:3000/uploads/1729538620_documento.pdf'
-            },
-            filepath: {
-              type: 'string',
-              description: 'Ruta real del archivo',
-              example: 'c:/uploads/1729538620_documento.pdf'
+              example: 'https://res.cloudinary.com/.../scala_documents/Manual.pdf'
             },
             size: {
               type: 'number',
