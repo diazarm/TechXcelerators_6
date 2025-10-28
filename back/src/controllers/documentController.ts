@@ -13,6 +13,9 @@ import {
 // ===== Subir documento =====
 export const uploadDocument = async (req: Request, res: Response) => {
   try {
+    console.log('req.file:', req.file);
+    console.log('req.body:', req.body);
+    
     const file = req.file as Express.Multer.File | undefined;
     const { name, description, category, visibleTo } = req.body;
 
@@ -23,10 +26,10 @@ export const uploadDocument = async (req: Request, res: Response) => {
     if (!category)
       return res.status(400).json({ message: 'El campo "category" es requerido' });
 
-const allowedRoles = ['admin', 'director', 'user'];
-const parsedVisibleTo = Array.isArray(visibleTo) && visibleTo.length > 0
-  ? visibleTo.filter((role: string) => allowedRoles.includes(role))
-  : ['admin', 'director', 'user']; // Valor por defecto
+    const allowedRoles = ['admin', 'director', 'user'];
+    const parsedVisibleTo = Array.isArray(visibleTo) && visibleTo.length > 0
+      ? visibleTo.filter((role: string) => allowedRoles.includes(role))
+      : ['admin', 'director', 'user']; // Valor por defecto
 
     const doc = await createDocument({
       name,
@@ -63,7 +66,7 @@ export const listAllDocuments = async (req: Request, res: Response) => {
     const isAdmin = (req as any)?.user?.isAdmin || false;
 
     const docs = await listDocuments(filters, userRole, isAdmin);
-    
+
     return res.status(200).json({
       message: 'Documentos obtenidos correctamente',
       data: docs,
@@ -96,23 +99,23 @@ export const getOneDocument = async (req: Request, res: Response) => {
 //Actualizar visibilidad de documento
 export const updateVisibility = async (req: Request, res: Response) => {
   try {
-    const {id} = req.params;
-    const {visibleTo} = req.body; //Array de roles
+    const { id } = req.params;
+    const { visibleTo } = req.body; //Array de roles
 
     if (!Array.isArray(visibleTo) || visibleTo.length === 0) {
-      return res.status(400).json({message: 'Debe especificar al menos un rol válido en visibleTo'});
+      return res.status(400).json({ message: 'Debe especificar al menos un rol válido en visibleTo' });
     }
 
     const updateDoc = await updateDocumentVisibility(id, visibleTo);
     if (!updateDoc) {
-      return res.status(404).json({message: 'Documento no encontrado o ya eliminado'});
+      return res.status(404).json({ message: 'Documento no encontrado o ya eliminado' });
     }
     return res.status(200).json({
       message: 'Visibilidad de documento actualizada correctamente',
       data: updateDoc,
     });
   } catch (error) {
-    return res.status(500).json({message: 'Error al actualizar visibilidad de documento'});
+    return res.status(500).json({ message: 'Error al actualizar visibilidad de documento' });
   }
 };
 
@@ -120,10 +123,10 @@ export const updateVisibility = async (req: Request, res: Response) => {
 export const editDocument = async (req: Request, res: Response) => {
   try {
     const file = req.file as Express.Multer.File | undefined;
-    const data = req.body;  
+    const data = req.body;
 
     const updatedDoc = await updateDocument(req.params.id, data, file);
-  
+
     if (!updatedDoc)
       return res.status(404).json({ message: 'Documento no encontrado o ya eliminado' });
 
@@ -157,7 +160,7 @@ export const restoreDocuments = async (req: Request, res: Response) => {
   try {
     const restored = await restoreDocument(req.params.id);
     if (!restored)
-      return res.status(404).json({ message: 'Documento no encontrado o no está eliminado' });  
+      return res.status(404).json({ message: 'Documento no encontrado o no está eliminado' });
 
     return res.status(200).json({
       message: 'Documento restaurado correctamente',
