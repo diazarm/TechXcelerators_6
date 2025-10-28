@@ -1,5 +1,7 @@
 import DocumentModel, { DocumentType } from '../models/Document';
 import cloudinary from '../config/cloudinary.config';
+import { Response } from 'express';
+import axios from 'axios';
 
 
 // ===== Crear documento =====
@@ -114,10 +116,33 @@ export const restoreDocument = async (id: string) => {
 };
 
 // ===== Descargar documento =====
-export const getDocumentFile = async (id: string) => {
+export const getDocumentFile = async (id: string, res: Response) => {
   const doc = await DocumentModel.findOne({ _id: id, isDeleted: false });
-  if (!doc) return null;
+  if (!doc) return res.status(404).json({ message: 'Documento no encontrado' });
 
- // Cloudinary provee la URL directamente, ya no se necesita acceso local
-  return { doc, cloudUrl: doc.url };
+  try {
+    // Hacer la petición a Cloudinary (resource_type: 'raw') y obtener el archivo como binario
+    const fileResponse = await axios.get(doc.url, {
+      responseType: 'arraybuffer',
+      timeout: 10000
+    });
+
+    // Reenviar el archivo al cliente con el tipo MIME correcto
+    res.setHeader('Content-Type', doc.type || 'application/octet-stream');
+
+    // Si es PDF -> mostrar en navegador
+    if (doc.type === 'application/pdf') {
+      res.setHeader('Content-Disposition', `inline; filename="${doc.originalName}"`);
+    } else {
+      // Otros archivos -> forzar descarga
+      res.setHeader('Content-Disposition', `attachment; filename="${doc.originalName}"`);
+    }
+
+    // Enviar el contenido binario
+    return res.send(fileResponse.data);
+
+  } catch (err) {
+    console.error('Error descargando archivo desde Cloudinary:', err);
+    return res.status(500).json({ message: 'Error al obtener archivo desde Cloudinary' });
+  }
 };

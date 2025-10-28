@@ -10,6 +10,7 @@ import {
   updateDocument,
 } from '../services/documentService';
 import cloudinary from '../config/cloudinary.config';
+import axios from 'axios';
 
 // ===== Subir documento =====
 export const uploadDocument = async (req: Request, res: Response) => {
@@ -30,7 +31,7 @@ export const uploadDocument = async (req: Request, res: Response) => {
       ? visibleTo.filter((role: string) => allowedRoles.includes(role))
       : ['admin', 'director', 'user']; // Valor por defecto
 
-       // ✅ Generar URL pública de Cloudinary
+    // ✅ Generar URL pública de Cloudinary
     const cloudUrl = cloudinary.url(file.filename, {
       folder: 'scala_documents',
       resource_type: 'raw',
@@ -181,13 +182,9 @@ export const restoreDocuments = async (req: Request, res: Response) => {
 export const downloadDocument = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const doc = await getDocumentById(id, (req as any)?.user?.role, (req as any)?.user?.isAdmin);
-
-    if (!doc) return res.status(404).json({ message: 'Documento o archivo no encontrado' });
-
-    // Redirige a la URL pública de Cloudinary
-    return res.redirect(doc.url);
+    await getDocumentFile(id, res);
   } catch (err) {
-    return res.status(500).json({ message: 'Error interno al descargar archivo' });
+    console.error('Error en controlador de descarga:', err);
+    return res.status(500).json({ message: 'Error interno al descargar documento' });
   }
 };
