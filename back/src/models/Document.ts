@@ -11,6 +11,7 @@ const DocumentSchema = new mongoose.Schema(
     },
     type: { type: String, required: true }, // MIME (e.g., application/pdf)
     url: { type: String, required: true },  // ✅ URL pública de Cloudinary
+    publicId: { type: String, required: true }, // ID en Cloudinary
     uploadDate: { type: Date, default: Date.now },
     uploadedBy: { type: String },
     size: { type: Number },

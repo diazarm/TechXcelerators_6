@@ -35,6 +35,7 @@ export const uploadDocument = async (req: Request, res: Response) => {
       category,
       type: file.mimetype,
       url: file.path, // Cloudinary URL
+      publicId: file.filename, // public_id de Cloudinary
       uploadedBy: (req as any)?.user?.id || 'admin',
       size: file.size,
       originalName: file.originalname,
@@ -172,16 +173,13 @@ export const restoreDocuments = async (req: Request, res: Response) => {
 export const downloadDocument = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const result = await getDocumentFile(id);
+    const doc = await getDocumentById(id, (req as any)?.user?.role, (req as any)?.user?.isAdmin);
 
-    if (!result)
-      return res.status(404).json({ message: 'Documento o archivo no encontrado' });
+    if (!doc) return res.status(404).json({ message: 'Documento o archivo no encontrado' });
 
-    const { doc, cloudUrl } = result;
-
-    // 👉 Redirigir a la URL pública de Cloudinary (descarga o visualización)
-    return res.redirect(cloudUrl);
+    // Redirige a la URL pública de Cloudinary
+    return res.redirect(doc.url);
   } catch (err) {
-    return res.status(500).json({ message: 'Error interno al descargar documento' });
+    return res.status(500).json({ message: 'Error interno al descargar archivo' });
   }
 };
