@@ -13,8 +13,6 @@ import {
 // ===== Subir documento =====
 export const uploadDocument = async (req: Request, res: Response) => {
   try {
-    console.log('req.file:', req.file);
-    console.log('req.body:', req.body);
     
     const file = req.file as Express.Multer.File | undefined;
     const { name, description, category, visibleTo } = req.body;
