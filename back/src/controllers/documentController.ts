@@ -9,6 +9,7 @@ import {
   updateDocumentVisibility,
   updateDocument,
 } from '../services/documentService';
+import cloudinary from '../config/cloudinary.config';
 
 // ===== Subir documento =====
 export const uploadDocument = async (req: Request, res: Response) => {
@@ -29,12 +30,19 @@ export const uploadDocument = async (req: Request, res: Response) => {
       ? visibleTo.filter((role: string) => allowedRoles.includes(role))
       : ['admin', 'director', 'user']; // Valor por defecto
 
+       // ✅ Generar URL pública de Cloudinary
+    const cloudUrl = cloudinary.url(file.filename, {
+      folder: 'scala_documents',
+      resource_type: 'raw',
+      secure: true,
+    });
+
     const doc = await createDocument({
       name,
       description,
       category,
       type: file.mimetype,
-      url: file.path, // Cloudinary URL
+      url: cloudUrl, // Cloudinary URL
       publicId: file.filename, // public_id de Cloudinary
       uploadedBy: (req as any)?.user?.id || 'admin',
       size: file.size,

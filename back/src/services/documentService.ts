@@ -61,27 +61,30 @@ export const updateDocument = async (id: string, data: Partial<DocumentType>, ne
   const doc = await DocumentModel.findById(id);
   if (!doc || doc.isDeleted) return null;
 
-  // ✅ Si hay un nuevo archivo, eliminar el anterior (opcional)
   if (newFile) {
     try {
-      if (doc.url) {
-        // Extraer el public_id del archivo anterior para eliminarlo
-        const publicIdMatch = doc.url.match(/\/scala_documents\/([^/.]+)/);
-        if (publicIdMatch) {
-          await cloudinary.uploader.destroy(`scala_documents/${publicIdMatch[1]}`, { resource_type: 'raw' });
-        }
+      // Eliminar archivo antiguo en Cloudinary
+      if (doc.publicId) {
+        await cloudinary.uploader.destroy(`scala_documents/${doc.publicId}`, { resource_type: 'raw' });
       }
-    // Actualizar con el nuevo archivo subido
+
+      // Generar URL pública para el nuevo archivo
+      const cloudUrl = cloudinary.url(newFile.filename, {
+        folder: 'scala_documents',
+        resource_type: 'raw',
+        secure: true,
+      });
+
       doc.type = newFile.mimetype;
-      doc.url = (newFile as any).path; // Cloudinary asigna .path con la URL pública
+      doc.url = cloudUrl;
       doc.size = newFile.size;
       doc.originalName = newFile.originalname;
+      doc.publicId = newFile.filename;
     } catch (err) {
       console.warn(`No se pudo eliminar archivo antiguo: ${doc.url}`);
     }
   }
 
-  // Actualiza los demás campos
   if (data.name) doc.name = data.name;
   if (data.description) doc.description = data.description;
   if (data.category) doc.category = data.category;
